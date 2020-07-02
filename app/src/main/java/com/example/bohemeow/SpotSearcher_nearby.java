@@ -34,10 +34,14 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final SecondFilter sf = new SecondFilter(this);
+
         new Thread() {
             public void run() {
-                String result = getApi(lat, lng, radius, type);
+                String result = getSpots(lat, lng, radius, type);
                 jsonparser(result);
+                //sf.FeatureCalculator(result);
+                //sf.SpotFilter();
 
                 Bundle bun = new Bundle();
                 Message msg = handler.obtainMessage();
@@ -48,14 +52,12 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
 
     }
-
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
         }
     };
 
-
-    public String getApi(double lat, double lng, int radius, String type) {
+    public String getSpots(double lat, double lng, int radius, String type) {
 
         String uri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +
                 "&radius=" + radius +
@@ -89,6 +91,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         return page;
     }
 
+    //for test print
     public void jsonparser(String page) {
 
         try{
@@ -100,26 +103,25 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                 String name = subJsonObject.getString("name");
                 String id = subJsonObject.getString("id");
 
+                /*
                 String geometry = subJsonObject.getString("geometry");
                 JSONObject subJsonObject2 = new JSONObject(geometry);
                 String location = subJsonObject2.getString("location");
                 JSONObject subJsonObject3 = new JSONObject(location);
                 String sub_lat = subJsonObject3.getString("lat");
                 String sub_lng = subJsonObject3.getString("lng");
-
+                */
                 //test print
                 System.out.println("\nnum: " + i +
                         "\nname: " + name +
-                        "\tid: " + id +
-                        "\nlat: " + sub_lat +
-                        "\tlng: " + sub_lng);
+                        "\tid: " + id);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
+
 
 
 
