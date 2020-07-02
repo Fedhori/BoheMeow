@@ -2,7 +2,10 @@ package com.example.bohemeow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,6 +16,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //hello world
+
+        Button button= findViewById(R.id.testBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
+                startActivity(intent);
+            }
+        });
 
         EditText et;
     }
