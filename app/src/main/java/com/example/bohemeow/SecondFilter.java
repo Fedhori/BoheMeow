@@ -2,6 +2,7 @@ package com.example.bohemeow;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,15 +10,21 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-class place {
+class Place {
     public String place_id;
     public String name;
 
@@ -46,10 +53,9 @@ public class SecondFilter {
     }
 
 
+    public void FeatureCalculator(String searched){
 
-    public ArrayList<place> FeatureCalculator(String searched){
-
-        ArrayList<place> Spots = new ArrayList<>();
+        ArrayList<Place> Spots = new ArrayList<>();
 
         try{
             JSONObject jsonObject = new JSONObject(searched);
@@ -65,15 +71,15 @@ public class SecondFilter {
             e.printStackTrace();
         }
 
-        return Spots;
+        SpotFilter(Spots);
     }
 
-    private place Calculator(String place_id){
-        place spot = new place();
+    private Place Calculator(String place_id){
+        Place spot = new Place();
         ArrayList<String> types = new ArrayList<String>();
 
         String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + place_id +
-                "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
         URL url;
         URLConnection urlConnection;
         String page = "";
@@ -207,8 +213,92 @@ public class SecondFilter {
 
 
     //---------------------------------------------------------------------------------
-    public void SpotFilter(){
 
+    public void SpotFilter(ArrayList<Place> Spots){
+        Place spot = new Place();
+        String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
+        int len;
+
+        //삭제
+        for(int i =0; i < Spots.size(); i++){
+            spot = Spots.get(i);
+
+            if(spot.safe_score < 70) {
+                Spots.remove(i);
+                continue;
+            }
+            len = spot.types.size();
+            int isbad = 0;
+            for(int j = 0; j < len; j++){
+                for(String bad : bad_type){
+                    if (spot.types.get(j).equals(bad) == true) {
+                        Spots.remove(i);
+                        isbad = 1;
+                    }
+                }
+                if(isbad == 1) break;
+            }
+        }
+
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONArray jsonArray = new JSONArray();//배열이 필요할때
+            for (int i = 0; i < Spots.size(); i++)//배열
+            {
+                spot = Spots.get(i);
+                JSONObject subJsonObject = new JSONObject();//배열 내에 들어갈 json
+
+                subJsonObject.put("index", i);
+                subJsonObject.put("place_id", spot.place_id);
+                subJsonObject.put("name", spot.name);
+                subJsonObject.put("lat", spot.lat);
+                subJsonObject.put("lng", spot.lng);
+                subJsonObject.put("popularity", spot.popularity);
+                subJsonObject.put("safe_score", spot.safe_score);
+                subJsonObject.put("envi_score", spot.envi_score);
+                subJsonObject.put("user_score", spot.user_score);
+                subJsonObject.put("total_score", spot.total_score);
+                subJsonObject.put("visitor", spot.visitor);
+                subJsonObject.put("visitor_time", spot.visitor_time);
+                subJsonObject.put("visitor_week", spot.visitor_week);
+
+                JSONArray typJsonArray = new JSONArray();
+                for(int j = 0; j<spot.types.size(); j++){
+                    typJsonArray.put(spot.types.get(j));
+                }
+                subJsonObject.put("types", typJsonArray);
+
+                jsonArray.put(subJsonObject);
+            }
+
+            SimpleDateFormat t = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+
+            Calendar time = Calendar.getInstance();
+
+            String record_time = t.format(time.getTime());
+
+            //임시, 추후 서비스 지역을 넓힐 때 수정
+            jsonObject.put("city", "Suwon-si");
+
+            jsonObject.put("record_time", record_time);
+            jsonObject.put("spots", jsonArray);
+
+            System.out.println(jsonObject.toString());
+
+
+            Writer output = null;
+            String path = "C:\\Users\\LEEJIWOO\\AndroidStudioProjects\\BoheMeow\\app\\src\\main\\res\\data\\spotdata_";
+            File file = new File( path + jsonObject.getString("city") + ".json");
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(jsonObject.toString());
+            output.close();
+
+            System.out.println("success");
+
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
