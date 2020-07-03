@@ -40,7 +40,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             public void run() {
                 String result = getSpots(lat, lng, radius, type);
                 jsonparser(result);
-                //sf.FeatureCalculator(result);
+                sf.FeatureCalculator(result);
                 //sf.SpotFilter();
 
                 Bundle bun = new Bundle();
@@ -54,6 +54,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     }
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+
         }
     };
 
@@ -65,16 +66,11 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                 "&keyword=" + keyword +
                 "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
 
-        URL url = null;
-        URLConnection urlConnection = null;
-        BufferedInputStream buf = null;
-
-
         String page = "";
 
         try {
-            url = new URL(uri);
-            urlConnection = (HttpURLConnection) url.openConnection();
+            URL url = new URL(uri);
+            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
             //Log.d("line:", bufreader.toString());
 
@@ -101,7 +97,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
                 String name = subJsonObject.getString("name");
-                String id = subJsonObject.getString("id");
+                String place_id = subJsonObject.getString("place_id");
 
                 /*
                 String geometry = subJsonObject.getString("geometry");
@@ -114,7 +110,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                 //test print
                 System.out.println("\nnum: " + i +
                         "\nname: " + name +
-                        "\tid: " + id);
+                        "\tid: " + place_id);
             }
         } catch (JSONException e) {
             e.printStackTrace();
