@@ -1,6 +1,7 @@
 package com.example.bohemeow;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,20 +21,20 @@ class place {
     public String place_id;
     public String name;
 
-    public double lat;
-    public double lng;
+    double lat;
+    double lng;
 
     ArrayList<String> types = new ArrayList<String>();
-    public int popularity = -1;
-    public int safe_score = -1;
-    public int envi_score = -1;
-    public int user_score = -1;
+    int popularity = -1;
+    int safe_score = -1;
+    int envi_score = -1;
+    int user_score = -1;
 
-    public int visitor = -1;
-    public int visitor_time = -1;
-    public int visitor_week = -1;
+    int visitor = -1;
+    int visitor_time = -1;
+    int visitor_week = -1;
 
-    public int total_score = -1;
+    int total_score = -1;
 }
 
 public class SecondFilter {
@@ -44,10 +45,11 @@ public class SecondFilter {
         this.mContext = context;
     }
 
-    public void FeatureCalculator(String searched){
-        //make id list
-        ArrayList<String> arr = new ArrayList<String>();
-        ArrayList<place> Spots = new ArrayList<place>();
+
+
+    public ArrayList<place> FeatureCalculator(String searched){
+
+        ArrayList<place> Spots = new ArrayList<>();
 
         try{
             JSONObject jsonObject = new JSONObject(searched);
@@ -55,30 +57,28 @@ public class SecondFilter {
             JSONArray jsonArray = new JSONArray(results);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                //String name = subJsonObject.getString("name");
-                String id = subJsonObject.getString("id");
+                String place_id = subJsonObject.getString("place_id");
 
-                arr.add(id);
+                Spots.add(Calculator(place_id));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
-
+        return Spots;
     }
 
-    private place Calculator(String id){
+    private place Calculator(String place_id){
         place spot = new place();
         ArrayList<String> types = new ArrayList<String>();
 
-        String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + id +
+        String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + place_id +
                 "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
-        URL url = null;
-        URLConnection urlConnection = null;
-        BufferedInputStream buf = null;
-
+        URL url;
+        URLConnection urlConnection;
         String page = "";
+
+        spot.place_id = place_id;
 
         try {
             url = new URL(uri);
@@ -104,32 +104,105 @@ public class SecondFilter {
             JSONObject subJsonObject3 = new JSONObject(location);
             spot.lat = Double.parseDouble(subJsonObject3.getString("lat"));
             spot.lng = Double.parseDouble(subJsonObject3.getString("lng"));
+            //System.out.println("Done.");
 
             //type 배열로 저장
-            String tps = jsonObject.getString("types");
-            JSONArray jsonArray = new JSONArray(tps);
+            JSONArray jsonArray = subJsonObject.getJSONArray("types");
+            //System.out.println("before types: "+ jsonArray);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                spot.types.add(jsonArray.optString(i));
+            }
+            //string으로 잘 들어간게 맞는지 추후 확인. ""표시가 없음.
+            //System.out.println("after types: "+ spot.types);
+
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
         spot.safe_score = safe_calculator(spot.lat, spot.lng);
-        spot.envi_score = envi_calculator(spot.lat, spot.lng);
+        spot.envi_score = env_calculator(spot.lat, spot.lng);
         spot.total_score = spot.safe_score + spot.envi_score + spot.user_score;
 
         return spot;
     }
 
-    int safe_calculator(double lat, double lng){
+    private int safe_calculator(double lat, double lng){
         double score = 0;
+
+        String[] positive = new String[] { "local_government_office", "police", "school", "secondary_school", "university" };
+        String[] negative = new String[] { "casino", "liquor_store", "night_club" };
+
+        int pos_num = 1;
+        int neg_num = 1;
+
+        for (String s : positive) {
+            pos_num += count_spots(lat, lng, s);
+        }
+        for (String s : negative) {
+            neg_num += count_spots(lat, lng, s);
+        }
+
+        score = (pos_num / neg_num) * 100;
 
         return (int)score;
     }
 
-    int envi_calculator(double lat, double lng){
+    private int env_calculator(double lat, double lng){
         double score = 0;
+        int user_rating = 0;
+
+        String[] best = new String[] { "tourist_attraction" };
+        String[] good = new String[] { "park" };
+
+        for (String s : best) {
+            score += count_spots(lat, lng, s) * 20;
+        }
+        for (String s : good) {
+            score += count_spots(lat, lng, s) * 10;
+        }
+
+        //추후 유저 선호도(평가) 추가
+        score += user_rating;
 
         return (int)score;
+    }
+
+    private int count_spots(double lat, double lng, String type){
+        int radius = 500;
+        int num = 0;
+
+        String uri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +
+                "&radius=" + radius +
+                "&type=" + type +
+                //"&keyword=" + keyword +
+                "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+
+        String page = "";
+
+        try {
+            URL url = new URL(uri);
+            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            //Log.d("line:", bufreader.toString());
+
+            String line;
+
+            while ((line = bufreader.readLine()) != null) {
+                //Log.d("line:", line);
+                page += line;
+            }
+
+            JSONObject jsonObject = new JSONObject(page);
+            String results = jsonObject.getString("results");
+            JSONArray jsonArray = new JSONArray(results);
+            num = jsonArray.length();
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return num;
     }
 
 
