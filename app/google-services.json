@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "939011586162",
-    "firebase_url": "https://mysweproject-ca2c2.firebaseio.com",
-    "project_id": "mysweproject-ca2c2",
-    "storage_bucket": "mysweproject-ca2c2.appspot.com"
+    "project_number": "902016479954",
+    "firebase_url": "https://skkugcilsang.firebaseio.com",
+    "project_id": "skkugcilsang",
+    "storage_bucket": "skkugcilsang.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:eba0d126f5d8dba8222aeb",
+        "mobilesdk_app_id": "1:902016479954:android:68ca69e340eb84f24cb30b",
         "android_client_info": {
-          "package_name": "com.Company.Beato"
+          "package_name": "com.DailyLife.Bohemeow"
         }
       },
       "oauth_client": [
         {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
+          "client_id": "902016479954-a9ajtpmmr6jmitm3jko4sotdc711hhj7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
+          "current_key": "AIzaSyA9XNxmYQI8VEW7BVAy5LKuQZoRiDTBvTo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
+              "client_id": "902016479954-a9ajtpmmr6jmitm3jko4sotdc711hhj7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -37,180 +37,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:d399139799539a61222aeb",
+        "mobilesdk_app_id": "1:902016479954:android:5d19e7a658696e9c4cb30b",
         "android_client_info": {
           "package_name": "com.example.bohemeow"
         }
       },
       "oauth_client": [
         {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:82db92e9d3f096ac222aeb",
-        "android_client_info": {
-          "package_name": "edu.skku.map.beato"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:0e087347f528fa8a222aeb",
-        "android_client_info": {
-          "package_name": "edu.skku.map.inskkagram"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:4d97e456a7efa672222aeb",
-        "android_client_info": {
-          "package_name": "edu.skku.map.myfirstswplab11"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939011586162-dnniddjtul64mmc8nc3eni3vqhn6i3lr.apps.googleusercontent.com",
+          "client_id": "902016479954-ks3515j5gc082r7ofqdl8ckpevoqjdg7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "edu.skku.map.myfirstswplab11",
+            "package_name": "com.example.bohemeow",
             "certificate_hash": "fc0b02e0d0a2a0a72602a07a1dd9a94efcd65d34"
           }
         },
         {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
+          "client_id": "902016479954-a9ajtpmmr6jmitm3jko4sotdc711hhj7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
+          "current_key": "AIzaSyA9XNxmYQI8VEW7BVAy5LKuQZoRiDTBvTo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:35f3f4ba68afb24e222aeb",
-        "android_client_info": {
-          "package_name": "edu.skku.map.mylab10"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:939011586162:android:e0720c920bda9da6222aeb",
-        "android_client_info": {
-          "package_name": "edu.skku.map.week11"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBJnjPDU1LCuH-22L5kumTR49M01hyU-jc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "939011586162-isomod3q5g78k3etjk44qqtedkulh82n.apps.googleusercontent.com",
+              "client_id": "902016479954-a9ajtpmmr6jmitm3jko4sotdc711hhj7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
