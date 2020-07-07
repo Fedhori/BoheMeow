@@ -6,9 +6,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.drm.DrmStore;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,16 +22,23 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private DatabaseReference mPostReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
 
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.loadingLayout);
 
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // for test
+                postFirebaseDatabase(true);
+
                 Intent intent = new Intent(MainActivity.this, MainMenu.class);
                 startActivity(intent);
             }
@@ -43,5 +54,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void postFirebaseDatabase(boolean add){
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        if(add){
+            Data data = new Data("IT WORKS!!!!!");
+            postValues = data.toMap();
+        }
+        childUpdates.put("/user_list/" + "Test", postValues);
+        mPostReference.updateChildren(childUpdates);
+
+        Log.e("MyActivity", "OK!");
     }
 }
