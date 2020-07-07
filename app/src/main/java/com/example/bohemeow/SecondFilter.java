@@ -1,14 +1,17 @@
 package com.example.bohemeow;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,10 +22,12 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Ref;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class Place {
     public String place_id;
@@ -61,7 +66,7 @@ public class SecondFilter {
             JSONObject jsonObject = new JSONObject(searched);
             String results = jsonObject.getString("results");
             JSONArray jsonArray = new JSONArray(results);
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < 2 /*jsonArray.length()*/; i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
                 String place_id = subJsonObject.getString("place_id");
 
@@ -287,16 +292,26 @@ public class SecondFilter {
             System.out.println(jsonObject.toString());
 
 
+            /*
             Writer output = null;
             String path = "C:\\Users\\LEEJIWOO\\AndroidStudioProjects\\BoheMeow\\app\\src\\main\\res\\data\\spotdata_";
             File file = new File( path + jsonObject.getString("city") + ".json");
             output = new BufferedWriter(new FileWriter(file));
             output.write(jsonObject.toString());
             output.close();
+             */
 
-            System.out.println("success");
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            String jsonString = jsonObject.toString(); //set to json string
+            Map<String, Object> jsonMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
+            Map<String, Object> childUpdates= new HashMap<>();
+            childUpdates.put("/spot_data/"+ jsonObject.getString("city") , jsonMap);
+            myRef.updateChildren(childUpdates);
 
-        } catch (JSONException | IOException e) {
+            System.out.println(jsonMap);
+
+
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
