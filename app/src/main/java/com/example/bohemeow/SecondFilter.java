@@ -2,6 +2,7 @@ package com.example.bohemeow;
 
 import android.content.Context;
 
+import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -23,7 +24,176 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-class Place {
+class SpotDetail {
+
+    public int index = 0;
+    public String place_id;
+    public String name;
+
+    public double lat;
+    public double lng;
+
+    public ArrayList<String> types = new ArrayList<>();
+    public int popularity = -1;
+    public int safe_score = -1;
+    public int envi_score = -1;
+    public int user_score = -1;
+
+    public int visitor = -1;
+    public int visitor_time = -1;
+    public int visitor_week = -1;
+
+    public int total_score = -1;
+    public String record_time;
+
+
+    public SpotDetail() {}
+
+    public SpotDetail(int index, String place_id, String name, double lat, double lng, ArrayList<String> types, int popularity, int safe_score, int envi_score, int user_score, int visitor, int visitor_time, int visitor_week, int total_score, String record_time){
+
+        this.index = index;
+        this.place_id = place_id;
+        this.name = name;
+
+        this.lat = lat;
+        this.lng = lng;
+
+        this.types = types;
+        this.popularity = popularity;
+        this.safe_score = safe_score;
+        this.envi_score = envi_score;
+        this.user_score = user_score;
+
+        this.visitor = visitor;
+        this.visitor_time = visitor_time;
+        this.visitor_week = visitor_week;
+
+        this.total_score = total_score;
+        this.record_time = record_time;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public ArrayList<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(ArrayList<String> types) {
+        this.types = types;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public int getSafe_score() {
+        return safe_score;
+    }
+
+    public void setSafe_score(int safe_score) {
+        this.safe_score = safe_score;
+    }
+
+    public int getEnvi_score() {
+        return envi_score;
+    }
+
+    public void setEnvi_score(int envi_score) {
+        this.envi_score = envi_score;
+    }
+
+    public int getUser_score() {
+        return user_score;
+    }
+
+    public void setUser_score(int user_score) {
+        this.user_score = user_score;
+    }
+
+    public int getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(int visitor) {
+        this.visitor = visitor;
+    }
+
+    public int getVisitor_time() {
+        return visitor_time;
+    }
+
+    public void setVisitor_time(int visitor_time) {
+        this.visitor_time = visitor_time;
+    }
+
+    public int getVisitor_week() {
+        return visitor_week;
+    }
+
+    public void setVisitor_week(int visitor_week) {
+        this.visitor_week = visitor_week;
+    }
+
+    public int getTotal_score() {
+        return total_score;
+    }
+
+    public void setTotal_score(int total_score) {
+        this.total_score = total_score;
+    }
+
+    public String getRecord_time() {
+        return record_time;
+    }
+
+    public void setRecord_time(String record_time) {
+        this.record_time = record_time;
+    }
+
+
+    /*
     public String place_id;
     public String name;
 
@@ -41,6 +211,8 @@ class Place {
     int visitor_week = -1;
 
     int total_score = -1;
+
+     */
 }
 
 public class SecondFilter {
@@ -54,7 +226,7 @@ public class SecondFilter {
 
     public void FeatureCalculator(String searched){
 
-        ArrayList<Place> Spots = new ArrayList<>();
+        ArrayList<SpotDetail> Spots = new ArrayList<>();
 
         try{
             JSONObject jsonObject = new JSONObject(searched);
@@ -73,8 +245,8 @@ public class SecondFilter {
         SpotFilter(Spots);
     }
 
-    private Place Calculator(String place_id){
-        Place spot = new Place();
+    private SpotDetail Calculator(String place_id){
+        SpotDetail spot = new SpotDetail();
 
         String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + place_id +
                 "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
@@ -212,8 +384,8 @@ public class SecondFilter {
 
     //---------------------------------------------------------------------------------
 
-    private void SpotFilter(ArrayList<Place> Spots){
-        Place spot = new Place();
+    private void SpotFilter(ArrayList<SpotDetail> Spots){
+        SpotDetail spot = new SpotDetail();
         String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
         int len;
 
