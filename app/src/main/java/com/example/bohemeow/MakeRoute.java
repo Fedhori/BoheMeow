@@ -37,6 +37,9 @@ class Spot {
 
 public class MakeRoute {
 
+    //위치좌표 gps로 받아오는 기능 추가
+    //소요 시간 선택 가능하도록
+    //이용자 걸음속도 고려?
     double userlat = 37.2939299;
     double userlng = 126.9739263;
 
@@ -53,7 +56,9 @@ public class MakeRoute {
         new Thread() {
             public void run() {
                 System.out.println("print: Done");
-                ArrayList<Spot> spots = makeList(userlat, userlng);
+                ArrayList<Spot> spots = makeList(userlat, userlng); //일정 거리 안의 스팟 들만 리스트에 저장
+                //리스트 중에서 가중치 포함 랜덤 추출
+                //추출된 스팟들 경로 계산
             }
         }.start();
 
@@ -77,9 +82,10 @@ public class MakeRoute {
                 SpotDetail spotDetail = dataSnapshot.getValue(SpotDetail.class);
                 System.out.println("\nIndex: " + spotDetail.getIndex() + "\tName: " + spotDetail.getName());
 
-                //거리 비교
-                //계산
-                //배열에 추가
+                //거리 비교(for){
+                    //계산
+                    //배열에 추가
+                //}
 
             }
 
