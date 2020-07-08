@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
@@ -46,12 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
         //hello world
 
+        final MakeRoute mr = new MakeRoute(this);
+
         Button button= findViewById(R.id.testBtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
+                //startActivity(intent);
+                mr.SpotSelector();
             }
         });
     }
