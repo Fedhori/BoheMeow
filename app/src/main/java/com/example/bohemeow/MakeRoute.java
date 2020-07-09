@@ -1,20 +1,12 @@
 package com.example.bohemeow;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +48,9 @@ public class MakeRoute {
         new Thread() {
             public void run() {
                 System.out.println("print: Done");
+
+                getDistance(userlat, userlng);
+
                 ArrayList<Spot> spots = makeList(userlat, userlng); //일정 거리 안의 스팟 들만 리스트에 저장
                 //리스트 중에서 가중치 포함 랜덤 추출
                 //추출된 스팟들 경로 계산
@@ -65,6 +60,7 @@ public class MakeRoute {
     }
 
     private ArrayList<Spot> makeList(final double lat, final double lng){
+
 
         final String city = "Suwon-si";
 
@@ -108,12 +104,47 @@ public class MakeRoute {
 
     };
 
-    int getDistance(double lat, double lng){
+    int getDistance(double lat, double lng) {
 
         int dis = 0;
+        //sample place
+        lat = 37.296067;
+        lng = 126.982378;
 
         //Tmap api를 이용해 도보 거리 계산
 
+        String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + userlng + "&startY=" + userlat +
+                "&endName=" + "endPlace" + "&endX=" + lng + "&endY=" + lat +
+                "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
+
+        String page = "";
+
+        try {
+            URL url = new URL(uri);
+            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            //Log.d("line:", bufreader.toString());
+
+            String line = null;
+
+            while ((line = bufreader.readLine()) != null) {
+                //Log.d("line:", line);
+                page += line;
+            }
+
+            JSONObject jsonObject = new JSONObject(page);
+            String features = jsonObject.getString("features");
+            JSONArray jsonArray = new JSONArray(features);
+            JSONObject subJsonObject = jsonArray.getJSONObject(0);
+            String properties = subJsonObject.getString("properties");
+            JSONObject subJsonObject2 = new JSONObject(properties);
+            dis = Integer.parseInt(subJsonObject2.getString("totalDistance"));
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\ndistance : " + dis);
 
         return dis;
     }
