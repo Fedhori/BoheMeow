@@ -16,7 +16,7 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Button selectBtn = (Button) findViewById(R.id.selectBtn);
+        Button selectBtn = (Button) findViewById(R.id.btn_to_select);
         selectBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
