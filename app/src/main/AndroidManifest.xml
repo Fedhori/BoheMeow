@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WalkActivity"></activity>
+        <activity android:name=".SurveyActivity" />
+        <activity android:name=".WalkActivity" />
         <activity android:name=".SelectActivity" />
         <activity android:name=".MainMenu" />
         <activity android:name=".SpotSearcher_nearby" />
@@ -25,9 +26,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAWokO6QZNKDpvmXkG5kgYzov6WlLummg0" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

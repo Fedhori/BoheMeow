@@ -25,5 +25,15 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button tempBtn = (Button) findViewById(R.id.btn_furniture);
+        tempBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenu.this, SurveyActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
