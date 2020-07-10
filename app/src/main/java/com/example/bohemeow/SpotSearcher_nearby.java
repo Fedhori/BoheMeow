@@ -39,20 +39,11 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                 jsonparser(result);
                 sf.FeatureCalculator(result);
 
-                Bundle bun = new Bundle();
-                Message msg = handler.obtainMessage();
-                msg.setData(bun);
-                handler.sendMessage(msg);
             }
         }.start();
 
 
     }
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-
-        }
-    };
 
     public String getSpots(double lat, double lng, int radius, String type) {
 
