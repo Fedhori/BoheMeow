@@ -7,7 +7,6 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +23,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -34,8 +35,11 @@ class Spot {
     String name;
     int score = 0;
     double lat, lng;
-    int case_num;
 
+}
+
+class Location{
+    double lat, lng;
 }
 
 public class MakeRoute {
@@ -61,61 +65,24 @@ public class MakeRoute {
 
     public void SpotSelector() {
 
-
         System.out.println("\nprint: Start");
-        ArrayList<SpotDetail> spotDetails = getSpots();
-        ArrayList<Spot> spots = makeList(spotDetails); //일정 거리 안의 스팟 들만 리스트에 저장
-        //System.out.println("\nprint: choose Spot start");
-        //ArrayList<Spot> selectedSpots = chooseSpot(spots, num); //리스트 중에서 가중치 포함 랜덤 추출
-        //ArrayList<Spot> sortedSpots = sortSpot(selectedSpots);
-        //추출된 스팟들 경로 계산
+        makeList();
 
     }
 
-    ArrayList<SpotDetail> getSpots(){
-        System.out.println("\nprint: getSpot start");
-        final String city = "Suwon-si";
 
-        final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
-
-
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference myRef = databaseReference.child("spot_data").child(city).child("spots");
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    System.out.println("get: "+spotDetail.getName());
-                    //System.out.println("\nA Lat: " + spotDetail.getLat() + "\tLng: " + spotDetail.getLng());
-                    spotDetails.add(spotDetail);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-
-        System.out.println("\nprint: getSpot end");
-        return spotDetails;
-    }
 
     //=========================================================================================
-    private ArrayList<Spot> makeList(ArrayList<SpotDetail> spotDetails){
+    private void makeList(){
         System.out.println("\nprint: makeList start");
         final int limitDis = (min * speed) / 2;
 
         final String city = "Suwon-si";
 
-        //final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
+        final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
         final ArrayList<Spot> spots= new ArrayList<>();
         final Spot spot = new Spot();
-/*
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myRef = databaseReference.child("spot_data").child(city).child("spots");
 
@@ -125,62 +92,22 @@ public class MakeRoute {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    System.out.println(spotDetail.getName());
-                    //System.out.println("\nA Lat: " + spotDetail.getLat() + "\tLng: " + spotDetail.getLng());
-                    spotDetails.add(spotDetail);
+                    if (getDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                        System.out.println("spot: " + spotDetail.getName());
+                        spots.add(simplifySpot(spotDetail));
+                        //System.out.println("\nspots length = " + spots.size());
+                    }
                 }
+
+                chooseSpot(spots, num);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-*/
-        /*
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                SpotDetail spotDetail = dataSnapshot.getValue(SpotDetail.class);
-                System.out.println(spotDetail.getName());
-                //System.out.println("\nA Lat: " + spotDetail.getLat() + "\tLng: " + spotDetail.getLng());
-                spotDetails.add(spotDetail);
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) { }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
-*/
 
-        int spotNum = spotDetails.size();
-        for(int i = 0; i < spotNum; i++){
-            if (getDistance(spotDetails.get(i).getLat(), spotDetails.get(i).getLng()) < limitDis) {
-                System.out.println("B: " + spotDetails.get(i).getName());
-                spots.add(simplifySpot(spotDetails.get(i)));
-                System.out.println("\nspots length = " + spots.size());
-                if(i == spotNum - 1) {
-                    ArrayList<Spot> selectedSpots = chooseSpot(spots, num);
-                }
-            }
-        }
-
-        //ArrayList<Spot> selectedSpots = chooseSpot(spots, num);
-
-/*
-        if (getDistance(spots.get(0).lat, spots.get(0).lng) < limitDis) {
-            System.out.println("\nprint: makeList end\nspots length = " + spots.size());
-            ArrayList<Spot> selectedSpots = chooseSpot(spots, num);
-        }
-*/
-        System.out.println("\nprint: makeList end, spots length = " + spotDetails.size());
-        return spots;
     }
-
 
     private class getJsonObjectTask extends AsyncTask<URL, Void, JSONObject> {
 
@@ -281,23 +208,10 @@ public class MakeRoute {
         spot.name = spotDetail.getName();
         spot.lat = spotDetail.getLat();
         spot.lng = spotDetail.getLng();
-        spot.case_num = caseClassifier(spot.lat, spot.lng);
         spot.score = calculateScore(spotDetail);
 
         //System.out.println("\tScore: " + spot.score);
         return spot;
-    }
-
-    private int caseClassifier(double lat, double lng){
-        int case_num = 0;
-
-        if(lat >= userlat && lng >= userlng) case_num = 1;
-        else if(lat < userlat && lng >= userlng) case_num = 2;
-        else if(lat < userlat && lng < userlng) case_num = 3;
-        else if (lat >= userlat && lng < userlng) case_num = 4;
-
-        //System.out.println("\tcase_num = " + case_num);
-        return case_num;
     }
 
     private int calculateScore(SpotDetail spotDetail){
@@ -314,10 +228,12 @@ public class MakeRoute {
 
     //------------------------------------------------------------------------------------------
 
-    ArrayList<Spot> chooseSpot(ArrayList<Spot> spots, int num){
-        ArrayList<Spot> selectedSpots = new ArrayList<>();
+
+    void chooseSpot(ArrayList<Spot> spots, int num){
 
         Map<Spot, Integer> temp = new HashMap<Spot, Integer>();
+        ArrayList<Location> locations = new ArrayList<>();
+
 
         for (Spot s : spots){
             temp.put(s, s.score);
@@ -326,21 +242,29 @@ public class MakeRoute {
         Random rand = new Random();
 
         System.out.println("\n<Selected>");
+        //location[0][0] = userlat;
+        //location[0][0] = userlng;
 
         for(int i = 0; i < num; i++){
             Spot spot = getWeightedRandom(temp, rand);
             System.out.println("\n" + spot.name);
-            spots.add(spot);
+
+            Location location = new Location();
+            location.lat = spot.lat;
+            location.lng = spot.lng;
+            locations.add(location);
+
             temp.remove(spot);
         }
 
         System.out.println("\n[" + userlat + ", " + userlng + "]");
-        for(int i = 0; i < num; i++){
-            System.out.println("\n[" + spots.get(i).lat + ", " + spots.get(i).lng + "]");
+
+        for(Location location : locations){
+            System.out.println("\n[" + location.lat + ", " + location.lng + "]");
         }
 
+        sortSpot(locations);
 
-        return selectedSpots;
     }
 
     private static <Spot> Spot getWeightedRandom(Map<Spot, Integer> weights, Random random) {
@@ -357,15 +281,51 @@ public class MakeRoute {
         return result;
     }
 
-
-    ArrayList<Spot> sortSpot(ArrayList<Spot> spots){
-        ArrayList<Spot> sortedSpots = new ArrayList<>();
+    //------------------------------------------------------------------
 
 
+    void sortSpot(ArrayList<Location> locations){
+        Location userloc = new Location();
+        userloc.lat = userlat;
+        userloc.lng = userlng;
 
 
-        return sortedSpots;
+        Comparator<Location> comparator = new Comparator<Location>() {
+            @Override
+            public int compare(Location lhs, Location rhs) {
+                double lhsAngle = Math.atan2(lhs.lng - userlng, lhs.lat - userlat);
+                double rhsAngle = Math.atan2(rhs.lng - userlng, rhs.lat - userlat);
+                // Depending on the coordinate system, you might need to reverse these two conditions
+                if (lhsAngle < rhsAngle) return -1;
+                if (lhsAngle > rhsAngle) return 1;
+                return 0;
+            }
+        };
+        Collections.sort(locations, comparator);
+
+        //ArrayList<Location> sorted = new ArrayList<>();
+
+
+        double[][] sorted = new double[num+2][2];
+
+        sorted[0][0] = userlat;
+        sorted[0][1] = userlng;
+
+        for(int i = 0; i < num + 1; i++){
+            sorted[i + 1][0] = locations.get(i).lat;
+            sorted[i + 1][1] = locations.get(i).lng;
+        }
+
+        sorted[num+1][0] = userlat;
+        sorted[num+1][1] = userlng;
+
+
+
+
+
     }
+
+
 
 
 
