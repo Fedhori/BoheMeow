@@ -393,6 +393,12 @@ public class SecondFilter {
         for(int i =0; i < Spots.size(); i++){
             spot = Spots.get(i);
 
+            //for test
+            if(spot.place_id.equals("ChIJxbv7OkldezURodvg7lNFi5w")){
+                Spots.remove(i);
+                continue;
+            }
+
             if(spot.safe_score < 70) {
                 Spots.remove(i);
                 continue;
