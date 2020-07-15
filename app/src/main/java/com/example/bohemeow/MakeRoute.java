@@ -1,6 +1,7 @@
 package com.example.bohemeow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -70,7 +71,10 @@ public class MakeRoute {
 
     }
 
-
+    public interface Callback{
+        void success(DataSnapshot data);
+        void fail(String errorMessage);
+    }
 
     //=========================================================================================
     private void makeList(){
@@ -107,9 +111,44 @@ public class MakeRoute {
             }
         });
 
+/*
+        final Callback callback = new Callback() {
+            @Override
+            public void success(DataSnapshot data) {
+                for (DataSnapshot postSnapshot: data.getChildren()) {
+                    ArrayList<SpotDetail> spotDetails = new ArrayList<>();
+                    spotDetails.add(postSnapshot.getValue(SpotDetail.class));
+                }
+            }
+            @Override
+            public void fail(String errorMessage) {
+            }
+        };
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.success(dataSnapshot);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                callback.fail(error.getMessage());
+            }
+        });
+
+        for(SpotDetail spotDetail: spotDetails){
+            if (getDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                System.out.println("spot: " + spotDetail.getName());
+                spots.add(simplifySpot(spotDetail));
+            }
+        }
+        System.out.println("\nspots length = " + spots.size());
+        chooseSpot(spots, num);
+ */
+
     }
 
-    private class getJsonObjectTask extends AsyncTask<URL, Void, JSONObject> {
+    static class getJsonObjectTask extends AsyncTask<URL, Void, JSONObject> {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
@@ -242,8 +281,6 @@ public class MakeRoute {
         Random rand = new Random();
 
         System.out.println("\n<Selected>");
-        //location[0][0] = userlat;
-        //location[0][0] = userlng;
 
         for(int i = 0; i < num; i++){
             Spot spot = getWeightedRandom(temp, rand);
@@ -285,10 +322,6 @@ public class MakeRoute {
 
 
     void sortSpot(ArrayList<Location> locations){
-        Location userloc = new Location();
-        userloc.lat = userlat;
-        userloc.lng = userlng;
-
 
         Comparator<Location> comparator = new Comparator<Location>() {
             @Override
@@ -303,15 +336,12 @@ public class MakeRoute {
         };
         Collections.sort(locations, comparator);
 
-        //ArrayList<Location> sorted = new ArrayList<>();
-
-
         double[][] sorted = new double[num+2][2];
 
         sorted[0][0] = userlat;
         sorted[0][1] = userlng;
 
-        for(int i = 0; i < num + 1; i++){
+        for(int i = 0; i < num; i++){
             sorted[i + 1][0] = locations.get(i).lat;
             sorted[i + 1][1] = locations.get(i).lng;
         }
@@ -321,12 +351,6 @@ public class MakeRoute {
 
 
 
-
-
     }
-
-
-
-
 
 }
