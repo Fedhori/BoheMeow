@@ -63,6 +63,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private Context context;
     private boolean isGranted = false;
 
+    private int polyLineCnt = 0;
+    private int markerCnt = 0;
+
     private double userlat = 37.2939299;
     private double userlng = 126.9739263;
 
@@ -168,8 +171,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tmapdata.findPathDataWithType(TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
+                try {
+                    //set time in mili
+                    Thread.sleep(600);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 polyLine.setLineColor(Color.BLUE);
-                tMapView.addTMapPath(polyLine);
+                tMapView.addTMapPolyLine(Integer.toString(polyLineCnt++), polyLine);
+                Log.w("asdf", Integer.toString(polyLineCnt));
             }
         });
     }
@@ -180,12 +191,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // resize bitmap
         bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
 
-        TMapMarkerItem markerItem1 = new TMapMarkerItem();
-        markerItem1.setIcon(bitmap); // 마커 아이콘 지정
-        markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-        markerItem1.setTMapPoint(position); // 마커의 좌표 지정
-        markerItem1.setName("성대");
-        tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+        markerItem.setIcon(bitmap); // 마커 아이콘 지정
+        markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setTMapPoint(position); // 마커의 좌표 지정
+        markerItem.setName("성대");
+        tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
     }
 
     @Override
