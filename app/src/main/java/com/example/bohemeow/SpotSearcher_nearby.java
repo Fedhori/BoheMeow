@@ -1,8 +1,7 @@
 package com.example.bohemeow;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,41 +20,64 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
     double lat = 37.2939299;
     double lng = 126.9739263;
-
     int radius = 2000;
+
+    String region = "Jangan-gu, Suwon-si";
     String type = "park";
-    String keyword = "";
+
+    public String page_token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final String[][] placeIDs = new String[3][20];
+
         final SecondFilter sf = new SecondFilter(this);
 
         new Thread() {
             public void run() {
-                String result = getSpots(lat, lng, radius, type);
-                jsonparser(result);
-                sf.FeatureCalculator(result);
 
+
+                String result = getSpots(region, type, false);
+                placeIDs[0] = jsonparser(result);
+
+                for(int i = 1; i < 3; i++) {
+                    //System.out.println("\npage_token = " + page_token);
+                    if(page_token.equals("")) break;
+                    result = getSpots(region, type, true);
+                    placeIDs[i] = jsonparser(result);
+                }
+                //sf.FeatureCalculator(placeIDs);
             }
         }.start();
 
 
     }
 
-    public String getSpots(double lat, double lng, int radius, String type) {
-
+    public String getSpots(String region, String type, boolean nextPage) {
+/*
         String uri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +
                 "&radius=" + radius +
                 "&type=" + type +
                 "&keyword=" + keyword +
                 "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+ */
+        String uri = new String();
 
+        if(nextPage){
+            uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=" + page_token + "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+        }else{
+            uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + type + "+in+" + region +
+                    //"&language=ko"+
+                    "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+        }
+        System.out.println("\nURI = " + uri);
         String page = "";
 
         try {
+            Thread.sleep(2000);
             URL url = new URL(uri);
             URLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
@@ -64,10 +86,10 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             String line = null;
 
             while ((line = bufreader.readLine()) != null) {
-                //Log.d("line:", line);
+                Log.d("line:", line);
                 page += line;
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -75,7 +97,8 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     }
 
     //for test print
-    public void jsonparser(String page) {
+    public String[] jsonparser(String page) {
+        String[] placeIDs = new String[20];
 
         try{
             JSONObject jsonObject = new JSONObject(page);
@@ -85,23 +108,22 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
                 String name = subJsonObject.getString("name");
                 String place_id = subJsonObject.getString("place_id");
+                placeIDs[i] = place_id;
 
-                /*
-                String geometry = subJsonObject.getString("geometry");
-                JSONObject subJsonObject2 = new JSONObject(geometry);
-                String location = subJsonObject2.getString("location");
-                JSONObject subJsonObject3 = new JSONObject(location);
-                String sub_lat = subJsonObject3.getString("lat");
-                String sub_lng = subJsonObject3.getString("lng");
-                */
                 //test print
                 System.out.println("\nnum: " + i +
-                        "\nname: " + name +
+                        "\tname: " + name +
                         "\tid: " + place_id);
+
+                page_token = jsonObject.getString("next_page_token");
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            //page_token = "";
+            return placeIDs;
         }
+
+        return placeIDs;
     }
 
 
