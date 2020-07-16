@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
-                //startActivity(intent);
-                mr.SpotSelector();
+                Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
+                startActivity(intent);
+                //mr.SpotSelector();
             }
         });
     }

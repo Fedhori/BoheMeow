@@ -224,10 +224,15 @@ public class SecondFilter {
     }
 
 
-    public void FeatureCalculator(String searched){
+    public void FeatureCalculator(String[][] searched){
 
         ArrayList<SpotDetail> Spots = new ArrayList<>();
-
+        for(String[] temp:searched){
+            for(String place_id:temp){
+                Spots.add(Calculator(place_id));
+            }
+        }
+        /*
         try{
             JSONObject jsonObject = new JSONObject(searched);
             String results = jsonObject.getString("results");
@@ -235,12 +240,10 @@ public class SecondFilter {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
                 String place_id = subJsonObject.getString("place_id");
-
-                Spots.add(Calculator(place_id));
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         SpotFilter(Spots);
     }
