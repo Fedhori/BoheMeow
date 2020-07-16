@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -63,6 +64,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private Context context;
     private boolean isGranted = false;
 
+    private TMapPolyLine userRoute = null;
+    private double lastLat = -1;
+    private double lastLong = -1;
+
     private int polyLineCnt = 0;
     private int markerCnt = 0;
 
@@ -93,8 +98,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
-        tMapView.setIconVisibility(true);
-        tMapView.setTrackingMode(true);
+
+        userRoute = new TMapPolyLine();
+        userRoute.setLineColor(Color.RED);
+        userRoute.setLineWidth(1);
 
         // 사용자가 위치 정보 허가 여부를 이전에 허가했는지 안했는지 확인
         SharedPreferences pref = getSharedPreferences("isGranted", MODE_PRIVATE);
@@ -113,12 +120,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 @Override
                 public void granted() {
                     gps = new TMapGpsManager(WalkActivity.this);
-                    gps.setMinTime(1000);
-                    gps.setMinDistance(5);
-                    gps.setProvider(gps.GPS_PROVIDER);
+                    gps.setMinTime(100);
+                    gps.setMinDistance(0.1f);
+                    gps.setProvider(TMapGpsManager.GPS_PROVIDER);
                     gps.OpenGps();
-                    gps.setProvider(gps.NETWORK_PROVIDER);
+                    gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
                     gps.OpenGps();
+                    tMapView.setIconVisibility(true);
+                    tMapView.setTrackingMode(true);
 
                     // 위치 정보 제공을 허가했음을 로컬 데이터에 저장
                     SharedPreferences pref = getSharedPreferences("isGranted",MODE_PRIVATE);
@@ -130,7 +139,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
                 @Override
                 public void denied() {
-                    Toast.makeText(WalkActivity.this, "허가 없이는 화면을 출력할 수 없습니다.", Toast.LENGTH_LONG);
+                    Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG);
                     Intent intent = new Intent(WalkActivity.this, MainMenu.class);
                     startActivity(intent);
                 }
@@ -139,12 +148,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // 이미 허가했을 경우
         else{
             gps = new TMapGpsManager(WalkActivity.this);
-            gps.setMinTime(1000);
-            gps.setMinDistance(5);
-            gps.setProvider(gps.GPS_PROVIDER);
+            gps.setMinTime(100);
+            gps.setMinDistance(0.1f);
+            gps.setProvider(TMapGpsManager.GPS_PROVIDER);
             gps.OpenGps();
-            gps.setProvider(gps.NETWORK_PROVIDER);
+            gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
             gps.OpenGps();
+            tMapView.setIconVisibility(true);
+            tMapView.setTrackingMode(true);
         }
 
         /*
@@ -166,28 +177,28 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
 
+        try {
+            //set time in mili
+            Thread.sleep(500);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         TMapData tmapdata = new TMapData();
 
         tmapdata.findPathDataWithType(TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
-                try {
-                    //set time in mili
-                    Thread.sleep(600);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
                 polyLine.setLineColor(Color.BLUE);
                 tMapView.addTMapPolyLine(Integer.toString(polyLineCnt++), polyLine);
-                Log.w("asdf", Integer.toString(polyLineCnt));
             }
         });
     }
 
     public void drawMarker(TMapPoint position){
+
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_cat_scaratch);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
         // resize bitmap
         bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
 
@@ -201,7 +212,31 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     @Override
     public void onLocationChange(Location location) {
-        tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
+
+        double latitiude = location.getLatitude();
+        double longtitude = location.getLongitude();
+        Toast.makeText(WalkActivity.this, distFrom(lastLat, lastLong, latitiude, longtitude) + "", Toast.LENGTH_SHORT).show();
+
+        // first movement, or distance between two points are less than 5m
+        if((lastLat == - 1 && lastLong == -1) || (distFrom(lastLat, lastLong, latitiude, longtitude) < 5)) {
+            tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
+            tMapView.setCenterPoint(location.getLongitude(), location.getLatitude());
+            userRoute.addLinePoint(new TMapPoint(location.getLatitude(), location.getLongitude()));
+            tMapView.addTMapPolyLine("Line1", userRoute);
+            lastLat = latitiude;
+            lastLong = longtitude;
+        }
+    }
+
+    public double distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return earthRadius * c;
     }
 
     //=================================================================================
