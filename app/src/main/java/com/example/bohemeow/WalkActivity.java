@@ -248,6 +248,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     }
                 }
 
+                if(spots.size() < num) num = spots.size(); //최종 후보가 원래 뽑으려던 스팟 수보다 적을경우 뽑으려던 수 변경
+
                 chooseSpot(spots, num);
             }
 

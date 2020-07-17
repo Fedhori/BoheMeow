@@ -49,7 +49,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                     result = getSpots(region, type, true);
                     placeIDs[i] = jsonparser(result);
                 }
-                //sf.FeatureCalculator(placeIDs);
+                sf.FeatureCalculator(placeIDs);
             }
         }.start();
 
@@ -70,14 +70,14 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=" + page_token + "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
         }else{
             uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + type + "+in+" + region +
-                    //"&language=ko"+
+                    "&region=kr&language=ko&type="+ type +
                     "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
         }
         System.out.println("\nURI = " + uri);
         String page = "";
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             URL url = new URL(uri);
             URLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
@@ -102,6 +102,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
         try{
             JSONObject jsonObject = new JSONObject(page);
+            page_token = jsonObject.optString("next_page_token");
             String results = jsonObject.getString("results");
             JSONArray jsonArray = new JSONArray(results);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -115,7 +116,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                         "\tname: " + name +
                         "\tid: " + place_id);
 
-                page_token = jsonObject.getString("next_page_token");
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
