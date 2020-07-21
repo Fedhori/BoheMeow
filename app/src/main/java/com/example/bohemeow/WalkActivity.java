@@ -65,8 +65,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private boolean isGranted = false;
 
     private TMapPolyLine userRoute = null;
-    private double lastLat = -1;
-    private double lastLong = -1;
+    private double[] lastLatitudes = new double[10];
+    private double[] lastLongtitudes = new double[10];
+    private int curPos = 0;
+    private int lapNum = 0;
 
     private int polyLineCnt = 0;
     private int markerCnt = 0;
@@ -121,7 +123,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 public void granted() {
                     gps = new TMapGpsManager(WalkActivity.this);
                     gps.setMinTime(100);
-                    gps.setMinDistance(0.1f);
+                    //gps.setMinDistance(0.1f);
                     gps.setProvider(TMapGpsManager.GPS_PROVIDER);
                     gps.OpenGps();
                     gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
@@ -139,7 +141,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
                 @Override
                 public void denied() {
-                    Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG);
+                    Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(WalkActivity.this, MainMenu.class);
                     startActivity(intent);
                 }
@@ -152,8 +154,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             gps.setMinDistance(0.1f);
             gps.setProvider(TMapGpsManager.GPS_PROVIDER);
             gps.OpenGps();
+            /*
             gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
             gps.OpenGps();
+             */
             tMapView.setIconVisibility(true);
             tMapView.setTrackingMode(true);
         }
@@ -213,18 +217,32 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     @Override
     public void onLocationChange(Location location) {
 
-        double latitiude = location.getLatitude();
-        double longtitude = location.getLongitude();
-        Toast.makeText(WalkActivity.this, distFrom(lastLat, lastLong, latitiude, longtitude) + "", Toast.LENGTH_SHORT).show();
+        lastLatitudes[curPos] = location.getLatitude();
+        lastLongtitudes[curPos] = location.getLongitude();
 
-        // first movement, or distance between two points are less than 5m
-        if((lastLat == - 1 && lastLong == -1) || (distFrom(lastLat, lastLong, latitiude, longtitude) < 5)) {
-            tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
-            tMapView.setCenterPoint(location.getLongitude(), location.getLatitude());
-            userRoute.addLinePoint(new TMapPoint(location.getLatitude(), location.getLongitude()));
+        curPos++;
+        if(curPos >= 10){
+            curPos = 0;
+            lapNum++;
+        }
+
+        if(lapNum > 2){
+
+            double latitude = 0f;
+            double longtitude = 0f;
+
+            for(int i = 0;i<10;i++){
+                latitude += lastLatitudes[i];
+                longtitude += lastLongtitudes[i];
+            }
+
+            latitude /= 10f;
+            longtitude /= 10f;
+
+            tMapView.setLocationPoint(longtitude, latitude);
+            tMapView.setCenterPoint(longtitude, latitude);
+            userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
             tMapView.addTMapPolyLine("Line1", userRoute);
-            lastLat = latitiude;
-            lastLong = longtitude;
         }
     }
 
