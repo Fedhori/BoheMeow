@@ -16,9 +16,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -62,7 +65,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TMapGpsManager gps = null;
     private TMapView tMapView = null;
     private Context context;
-    private boolean isGranted = false;
 
     private TMapPolyLine userRoute = null;
     private double[] lastLatitudes = new double[10];
@@ -72,6 +74,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private int polyLineCnt = 0;
     private int markerCnt = 0;
+
+    private boolean isFirstLocation = false;
 
     private double userlat = 37.2939299;
     private double userlng = 126.9739263;
@@ -105,62 +109,43 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setLineColor(Color.RED);
         userRoute.setLineWidth(1);
 
-        // 사용자가 위치 정보 허가 여부를 이전에 허가했는지 안했는지 확인
+        /*
         SharedPreferences pref = getSharedPreferences("isGranted", MODE_PRIVATE);
-        if(pref.getString("isGranted", "empty") == "empty"){
+        if(pref.getString("isGranted", "empty").equals("empty")){
             isGranted = false;
         }
         else{
             isGranted = true;
         }
+         */
 
-        // 아직 허가 안했을 경우
-        if(!isGranted){
-            permissionManager = new PermissionManager(this); // 권한요청 관리자
-            permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-                // 허가 시 GPS 화면 출력
-                @Override
-                public void granted() {
-                    gps = new TMapGpsManager(WalkActivity.this);
-                    gps.setMinTime(100);
-                    //gps.setMinDistance(0.1f);
-                    gps.setProvider(TMapGpsManager.GPS_PROVIDER);
-                    gps.OpenGps();
-                    gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
-                    gps.OpenGps();
-                    tMapView.setIconVisibility(true);
-                    tMapView.setTrackingMode(true);
+        permissionManager = new PermissionManager(this); // 권한요청 관리자
+        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
+            // 허가 시 GPS 화면 출력
+            @Override
+            public void granted() {
+                turnGPSOn();
 
-                    // 위치 정보 제공을 허가했음을 로컬 데이터에 저장
-                    SharedPreferences pref = getSharedPreferences("isGranted",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("isGranted", "isGranted");
-                    editor.apply();
-                }
+                gps = new TMapGpsManager(WalkActivity.this);
+                gps.setMinTime(100);
+                gps.setMinDistance(0.1f);
+                gps.setProvider(TMapGpsManager.GPS_PROVIDER);
+                gps.OpenGps();
+                gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
+                gps.OpenGps();
 
-                // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
-                @Override
-                public void denied() {
-                    Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(WalkActivity.this, MainMenu.class);
-                    startActivity(intent);
-                }
-            });
-        }
-        // 이미 허가했을 경우
-        else{
-            gps = new TMapGpsManager(WalkActivity.this);
-            gps.setMinTime(100);
-            gps.setMinDistance(0.1f);
-            gps.setProvider(TMapGpsManager.GPS_PROVIDER);
-            gps.OpenGps();
-            /*
-            gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
-            gps.OpenGps();
-             */
-            tMapView.setIconVisibility(true);
-            tMapView.setTrackingMode(true);
-        }
+                tMapView.setIconVisibility(true);
+                tMapView.setTrackingMode(true);
+            }
+
+            // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
+            @Override
+            public void denied() {
+                Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(WalkActivity.this, MainMenu.class);
+                startActivity(intent);
+            }
+        });
 
         /*
         // set center point
@@ -217,6 +202,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     @Override
     public void onLocationChange(Location location) {
 
+        if(!isFirstLocation){
+            isFirstLocation = true;
+            TMapPoint point = gps.getLocation();
+            tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
+            tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
+            Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
+        }
+
         lastLatitudes[curPos] = location.getLatitude();
         lastLongtitudes[curPos] = location.getLongitude();
 
@@ -255,6 +248,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         Math.sin(dLng/2) * Math.sin(dLng/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return earthRadius * c;
+    }
+
+    private void turnGPSOn(){
+
+        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //GPS 설정화면으로 이동
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            startActivity(intent);
+        }
     }
 
     //=================================================================================
