@@ -224,13 +224,11 @@ public class SecondFilter {
     }
 
 
-    public void FeatureCalculator(String[][] searched){
+    public void FeatureCalculator(ArrayList<String> searched){
 
         ArrayList<SpotDetail> Spots = new ArrayList<>();
-        for(String[] temp:searched){
-            for(String place_id:temp){
-                Spots.add(Calculator(place_id));
-            }
+        for(String place_id:searched){
+            Spots.add(Calculator(place_id));
         }
         /*
         try{
