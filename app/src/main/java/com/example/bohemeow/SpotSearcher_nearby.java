@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 public class SpotSearcher_nearby extends AppCompatActivity {
 
@@ -22,7 +23,9 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     double lng = 126.9739263;
     int radius = 2000;
 
+    //좌표를 조회해서 현재 시, 구 정보 가져올 수 있도록 추후 수정
     String region = "Jangan-gu, Suwon-si";
+    String region_limit = "장안구";
     String type = "park";
 
     public String page_token = "";
@@ -32,7 +35,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final String[][] placeIDs = new String[3][20];
+        final ArrayList<String> placeIDs = new ArrayList<>();
 
         final SecondFilter sf = new SecondFilter(this);
 
@@ -41,13 +44,13 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
 
                 String result = getSpots(region, type, false);
-                placeIDs[0] = jsonparser(result);
+                placeIDs.addAll(jsonparser(result));
 
                 for(int i = 1; i < 3; i++) {
                     //System.out.println("\npage_token = " + page_token);
                     if(page_token.equals("")) break;
                     result = getSpots(region, type, true);
-                    placeIDs[i] = jsonparser(result);
+                    placeIDs.addAll(jsonparser(result));
                 }
                 sf.FeatureCalculator(placeIDs);
             }
@@ -97,8 +100,8 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     }
 
     //for test print
-    public String[] jsonparser(String page) {
-        String[] placeIDs = new String[20];
+    public ArrayList<String> jsonparser(String page) {
+        ArrayList<String> placeIDs = new ArrayList<>();
 
         try{
             JSONObject jsonObject = new JSONObject(page);
@@ -107,16 +110,18 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(results);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                String name = subJsonObject.getString("name");
-                String place_id = subJsonObject.getString("place_id");
-                placeIDs[i] = place_id;
+                String formatted_address = subJsonObject.getString("formatted_address");
+                //구단위 필터링을 원하면 아래 주석 사용
+                //if(formatted_address.contains(region_limit)) {
+                    String name = subJsonObject.getString("name");
+                    String place_id = subJsonObject.getString("place_id");
+                    placeIDs.add(place_id);
 
-                //test print
-                System.out.println("\nnum: " + i +
-                        "\tname: " + name +
-                        "\tid: " + place_id);
-
-
+                    //test print
+                    System.out.println("\nnum: " + i +
+                            "\tname: " + name +
+                            "\tid: " + place_id);
+                //}
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -126,10 +131,5 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
         return placeIDs;
     }
-
-
-
-
-
 
 }
