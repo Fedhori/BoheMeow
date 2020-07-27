@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         //hello world
 
-        final MakeRoute mr = new MakeRoute(this);
+
 
         Button button= findViewById(R.id.testBtn);
         button.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SpotSearcher_nearby.class);
                 startActivity(intent);
-                //mr.SpotSelector();
+
             }
         });
     }
