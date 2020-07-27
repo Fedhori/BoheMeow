@@ -59,6 +59,17 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.LogManager;
 
+
+class Spot {
+    String place_id;
+    String name;
+    int score = 0;
+    double lat, lng;
+
+}
+
+
+
 public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
 
     PermissionManager permissionManager = null; // 권한요청 관리자
@@ -172,6 +183,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         }catch (Exception e){
             e.printStackTrace();
         }
+
 
         TMapData tmapdata = new TMapData();
 
@@ -299,7 +311,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    if (getDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                    //보행자 거리를 사용하는 경우
+                    //if (getPedestrianDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                    if (distFrom(userlat, userlng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
                         System.out.println("spot: " + spotDetail.getName());
                         spots.add(simplifySpot(spotDetail));
                         //System.out.println("\nspots length = " + spots.size());
@@ -354,7 +368,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     }
 
 
-    private int getDistance(final double lat, final double lng) {
+    private int getPedestrianDistance(double lat1, double lng1, double lat2, double lng2) {
 
         int dis = 0;
         //sample place
@@ -363,8 +377,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         try {
 
-            String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + userlng + "&startY=" + userlat +
-                    "&endName=" + "endPlace" + "&endX=" + lng + "&endY=" + lat +
+            String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + lng1 + "&startY=" + lat1 +
+                    "&endName=" + "endPlace" + "&endX=" + lng2 + "&endY=" + lat2 +
                     "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
 
             String page = "";
@@ -381,7 +395,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
              */
 
             //JSONObject jsonObject = new JSONObject(page);
-            MakeRoute.getJsonObjectTask task = new MakeRoute.getJsonObjectTask();
+            getJsonObjectTask task = new getJsonObjectTask();
 
             JSONObject jsonObject = task.execute(url).get();
             //System.out.println("\nC : " + jsonObject);
@@ -406,6 +420,44 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             dis = 10000;
         }
         return dis;
+
+    }
+
+    static class getJsonObjectTask extends AsyncTask<URL, Void, JSONObject> {
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected JSONObject doInBackground(URL... urls) {
+            HttpURLConnection con = null;
+            try {
+                con = (HttpURLConnection) urls[0].openConnection();
+                int response = con.getResponseCode();
+                if (response == HttpURLConnection.HTTP_OK) {
+                    StringBuilder builder = new StringBuilder();
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    JSONObject jsonObject = new JSONObject(builder.toString());
+                    //System.out.println("B " + jsonObject);
+                    return jsonObject;
+                }
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            } finally {
+                con.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+        }
     }
 
     private Spot simplifySpot(SpotDetail spotDetail) {
@@ -434,16 +486,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         return score;
     }
 
+
     //------------------------------------------------------------------------------------------
 
 
-    void chooseSpot(ArrayList<Spot> spots, int num){
+    void chooseSpot(ArrayList<Spot> spots, int num) {
+        int limitDis = (min * speed / num) * (2);
 
         Map<Spot, Integer> temp = new HashMap<Spot, Integer>();
-        ArrayList<com.example.bohemeow.Location> locations = new ArrayList<>();
+        ArrayList<Spot> selected = new ArrayList<>();
 
-
-        for (Spot s : spots){
+        for (Spot s : spots) {
             temp.put(s, s.score);
         }
 
@@ -451,29 +504,45 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         System.out.println("\n<Selected>");
 
-        for(int i = 0; i < num; i++){
+        for (int i = 0; i < num; i++) {
+
             Spot spot = getWeightedRandom(temp, rand);
             System.out.println("\n" + spot.name);
 
-            com.example.bohemeow.Location location = new com.example.bohemeow.Location();
-            location.lat = spot.lat;
-            location.lng = spot.lng;
-            locations.add(location);
-
             temp.remove(spot);
+            if(getPedestrianDistance(userlat, userlng, spot.lat, spot.lng) > limitDis) {
+                i -= 1;
+            }
+            else selected.add(spot);
+            if(temp.size() == 0) break;
+
         }
+
+            /*
+            ArrayList<Integer> dis = new ArrayList<>();
+            dis.add(getPedestrianDistance(userlat, userlng, locations.get(0).lat, locations.get(0).lng));
+            for (int i = 0; i < num - 1; i++) {
+                dis.add(getPedestrianDistance(locations.get(i).lat, locations.get(i).lng, locations.get(i + 1).lat, locations.get(i + 1).lng));
+            }
+            dis.add(getPedestrianDistance(locations.get(num - 1).lat, locations.get(num - 1).lng, userlat, userlng));
+
+            int totalDis = 0;
+            for(int d: dis) totalDis += d;
+            if(totalDis <= limitDis) break;
+             */
+
 
         System.out.println("\n[" + userlat + ", " + userlng + "]");
 
-        for(com.example.bohemeow.Location location : locations){
-            System.out.println("\n[" + location.lat + ", " + location.lng + "]");
+        for (Spot s : selected) {
+            System.out.println("\n[" + s.lat + ", " + s.lng + "]");
         }
 
-        sortSpot(locations);
-
+        sortSpot(selected);
     }
 
     private static <Spot> Spot getWeightedRandom(Map<Spot, Integer> weights, Random random) {
+
         Spot result = null;
         double bestValue = Double.MAX_VALUE;
 
@@ -487,14 +556,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         return result;
     }
 
+
+
     //------------------------------------------------------------------
 
 
-    void sortSpot(ArrayList<com.example.bohemeow.Location> locations){
+    void sortSpot(ArrayList<Spot> selected){
 
-        Comparator<com.example.bohemeow.Location> comparator = new Comparator<com.example.bohemeow.Location>() {
+        Comparator<Spot> comparator = new Comparator<Spot>() {
             @Override
-            public int compare(com.example.bohemeow.Location lhs, com.example.bohemeow.Location rhs) {
+            public int compare(Spot lhs, Spot rhs) {
                 double lhsAngle = Math.atan2(lhs.lng - userlng, lhs.lat - userlat);
                 double rhsAngle = Math.atan2(rhs.lng - userlng, rhs.lat - userlat);
                 // Depending on the coordinate system, you might need to reverse these two conditions
@@ -503,7 +574,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 return 0;
             }
         };
-        Collections.sort(locations, comparator);
+
+        Collections.sort(selected, comparator);
+
 /*
         double[][] sorted = new double[num+2][2];
 
@@ -525,8 +598,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         ArrayList<TMapPoint> sorted = new ArrayList<>();
 
         sorted.add(new TMapPoint(userlat, userlng));
-        for(com.example.bohemeow.Location loc : locations){
-            sorted.add(new TMapPoint(loc.lat, loc.lng));
+        for(Spot s : selected){
+            sorted.add(new TMapPoint(s.lat, s.lng));
         }
         sorted.add(new TMapPoint(userlat, userlng));
 
@@ -534,9 +607,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             drawMarker(sorted.get(i));
             drawPedestrianPath(sorted.get(i), sorted.get(i+1));
         }
-
-
-
 
     }
 }
