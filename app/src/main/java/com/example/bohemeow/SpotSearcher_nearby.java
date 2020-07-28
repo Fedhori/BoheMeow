@@ -12,16 +12,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class SpotSearcher_nearby extends AppCompatActivity {
-
-    double lat = 37.2939299;
-    double lng = 126.9739263;
-    int radius = 2000;
 
     //좌표를 조회해서 현재 시, 구 정보 가져올 수 있도록 추후 수정
     String region = "Jangan-gu, Suwon-si";
@@ -42,7 +37,6 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         new Thread() {
             public void run() {
 
-
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
 
@@ -60,14 +54,8 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     }
 
     public String getSpots(String region, String type, boolean nextPage) {
-/*
-        String uri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +
-                "&radius=" + radius +
-                "&type=" + type +
-                "&keyword=" + keyword +
-                "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
- */
-        String uri = new String();
+
+        String uri;
 
         if(nextPage){
             uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=" + page_token + "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
@@ -82,11 +70,11 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         try {
             Thread.sleep(1000);
             URL url = new URL(uri);
-            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            URLConnection urlConnection = url.openConnection();
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
             //Log.d("line:", bufreader.toString());
 
-            String line = null;
+            String line;
 
             while ((line = bufreader.readLine()) != null) {
                 Log.d("line:", line);
@@ -110,7 +98,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(results);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                String formatted_address = subJsonObject.getString("formatted_address");
+                //String formatted_address = subJsonObject.getString("formatted_address");
                 //구단위 필터링을 원하면 아래 주석 사용
                 //if(formatted_address.contains(region_limit)) {
                     String name = subJsonObject.getString("name");
