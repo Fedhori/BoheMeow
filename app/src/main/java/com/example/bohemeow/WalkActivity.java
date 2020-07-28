@@ -407,8 +407,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             dis = Integer.parseInt(subJsonObject2.getString("totalDistance"));
             //System.out.println("\nD distance : " + dis);
 
-
-
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

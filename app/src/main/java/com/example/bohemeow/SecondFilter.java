@@ -2,7 +2,6 @@ package com.example.bohemeow;
 
 import android.content.Context;
 
-import com.google.android.libraries.places.api.model.Place;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -192,27 +191,6 @@ class SpotDetail {
         this.record_time = record_time;
     }
 
-
-    /*
-    public String place_id;
-    public String name;
-
-    double lat;
-    double lng;
-
-    ArrayList<String> types = new ArrayList<>();
-    int popularity = -1;
-    int safe_score = -1;
-    int envi_score = -1;
-    int user_score = -1;
-
-    int visitor = -1;
-    int visitor_time = -1;
-    int visitor_week = -1;
-
-    int total_score = -1;
-
-     */
 }
 
 public class SecondFilter {
@@ -230,18 +208,6 @@ public class SecondFilter {
         for(String place_id:searched){
             Spots.add(Calculator(place_id));
         }
-        /*
-        try{
-            JSONObject jsonObject = new JSONObject(searched);
-            String results = jsonObject.getString("results");
-            JSONArray jsonArray = new JSONArray(results);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                String place_id = subJsonObject.getString("place_id");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
         SpotFilter(Spots);
     }
@@ -263,7 +229,7 @@ public class SecondFilter {
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
             //Log.d("line:", bufreader.toString());
 
-            String line = null;
+            String line;
 
             while ((line = bufreader.readLine()) != null) {
                 //Log.d("line:", line);
@@ -386,7 +352,7 @@ public class SecondFilter {
     //---------------------------------------------------------------------------------
 
     private void SpotFilter(ArrayList<SpotDetail> Spots){
-        SpotDetail spot = new SpotDetail();
+        SpotDetail spot;
         String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
         int len;
 
