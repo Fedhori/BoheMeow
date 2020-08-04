@@ -91,6 +91,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private double userlat = 37.2939299;
     private double userlng = 126.9739263;
 
+    private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
+    private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
+    private double prevLat = -1f;
+    private double prevLong = -1f;
+
     private int min = 60; //소요 시간
     private int speed = 60; //보행자 속도
 
@@ -248,6 +253,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             tMapView.setCenterPoint(longtitude, latitude);
             userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
             tMapView.addTMapPolyLine("Line1", userRoute);
+
+            if(prevLat != -1f){
+                curMoveLength += distFrom(latitude, longtitude, prevLat, prevLong);
+                if(maxMoveLength <= curMoveLength){
+                    addCoordinationData(latitude, longtitude);
+                    curMoveLength = 0f;
+                }
+            }
+
+            prevLat = latitude;
+            prevLong = longtitude;
         }
     }
 
@@ -272,6 +288,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
         }
+    }
+
+    public void addCoordinationData(Double latitude, Double longtitude){
+
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        Data data = new Data(latitude, longtitude);
+        postValues = data.toMap();
+        childUpdates.put("/user_data/hongkildong/", postValues);
+        mPostReference.updateChildren(childUpdates);
     }
 
     //=================================================================================
