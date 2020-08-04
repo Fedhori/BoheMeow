@@ -95,6 +95,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
     private double prevLat = -1f;
     private double prevLong = -1f;
+    private int moveCnt = 0;
 
     private int min = 60; //소요 시간
     private int speed = 60; //보행자 속도
@@ -299,8 +300,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         Map<String, Object> postValues = null;
         Data data = new Data(latitude, longtitude);
         postValues = data.toMap();
-        childUpdates.put("/user_data/hongkildong/", postValues);
+        childUpdates.put("/user_data/hongkildong/" + Integer.toString(moveCnt) + "/", postValues);
         mPostReference.updateChildren(childUpdates);
+
+        moveCnt++;
     }
 
     //=================================================================================
