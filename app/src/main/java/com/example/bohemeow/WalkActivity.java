@@ -262,6 +262,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 }
             }
 
+
             prevLat = latitude;
             prevLong = longtitude;
         }
