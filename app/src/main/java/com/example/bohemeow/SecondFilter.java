@@ -386,6 +386,11 @@ public class SecondFilter {
         SimpleDateFormat t = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
         String city = "Suwon-si";
 
+        //ArrayList<String> ID_list = new ArrayList<>();
+        JSONArray IDJsonArray = new JSONArray();
+        HashMap<String, Integer> ID_list = new HashMap<>();
+
+
         JSONObject jsonObject = new JSONObject();
         try {
             JSONArray jsonArray = new JSONArray();//배열이 필요할때
@@ -396,6 +401,8 @@ public class SecondFilter {
 
                 subJsonObject.put("index", i);
                 subJsonObject.put("place_id", spot.place_id);
+                ID_list.put(spot.place_id, 0);
+                //IDJsonArray.put(spot.place_id);
                 subJsonObject.put("name", spot.name);
                 subJsonObject.put("lat", spot.lat);
                 subJsonObject.put("lng", spot.lng);
@@ -428,6 +435,18 @@ public class SecondFilter {
             String jsonString = jsonObject.toString(); //set to json string
             Map<String, Object> jsonMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
             myRef.child("spot_data").child(city).updateChildren(jsonMap);
+
+            //Index:place_ID
+            //JSONObject jsonObject2 = new JSONObject();
+            //jsonObject2.put("ID_list", IDJsonArray);
+            //jsonString = jsonObject2.toString();
+            //Map<String, Object> jsonMap2 = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
+            //myRef.child("spot_data").updateChildren(jsonMap2);
+
+            //place_ID:0
+            Map<String, Object> childUpdates= new HashMap<>();
+            childUpdates.put("spot_data/ID_list", ID_list);
+            myRef.updateChildren(childUpdates);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -90,6 +91,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private double userlat = 37.2939299;
     private double userlng = 126.9739263;
+
+
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -151,6 +154,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
                 gps.OpenGps();
 
+                userlat = gps.getLocation().getLatitude();
+                userlng = gps.getLocation().getLongitude();
+
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
             }
@@ -178,7 +184,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawPedestrianPath(startPoint, endPoint);
          */
 
-        makeList();
     }
 
     public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
@@ -211,7 +216,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
-        markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
         markerItem.setName("성대");
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
@@ -223,9 +229,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         if(!isFirstLocation){
             isFirstLocation = true;
             TMapPoint point = gps.getLocation();
+            double lat = point.getLatitude();
+            double lng = point.getLongitude();
+            userlat = lat;
+            userlng = lng;
+
+            System.out.println("\ngeometry: " + lat + ", " + lng);
+            System.out.println("\ngeometry: " + userlat + ", " + userlng);
+
+            //tMapView.setLocationPoint(lat, lng);
+            //tMapView.setCenterPoint(lat, lng);
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
             Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
+
+
+            makeList();
         }
 
         lastLatitudes[curPos] = location.getLatitude();
@@ -259,6 +278,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 curMoveLength += distFrom(latitude, longtitude, prevLat, prevLong);
                 if(maxMoveLength <= curMoveLength){
                     addCoordinationData(latitude, longtitude);
+                    addCoordinationID(latitude, longtitude);
                     curMoveLength = 0f;
                 }
             }
@@ -304,6 +324,57 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         mPostReference.updateChildren(childUpdates);
 
         moveCnt++;
+    }
+
+    public void addCoordinationID(Double latitude, Double longtitude){
+
+
+        String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
+                "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+
+
+        String page = "";
+
+        HashMap<String, Integer> temp_list = new HashMap<>();
+
+        try {
+            URL url = new URL(uri);
+            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            //Log.d("line:", bufreader.toString());
+
+            String line;
+
+
+            while ((line = bufreader.readLine()) != null) {
+                //Log.d("line:", line);
+                page += line;
+            }
+
+            JSONObject jsonObject = new JSONObject(page);
+            String results = jsonObject.getString("results");
+            JSONArray jsonArray = new JSONArray(results);
+
+            JSONObject subJsonObject = jsonArray.getJSONObject(0);
+            String name = subJsonObject.getString("name");
+            String place_id = subJsonObject.getString("place_id");
+
+            temp_list.put(place_id, 0);
+            System.out.println("\nnum: " +
+                        "\tname: " + name +
+                        "\tid: " + place_id);
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates= new HashMap<>();
+        childUpdates.put("spot_data/temp_list", temp_list);
+        myRef.updateChildren(childUpdates);
+
+
+
     }
 
     //=================================================================================
@@ -409,6 +480,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         try {
 
+            Thread.sleep(500);
             String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + lng1 + "&startY=" + lat1 +
                     "&endName=" + "endPlace" + "&endX=" + lng2 + "&endY=" + lat2 +
                     "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
@@ -430,14 +502,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             getJsonObjectTask task = new getJsonObjectTask();
 
             JSONObject jsonObject = task.execute(url).get();
-            //System.out.println("\nC : " + jsonObject);
+            System.out.println("\nC : " + jsonObject);
             String features = jsonObject.getString("features");
             JSONArray jsonArray = new JSONArray(features);
             JSONObject subJsonObject = jsonArray.getJSONObject(0);
             String properties = subJsonObject.getString("properties");
             JSONObject subJsonObject2 = new JSONObject(properties);
             dis = Integer.parseInt(subJsonObject2.getString("totalDistance"));
-            //System.out.println("\nD distance : " + dis);
+            System.out.println("\nD distance : " + dis);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -446,7 +518,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (NullPointerException e){ //나중에 꼭 고치기. 원인 못찾음. 발생하는 상황도 예측 불가.
-            //e.printStackTrace();
+            e.printStackTrace();
             dis = 10000;
         }
         return dis;
@@ -606,24 +678,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         };
 
         Collections.sort(selected, comparator);
-
-/*
-        double[][] sorted = new double[num+2][2];
-
-
-        sorted[0][0] = userlat;
-        sorted[0][1] = userlng;
-
-        for(int i = 0; i < num; i++){
-            sorted[i + 1][0] = locations.get(i).lat;
-            sorted[i + 1][1] = locations.get(i).lng;
-        }
-
-        sorted[num+1][0] = userlat;
-        sorted[num+1][1] = userlng;
-
-
- */
 
         ArrayList<TMapPoint> sorted = new ArrayList<>();
 
