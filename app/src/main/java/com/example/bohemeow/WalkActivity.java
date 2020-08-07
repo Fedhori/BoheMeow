@@ -3,26 +3,19 @@ package com.example.bohemeow;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -58,7 +51,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.LogManager;
 
 
 class Spot {
@@ -89,10 +81,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private boolean isFirstLocation = false;
 
-    private double userlat = 37.2939299;
-    private double userlng = 126.9739263;
-
-
+    private double userlat;
+    private double userlng;
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -229,21 +219,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         if(!isFirstLocation){
             isFirstLocation = true;
             TMapPoint point = gps.getLocation();
-            double lat = point.getLatitude();
-            double lng = point.getLongitude();
-            userlat = lat;
-            userlng = lng;
-
-            System.out.println("\ngeometry: " + lat + ", " + lng);
-            System.out.println("\ngeometry: " + userlat + ", " + userlng);
-
-            //tMapView.setLocationPoint(lat, lng);
-            //tMapView.setCenterPoint(lat, lng);
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
             Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
 
-
+            userlat = point.getLatitude();
+            userlng = point.getLongitude();
             makeList();
         }
 
@@ -377,23 +358,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     }
 
-    //=================================================================================
-
-
-
-
-    public void SpotSelector() {
-
-        System.out.println("\nprint: Start");
-        makeList();
-
-    }
-
-    public interface Callback{
-        void success(DataSnapshot data);
-        void fail(String errorMessage);
-    }
-
     //=========================================================================================
     private void makeList(){
         System.out.println("\nprint: makeList start");
@@ -403,7 +367,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
         final ArrayList<Spot> spots= new ArrayList<>();
-        final Spot spot = new Spot();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myRef = databaseReference.child("spot_data").child(city).child("spots");
@@ -433,50 +396,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
-/*
-        final Callback callback = new Callback() {
-            @Override
-            public void success(DataSnapshot data) {
-                for (DataSnapshot postSnapshot: data.getChildren()) {
-                    ArrayList<SpotDetail> spotDetails = new ArrayList<>();
-                    spotDetails.add(postSnapshot.getValue(SpotDetail.class));
-                }
-            }
-            @Override
-            public void fail(String errorMessage) {
-            }
-        };
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.success(dataSnapshot);
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                callback.fail(error.getMessage());
-            }
-        });
-
-        for(SpotDetail spotDetail: spotDetails){
-            if (getDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                System.out.println("spot: " + spotDetail.getName());
-                spots.add(simplifySpot(spotDetail));
-            }
-        }
-        System.out.println("\nspots length = " + spots.size());
-        chooseSpot(spots, num);
- */
-
     }
 
 
     private int getPedestrianDistance(double lat1, double lng1, double lat2, double lng2) {
 
         int dis = 0;
-        //sample place
-        //lat = 37.296067;
-        //lng = 126.982378;
 
         try {
 
@@ -595,7 +520,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     void chooseSpot(ArrayList<Spot> spots, int num) {
         int limitDis = (min * speed / num) * (2);
 
-        Map<Spot, Integer> temp = new HashMap<Spot, Integer>();
+        Map<Spot, Integer> temp = new HashMap<>();
         ArrayList<Spot> selected = new ArrayList<>();
 
         for (Spot s : spots) {
