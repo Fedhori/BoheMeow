@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -307,8 +308,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         moveCnt++;
     }
 
-    public void addCoordinationID(Double latitude, Double longtitude){
-
+    String getPlaceID(Double latitude, Double longtitude){
 
         String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
                 "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
@@ -316,7 +316,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         String page = "";
 
-        HashMap<String, Integer> temp_list = new HashMap<>();
+        String place_id = "";
 
         try {
             URL url = new URL(uri);
@@ -325,7 +325,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             //Log.d("line:", bufreader.toString());
 
             String line;
-
 
             while ((line = bufreader.readLine()) != null) {
                 //Log.d("line:", line);
@@ -338,21 +337,129 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             JSONObject subJsonObject = jsonArray.getJSONObject(0);
             String name = subJsonObject.getString("name");
-            String place_id = subJsonObject.getString("place_id");
+            place_id = subJsonObject.getString("place_id");
 
-            temp_list.put(place_id, 0);
             System.out.println("\nnum: " +
-                        "\tname: " + name +
-                        "\tid: " + place_id);
+                    "\tname: " + name +
+                    "\tid: " + place_id);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates= new HashMap<>();
-        childUpdates.put("spot_data/temp_list", temp_list);
-        myRef.updateChildren(childUpdates);
+        return place_id;
+    }
+
+    public void addCoordinationID(final Double latitude, final Double longtitude){
+
+        new Thread() {
+            public void run() {
+
+                String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
+                        "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+
+
+                String page = "";
+                String place_id = "";
+
+                try {
+                    URL url = new URL(uri);
+                    URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                    Log.d("line:", bufreader.toString());
+
+                    String line;
+
+                    while ((line = bufreader.readLine()) != null) {
+                        Log.d("line:", line);
+                        page += line;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(page);
+                    String results = jsonObject.getString("results");
+                    JSONArray jsonArray = new JSONArray(results);
+
+                    JSONObject subJsonObject = jsonArray.getJSONObject(0);
+                    //String name = subJsonObject.getString("name");
+                    place_id = subJsonObject.getString("place_id");
+
+                    System.out.println("\nnum: " +
+                            //"\tname: " + name +
+                            "\tid: " + place_id);
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //temp_list.put("TEST", 0);
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+
+                final String Place_id = place_id;
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                        Map<String, Object> childUpdates= new HashMap<>();
+                        HashMap<String, Long> temp_list = new HashMap<>();
+
+                        long num = 0;
+                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) {
+                            System.out.println("ID check line");
+                            num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
+
+                            temp_list.put("visit", num + 1);
+                            childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+
+                        }
+                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){
+
+                            System.out.println("temp check line");
+                            System.out.println(dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+
+                            temp_list.put("count", num + 1);
+                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+
+                            if(num >= 9){
+                                Map<String, Object> childUpdate= new HashMap<>();
+                                HashMap<String, Integer> ID_list = new HashMap<>();
+
+                                ID_list.put("visit", 0);
+                                childUpdate.put("spot_data/ID_list/" + Place_id, ID_list);
+                                myRef.updateChildren(childUpdate);
+
+                                System.out.println("delete");
+                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+
+
+                                System.out.println("calculated");
+                                ArrayList<String> spot = new ArrayList<>();
+                                spot.add(Place_id);
+
+                                //SecondFilter sf = new SecondFilter(WalkActivity.this);
+                                //sf.FeatureCalculator(spot);
+                            }
+
+
+                        }
+                        else{
+                            temp_list.put("count", num);
+                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        }.start();
 
 
 

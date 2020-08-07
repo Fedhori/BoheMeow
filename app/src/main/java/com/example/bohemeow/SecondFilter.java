@@ -388,12 +388,13 @@ public class SecondFilter {
 
         //ArrayList<String> ID_list = new ArrayList<>();
         JSONArray IDJsonArray = new JSONArray();
-        HashMap<String, Integer> ID_list = new HashMap<>();
-
+        HashMap<String, Object> ID_list = new HashMap<>();
+        HashMap<String, Integer> ID = new HashMap<>();
 
         JSONObject jsonObject = new JSONObject();
         try {
-            JSONArray jsonArray = new JSONArray();//배열이 필요할때
+            //JSONArray jsonArray = new JSONArray();//배열이 필요할때
+            JSONObject spot_list = new JSONObject();
             for (int i = 0; i < Spots.size(); i++)//배열
             {
                 spot = Spots.get(i);
@@ -401,7 +402,8 @@ public class SecondFilter {
 
                 subJsonObject.put("index", i);
                 subJsonObject.put("place_id", spot.place_id);
-                ID_list.put(spot.place_id, 0);
+                ID.put("visit", 0);
+                ID_list.put(spot.place_id, ID);
                 //IDJsonArray.put(spot.place_id);
                 subJsonObject.put("name", spot.name);
                 subJsonObject.put("lat", spot.lat);
@@ -422,12 +424,14 @@ public class SecondFilter {
                 }
                 subJsonObject.put("types", typJsonArray);
 
-                jsonArray.put(subJsonObject);
+                //jsonArray.put(subJsonObject);
+                spot_list.put(spot.place_id, subJsonObject);
             }
 
             //임시, 추후 서비스 지역을 넓힐 때 수정
             jsonObject.put("last_record_time", t.format(Calendar.getInstance().getTime()));
-            jsonObject.put("spots", jsonArray);
+            //jsonObject.put("spots", jsonArray);
+            jsonObject.put("spots", spot_list);
 
             //System.out.println(jsonObject.toString());
 
