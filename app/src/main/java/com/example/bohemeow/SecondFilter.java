@@ -71,20 +71,33 @@ class SpotDetail {
         this.record_time = record_time;
     }
 
-    public int getIndex() {
-        return index;
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("place_id", place_id);
+        //IDJsonArray.put(spot.place_id);
+        result.put("name", name);
+        result.put("lat", lat);
+        result.put("lng", lng);
+        result.put("popularity", popularity);
+        result.put("safe_score", safe_score);
+        result.put("envi_score", envi_score);
+        result.put("user_score", user_score);
+        result.put("total_score", total_score);
+        result.put("visitor", visitor);
+        result.put("visitor_time", visitor_time);
+        result.put("visitor_week", visitor_week);
+        result.put("types", types);
+
+        SimpleDateFormat t = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        result.put("record_time", t.format(Calendar.getInstance().getTime()));
+
+
+        return result;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
 
     public String getPlace_id() {
         return place_id;
-    }
-
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
     }
 
     public String getName(){
@@ -99,96 +112,24 @@ class SpotDetail {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
     public double getLng() {
         return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
-
-    public ArrayList<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(ArrayList<String> types) {
-        this.types = types;
     }
 
     public int getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
-    }
-
     public int getSafe_score() {
         return safe_score;
-    }
-
-    public void setSafe_score(int safe_score) {
-        this.safe_score = safe_score;
     }
 
     public int getEnvi_score() {
         return envi_score;
     }
 
-    public void setEnvi_score(int envi_score) {
-        this.envi_score = envi_score;
-    }
-
     public int getUser_score() {
         return user_score;
-    }
-
-    public void setUser_score(int user_score) {
-        this.user_score = user_score;
-    }
-
-    public int getVisitor() {
-        return visitor;
-    }
-
-    public void setVisitor(int visitor) {
-        this.visitor = visitor;
-    }
-
-    public int getVisitor_time() {
-        return visitor_time;
-    }
-
-    public void setVisitor_time(int visitor_time) {
-        this.visitor_time = visitor_time;
-    }
-
-    public int getVisitor_week() {
-        return visitor_week;
-    }
-
-    public void setVisitor_week(int visitor_week) {
-        this.visitor_week = visitor_week;
-    }
-
-    public int getTotal_score() {
-        return total_score;
-    }
-
-    public void setTotal_score(int total_score) {
-        this.total_score = total_score;
-    }
-
-    public String getRecord_time() {
-        return record_time;
-    }
-
-    public void setRecord_time(String record_time) {
-        this.record_time = record_time;
     }
 
 }
@@ -202,14 +143,19 @@ public class SecondFilter {
     }
 
 
-    public void FeatureCalculator(ArrayList<String> searched){
+    public void FeatureCalculator(final ArrayList<String> searched){
 
-        ArrayList<SpotDetail> Spots = new ArrayList<>();
-        for(String place_id:searched){
-            Spots.add(Calculator(place_id));
-        }
+        final ArrayList<SpotDetail> Spots = new ArrayList<>();
+        new Thread() {
+            public void run() {
+                for(String place_id:searched){
+                    Spots.add(Calculator(place_id));
+                }
 
-        SpotFilter(Spots);
+                SpotFilter(Spots);
+            }
+        }.start();
+
     }
 
     private SpotDetail Calculator(String place_id){
@@ -354,6 +300,8 @@ public class SecondFilter {
     private void SpotFilter(ArrayList<SpotDetail> Spots){
         SpotDetail spot;
         String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
+
+        System.out.println("Before: " + Spots);
         int len;
 
         //삭제
@@ -383,78 +331,33 @@ public class SecondFilter {
             }
         }
 
-        SimpleDateFormat t = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-        String city = "Suwon-si";
+        System.out.println("After: " + Spots);
+        System.out.println("\nNum: " + Spots.size());
+        String region = "Suwon-si";
 
-        //ArrayList<String> ID_list = new ArrayList<>();
-        JSONArray IDJsonArray = new JSONArray();
-        HashMap<String, Object> ID_list = new HashMap<>();
-        HashMap<String, Integer> ID = new HashMap<>();
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            //JSONArray jsonArray = new JSONArray();//배열이 필요할때
-            JSONObject spot_list = new JSONObject();
-            for (int i = 0; i < Spots.size(); i++)//배열
-            {
-                spot = Spots.get(i);
-                JSONObject subJsonObject = new JSONObject();//배열 내에 들어갈 json
+        for (int i = 0; i < Spots.size(); i++)//배열
+        {
+            spot = Spots.get(i);
 
-                subJsonObject.put("index", i);
-                subJsonObject.put("place_id", spot.place_id);
-                ID.put("visit", 0);
-                ID_list.put(spot.place_id, ID);
-                //IDJsonArray.put(spot.place_id);
-                subJsonObject.put("name", spot.name);
-                subJsonObject.put("lat", spot.lat);
-                subJsonObject.put("lng", spot.lng);
-                subJsonObject.put("popularity", spot.popularity);
-                subJsonObject.put("safe_score", spot.safe_score);
-                subJsonObject.put("envi_score", spot.envi_score);
-                subJsonObject.put("user_score", spot.user_score);
-                subJsonObject.put("total_score", spot.total_score);
-                subJsonObject.put("visitor", spot.visitor);
-                subJsonObject.put("visitor_time", spot.visitor_time);
-                subJsonObject.put("visitor_week", spot.visitor_week);
-                subJsonObject.put("record_time", t.format(Calendar.getInstance().getTime()));
-
-                JSONArray typJsonArray = new JSONArray();
-                for(int j = 0; j<spot.types.size(); j++){
-                    typJsonArray.put(spot.types.get(j));
-                }
-                subJsonObject.put("types", typJsonArray);
-
-                //jsonArray.put(subJsonObject);
-                spot_list.put(spot.place_id, subJsonObject);
-            }
-
-            //임시, 추후 서비스 지역을 넓힐 때 수정
-            jsonObject.put("last_record_time", t.format(Calendar.getInstance().getTime()));
-            //jsonObject.put("spots", jsonArray);
-            jsonObject.put("spots", spot_list);
-
-            //System.out.println(jsonObject.toString());
-
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-            String jsonString = jsonObject.toString(); //set to json string
-            Map<String, Object> jsonMap = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
-            myRef.child("spot_data").child(city).updateChildren(jsonMap);
-
-            //Index:place_ID
-            //JSONObject jsonObject2 = new JSONObject();
-            //jsonObject2.put("ID_list", IDJsonArray);
-            //jsonString = jsonObject2.toString();
-            //Map<String, Object> jsonMap2 = new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
-            //myRef.child("spot_data").updateChildren(jsonMap2);
-
-            //place_ID:0
             Map<String, Object> childUpdates= new HashMap<>();
-            childUpdates.put("spot_data/ID_list", ID_list);
+            Map<String, Object> value = spot.toMap();
+            childUpdates.put("/spot_data/"+ region + "/spots/" + spot.place_id, value);
             myRef.updateChildren(childUpdates);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            HashMap<String, Integer> ID = new HashMap<>();
+            ID.put("visit", 0);
+
+            Map<String, Object> childUpdate= new HashMap<>();
+            childUpdate.put("spot_data/ID_list/" + spot.place_id, ID);
+            myRef.updateChildren(childUpdate);
+
         }
 
+        if(Spots.size() > 0) {
+            SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            myRef.child("spot_data").child(region).child("last_record_time").setValue(t.format(Calendar.getInstance().getTime()));
+        }
     }
 }
