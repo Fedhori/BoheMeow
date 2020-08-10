@@ -424,24 +424,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
 
-                            if(num >= 9){
-                                Map<String, Object> childUpdate= new HashMap<>();
-                                HashMap<String, Integer> ID_list = new HashMap<>();
-
-                                ID_list.put("visit", 0);
-                                childUpdate.put("spot_data/ID_list/" + Place_id, ID_list);
-                                myRef.updateChildren(childUpdate);
-
+                            if(num >= 1){
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
-
 
                                 System.out.println("calculated");
                                 ArrayList<String> spot = new ArrayList<>();
                                 spot.add(Place_id);
 
-                                //SecondFilter sf = new SecondFilter(WalkActivity.this);
-                                //sf.FeatureCalculator(spot);
+                                SecondFilter sf = new SecondFilter(WalkActivity.this);
+                                sf.FeatureCalculator(spot);
                             }
 
 
