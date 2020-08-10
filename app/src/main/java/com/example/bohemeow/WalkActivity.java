@@ -308,48 +308,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         moveCnt++;
     }
 
-    String getPlaceID(Double latitude, Double longtitude){
-
-        String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
-                "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
-
-
-        String page = "";
-
-        String place_id = "";
-
-        try {
-            URL url = new URL(uri);
-            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            //Log.d("line:", bufreader.toString());
-
-            String line;
-
-            while ((line = bufreader.readLine()) != null) {
-                //Log.d("line:", line);
-                page += line;
-            }
-
-            JSONObject jsonObject = new JSONObject(page);
-            String results = jsonObject.getString("results");
-            JSONArray jsonArray = new JSONArray(results);
-
-            JSONObject subJsonObject = jsonArray.getJSONObject(0);
-            String name = subJsonObject.getString("name");
-            place_id = subJsonObject.getString("place_id");
-
-            System.out.println("\nnum: " +
-                    "\tname: " + name +
-                    "\tid: " + place_id);
-
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-
-        return place_id;
-    }
-
     public void addCoordinationID(final Double latitude, final Double longtitude){
 
         new Thread() {
@@ -424,7 +382,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
 
-                            if(num >= 1){
+                            if(num >= 9){
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
 
@@ -452,8 +410,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             }
         }.start();
-
-
 
     }
 
