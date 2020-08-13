@@ -3,21 +3,15 @@ package com.example.bohemeow;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -57,7 +52,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.LogManager;
 
 
 class Spot {
@@ -88,8 +82,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private boolean isFirstLocation = false;
 
-    private double userlat = 37.2939299;
-    private double userlng = 126.9739263;
+    private double userlat;
+    private double userlng;
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -151,6 +145,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
                 gps.OpenGps();
 
+                userlat = gps.getLocation().getLatitude();
+                userlng = gps.getLocation().getLongitude();
+
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
             }
@@ -178,7 +175,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawPedestrianPath(startPoint, endPoint);
          */
 
-        makeList();
     }
 
     public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
@@ -211,7 +207,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
-        markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
         markerItem.setName("성대");
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
@@ -226,6 +223,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
             Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
+
+            userlat = point.getLatitude();
+            userlng = point.getLongitude();
+            makeList();
         }
 
         lastLatitudes[curPos] = location.getLatitude();
@@ -259,6 +260,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 curMoveLength += distFrom(latitude, longtitude, prevLat, prevLong);
                 if(maxMoveLength <= curMoveLength){
                     addCoordinationData(latitude, longtitude);
+                    addCoordinationID(latitude, longtitude);
                     curMoveLength = 0f;
                 }
             }
@@ -306,21 +308,109 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         moveCnt++;
     }
 
-    //=================================================================================
+    public void addCoordinationID(final Double latitude, final Double longtitude){
+
+        new Thread() {
+            public void run() {
+
+                String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
+                        "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
 
 
+                String page = "";
+                String place_id = "";
+
+                try {
+                    URL url = new URL(uri);
+                    URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                    Log.d("line:", bufreader.toString());
+
+                    String line;
+
+                    while ((line = bufreader.readLine()) != null) {
+                        Log.d("line:", line);
+                        page += line;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(page);
+                    String results = jsonObject.getString("results");
+                    JSONArray jsonArray = new JSONArray(results);
+
+                    JSONObject subJsonObject = jsonArray.getJSONObject(0);
+                    //String name = subJsonObject.getString("name");
+                    place_id = subJsonObject.getString("place_id");
+
+                    System.out.println("\nnum: " +
+                            //"\tname: " + name +
+                            "\tid: " + place_id);
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //temp_list.put("TEST", 0);
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
 
-    public void SpotSelector() {
+                final String Place_id = place_id;
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        System.out.println("\nprint: Start");
-        makeList();
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                        Map<String, Object> childUpdates= new HashMap<>();
+                        HashMap<String, Long> temp_list = new HashMap<>();
 
-    }
+                        long num = 0;
+                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) {
+                            System.out.println("ID check line");
+                            num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
-    public interface Callback{
-        void success(DataSnapshot data);
-        void fail(String errorMessage);
+                            temp_list.put("visit", num + 1);
+                            childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+
+                        }
+                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){
+
+                            System.out.println("temp check line");
+                            System.out.println(dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+
+                            temp_list.put("count", num + 1);
+                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+
+                            if(num >= 9){
+                                System.out.println("delete");
+                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+
+                                System.out.println("calculated");
+                                ArrayList<String> spot = new ArrayList<>();
+                                spot.add(Place_id);
+
+                                SecondFilter sf = new SecondFilter(WalkActivity.this);
+                                sf.FeatureCalculator(spot);
+                            }
+
+
+                        }
+                        else{
+                            temp_list.put("count", num);
+                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        }.start();
+
     }
 
     //=========================================================================================
@@ -332,7 +422,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
         final ArrayList<Spot> spots= new ArrayList<>();
-        final Spot spot = new Spot();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myRef = databaseReference.child("spot_data").child(city).child("spots");
@@ -362,53 +451,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
-/*
-        final Callback callback = new Callback() {
-            @Override
-            public void success(DataSnapshot data) {
-                for (DataSnapshot postSnapshot: data.getChildren()) {
-                    ArrayList<SpotDetail> spotDetails = new ArrayList<>();
-                    spotDetails.add(postSnapshot.getValue(SpotDetail.class));
-                }
-            }
-            @Override
-            public void fail(String errorMessage) {
-            }
-        };
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.success(dataSnapshot);
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                callback.fail(error.getMessage());
-            }
-        });
-
-        for(SpotDetail spotDetail: spotDetails){
-            if (getDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                System.out.println("spot: " + spotDetail.getName());
-                spots.add(simplifySpot(spotDetail));
-            }
-        }
-        System.out.println("\nspots length = " + spots.size());
-        chooseSpot(spots, num);
- */
-
     }
 
 
     private int getPedestrianDistance(double lat1, double lng1, double lat2, double lng2) {
 
         int dis = 0;
-        //sample place
-        //lat = 37.296067;
-        //lng = 126.982378;
 
         try {
 
+            Thread.sleep(500);
             String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + lng1 + "&startY=" + lat1 +
                     "&endName=" + "endPlace" + "&endX=" + lng2 + "&endY=" + lat2 +
                     "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
@@ -430,14 +482,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             getJsonObjectTask task = new getJsonObjectTask();
 
             JSONObject jsonObject = task.execute(url).get();
-            //System.out.println("\nC : " + jsonObject);
+            System.out.println("\nC : " + jsonObject);
             String features = jsonObject.getString("features");
             JSONArray jsonArray = new JSONArray(features);
             JSONObject subJsonObject = jsonArray.getJSONObject(0);
             String properties = subJsonObject.getString("properties");
             JSONObject subJsonObject2 = new JSONObject(properties);
             dis = Integer.parseInt(subJsonObject2.getString("totalDistance"));
-            //System.out.println("\nD distance : " + dis);
+            System.out.println("\nD distance : " + dis);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -446,7 +498,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (NullPointerException e){ //나중에 꼭 고치기. 원인 못찾음. 발생하는 상황도 예측 불가.
-            //e.printStackTrace();
+            e.printStackTrace();
             dis = 10000;
         }
         return dis;
@@ -523,7 +575,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     void chooseSpot(ArrayList<Spot> spots, int num) {
         int limitDis = (min * speed / num) * (2);
 
-        Map<Spot, Integer> temp = new HashMap<Spot, Integer>();
+        Map<Spot, Integer> temp = new HashMap<>();
         ArrayList<Spot> selected = new ArrayList<>();
 
         for (Spot s : spots) {
@@ -606,24 +658,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         };
 
         Collections.sort(selected, comparator);
-
-/*
-        double[][] sorted = new double[num+2][2];
-
-
-        sorted[0][0] = userlat;
-        sorted[0][1] = userlng;
-
-        for(int i = 0; i < num; i++){
-            sorted[i + 1][0] = locations.get(i).lat;
-            sorted[i + 1][1] = locations.get(i).lng;
-        }
-
-        sorted[num+1][0] = userlat;
-        sorted[num+1][1] = userlng;
-
-
- */
 
         ArrayList<TMapPoint> sorted = new ArrayList<>();
 
