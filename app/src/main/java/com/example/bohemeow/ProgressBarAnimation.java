@@ -32,7 +32,6 @@ public class ProgressBarAnimation extends Animation {
 
         if(value == to){
 
-
             SharedPreferences registerInfo = context.getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
             // user hasn't registered yet
             if(registerInfo.getString("registerUserName", "NULL").equals("NULL")){
