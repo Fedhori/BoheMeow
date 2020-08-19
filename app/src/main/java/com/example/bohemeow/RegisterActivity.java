@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                             boolean isExist = false;
 
                             for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                                Nickname get = postSnapshot.getValue(Nickname.class);
+                                UserData get = postSnapshot.getValue(UserData.class);
 
                                 if(new_nickname.equals(get.nickname)){
                                     isExist = true;
@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 catText.setText("그 이름은 이미 존재해. 다른 이름은 어때?");
                             }
                             else{
-                                addNewUser(new_nickname);
+                                addNewUser(new_nickname, "tempID", "tempPassword");
                                 catText.setText(new_nickname + "!! \n멋진 이름이야. \n앞으로 잘 부탁해, " + new_nickname + ".");
                                 catFace.setImageResource(R.drawable.beth_0001);
 
@@ -100,13 +100,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void addNewUser(String new_nickname){
+    public void addNewUser(String new_nickname, String id, String password){
 
         DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
 
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Nickname data = new Nickname(new_nickname);
+        // probably this line will be changed someday..
+        UserData data = new UserData(new_nickname, id, password, 10, 10, 10);
         postValues = data.toMap();
         childUpdates.put("/user_list/" + new_nickname + "/", postValues);
         mPostReference.updateChildren(childUpdates);
