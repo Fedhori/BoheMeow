@@ -84,6 +84,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private double userlat;
     private double userlng;
+    String region = "Suwon-si";
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -324,12 +325,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     URL url = new URL(uri);
                     URLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-                    Log.d("line:", bufreader.toString());
+                    //Log.d("line:", bufreader.toString());
 
                     String line;
 
                     while ((line = bufreader.readLine()) != null) {
-                        Log.d("line:", line);
+                        //Log.d("line:", line);
                         page += line;
                     }
 
@@ -382,7 +383,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
 
-                            if(num >= 9){
+                            if(num >= 5){
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
 
@@ -391,7 +392,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                                 spot.add(Place_id);
 
                                 SecondFilter sf = new SecondFilter(WalkActivity.this);
-                                sf.FeatureCalculator(spot);
+                                sf.FeatureCalculator(spot, region);
                             }
 
 
@@ -418,13 +419,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         System.out.println("\nprint: makeList start");
         final int limitDis = (min * speed) / 2;
 
-        final String city = "Suwon-si";
 
         final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
         final ArrayList<Spot> spots= new ArrayList<>();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference myRef = databaseReference.child("spot_data").child(city).child("spots");
+        DatabaseReference myRef = databaseReference.child("spot_data").child(region).child("spots");
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
