@@ -37,6 +37,8 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         new Thread() {
             public void run() {
 
+
+                region = "Suwon-si";
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
 
@@ -46,7 +48,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
                     result = getSpots(region, type, true);
                     placeIDs.addAll(jsonparser(result));
                 }
-                sf.FeatureCalculator(placeIDs);
+                sf.FeatureCalculator(placeIDs, region);
             }
         }.start();
 

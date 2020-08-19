@@ -2,8 +2,13 @@ package com.example.bohemeow;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,7 +146,7 @@ public class SecondFilter {
     }
 
 
-    public void FeatureCalculator(final ArrayList<String> searched){
+    public void FeatureCalculator(final ArrayList<String> searched, final String region){
 
         final ArrayList<SpotDetail> Spots = new ArrayList<>();
         new Thread() {
@@ -150,7 +155,7 @@ public class SecondFilter {
                     Spots.add(Calculator(place_id));
                 }
 
-                SpotFilter(Spots);
+                SpotFilter(Spots, region);
             }
         }.start();
 
@@ -295,7 +300,20 @@ public class SecondFilter {
 
     //---------------------------------------------------------------------------------
 
-    private void SpotFilter(ArrayList<SpotDetail> Spots){
+    public double distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return earthRadius * c;
+    }
+
+
+
+    private void SpotFilter(ArrayList<SpotDetail> Spots, String region){
         SpotDetail spot;
         String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
 
@@ -331,31 +349,63 @@ public class SecondFilter {
 
         System.out.println("After: " + Spots);
         System.out.println("\nNum: " + Spots.size());
-        String region = "Suwon-si";
+        //String region = "Suwon-si";
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
         for (int i = 0; i < Spots.size(); i++)//배열
         {
-            spot = Spots.get(i);
-
-            Map<String, Object> childUpdates= new HashMap<>();
-            Map<String, Object> value = spot.toMap();
-            childUpdates.put("/spot_data/"+ region + "/spots/" + spot.place_id, value);
-            myRef.updateChildren(childUpdates);
-
-            HashMap<String, Integer> ID = new HashMap<>();
-            ID.put("visit", 0);
-
-            Map<String, Object> childUpdate= new HashMap<>();
-            childUpdate.put("spot_data/ID_list/" + spot.place_id, ID);
-            myRef.updateChildren(childUpdate);
-
+            spotUpload(Spots.get(i), region);
         }
+    }
 
-        if(Spots.size() > 0) {
-            SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            myRef.child("spot_data").child(region).child("last_record_time").setValue(t.format(Calendar.getInstance().getTime()));
-        }
+    void spotUpload(final SpotDetail spot, final String region){
+        final boolean[] isGood = {true};
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference MyRef = databaseReference.child("spot_data").child(region).child("spots");
+
+        MyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
+                    int limitDis = 300;
+
+                    if (distFrom(spot.lat, spot.lng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                        isGood[0] = false;
+                        System.out.println("\nIt's too near. " + spot.name);
+                        break;
+                    }
+                }
+                if (isGood[0]){
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    Map<String, Object> value = spot.toMap();
+                    childUpdates.put("/spot_data/" + region + "/spots/" + spot.place_id, value);
+                    myRef.updateChildren(childUpdates);
+
+                    HashMap<String, Integer> ID = new HashMap<>();
+                    ID.put("visit", 0);
+
+                    Map<String, Object> childUpdate = new HashMap<>();
+                    childUpdate.put("spot_data/ID_list/" + spot.place_id, ID);
+                    myRef.updateChildren(childUpdate);
+
+                    SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    myRef.child("spot_data").child(region).child("last_record_time").setValue(t.format(Calendar.getInstance().getTime()));
+
+                    System.out.println("uploaded");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
 }
