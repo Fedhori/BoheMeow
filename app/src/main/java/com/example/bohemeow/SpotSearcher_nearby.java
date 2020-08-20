@@ -1,7 +1,9 @@
 package com.example.bohemeow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,10 +27,19 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
     public String page_token = "";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //region = "수원시";
+
+        if(getIntent().getExtras() != null){
+            Intent intent = getIntent();
+            region = intent.getStringExtra("Region");
+        }
 
         final ArrayList<String> placeIDs = new ArrayList<>();
 
@@ -38,7 +49,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
             public void run() {
 
 
-                region = "Suwon-si";
+
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
 
@@ -70,7 +81,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         String page = "";
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
             URL url = new URL(uri);
             URLConnection urlConnection = url.openConnection();
             BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapGpsManager.onLocationChangedCallback;
@@ -84,7 +87,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private double userlat;
     private double userlng;
-    String region = "Suwon-si";
+    String region = "";
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -218,6 +221,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     @Override
     public void onLocationChange(Location location) {
 
+
         if(!isFirstLocation){
             isFirstLocation = true;
             TMapPoint point = gps.getLocation();
@@ -227,7 +231,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             userlat = point.getLatitude();
             userlng = point.getLongitude();
-            makeList();
+            getRegion(userlat, userlng);
+            //makeList();
         }
 
         lastLatitudes[curPos] = location.getLatitude();
@@ -414,6 +419,80 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     }
 
+    void getRegion(final double latitude, final double longtitude){
+        //final String[] region = {""};
+
+        new Thread() {
+            public void run() {
+
+                String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
+                        "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+
+                String page = "";
+                try {
+                    URL url = new URL(uri);
+                    URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                    Log.d("line:", bufreader.toString());
+                    System.out.println("\ncheckpoint");
+                    String line;
+
+                    while ((line = bufreader.readLine()) != null) {
+                        Log.d("line:", line);
+                        page += line;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(page);
+                    String results = jsonObject.getString("results");
+                    JSONArray jsonArray = new JSONArray(results);
+
+                    String address_components = jsonArray.getJSONObject(0).getString("address_components");
+                    JSONArray addJsonArray = new JSONArray(address_components);
+                    for (int i = 0; i < addJsonArray.length(); i++) {
+                        JSONObject subJsonObject = addJsonArray.getJSONObject(i);
+                        String types = subJsonObject.getString("types");
+                        JSONArray typJsonArray = new JSONArray(types);
+                        for (int j = 0; j < typJsonArray.length(); j++) {
+                            if(typJsonArray.optString(j).equals("locality")){
+                                region = subJsonObject.getString("short_name");
+
+                                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
+                                            System.out.println("\nnew region");
+
+                                            Intent intent = new Intent(WalkActivity.this, SpotSearcher_nearby.class);
+                                            intent.putExtra("Region", region);
+                                            startActivity(intent);
+                                        }
+
+                                        makeList();
+
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
+
+                            }
+                        }
+
+                    }
+
+                    System.out.println("\nregion: " + region);
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+    }
+
     //=========================================================================================
     private void makeList(){
         System.out.println("\nprint: makeList start");
@@ -423,8 +502,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
         final ArrayList<Spot> spots= new ArrayList<>();
 
+
+        //region = getRegion(userlat, userlng);
+        //region = region + "-si";
+        //System.out.println("\nRegion: " + region);
+
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myRef = databaseReference.child("spot_data").child(region).child("spots");
+        //DatabaseReference myRef = databaseReference.child("spot_data").child(getRegion(userlat, userlng)+"-si").child("spots");
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -443,7 +529,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 if(spots.size() < num) num = spots.size(); //최종 후보가 원래 뽑으려던 스팟 수보다 적을경우 뽑으려던 수 변경
 
-                chooseSpot(spots, num);
+                if(num > 0) chooseSpot(spots, num);
+                else System.out.println("\nThere are no spot in this place!");
+
+
             }
 
             @Override
