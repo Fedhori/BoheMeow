@@ -100,6 +100,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     int num = 1 + min / 30; //선택할 스팟 수
 
+    int[] preference = new int[3];//0:safe 1:envi 2:popularity
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
@@ -649,10 +651,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         int score = 0;
         //유저 성향에 따른 가중치 계산 공식 후에 반영할것
-        score += spotDetail.getEnvi_score();
-        score += spotDetail.getSafe_score();
+        score += spotDetail.getSafe_score() * preference[0];
+        score += spotDetail.getEnvi_score() * preference[1];
         score += spotDetail.getUser_score();
-        score += spotDetail.getPopularity();
+        score += spotDetail.getPopularity() * preference[2];
 
         return score;
     }
