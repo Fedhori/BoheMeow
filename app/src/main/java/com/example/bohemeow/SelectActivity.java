@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SelectActivity extends AppCompatActivity {
 
+    // test
+
     private DatabaseReference mPostReference;
 
     Button btn_to_walk;
