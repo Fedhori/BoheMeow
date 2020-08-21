@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        // probably this line will be changed someday..
+        // probably this line will be changed someday.. 아마도 설문조사 화면과 연관되게 바뀌어야겠지? -> 계정 생성 후 설문조사 -> 설문조사 중간에 꺼도 아직 설문조사를 마치지 않았을 경우 처음부터 다시
         UserData data = new UserData(new_nickname, id, password, 10, 10, 10);
         postValues = data.toMap();
         childUpdates.put("/user_list/" + new_nickname + "/", postValues);
