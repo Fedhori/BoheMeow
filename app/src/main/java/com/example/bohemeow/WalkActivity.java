@@ -75,7 +75,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private TMapView tMapView = null;
     private Context context;
 
-    private DatabaseReference mPostReference;
 
     private TMapPolyLine userRoute = null;
     private double[] lastLatitudes = new double[10];
@@ -116,20 +115,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         setContentView(R.layout.activity_walk);
         context = this;
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        // someday.. 언제나 bonjour! 유저의 데이터만 받아올수는 없잖아?
-        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = registerInfo.edit();
-        editor.putString("registerUserName", "Bonjour!");
-        editor.commit();
-
-        // get user preference values
-        String user_nickname = registerInfo.getString("registerUserName", "NULL");
-        getUserPreferences(user_nickname);
-
         // get intent
         Intent intent = getIntent();
+
+        preference = intent.getIntArrayExtra("preference");
+        Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
+
 
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
@@ -329,34 +320,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         mPostReference.updateChildren(childUpdates);
 
         moveCnt++;
-    }
-
-    public void getUserPreferences(final String user_nickname){
-
-        mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    UserData get = postSnapshot.getValue(UserData.class);
-
-                    if(user_nickname.equals(get.nickname)){
-                        preference[0] = (int)get.safeScore;
-                        preference[1] = (int)get.enviScore;
-                        preference[2] = (int)get.popularity;
-
-                        //Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
-
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void addCoordinationID(final Double latitude, final Double longtitude){
