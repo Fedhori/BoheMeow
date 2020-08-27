@@ -11,51 +11,55 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/box_0001_3" />
+        app:layout_constraintVertical_bias="0.374"
+        app:srcCompat="@drawable/register_0002_popup" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <EditText
+        android:id="@+id/idET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="나는..."
-        android:textColor="#006943"
-        android:textSize="15sp"
+        android:layout_marginTop="64dp"
+        android:ems="10"
+        android:hint="아이디가 입력됩니다"
+        android:inputType="textPersonName"
+        android:textColor="#0F2175"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/nickname_ET"
-        android:layout_width="150dp"
+        android:id="@+id/passwordET"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/box_0004_layer_3"
+        android:layout_marginTop="128dp"
         android:ems="10"
-        android:hint="닉네임을 입력하세요..."
-        android:inputType="textPersonName"
-        android:textColor="#81D5F8"
-        android:textSize="12sp"
+        android:hint="비밀번호가 입력됩니다"
+        android:inputType="textPassword"
+        android:textColor="#0F2175"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/nicknameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="...라고 불러줘!"
-        android:textColor="#006943"
-        android:textSize="15sp"
+        android:layout_marginTop="224dp"
+        android:ems="10"
+        android:hint="닉네임이 입력됩니다"
+        android:inputType="textPersonName"
+        android:textColor="#0F2175"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.679"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -64,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cat_face"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/box_0002_2" />
 
@@ -71,8 +76,9 @@
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/box_0003_1" />
 
@@ -80,9 +86,10 @@
         android:id="@+id/cat_face"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="308dp"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/beth_0000" />
 
@@ -100,14 +107,14 @@
         app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
     <ImageButton
-        android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:id="@+id/registerBtn"
+        android:layout_width="51dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/box_0000_click" />
+        app:srcCompat="@drawable/register_0001_check" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

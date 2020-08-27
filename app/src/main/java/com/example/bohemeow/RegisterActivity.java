@@ -29,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private DatabaseReference mPostReference;
 
+    EditText idET;
+    EditText passwordET;
     EditText nicknameET;
     ImageButton registerBtn;
 
@@ -42,8 +44,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        nicknameET = (EditText) findViewById(R.id.nickname_ET);
-        registerBtn = (ImageButton) findViewById(R.id.register_btn);
+        idET = (EditText) findViewById(R.id.idET);
+        passwordET = (EditText) findViewById(R.id.passwordET);
+        nicknameET = (EditText) findViewById(R.id.nicknameET);
+        registerBtn = (ImageButton) findViewById(R.id.registerBtn);
         catFace = (ImageView) findViewById(R.id.cat_face);
         catText = (TextView) findViewById(R.id.cat_text);
 
@@ -51,12 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(nicknameET.length() == 0){
-                    catText.setText("이름이 빈칸일수는 없지 않을까?");
+                if(nicknameET.length() * passwordET.length() * idET.length() == 0){
+                    catText.setText("비어있는 칸이 있어!");
                 }
                 else{
 
                     final String new_nickname = nicknameET.getText().toString();
+                    final String new_id = idET.getText().toString();
+                    final String new_password = passwordET.getText().toString();
 
                     mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -75,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 catText.setText("그 이름은 이미 존재해. 다른 이름은 어때?");
                             }
                             else{
-                                addNewUser(new_nickname, "tempID", "tempPassword");
+                                addNewUser(new_nickname, new_id, new_password);
                                 catText.setText(new_nickname + "!! \n멋진 이름이야. \n앞으로 잘 부탁해, " + new_nickname + ".");
                                 catFace.setImageResource(R.drawable.beth_0001);
 
@@ -84,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 editor.putString("registerUserName", new_nickname);
                                 editor.commit();
 
-                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
                         }
