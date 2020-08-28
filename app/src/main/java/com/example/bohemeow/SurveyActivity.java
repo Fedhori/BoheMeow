@@ -17,10 +17,10 @@ public class SurveyActivity extends AppCompatActivity{
 
     // this string array will store surveys text
     String[] surveys = {
-            "느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다",
-            "솔직히 민트초코는 맛있다.",
-            "나는 지금 피곤하다",
-            "나는 개발중이다"
+            "푸른 풍경을 보다보면 스트레스가 풀린다",
+            "어둠 속에서 걷는 걸 즐긴다",
+            "노래방에서 낭만고양이를 부르곤 한다",
+            "가끔 광합성이 필요하다"
     };
 
     boolean[] answers = new boolean[100];

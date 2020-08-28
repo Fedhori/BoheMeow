@@ -56,19 +56,34 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             boolean isLoginSuccess = false;
+                            boolean isSurveyComplete = false;
 
                             for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                 UserData get = postSnapshot.getValue(UserData.class);
 
                                 if(id.equals(get.id) && password.equals(get.password)){
                                     isLoginSuccess = true;
+                                    if(get.popularity == -1){
+                                        isSurveyComplete = false;
+                                    }
+                                    else{
+                                        isSurveyComplete = true;
+                                    }
                                 }
                             }
 
                             // someday, you need to add sharedpreference stuff
                             if(isLoginSuccess){
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
+                                // go to main menu
+                                if(isSurveyComplete){
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                // go to survey screen
+                                else{
+                                    Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                                    startActivity(intent);
+                                }
                             }
                             else{
                                 //catText.setText("아이디나 비밀번호가 잘못됐어!");

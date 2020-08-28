@@ -19,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -75,6 +77,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private TMapView tMapView = null;
     private Context context;
 
+    Button walkEndBtn;
 
     private TMapPolyLine userRoute = null;
     private double[] lastLatitudes = new double[10];
@@ -118,8 +121,19 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // get intent
         Intent intent = getIntent();
 
+        walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
+
+        walkEndBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                startActivity(intent);
+            }
+        });
+
         preference = intent.getIntArrayExtra("preference");
-        Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
+        //Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
 
 
         // set t map view
@@ -235,7 +249,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             TMapPoint point = gps.getLocation();
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
-            Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
+            //Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
 
             userlat = point.getLatitude();
             userlng = point.getLongitude();
