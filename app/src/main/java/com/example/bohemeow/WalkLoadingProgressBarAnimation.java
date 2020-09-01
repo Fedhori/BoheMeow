@@ -8,18 +8,27 @@ import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ProgressBarAnimation extends Animation {
+import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class WalkLoadingProgressBarAnimation extends Animation {
     private Context context;
     private ProgressBar progressBar;
     private float from;
     private float to;
+    private int[] preference;
 
-    public ProgressBarAnimation(Context context, ProgressBar progressBar, float from, float to){
+    public WalkLoadingProgressBarAnimation(Context context, ProgressBar progressBar, float from, float to, int[] preference){
         this.context = context;
         this.progressBar = progressBar;
         this.from = from;
         this.to = to;
+        this.preference = preference;
     }
 
     @Override
@@ -29,19 +38,9 @@ public class ProgressBarAnimation extends Animation {
         progressBar.setProgress((int) value);
 
         if(value == to){
-
-            SharedPreferences registerInfo = context.getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-            // user hasn't registered yet
-            if(registerInfo.getString("registerUserName", "NULL").equals("NULL")){
-                Intent intent = new Intent(context, LoginActivity.class);
-                context.startActivity(intent);
-            }
-            // user already registered
-            else{
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
-            }
-
+            Intent intent = new Intent(context, WalkActivity.class);
+            intent.putExtra("preference", preference);
+            context.startActivity(intent);
         }
     }
 }

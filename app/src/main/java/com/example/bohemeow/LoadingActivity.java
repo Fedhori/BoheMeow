@@ -40,8 +40,7 @@ public class LoadingActivity extends AppCompatActivity {
         editor.putString("registerUserName", "NULL");
         editor.commit();
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         progressBar = findViewById(R.id.progress_bar);
         loadingText = findViewById(R.id.loading_text);
@@ -55,7 +54,7 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     public void progressAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(this, progressBar, loadingText, 0f, 100f);
+        ProgressBarAnimation anim = new ProgressBarAnimation(this, progressBar, 0f, 100f);
         anim.setDuration(8000);
         progressBar.setAnimation(anim);
     }

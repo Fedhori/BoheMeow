@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText idET;
     EditText passwordET;
 
-    Button registerBtn;
-    Button loginBtn;
+    ImageButton registerBtn;
+    ImageButton loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +39,15 @@ public class LoginActivity extends AppCompatActivity {
         idET = (EditText) findViewById(R.id.idET);
         passwordET = (EditText) findViewById(R.id.passwordET);
 
-        registerBtn = (Button) findViewById(R.id.registerBtn);
-        loginBtn = (Button) findViewById(R.id.loginBtn);
+        registerBtn = (ImageButton) findViewById(R.id.registerBtn);
+        loginBtn = (ImageButton) findViewById(R.id.loginBtn);
 
         loginBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 if(passwordET.length() * idET.length() == 0){
-                    //catText.setText("비어있는 칸이 있어!");
+                    Toast.makeText(LoginActivity.this, "아이디나 비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
                 }
                 else{
 
@@ -86,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             else{
-                                //catText.setText("아이디나 비밀번호가 잘못됐어!");
+                                Toast.makeText(LoginActivity.this, "잘못된 아이디나 비밀번호입니다.", Toast.LENGTH_LONG).show();
                             }
                         }
 
