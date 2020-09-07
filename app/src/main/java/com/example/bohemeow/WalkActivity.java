@@ -29,8 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapGpsManager.onLocationChangedCallback;
@@ -474,33 +472,36 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         JSONObject subJsonObject = addJsonArray.getJSONObject(i);
                         String types = subJsonObject.getString("types");
                         JSONArray typJsonArray = new JSONArray(types);
+                        boolean isSuccess = false;
                         for (int j = 0; j < typJsonArray.length(); j++) {
                             if(typJsonArray.optString(j).equals("locality")){
                                 region = subJsonObject.getString("short_name");
-
-                                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-
-                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
-                                            System.out.println("\nnew region");
-
-                                            Intent intent = new Intent(WalkActivity.this, SpotSearcher_nearby.class);
-                                            intent.putExtra("Region", region);
-                                            startActivity(intent);
-                                        }
-
-                                        makeList();
-
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    }
-                                });
-
+                                setRegion(region);
+                                isSuccess = true;
                             }
+                        }
+                        if(isSuccess == false){
+                            for (int j = 0; j < typJsonArray.length(); j++) {
+                                if(typJsonArray.optString(j).equals("administrative_area_level_1")){
+                                    region = subJsonObject.getString("short_name");
+
+                                    String[] Do = new String[] {"경상남도", "경상북도", "충청남도", "충청북도", "전라남도", "전라북도", "경기도", "강원도"};
+                                    for (String d : Do){
+                                        if(region.equals(d)) {
+                                            JSONObject subJsonObject2 = addJsonArray.getJSONObject(i-1);
+                                            region = subJsonObject2.getString("short_name");
+                                            setRegion(region);
+                                            isSuccess = true;
+                                            break;
+                                        }
+                                    }
+                                    if(isSuccess == false) {
+                                        setRegion(region);
+                                        break;
+                                    }
+                                }
+                            }
+
                         }
 
                     }
@@ -512,6 +513,31 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 }
             }
         }.start();
+
+    }
+
+    void setRegion(final String region){
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
+                    System.out.println("\nnew region");
+
+                    Intent intent = new Intent(WalkActivity.this, SpotSearcher_nearby.class);
+                    intent.putExtra("Region", region);
+                    startActivity(intent);
+                }
+
+                makeList();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
     }
 
