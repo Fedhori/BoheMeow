@@ -26,6 +26,8 @@
         <activity android:name=".MainMenu" />
         <activity android:name=".SpotSearcher_nearby" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".CommunityActivity" />
+        <activity android:name=".add_post" />
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

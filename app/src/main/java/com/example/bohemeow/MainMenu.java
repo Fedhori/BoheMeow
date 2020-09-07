@@ -16,6 +16,16 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        Button communityBtn = (Button) findViewById(R.id.btn_community);
+        communityBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenu.this, CommunityActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Button selectBtn = (Button) findViewById(R.id.btn_to_select);
         selectBtn.setOnClickListener(new View.OnClickListener(){
 
