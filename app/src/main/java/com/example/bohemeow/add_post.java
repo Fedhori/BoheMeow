@@ -70,7 +70,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        name = intent.getStringExtra("name");
+        //name = intent.getStringExtra("name");
 
         Button create_post_btn = (Button) findViewById(R.id.create_post_btn);
 
@@ -105,7 +105,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
 
                     Intent intent = new Intent(add_post.this, CommunityActivity.class);
                     intent.putExtra("username", username);
-                    intent.putExtra("name", name);
+                    //intent.putExtra("name", name);
                     startActivity(intent);
                 }
             }

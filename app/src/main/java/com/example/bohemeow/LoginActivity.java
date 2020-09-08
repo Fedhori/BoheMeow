@@ -60,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
                             boolean isLoginSuccess = false;
                             boolean isSurveyComplete = false;
 
+                            String username = "";
+
                             for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                 UserData get = postSnapshot.getValue(UserData.class);
 
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                                     else{
                                         isSurveyComplete = true;
                                     }
+                                    username = get.nickname;
                                 }
                             }
 
@@ -84,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // go to survey screen
                                 else{
                                     Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                                    intent.putExtra("username", username);
                                     startActivity(intent);
                                 }
                             }
