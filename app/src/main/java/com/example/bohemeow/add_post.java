@@ -70,7 +70,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        name = intent.getStringExtra("name");
+        //name = intent.getStringExtra("name");
 
         Button create_post_btn = (Button) findViewById(R.id.create_post_btn);
 
@@ -79,49 +79,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // show drawer
-        /*
-        drawerLayout2 = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.drawer);
-        navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,
-                drawerLayout2, tb, R.string.app_name, R.string.app_name);
-        drawerToggle.syncState();
 
-        View headerView = navigationView.getHeaderView(0);
-        Menu menu = navigationView.getMenu();
-
-        user_icon = headerView.findViewById(R.id.user_icon);
-        TextView user_name = headerView.findViewById(R.id.user_name);
-        MenuItem full_name = menu.findItem(R.id.full_name);
-
-        user_name.setText(username);
-        full_name.setTitle(name);
-
-        StorageReference islandRef = mStorageRef.child(username + ".jpg");
-        final long ONE_MEGABYTE = 4096 * 4096;
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                user_icon.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-        user_icon.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);
-            }
-        });
-        */
 
         imageButton.setOnClickListener(new View.OnClickListener(){
 
@@ -147,7 +105,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
 
                     Intent intent = new Intent(add_post.this, CommunityActivity.class);
                     intent.putExtra("username", username);
-                    intent.putExtra("name", name);
+                    //intent.putExtra("name", name);
                     startActivity(intent);
                 }
             }
@@ -208,12 +166,8 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
             tags = tagET.getText().toString();
         }
 
-        if(checkBox.isChecked()){
-            postType = "Public";
-        }
-        else{
-            postType = "Personal";
-        }
+        postType = "Public";
+
 
         childUpdates = new HashMap<>();
         postValues = null;

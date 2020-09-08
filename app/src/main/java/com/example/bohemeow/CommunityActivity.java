@@ -1,6 +1,8 @@
 package com.example.bohemeow;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,7 +41,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
     String name;
 
     DrawerLayout drawerLayout;
-    TabLayout tabLayout;
+    //TabLayout tabLayout;
     ViewPager2 viewPager;
 
     ImageView user_icon;
@@ -48,18 +51,30 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        // someday.. 언제나 bonjour! 유저의 데이터만 받아올수는 없잖아?
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = registerInfo.edit();
+        editor.putString("registerUserName", "Bonjour!");
+        editor.commit();
+
+        // get user preference values
+        username = registerInfo.getString("registerUserName", "NULL");
+
         // get user icon
         mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
 
         // get intent from add_post
+        /*
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         name = intent.getStringExtra("name");
+        */
 
         // view pager
         viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabs);
+        //tabLayout = findViewById(R.id.tabs);
         viewPager.setAdapter(createCardAdapter());
+        /*
         new TabLayoutMediator(tabLayout, viewPager,
                 new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override
@@ -72,7 +87,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
                         }
                     }
                 }).attach();
-
+         */
         // button
         Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
 
@@ -82,50 +97,6 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        // show drawer
-        /*
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.drawer);
-        navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this,
-                drawerLayout, tb, R.string.app_name, R.string.app_name);
-        drawerToggle.syncState();
-
-        View headerView = navigationView.getHeaderView(0);
-        Menu menu = navigationView.getMenu();
-
-        user_icon = headerView.findViewById(R.id.user_icon);
-        TextView user_name = headerView.findViewById(R.id.user_name);
-        MenuItem full_name = menu.findItem(R.id.full_name);
-
-        user_name.setText(username);
-        full_name.setTitle(name);
-
-        StorageReference islandRef = mStorageRef.child(username + ".jpg");
-        final long ONE_MEGABYTE = 4096 * 4096;
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                user_icon.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-        // click user icon in drawer
-        user_icon.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);
-            }
-        });
-         */
 
         // add post button
         add_post_btn.setOnClickListener(new View.OnClickListener(){
@@ -134,7 +105,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
             public void onClick(View view) {
                 Intent intent = new Intent(CommunityActivity.this, add_post.class);
                 intent.putExtra("username", username);
-                intent.putExtra("name", name);
+                //intent.putExtra("name", name);
                 startActivity(intent);
             }
         });
@@ -151,7 +122,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
     }
 
     public class ViewPagerAdapter extends FragmentStateAdapter {
-        private static final int CARD_ITEM_SIZE = 2;
+        private static final int CARD_ITEM_SIZE = 1;
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
