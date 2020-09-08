@@ -39,7 +39,7 @@ public class fragment extends Fragment {
 
 
     private static final String ARG_COUNT = "param1";
-    private static int counter;
+    //private static int counter;
 
     public fragment() {
         // Required empty public constructor
@@ -48,7 +48,7 @@ public class fragment extends Fragment {
     public static fragment newInstance(Integer counter) {
         fragment fragment = new fragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COUNT, counter);
+        //args.putInt(ARG_COUNT, counter);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +57,7 @@ public class fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            counter = getArguments().getInt(ARG_COUNT);
+            //counter = getArguments().getInt(ARG_COUNT);
         }
     }
 
@@ -77,6 +77,48 @@ public class fragment extends Fragment {
 
         final TextView textViewCounter = view.findViewById(R.id.textViewFrag);
 
+        textViewCounter.setText("No post");
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new CustomAdapter( mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        // get data
+
+        final ValueEventListener postListener = new ValueEventListener(){
+
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mArrayList.clear();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    postData get = postSnapshot.getValue(postData.class);
+                    post data = new post(get.username, get.content, get.tags);
+                    mArrayList.add(data);
+                    textViewCounter.setText("");
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        mPostReference.child("post_list").addValueEventListener(postListener);
+
+        /*
         if(counter == 0){
 
             textViewCounter.setText("No post");
@@ -171,5 +213,6 @@ public class fragment extends Fragment {
             mPostReference = FirebaseDatabase.getInstance().getReference();
             mPostReference.child("post_list").addValueEventListener(postListener);
         }
+        */
     }
 }
