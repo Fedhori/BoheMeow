@@ -393,20 +393,26 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                             System.out.println("ID check line");
                             num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
-                            temp_list.put("visit", num + 1);
-                            childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
-                            myRef.updateChildren(childUpdates);
+                            myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+1);
+                            //temp_list.put("visit", num + 1);
+                            //childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
+                            //myRef.updateChildren(childUpdates);
+
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+1);
+                            num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+1);
 
                         }
                         else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){
 
-                            System.out.println("temp check line");
-                            System.out.println(dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            System.out.println();
                             num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
 
-                            temp_list.put("count", num + 1);
-                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
-                            myRef.updateChildren(childUpdates);
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("count").setValue(num+1);
+                            //temp_list.put("count", num + 1);
+                            //childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            //myRef.updateChildren(childUpdates);
 
                             if(num >= 5){
                                 System.out.println("delete");
