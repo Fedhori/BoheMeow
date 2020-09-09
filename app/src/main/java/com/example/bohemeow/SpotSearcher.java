@@ -3,7 +3,6 @@ package com.example.bohemeow;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +17,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-public class SpotSearcher_nearby extends AppCompatActivity {
+public class SpotSearcher extends AppCompatActivity {
 
     //좌표를 조회해서 현재 시, 구 정보 가져올 수 있도록 추후 수정
     String region = "Jangan-gu, Suwon-si";
@@ -26,6 +25,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
     String type = "park";
 
     public String page_token = "";
+    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo";
 
 
 
@@ -43,7 +43,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
 
         final ArrayList<String> placeIDs = new ArrayList<>();
 
-        final SecondFilter sf = new SecondFilter(this);
+        final SpotFilter sf = new SpotFilter(this);
 
         new Thread() {
             public void run() {
@@ -75,7 +75,7 @@ public class SpotSearcher_nearby extends AppCompatActivity {
         }else{
             uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + type + "+in+" + region +
                     "&region=kr&language=ko&type="+ type +
-                    "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                    "&key=" + key;
         }
         System.out.println("\nURI = " + uri);
         String page = "";

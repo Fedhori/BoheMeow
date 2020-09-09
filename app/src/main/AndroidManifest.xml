@@ -24,7 +24,7 @@
         <activity android:name=".WalkActivity" />
         <activity android:name=".SelectActivity" />
         <activity android:name=".MainMenu" />
-        <activity android:name=".SpotSearcher_nearby" />
+        <activity android:name=".SpotSearcher" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CommunityActivity" />
         <activity android:name=".add_post" />
