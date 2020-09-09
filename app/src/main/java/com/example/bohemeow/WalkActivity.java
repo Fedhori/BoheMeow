@@ -5,10 +5,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -104,6 +102,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int num = 1 + min / 30; //선택할 스팟 수
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
+
+    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -340,7 +340,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void run() {
 
                 String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
-                        "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                        "&language=ko&location_type=ROOFTOP&key=" + key;
 
 
                 String page = "";
@@ -422,7 +422,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                                 ArrayList<String> spot = new ArrayList<>();
                                 spot.add(Place_id);
 
-                                SecondFilter sf = new SecondFilter(WalkActivity.this);
+                                SpotFilter sf = new SpotFilter(WalkActivity.this);
                                 sf.FeatureCalculator(spot, region);
                             }
 
@@ -452,7 +452,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void run() {
 
                 String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
-                        "&language=ko&location_type=ROOFTOP&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                        "&language=ko&location_type=ROOFTOP&key=" + key;
 
                 String page = "";
                 try {
@@ -474,19 +474,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                     String address_components = jsonArray.getJSONObject(0).getString("address_components");
                     JSONArray addJsonArray = new JSONArray(address_components);
-                    for (int i = 0; i < addJsonArray.length(); i++) {
+
+                    boolean isSuccess = false;
+                    for (int i = 0; (i < addJsonArray.length()) && !isSuccess; i++) {
+
                         JSONObject subJsonObject = addJsonArray.getJSONObject(i);
                         String types = subJsonObject.getString("types");
                         JSONArray typJsonArray = new JSONArray(types);
-                        boolean isSuccess = false;
                         for (int j = 0; j < typJsonArray.length(); j++) {
                             if(typJsonArray.optString(j).equals("locality")){
                                 region = subJsonObject.getString("short_name");
                                 setRegion(region);
                                 isSuccess = true;
+                                break;
                             }
                         }
-                        if(isSuccess == false){
+                        if(!isSuccess){
                             for (int j = 0; j < typJsonArray.length(); j++) {
                                 if(typJsonArray.optString(j).equals("administrative_area_level_1")){
                                     region = subJsonObject.getString("short_name");
@@ -501,7 +504,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                                             break;
                                         }
                                     }
-                                    if(isSuccess == false) {
+                                    if(!isSuccess) {
                                         setRegion(region);
                                         break;
                                     }
@@ -532,7 +535,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
                     System.out.println("\nnew region");
 
-                    Intent intent = new Intent(WalkActivity.this, SpotSearcher_nearby.class);
+                    Intent intent = new Intent(WalkActivity.this, SpotSearcher.class);
                     intent.putExtra("Region", region);
                     startActivity(intent);
                 }

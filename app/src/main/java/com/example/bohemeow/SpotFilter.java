@@ -138,11 +138,12 @@ class SpotDetail {
 
 }
 
-public class SecondFilter {
+public class SpotFilter {
 
+    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo";
     private Context mContext = null;
 
-    public SecondFilter(Context context) {
+    public SpotFilter(Context context) {
         this.mContext = context;
     }
 
@@ -166,7 +167,7 @@ public class SecondFilter {
         SpotDetail spot = new SpotDetail();
 
         String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + place_id +
-                "&language=ko&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                "&language=ko&key=" + key;
         URL url;
         URLConnection urlConnection;
         String page = "";
@@ -269,7 +270,7 @@ public class SecondFilter {
                 "&radius=" + radius +
                 "&type=" + type +
                 //"&keyword=" + keyword +
-                "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+                "&key=" + key;
 
         String page = "";
 
