@@ -36,6 +36,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        /*
         Button tempBtn = (Button) findViewById(R.id.btn_furniture);
         tempBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -45,5 +46,7 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+         */
     }
 }

@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(isLoginSuccess){
                                 // go to main menu
                                 if(isSurveyComplete){
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainMenu.class);
                                     startActivity(intent);
                                 }
                                 // go to survey screen
