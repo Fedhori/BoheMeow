@@ -110,13 +110,17 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }
         });
+
+
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -148,7 +152,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
             }
         }
     }
-
+ */
     public void postFirebaseDatabase(boolean add){
 
         String uri = "";

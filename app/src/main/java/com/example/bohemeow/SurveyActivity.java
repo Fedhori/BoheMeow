@@ -75,7 +75,7 @@ public class SurveyActivity extends AppCompatActivity{
     float proceed_size = 52f;
     float center_x = 720f;
 
-    int[] preference = {10, 10, 10};
+    int[] preference = {5, 5, 5};
 
 
     @Override
