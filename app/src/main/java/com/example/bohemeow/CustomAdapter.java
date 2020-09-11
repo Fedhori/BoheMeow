@@ -32,6 +32,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView usernameTV;
         TextView contentTV;
         TextView tagTV;
+        TextView timeTV;
 
 
         public CustomViewHolder(View view) {
@@ -41,6 +42,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.usernameTV = (TextView) view.findViewById(R.id.user_name);
             this.contentTV = (TextView) view.findViewById(R.id.content);
             this.tagTV = (TextView) view.findViewById(R.id.tags);
+            this.timeTV = (TextView) view.findViewById(R.id.time);
         }
     }
 
@@ -54,8 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.post, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post, viewGroup, false);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
@@ -71,7 +72,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String username = mList.get(position).getUsername();
         String content = mList.get(position).getContent();
         String tag = mList.get(position).getTags();
+        String time = mList.get(position).getTime();
 
+        /*
         // set post's icon image
         mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
         StorageReference islandRef = mStorageRef.child(username + ".jpg");
@@ -88,10 +91,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
             }
         });
+         */
 
         // set post's content image
+        StorageReference islandRef;
+        final long ONE_MEGABYTE = 2048 * 2048;
+
         mStorageRef = FirebaseStorage.getInstance().getReference("Post_images");
-        islandRef = mStorageRef.child(content + ".jpg");
+        islandRef = mStorageRef.child(time + ".jpg");
         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -108,6 +115,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.usernameTV.setText(username);
         viewholder.contentTV.setText(content);
         viewholder.tagTV.setText(tag);
+        viewholder.timeTV.setText(time);
     }
 
     @Override

@@ -23,8 +23,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class add_post extends AppCompatActivity{
 
@@ -127,7 +131,6 @@ public class add_post extends AppCompatActivity{
         String uri = "";
         String content = "";
         String tags = "";
-        String postType = "";
 
         if(currentPostImage!=null){
             uri = currentPostImage.toString();
@@ -139,14 +142,21 @@ public class add_post extends AppCompatActivity{
             tags = tagET.getText().toString();
         }
 
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        df.setTimeZone(tz);
+        String time = df.format(date);
+
+
 
         childUpdates = new HashMap<>();
         postValues = null;
         if(add){
-            postData data = new postData(username, uri, content, tags, postType);
+            postData data = new postData(username, uri, content, tags, time);
             postValues = data.toMap();
         }
-        childUpdates.put("/post_list/" + content, postValues);
+        childUpdates.put("/post_list/" + time, postValues);
 
 
         // image exist
@@ -156,7 +166,7 @@ public class add_post extends AppCompatActivity{
 
             StorageReference mPostRef = FirebaseStorage.getInstance().getReference("Post_images");;
 
-            StorageReference riversRef = mPostRef.child(content+".jpg");
+            StorageReference riversRef = mPostRef.child(time+".jpg");
             UploadTask uploadTask = riversRef.putFile(currentPostImage);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
