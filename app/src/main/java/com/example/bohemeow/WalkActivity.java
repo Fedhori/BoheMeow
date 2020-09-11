@@ -56,12 +56,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 
-class Spot {
-    String place_id;
-    String name;
-    int score = 0;
-    double lat, lng;
-}
+
 
 
 
@@ -85,9 +80,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private boolean isFirstLocation = false;
 
-    private double userlat;
-    private double userlng;
+    //private double userlat;
+    //private double userlng;
     String region = "";
+
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -95,12 +91,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private double prevLong = -1f;
     private int moveCnt = 0;
 
-    private int min = 60; //소요 시간
-    private int speed = 60; //보행자 속도
-
-    int num = 1 + min / 30; //선택할 스팟 수
-
-    int[] preference = new int[3];//0:safe 1:envi 2:popularity
+    //int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
 
@@ -122,7 +113,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         // get intent
         Intent intent = getIntent();
-        preference = intent.getIntArrayExtra("preference");
+        //preference = intent.getIntArrayExtra("preference");
+        region = intent.getStringExtra("region");
+        double[] lats = intent.getDoubleArrayExtra("lats");
+        double[] lngs = intent.getDoubleArrayExtra("lngs");
+
+        ArrayList<TMapPoint> spots = new ArrayList<>();
+        for(int i = 0; lats[i] != -1; i++){
+            spots.add(new TMapPoint(lats[i], lngs[i]));
+        }
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
         walkEndBtn.setOnClickListener(new View.OnClickListener(){
@@ -143,6 +142,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute = new TMapPolyLine();
         userRoute.setLineColor(Color.RED);
         userRoute.setLineWidth(1);
+
+        for(int i = 0; i<spots.size() - 1; i++){
+            drawMarker(spots.get(i));
+            drawPedestrianPath(spots.get(i), spots.get(i+1));
+        }
 
         /*
         SharedPreferences pref = getSharedPreferences("isGranted", MODE_PRIVATE);
@@ -244,10 +248,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
 
-            userlat = point.getLatitude();
-            userlng = point.getLongitude();
-            getRegion(userlat, userlng);
-            //makeList();
         }
 
         lastLatitudes[curPos] = location.getLatitude();
@@ -440,350 +440,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     }
 
-    void getRegion(final double latitude, final double longtitude){
-        //final String[] region = {""};
-
-        new Thread() {
-            public void run() {
-
-                String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
-                        "&language=ko&location_type=ROOFTOP&key=" + key;
-
-                String page = "";
-                try {
-                    URL url = new URL(uri);
-                    URLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-                    Log.d("line:", bufreader.toString());
-                    System.out.println("\ncheckpoint");
-                    String line;
-
-                    while ((line = bufreader.readLine()) != null) {
-                        Log.d("line:", line);
-                        page += line;
-                    }
-
-                    JSONObject jsonObject = new JSONObject(page);
-                    String results = jsonObject.getString("results");
-                    JSONArray jsonArray = new JSONArray(results);
-
-                    String address_components = jsonArray.getJSONObject(0).getString("address_components");
-                    JSONArray addJsonArray = new JSONArray(address_components);
-
-                    boolean isSuccess = false;
-                    for (int i = 0; (i < addJsonArray.length()) && !isSuccess; i++) {
-
-                        JSONObject subJsonObject = addJsonArray.getJSONObject(i);
-                        String types = subJsonObject.getString("types");
-                        JSONArray typJsonArray = new JSONArray(types);
-                        for (int j = 0; j < typJsonArray.length(); j++) {
-                            if(typJsonArray.optString(j).equals("locality")){
-                                region = subJsonObject.getString("short_name");
-                                setRegion(region);
-                                isSuccess = true;
-                                break;
-                            }
-                        }
-                        if(!isSuccess){
-                            for (int j = 0; j < typJsonArray.length(); j++) {
-                                if(typJsonArray.optString(j).equals("administrative_area_level_1")){
-                                    region = subJsonObject.getString("short_name");
-
-                                    String[] Do = new String[] {"경상남도", "경상북도", "충청남도", "충청북도", "전라남도", "전라북도", "경기도", "강원도"};
-                                    for (String d : Do){
-                                        if(region.equals(d)) {
-                                            JSONObject subJsonObject2 = addJsonArray.getJSONObject(i-1);
-                                            region = subJsonObject2.getString("short_name");
-                                            setRegion(region);
-                                            isSuccess = true;
-                                            break;
-                                        }
-                                    }
-                                    if(!isSuccess) {
-                                        setRegion(region);
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }
-
-                    }
-
-                    System.out.println("\nregion: " + region);
-
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-
-    }
-
-    void setRegion(final String region){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
-                    System.out.println("\nnew region");
-
-                    Intent intent = new Intent(WalkActivity.this, SpotSearcher.class);
-                    intent.putExtra("Region", region);
-                    startActivity(intent);
-                }
-
-                makeList();
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-    }
-
-    //=========================================================================================
-    private void makeList(){
-        System.out.println("\nprint: makeList start");
-        final int limitDis = (min * speed) / 2;
-
-
-        final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
-        final ArrayList<Spot> spots= new ArrayList<>();
-
-
-        //region = getRegion(userlat, userlng);
-        //region = region + "-si";
-        //System.out.println("\nRegion: " + region);
-
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference myRef = databaseReference.child("spot_data").child(region).child("spots");
-        //DatabaseReference myRef = databaseReference.child("spot_data").child(getRegion(userlat, userlng)+"-si").child("spots");
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    //보행자 거리를 사용하는 경우
-                    //if (getPedestrianDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                    if (distFrom(userlat, userlng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                        System.out.println("spot: " + spotDetail.getName());
-                        spots.add(simplifySpot(spotDetail));
-                        //System.out.println("\nspots length = " + spots.size());
-                    }
-                }
-
-                if(spots.size() < num) num = spots.size(); //최종 후보가 원래 뽑으려던 스팟 수보다 적을경우 뽑으려던 수 변경
-
-                if(num > 0) chooseSpot(spots, num);
-                else System.out.println("\nThere are no spot in this place!");
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-    }
-
-
-    private int getPedestrianDistance(double lat1, double lng1, double lat2, double lng2) {
-
-        int dis = 0;
-
-        try {
-
-            Thread.sleep(500);
-            String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + lng1 + "&startY=" + lat1 +
-                    "&endName=" + "endPlace" + "&endX=" + lng2 + "&endY=" + lat2 +
-                    "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
-
-            String page = "";
-            URL url = new URL(uri);
-            /*
-            URLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            //Log.d("line:", bufreader.toString());
-            String line = null;
-            while ((line = bufreader.readLine()) != null) {
-                //Log.d("line:", line);
-                page += line;
-            }
-             */
-
-            //JSONObject jsonObject = new JSONObject(page);
-            getJsonObjectTask task = new getJsonObjectTask();
-
-            JSONObject jsonObject = task.execute(url).get();
-            System.out.println("\nC : " + jsonObject);
-            String features = jsonObject.getString("features");
-            JSONArray jsonArray = new JSONArray(features);
-            JSONObject subJsonObject = jsonArray.getJSONObject(0);
-            String properties = subJsonObject.getString("properties");
-            JSONObject subJsonObject2 = new JSONObject(properties);
-            dis = Integer.parseInt(subJsonObject2.getString("totalDistance"));
-            System.out.println("\nD distance : " + dis);
-
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e){ //나중에 꼭 고치기. 원인 못찾음. 발생하는 상황도 예측 불가.
-            e.printStackTrace();
-            dis = 10000;
-        }
-        return dis;
-
-    }
-
-    static class getJsonObjectTask extends AsyncTask<URL, Void, JSONObject> {
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected JSONObject doInBackground(URL... urls) {
-            HttpURLConnection con = null;
-            try {
-                con = (HttpURLConnection) urls[0].openConnection();
-                int response = con.getResponseCode();
-                if (response == HttpURLConnection.HTTP_OK) {
-                    StringBuilder builder = new StringBuilder();
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            builder.append(line);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    JSONObject jsonObject = new JSONObject(builder.toString());
-                    //System.out.println("B " + jsonObject);
-                    return jsonObject;
-                }
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            } finally {
-                con.disconnect();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-        }
-    }
-
-    private Spot simplifySpot(SpotDetail spotDetail) {
-        Spot spot = new Spot();
-        //System.out.println("\nName : " + spotDetail.getName());
-
-        spot.place_id = spotDetail.getPlace_id();
-        spot.name = spotDetail.getName();
-        spot.lat = spotDetail.getLat();
-        spot.lng = spotDetail.getLng();
-        spot.score = calculateScore(spotDetail);
-
-        //System.out.println("\tScore: " + spot.score);
-        return spot;
-    }
-
-    private int calculateScore(SpotDetail spotDetail){
-
-        int score = 0;
-        //유저 성향에 따른 가중치 계산 공식 후에 반영할것
-        score += spotDetail.getSafe_score() * preference[0];
-        score += spotDetail.getEnvi_score() * preference[1];
-        score += spotDetail.getUser_score();
-        score += spotDetail.getPopularity() * preference[2];
-
-        return score;
-    }
-
-
-    //------------------------------------------------------------------------------------------
-
-
-    void chooseSpot(ArrayList<Spot> spots, int num) {
-        int limitDis = (min * speed / num) * (2);
-
-        Map<Spot, Integer> temp = new HashMap<>();
-        ArrayList<Spot> selected = new ArrayList<>();
-
-        for (Spot s : spots) {
-            temp.put(s, s.score);
-        }
-
-        Random rand = new Random();
-
-        System.out.println("\n<Selected>");
-
-        for (int i = 0; i < num; i++) {
-
-            Spot spot = getWeightedRandom(temp, rand);
-            System.out.println("\n" + spot.name);
-
-            temp.remove(spot);
-            if(getPedestrianDistance(userlat, userlng, spot.lat, spot.lng) > limitDis) {
-                i -= 1;
-            }
-            else selected.add(spot);
-            if(temp.size() == 0) break;
-
-        }
-
-            /*
-            ArrayList<Integer> dis = new ArrayList<>();
-            dis.add(getPedestrianDistance(userlat, userlng, locations.get(0).lat, locations.get(0).lng));
-            for (int i = 0; i < num - 1; i++) {
-                dis.add(getPedestrianDistance(locations.get(i).lat, locations.get(i).lng, locations.get(i + 1).lat, locations.get(i + 1).lng));
-            }
-            dis.add(getPedestrianDistance(locations.get(num - 1).lat, locations.get(num - 1).lng, userlat, userlng));
-
-            int totalDis = 0;
-            for(int d: dis) totalDis += d;
-            if(totalDis <= limitDis) break;
-             */
-
-
-        System.out.println("\n[" + userlat + ", " + userlng + "]");
-
-        for (Spot s : selected) {
-            System.out.println("\n[" + s.lat + ", " + s.lng + "]");
-        }
-
-        sortSpot(selected);
-    }
-
-    private static <Spot> Spot getWeightedRandom(Map<Spot, Integer> weights, Random random) {
-
-        Spot result = null;
-        double bestValue = Double.MAX_VALUE;
-
-        for (Spot element : weights.keySet()) {
-            double value = -Math.log(random.nextDouble()) / weights.get(element);
-            if (value < bestValue) {
-                bestValue = value;
-                result = element;
-            }
-        }
-        return result;
-    }
-
-
 
     //------------------------------------------------------------------
 
-
+/*
     void sortSpot(ArrayList<Spot> selected){
 
         Comparator<Spot> comparator = new Comparator<Spot>() {
@@ -814,4 +474,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         }
 
     }
+
+ */
+
+
 }
