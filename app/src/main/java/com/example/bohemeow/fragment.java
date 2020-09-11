@@ -104,7 +104,7 @@ public class fragment extends Fragment {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     postData get = postSnapshot.getValue(postData.class);
-                    post data = new post(get.username, get.content, get.tags);
+                    post data = new post(get.username, get.content, get.tags, get.time);
                     mArrayList.add(data);
                     textViewCounter.setText("");
                 }

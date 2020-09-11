@@ -4,11 +4,13 @@ public class post {
     String username;
     String content;
     String tags;
+    String time;
 
-    public post(String username, String content, String tags) {
+    public post(String username, String content, String tags, String time) {
         this.username = username;
         this.content = content;
         this.tags = tags;
+        this.time = time;
     }
 
     public String getUsername() {
@@ -34,4 +36,13 @@ public class post {
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
+

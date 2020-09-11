@@ -72,10 +72,12 @@
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sub_btn"
         app:srcCompat="@drawable/startwalk_0003_cancel" />
 
     <ImageButton
@@ -86,6 +88,7 @@
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/back_btn"
         app:srcCompat="@drawable/startwalk_0002_permit" />
 
     <TextView
