@@ -5,10 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,12 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,9 +26,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class add_post extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
-    DrawerLayout drawerLayout2;
+public class add_post extends AppCompatActivity{
 
     Map<String, Object> childUpdates;
     Map<String, Object> postValues;
@@ -51,7 +43,6 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
     ImageButton imageButton;
     EditText contentET;
     EditText tagET;
-    CheckBox checkBox;
 
     String username;
     String name;
@@ -72,17 +63,9 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
         username = intent.getStringExtra("username");
         //name = intent.getStringExtra("name");
 
-        Button create_post_btn = (Button) findViewById(R.id.create_post_btn);
-
-        // add toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(tb);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
 
         imageButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -92,6 +75,17 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
 
 
 
+        ImageButton cancel_btn = findViewById(R.id.cancel_btn);
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(add_post.this, CommunityActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        ImageButton create_post_btn = findViewById(R.id.create_post_btn);
         create_post_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -112,39 +106,14 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
         });
 
 
+
+
     }
 
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE){
-            currentImageUri = data.getData();
-            boolean imageUriChecker = true;
-            user_icon.setImageURI(currentImageUri);
-            StorageReference riversRef = mStorageRef.child(username+".jpg");
-            UploadTask uploadTask = riversRef.putFile(currentImageUri);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-                }
-            });
-        }
-        else if(requestCode == SELECT_IMAGE){
+        if(requestCode == SELECT_IMAGE){
             if(data.getData() != null) {
                 currentPostImage = data.getData();
                 boolean imageUriChecker = true;
@@ -152,7 +121,7 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
             }
         }
     }
- */
+
     public void postFirebaseDatabase(boolean add){
 
         String uri = "";
@@ -169,8 +138,6 @@ public class add_post extends AppCompatActivity implements NavigationView.OnNavi
         if(tagET.getText() != null){
             tags = tagET.getText().toString();
         }
-
-        postType = "Public";
 
 
         childUpdates = new HashMap<>();

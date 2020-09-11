@@ -31,7 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
-public class CommunityActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class CommunityActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 777;
     private StorageReference mStorageRef;
@@ -40,8 +40,6 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
     String username;
     String name;
 
-    DrawerLayout drawerLayout;
-    //TabLayout tabLayout;
     ViewPager2 viewPager;
 
     ImageView user_icon;
@@ -49,7 +47,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.activity_community);
 
         // someday.. 언제나 bonjour! 유저의 데이터만 받아올수는 없잖아?
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
@@ -63,41 +61,13 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
         // get user icon
         mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
 
-        // get intent from add_post
-        /*
-        Intent intent = getIntent();
-        username = intent.getStringExtra("username");
-        name = intent.getStringExtra("name");
-        */
 
         // view pager
         viewPager = findViewById(R.id.view_pager);
-        //tabLayout = findViewById(R.id.tabs);
         viewPager.setAdapter(createCardAdapter());
-        /*
-        new TabLayoutMediator(tabLayout, viewPager,
-                new TabLayoutMediator.TabConfigurationStrategy() {
-                    @Override
-                    public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                        if(position == 0){
-                            tab.setText("PERSONAL");
-                        }
-                        else if(position == 1){
-                            tab.setText("PUBLIC");
-                        }
-                    }
-                }).attach();
-         */
+
         // button
         Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
-
-        // add toolbar
-        Toolbar tb = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(tb);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-
         // add post button
         add_post_btn.setOnClickListener(new View.OnClickListener(){
 
@@ -117,11 +87,6 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
         return adapter;
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-
     public class ViewPagerAdapter extends FragmentStateAdapter {
         private static final int CARD_ITEM_SIZE = 1;
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -136,37 +101,6 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
             return CARD_ITEM_SIZE;
         }
     }
-
-
-    /*
-    // change user icon's image
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE){
-            currentImageUri = data.getData();
-            boolean imageUriChecker = true;
-            user_icon.setImageURI(currentImageUri);
-
-
-            StorageReference riversRef = mStorageRef.child(username+".jpg");
-            UploadTask uploadTask = riversRef.putFile(currentImageUri);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-                }
-            });
-        }
-    }
-     */
 
     @Override
     public void onBackPressed() {
