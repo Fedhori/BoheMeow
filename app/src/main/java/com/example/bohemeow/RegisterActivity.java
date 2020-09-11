@@ -67,18 +67,25 @@ public class RegisterActivity extends AppCompatActivity {
                     mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            boolean isExist = false;
+                            boolean isNicknameExist = false;
+                            boolean isIDExist = false;
 
                             for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                 UserData get = postSnapshot.getValue(UserData.class);
 
                                 if(new_nickname.equals(get.nickname)){
-                                    isExist = true;
+                                    isNicknameExist = true;
+                                }
+                                else if(new_id.equals(get.id)){
+                                    isIDExist = true;
                                 }
                             }
 
-                            if(isExist){
+                            if(isNicknameExist){
                                 catText.setText("그 이름은 이미 존재해. 다른 이름은 어때?");
+                            }
+                            else if(isIDExist){
+                                catText.setText("그 아이디는 이미 존재해. 다른 아아디는 어때?");
                             }
                             else{
                                 addNewUser(new_nickname, new_id, new_password);

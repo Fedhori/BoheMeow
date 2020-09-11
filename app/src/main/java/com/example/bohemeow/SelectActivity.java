@@ -20,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SelectActivity extends AppCompatActivity {
 
+    private DatabaseReference mPostReference;
+    int[] preference = new int[3];//0:safe 1:envi 2:popularity
+
     int time = 30;
     TextView text;
 
@@ -27,10 +30,21 @@ public class SelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_2);
+        Intent intent = getIntent();
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        // 현재는 유저 닉네임이 BonJour! 인 유저만의 정보를 받아올 수 있다. 추후 수정 예정
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = registerInfo.edit();
+        editor.putString("registerUserName", "Bonjour!");
+        editor.commit();
+
+        // get user preference values
+        String user_nickname = registerInfo.getString("registerUserName", "NULL");
+        getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-
-        Intent intent = getIntent();
 
         ImageButton sub_btn = findViewById(R.id.sub_btn);
         sub_btn.setOnClickListener(new View.OnClickListener() {
@@ -69,11 +83,38 @@ public class SelectActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SelectActivity.this, WalkLoadingActivity.class);
                 intent.putExtra("time", time);
+                intent.putExtra("preference", preference);
                 startActivity(intent);
             }
         });
 
+    }
 
+    public void getUserPreferences(final String user_nickname){
 
+        mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    UserData get = postSnapshot.getValue(UserData.class);
+
+                    if(user_nickname.equals(get.nickname)){
+                        preference[0] = (int)get.safeScore;
+                        preference[1] = (int)get.enviScore;
+                        preference[2] = (int)get.popularity;
+
+                        //Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
+
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

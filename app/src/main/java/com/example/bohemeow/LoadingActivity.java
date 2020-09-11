@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,8 +16,8 @@ import java.util.Random;
 
 public class LoadingActivity extends AppCompatActivity {
 
-    ProgressBar progressBar;
     TextView loadingText;
+    long waitingTime = 3000; // millisecond
 
     private String[] loadingTexts = {
             "예의바르게 야옹하는 중",
@@ -33,29 +35,39 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-
-        // 테스트를 위해 넣어둔 코드임, 이러면 매번 접속할때마다 새로 닉네임을 지을 수 있다.
+        // 테스트를 위해 넣어둔 코드임, 이러면 매번 접속할때마다 새로 로그인할 수 있다. (테스트를 위한 자동 로그인 방지용!)
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = registerInfo.edit();
         editor.putString("registerUserName", "NULL");
         editor.commit();
 
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        progressBar = findViewById(R.id.progress_bar);
         loadingText = findViewById(R.id.loading_text);
-
-        progressBar.setMax(100);
-
         Random random = new Random();
         loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
 
-        progressAnimation();
+        Handler hd = new Handler();
+        hd.postDelayed(new splashHandler(), waitingTime); // 1초 후에 hd handler 실행  3000ms = 3초
     }
 
-    public void progressAnimation(){
-        ProgressBarAnimation anim = new ProgressBarAnimation(this, progressBar, 0f, 100f);
-        anim.setDuration(8000);
-        progressBar.setAnimation(anim);
+    private class splashHandler implements Runnable{
+        public void run(){
+            SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+            // user hasn't registered yet
+            if(registerInfo.getString("registerUserName", "NULL").equals("NULL")){
+                Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+            // user already registered
+            else{
+                Intent intent = new Intent(LoadingActivity.this, MainMenu.class);
+                startActivity(intent);
+            }
+            LoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //초반 플래시 화면에서 넘어갈때 뒤로가기 버튼 못누르게 함
     }
 }

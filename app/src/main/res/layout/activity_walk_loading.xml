@@ -18,19 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/walkloading_0004_points" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="80dp"
-
-        android:progressDrawable="@drawable/progress_drawable"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
@@ -93,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="(시간) 후 출발!"
+        android:text="잠시 후 출발!"
         android:textColor="#6491F6"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView12"

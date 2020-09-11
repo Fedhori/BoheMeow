@@ -61,7 +61,6 @@ class Spot {
     String name;
     int score = 0;
     double lat, lng;
-
 }
 
 
@@ -111,6 +110,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     }
 
     @Override
+    public void onBackPressed(){
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
@@ -118,9 +122,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         // get intent
         Intent intent = getIntent();
+        preference = intent.getIntArrayExtra("preference");
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
-
         walkEndBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -129,10 +133,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 startActivity(intent);
             }
         });
-
-        preference = intent.getIntArrayExtra("preference");
-        //Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
-
 
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
@@ -168,9 +168,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 gps.OpenGps();
                 gps.setProvider(TMapGpsManager.NETWORK_PROVIDER);
                 gps.OpenGps();
-
-                userlat = gps.getLocation().getLatitude();
-                userlng = gps.getLocation().getLongitude();
 
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
@@ -241,13 +238,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     @Override
     public void onLocationChange(Location location) {
 
-
         if(!isFirstLocation){
             isFirstLocation = true;
             TMapPoint point = gps.getLocation();
             tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
             tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
-            //Toast.makeText(WalkActivity.this, "Works", Toast.LENGTH_LONG).show();
 
             userlat = point.getLatitude();
             userlng = point.getLongitude();

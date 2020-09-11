@@ -61,12 +61,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:background="#00000000"
+        android:background="@drawable/login_0004_check"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/passwordET"
-        app:srcCompat="@drawable/login_0004_check" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordET" />
 
     <ImageButton
         android:id="@+id/registerBtn"
