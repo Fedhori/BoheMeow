@@ -86,7 +86,7 @@ public class fragment extends Fragment {
 
         mArrayList = new ArrayList<>();
 
-        mAdapter = new CustomAdapter( mArrayList);
+        mAdapter = new CustomAdapter(mArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
 
