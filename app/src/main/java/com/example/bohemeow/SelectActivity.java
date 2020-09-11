@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class SelectActivity extends AppCompatActivity {
 
     int time = 30;
     TextView text;
+    CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
+        checkBox = findViewById(R.id.checkBox);
+
+
 
         ImageButton sub_btn = findViewById(R.id.sub_btn);
         sub_btn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +89,12 @@ public class SelectActivity extends AppCompatActivity {
                 Intent intent = new Intent(SelectActivity.this, WalkLoadingActivity.class);
                 intent.putExtra("time", time);
                 intent.putExtra("preference", preference);
+
+                if(checkBox.isChecked()){
+                    intent.putExtra("isFree", true);
+                }
+                else intent.putExtra("isFree", false);
+
                 startActivity(intent);
             }
         });
