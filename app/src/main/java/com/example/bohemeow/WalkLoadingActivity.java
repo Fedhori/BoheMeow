@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,7 +41,11 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     TextView loadingText;
 
-    long waitingTime = 3000;
+    long textChangeSpan = 1000; // ms
+    Handler handler = new Handler();
+    Runnable runnable;
+
+    long waitingTime = 3000; // ms
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -100,18 +105,6 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 startActivity(intent);
             }
         });
-
-        // change text every X second
-        final Handler handler = new Handler();
-        final int delay = 1000; //milliseconds
-
-        handler.postDelayed(new Runnable(){
-            public void run(){
-                Random random = new Random();
-                loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
-                handler.postDelayed(this, delay);
-            }
-        }, delay);
     }
 
     private void turnGPSOn(){
@@ -153,5 +146,26 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     @Override
     public void onBackPressed() {
         //초반 플래시 화면에서 넘어갈때 뒤로가기 버튼 못누르게 함
+    }
+
+    @Override
+    protected void onResume() {
+        //start handler as activity become visible
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                Random random = new Random();
+                loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
+
+                handler.postDelayed(runnable, textChangeSpan);
+            }
+        }, textChangeSpan);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+        super.onPause();
     }
 }
