@@ -280,6 +280,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     }
 
+    boolean isExist = false;
+    boolean isDone = false;
+
     void setRegion(final String region){
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
@@ -287,27 +290,37 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
+
                 if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
                     System.out.println("\n\n================\nnew region");
 
-                    //SpotSearcher searcher = new SpotSearcher(WalkLoadingActivity.this);
-                    //searcher.Search(region);
-                    SpotSearcher.Search(region);
+                    SpotSearcher searcher = new SpotSearcher(WalkLoadingActivity.this);
+                    searcher.Search(region);
+                    //isExist = true;
+                    //SpotSearcher.Search(region);
+                }
+                else{
+                    isDone = true;
+                    makeList();
                 }
 
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        System.out.println("\n\n===============\ncheck region\n");
-                        if (dataSnapshot.child("spot_data/").child(region).getValue() != null && !isStart){
-                            System.out.println("\n\n===============");
-                            isStart = true;
-                            makeList();
+                if(!isDone) {
+                    final Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!isExist) {
+                                checkDB(region);
+                                System.out.println("\n\n===============\ncheck region\n");
+                                handler2.postDelayed(this, 10000);
+                            } else {
+                                System.out.println("\n\n===============");
+                                makeList();
+                            }
+
                         }
-                    }
-                }, 30000);
+                    }, 120000);
+                }
 
                 //makeList();
 
@@ -319,6 +332,27 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     }
 
+
+
+    void checkDB(final String region){
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                //boolean isExist = false;
+                if (dataSnapshot.child("spot_data/").child(region).getValue() != null) {
+                    isExist = true;
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
     //=========================================================================================
 
 
@@ -339,6 +373,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference myRef = databaseReference.child("spot_data").child(region).child("spots");
         //DatabaseReference myRef = databaseReference.child("spot_data").child(getRegion(userlat, userlng)+"-si").child("spots");
+
+
+        System.out.println("\nprint: makeList continue...");
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -361,6 +398,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 else {
                     System.out.println("\nThere are no spot in this place!");
                     Toast.makeText(WalkLoadingActivity.this, "가능한 스팟이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(WalkLoadingActivity.this, MainMenu.class);
+                    startActivity(intent);
                 }
 
 

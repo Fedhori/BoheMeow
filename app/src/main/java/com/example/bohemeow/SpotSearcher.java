@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class SpotSearcher {
 
+    //private static String region;
     //좌표를 조회해서 현재 시, 구 정보 가져올 수 있도록 추후 수정
     String region = "Jangan-gu, Suwon-si";
     String region_limit = "장안구";
@@ -35,7 +36,9 @@ public class SpotSearcher {
     }
 
 
-    static void Search(String reg){
+
+
+    void Search(String reg){
 
         region = reg;
 
