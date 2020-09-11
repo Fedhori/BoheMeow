@@ -1,5 +1,6 @@
 package com.example.bohemeow;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-public class SpotSearcher extends AppCompatActivity {
+public class SpotSearcher {
 
+    //private static String region;
     //좌표를 조회해서 현재 시, 구 정보 가져올 수 있도록 추후 수정
     String region = "Jangan-gu, Suwon-si";
     String region_limit = "장안구";
@@ -27,28 +29,24 @@ public class SpotSearcher extends AppCompatActivity {
     public String page_token = "";
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo";
 
+    private Context mContext = null;
+
+    public SpotSearcher(Context context) {
+        this.mContext = context;
+    }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        //region = "수원시";
 
-        if(getIntent().getExtras() != null){
-            Intent intent = getIntent();
-            region = intent.getStringExtra("Region");
-        }
+    void Search(String reg){
+
+        region = reg;
 
         final ArrayList<String> placeIDs = new ArrayList<>();
 
-        final SpotFilter sf = new SpotFilter(this);
 
         new Thread() {
             public void run() {
-
-
 
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
@@ -59,6 +57,7 @@ public class SpotSearcher extends AppCompatActivity {
                     result = getSpots(region, type, true);
                     placeIDs.addAll(jsonparser(result));
                 }
+                SpotFilter sf = new SpotFilter(mContext);
                 sf.FeatureCalculator(placeIDs, region);
             }
         }.start();
