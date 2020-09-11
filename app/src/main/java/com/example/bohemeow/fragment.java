@@ -80,6 +80,8 @@ public class fragment extends Fragment {
         textViewCounter.setText("No post");
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLinearLayoutManager.setReverseLayout(true);
+        mLinearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         mArrayList = new ArrayList<>();
@@ -118,101 +120,5 @@ public class fragment extends Fragment {
         mPostReference = FirebaseDatabase.getInstance().getReference();
         mPostReference.child("post_list").addValueEventListener(postListener);
 
-        /*
-        if(counter == 0){
-
-            textViewCounter.setText("No post");
-            RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
-            mRecyclerView.setLayoutManager(mLinearLayoutManager);
-
-            mArrayList = new ArrayList<>();
-
-            mAdapter = new CustomAdapter( mArrayList);
-            mRecyclerView.setAdapter(mAdapter);
-
-
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                    mLinearLayoutManager.getOrientation());
-            mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-
-            // get data
-
-            final ValueEventListener postListener = new ValueEventListener(){
-
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mArrayList.clear();
-
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        postData get = postSnapshot.getValue(postData.class);
-
-
-                        if(get.postType.equals("Personal") && get.username.equals(user_name)){
-                            post data = new post(get.username, get.content, get.tags);
-                            mArrayList.add(data);
-                            textViewCounter.setText("");
-                        }
-                    }
-
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            };
-            mPostReference = FirebaseDatabase.getInstance().getReference();
-            mPostReference.child("post_list").addValueEventListener(postListener);
-        }
-        else if(counter == 1){
-
-            textViewCounter.setText("No post");
-            RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
-            mRecyclerView.setLayoutManager(mLinearLayoutManager);
-
-            mArrayList = new ArrayList<>();
-
-            mAdapter = new CustomAdapter( mArrayList);
-            mRecyclerView.setAdapter(mAdapter);
-
-
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                    mLinearLayoutManager.getOrientation());
-            mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-
-            // get data
-
-            final ValueEventListener postListener = new ValueEventListener(){
-
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mArrayList.clear();
-
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        postData get = postSnapshot.getValue(postData.class);
-
-
-                        if(get.postType.equals("Public")){
-                            post data = new post(get.username, get.content, get.tags);
-                            mArrayList.add(data);
-                            textViewCounter.setText("");
-                        }
-                    }
-
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            };
-            mPostReference = FirebaseDatabase.getInstance().getReference();
-            mPostReference.child("post_list").addValueEventListener(postListener);
-        }
-        */
     }
 }

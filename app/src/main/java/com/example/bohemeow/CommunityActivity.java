@@ -111,6 +111,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
         });
     }
 
+
     private ViewPagerAdapter createCardAdapter() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         return adapter;
@@ -137,6 +138,7 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
     }
 
 
+    /*
     // change user icon's image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -163,5 +165,12 @@ public class CommunityActivity extends AppCompatActivity implements NavigationVi
                 }
             });
         }
+    }
+     */
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(CommunityActivity.this, MainMenu.class);
+        startActivity(intent);
     }
 }
