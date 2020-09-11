@@ -80,9 +80,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private boolean isFirstLocation = false;
 
-    //private double userlat;
-    //private double userlng;
     String region = "";
+    boolean isFree = false;
 
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
@@ -115,13 +114,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
-        double[] lats = intent.getDoubleArrayExtra("lats");
-        double[] lngs = intent.getDoubleArrayExtra("lngs");
+        isFree = intent.getBooleanExtra("isFree", false);
 
-        ArrayList<TMapPoint> spots = new ArrayList<>();
-        for(int i = 0; lats[i] != -1; i++){
-            spots.add(new TMapPoint(lats[i], lngs[i]));
-        }
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
         walkEndBtn.setOnClickListener(new View.OnClickListener(){
@@ -143,10 +137,21 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setLineColor(Color.RED);
         userRoute.setLineWidth(1);
 
-        for(int i = 0; i<spots.size() - 1; i++){
-            drawMarker(spots.get(i));
-            drawPedestrianPath(spots.get(i), spots.get(i+1));
+        if(!isFree) {
+            double[] lats = intent.getDoubleArrayExtra("lats");
+            double[] lngs = intent.getDoubleArrayExtra("lngs");
+
+            ArrayList<TMapPoint> spots = new ArrayList<>();
+            for (int i = 0; lats[i] != -1; i++) {
+                spots.add(new TMapPoint(lats[i], lngs[i]));
+            }
+
+            for(int i = 0; i<spots.size() - 1; i++){
+                drawMarker(spots.get(i));
+                drawPedestrianPath(spots.get(i), spots.get(i+1));
+            }
         }
+
 
         /*
         SharedPreferences pref = getSharedPreferences("isGranted", MODE_PRIVATE);

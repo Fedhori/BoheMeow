@@ -38,16 +38,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView14"
         app:srcCompat="@drawable/startwalk_0008_line1" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView15"
-        app:srcCompat="@drawable/startwalk_0004_no" />
-
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="wrap_content"
@@ -109,5 +99,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sub_btn" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:button="@drawable/mycheck"
+        android:checked="false"
+        android:drawableRight="@drawable/select_comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

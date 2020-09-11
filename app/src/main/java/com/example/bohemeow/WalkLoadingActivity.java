@@ -74,12 +74,11 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     long waitingTime = 3000; // ms
 
     String region = "";
+    int num; //선택할 스팟 수
     private int min; //소요 시간
     private int speed = 60; //보행자 속도
 
-    boolean isStart = false;
-
-    int num; //선택할 스팟 수
+    boolean isFree = false;
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -108,6 +107,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         Intent intent = getIntent();
         min = intent.getIntExtra("time", 60);
         preference = intent.getIntArrayExtra("preference");
+        isFree = intent.getBooleanExtra("isFree", false);
 
         num = 1 + min / 30;
         if(num > 5) num = 5;
@@ -284,51 +284,60 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     boolean isDone = false;
 
     void setRegion(final String region){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+        if(isFree){
+            Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
+            intent.putExtra("region", region);
+            intent.putExtra("isFree", true);
+            startActivity(intent);
+            WalkLoadingActivity.this.finish();
+        }
+        else {
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
 
-                if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
-                    System.out.println("\n\n================\nnew region");
+                    if (dataSnapshot.child("spot_data/").child(region).getValue() == null) {
+                        System.out.println("\n\n================\nnew region");
 
-                    SpotSearcher searcher = new SpotSearcher(WalkLoadingActivity.this);
-                    searcher.Search(region);
-                    //isExist = true;
-                    //SpotSearcher.Search(region);
-                }
-                else{
-                    isDone = true;
-                    makeList();
-                }
+                        SpotSearcher searcher = new SpotSearcher(WalkLoadingActivity.this);
+                        searcher.Search(region);
+                        //isExist = true;
+                        //SpotSearcher.Search(region);
+                    } else {
+                        isDone = true;
+                        makeList();
+                    }
 
-                if(!isDone) {
-                    final Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!isExist) {
-                                checkDB(region);
-                                System.out.println("\n\n===============\ncheck region\n");
-                                handler2.postDelayed(this, 10000);
-                            } else {
-                                System.out.println("\n\n===============");
-                                makeList();
+                    if (!isDone) {
+                        final Handler handler2 = new Handler();
+                        handler2.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!isExist) {
+                                    checkDB(region);
+                                    System.out.println("\n\n===============\ncheck region\n");
+                                    handler2.postDelayed(this, 10000);
+                                } else {
+                                    System.out.println("\n\n===============");
+                                    makeList();
+                                }
+
                             }
+                        }, 120000);
+                    }
 
-                        }
-                    }, 120000);
+                    //makeList();
+
                 }
 
-                //makeList();
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
 
     }
 
@@ -652,12 +661,13 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
         //intent.putExtra("preference", preference);
         intent.putExtra("region", region);
+        intent.putExtra("isFree", false);
         intent.putExtra("lats", lats);
         intent.putExtra("lngs", lngs);
         //intent.putExtra("spots", sorted);
 
         startActivity(intent);
-        //WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
+        WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
 
 /*
         for(int i = 0; i<sorted.size() - 1; i++){
