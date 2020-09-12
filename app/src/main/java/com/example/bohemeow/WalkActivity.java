@@ -86,9 +86,19 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
+    private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
     private double prevLat = -1f;
     private double prevLong = -1f;
+    private long prevTime = -1;
     private int moveCnt = 0;
+
+    Double minMovementSpeed = 0.1d; // m/s, ex) 0.1m/s is 0.36km/h
+
+    long totalWalkTime = 0;
+    long walkStartTime = 0;
+    long walkEndTime = 0;
+    long realWalkTime = 0;
+
 
     //int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -110,6 +120,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         setContentView(R.layout.activity_walk);
         context = this;
 
+        walkStartTime = System.currentTimeMillis();
+
         // get intent
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
@@ -122,7 +134,13 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             @Override
             public void onClick(View view) {
+                walkEndTime = System.currentTimeMillis();
+                totalWalkTime = walkEndTime - walkStartTime;
+
                 Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                intent.putExtra("totalWalkTime", totalWalkTime);
+                intent.putExtra("realWalkTime", realWalkTime);
+                intent.putExtra("totalMoveLength", totalMoveLength);
                 startActivity(intent);
             }
         });
@@ -133,13 +151,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
 
+        double[] lats = intent.getDoubleArrayExtra("lats");
+        double[] lngs = intent.getDoubleArrayExtra("lngs");
+
+        // set screen to start position
+        tMapView.setLocationPoint(lngs[0], lats[0]);
+        tMapView.setCenterPoint(lngs[0], lats[0]);
+
         userRoute = new TMapPolyLine();
         userRoute.setLineColor(Color.RED);
         userRoute.setLineWidth(1);
 
         if(!isFree) {
-            double[] lats = intent.getDoubleArrayExtra("lats");
-            double[] lngs = intent.getDoubleArrayExtra("lngs");
 
             ArrayList<TMapPoint> spots = new ArrayList<>();
             for (int i = 0; lats[i] != -1; i++) {
@@ -171,7 +194,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 turnGPSOn();
 
                 gps = new TMapGpsManager(WalkActivity.this);
+                // check every 1000ms
                 gps.setMinTime(100);
+                // if user moves at least 10m, call onLocationChange
                 gps.setMinDistance(0.1f);
                 gps.setProvider(TMapGpsManager.GPS_PROVIDER);
                 gps.OpenGps();
@@ -247,24 +272,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     @Override
     public void onLocationChange(Location location) {
 
-        if(!isFirstLocation){
-            isFirstLocation = true;
-            TMapPoint point = gps.getLocation();
-            tMapView.setLocationPoint(point.getLongitude(), point.getLatitude());
-            tMapView.setCenterPoint(point.getLongitude(), point.getLatitude());
-
-        }
-
         lastLatitudes[curPos] = location.getLatitude();
         lastLongtitudes[curPos] = location.getLongitude();
-
         curPos++;
+
         if(curPos >= 10){
             curPos = 0;
             lapNum++;
         }
 
-        if(lapNum > 2){
+        if(lapNum > 1){
 
             double latitude = 0f;
             double longtitude = 0f;
@@ -283,17 +300,27 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             tMapView.addTMapPolyLine("Line1", userRoute);
 
             if(prevLat != -1f){
-                curMoveLength += distFrom(latitude, longtitude, prevLat, prevLong);
+                double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
+
+                curMoveLength += moveLength;
                 if(maxMoveLength <= curMoveLength){
                     addCoordinationData(latitude, longtitude);
                     addCoordinationID(latitude, longtitude);
                     curMoveLength = 0f;
                 }
-            }
 
+                totalMoveLength += moveLength;
+
+                long intervalTime = System.currentTimeMillis() - prevTime;
+                // 만일 사용자가 최소 이동속도 (현재는 0.1m/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
+                if(moveLength * 1000d / (double)intervalTime > minMovementSpeed){
+                    realWalkTime += intervalTime;
+                }
+            }
 
             prevLat = latitude;
             prevLong = longtitude;
+            prevTime = System.currentTimeMillis();
         }
     }
 
