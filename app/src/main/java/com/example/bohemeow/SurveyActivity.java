@@ -118,8 +118,10 @@ public class SurveyActivity extends AppCompatActivity{
                 cur_survey++;
                 remain_surveys[num_survey - cur_survey].setVisibility(View.INVISIBLE);
                 if(cur_survey == num_survey){
-                    savePreference(username, preference);
+                    int catType = decideCat(preference[0], preference[1], preference[2], 5);
+                    savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, MainMenu.class);
+                    intent.putExtra("catType", catType);
                     startActivity(intent);
                 }
                 else{
@@ -133,8 +135,10 @@ public class SurveyActivity extends AppCompatActivity{
                 cur_survey++;
                 remain_surveys[num_survey - cur_survey].setVisibility(View.INVISIBLE);
                 if(cur_survey == num_survey){
-                    savePreference(username, preference);
+                    int catType = decideCat(preference[0], preference[1], preference[2], 5);
+                    savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, MainMenu.class);
+                    intent.putExtra("catType", catType);
                     startActivity(intent);
                 }
                 else{
@@ -144,11 +148,37 @@ public class SurveyActivity extends AppCompatActivity{
         });
     }
 
-    void savePreference(String username, int[] preference){
+    void savePreference(String username, int[] preference, int catType){
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("user_list/" + username);
         myRef.child("safeScore").setValue(preference[0]);
         myRef.child("enviScore").setValue(preference[1]);
         myRef.child("popularity").setValue(preference[2]);
+        myRef.child("catType").setValue(catType);
+    }
+
+    int decideCat(int safe, int envi, int pop, int standard){
+        int catType = 0;
+
+        boolean isSafe = false;
+        boolean isEnvi = false;
+        boolean isPopu = false;
+
+        if(safe >= standard) isSafe = true;
+        if(envi >= standard) isEnvi = true;
+        if(pop >= standard) isPopu = true;
+
+        if(isSafe && isEnvi && isPopu) catType = 1;
+        if(!isSafe && isEnvi && isPopu) catType = 2;
+        if(isSafe && !isEnvi && isPopu) catType = 3;
+        if(isSafe && isEnvi && !isPopu) catType = 4;
+        if(!isSafe && !isEnvi && isPopu) catType = 5;
+        if(!isSafe && isEnvi && !isPopu) catType = 6;
+        if(isSafe && !isEnvi && !isPopu) catType = 7;
+        if(!isSafe && !isEnvi && !isPopu) catType = 8;
+
+
+        return catType;
+
     }
 }
 
