@@ -11,6 +11,7 @@
         android:layout_width="129dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/comm_0002_title" />
