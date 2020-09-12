@@ -72,7 +72,7 @@
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,11 +84,12 @@
         android:id="@+id/start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="60dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/back_btn"
+        app:layout_constraintTop_toBottomOf="@+id/sub_btn"
         app:srcCompat="@drawable/startwalk_0002_permit" />
 
     <TextView
