@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class add_post extends AppCompatActivity{
+public class WritePostActivity extends AppCompatActivity{
 
     Map<String, Object> childUpdates;
     Map<String, Object> postValues;
@@ -49,12 +49,13 @@ public class add_post extends AppCompatActivity{
     EditText tagET;
 
     String username;
-    String name;
+    int level;
+    int catType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_post);
+        setContentView(R.layout.activity_write);
 
         imageButton = findViewById(R.id.imageBtn);
         contentET = findViewById(R.id.content);
@@ -65,7 +66,8 @@ public class add_post extends AppCompatActivity{
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        //name = intent.getStringExtra("name");
+        level = intent.getIntExtra("level", 1);
+        catType = intent.getIntExtra("catType", 0);
 
 
 
@@ -83,7 +85,7 @@ public class add_post extends AppCompatActivity{
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(add_post.this, CommunityActivity.class);
+                Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,14 +98,12 @@ public class add_post extends AppCompatActivity{
             public void onClick(View view) {
 
                 if(contentET.length() == 0){
-                    Toast.makeText(add_post.this, "Please input contents", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WritePostActivity.this, "Please input contents", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     postFirebaseDatabase(true);
 
-                    Intent intent = new Intent(add_post.this, CommunityActivity.class);
-                    intent.putExtra("username", username);
-                    //intent.putExtra("name", name);
+                    Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
                     startActivity(intent);
                 }
             }
@@ -153,7 +153,7 @@ public class add_post extends AppCompatActivity{
         childUpdates = new HashMap<>();
         postValues = null;
         if(add){
-            postData data = new postData(username, uri, content, tags, time);
+            postData data = new postData(username, uri, content, tags, time, level, catType);
             postValues = data.toMap();
         }
         childUpdates.put("/post_list/" + time, postValues);

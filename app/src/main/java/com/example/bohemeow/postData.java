@@ -9,18 +9,22 @@ public class postData {
     public String content;
     public String tags;
     public String time;
+    public int level;
+    public int catType;
 
 
     public postData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public postData(String username, String uri, String content, String tags, String time) {
+    public postData(String username, String uri, String content, String tags, String time, int level, int catType) {
         this.username = username;
         this.uri = uri;
         this.content = content;
         this.tags = tags;
         this.time = time;
+        this.level = level;
+        this.catType = catType;
     }
 
     public Map<String, Object> toMap() {
@@ -30,6 +34,8 @@ public class postData {
         result.put("content", content);
         result.put("tags", tags);
         result.put("time", time);
+        result.put("level", level);
+        result.put("catType", catType);
         return result;
     }
 }

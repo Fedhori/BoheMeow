@@ -47,8 +47,8 @@ public class SurveyResultActivity extends AppCompatActivity{
         catDetails[4] = new CatDetail(R.drawable.heads_0004,"려니", "제주 사려니숲길에 사는 려니는 햇빛 속에 흔들리는 잎사귀를 좋아합니다. ");
         catDetails[5] = new CatDetail(R.drawable.heads_0005,"문문", "해운대 달맞이길에 사는 문문이는 보름달과 산책하러 오는 사람들을 좋아합니다.");
         catDetails[6] = new CatDetail(R.drawable.heads_0006,"포포", "강릉 경포호에 사는 포포는 늦저녁 풀벌레 소리를 들으며 호숫가를 산책합니다.");
-        catDetails[7] = new CatDetail(R.drawable.heads_0007,"태태", "울산대교에 사는 태태는 한낮 태화강변을 따라 산책하기를 좋아합니다.  ");
-        catDetails[8] = new CatDetail(R.drawable.heads_0008,"새싹", "전주 한옥마을에 사는 새싹이는 새싹비빔밥 냄새를 좋아합니다. 해가 지면 밥짓는 냄새를 맡으며 홀로 골목골목 다니곤 합니다.");
+        catDetails[7] = new CatDetail(R.drawable.full_7,"태태", "울산대교에 사는 태태는 한낮 태화강변을 따라 산책하기를 좋아합니다.  ");
+        catDetails[8] = new CatDetail(R.drawable.full_8,"새싹", "전주 한옥마을에 사는 새싹이는 새싹비빔밥 냄새를 좋아합니다. 해가 지면 밥짓는 냄새를 맡으며 홀로 골목골목 다니곤 합니다.");
 
     }
 
@@ -77,6 +77,7 @@ public class SurveyResultActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SurveyResultActivity.this, MainMenu.class);
+                SurveyResultActivity.this.finish();
                 startActivity(intent);
             }
         });

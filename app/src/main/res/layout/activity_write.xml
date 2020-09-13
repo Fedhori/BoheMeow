@@ -87,6 +87,7 @@
         android:gravity="top"
         android:hint="텍스트를 입력해 주세요..."
         android:inputType="textMultiLine"
+        android:maxLines="7"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
         android:textColor="#FF5722"

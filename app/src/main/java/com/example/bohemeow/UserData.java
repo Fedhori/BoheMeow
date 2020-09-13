@@ -12,6 +12,7 @@ public class UserData {
     public int totalWalkCount;
     public double realWalkTime;
     public int level;
+    public int catType;
     public boolean isItemExist;
     public double safeScore;
     public double enviScore;
@@ -31,6 +32,7 @@ public class UserData {
         this.popularity = popularity;
 
         // default value
+        this.catType = 0;
         this.totalWalkLength = 0;
         this.totalWalkTime = 0;
         this.totalWalkCount = 0;
@@ -55,6 +57,7 @@ public class UserData {
         result.put("totalWalkCount", totalWalkCount);
         result.put("realWalkTime", realWalkTime);
         result.put("level", level);
+        result.put("catType", catType);
         result.put("isItemExist", isItemExist);
 
         return result;
