@@ -411,7 +411,6 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     startActivity(intent);
                 }
 
-
             }
 
             @Override

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -62,12 +63,15 @@ import java.util.concurrent.ExecutionException;
 
 public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
 
+    private DatabaseReference mPostReference;
+
     PermissionManager permissionManager = null; // 권한요청 관리자
     TMapGpsManager gps = null;
     private TMapView tMapView = null;
     private Context context;
 
     Button walkEndBtn;
+    Button popupBtn;
 
     private TMapPolyLine userRoute = null;
     private double[] lastLatitudes = new double[10];
@@ -82,7 +86,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     String region = "";
     boolean isFree = false;
-
 
     private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -99,6 +102,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     long walkEndTime = 0;
     long realWalkTime = 0;
 
+    String nickname;
+
+    // how many notes one user allow to write?
+    int maxNoteNumber = 3;
+
+    // how many notes will user find in walk screen
+    int maxFindNote = 3;
+
+    // how long can user can find notes?
+    double maxNoteDist = 100d; // meter
 
     //int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -120,6 +133,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         setContentView(R.layout.activity_walk);
         context = this;
 
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        nickname = registerInfo.getString("registerUserName", "NULL");
+
         walkStartTime = System.currentTimeMillis();
 
         // get intent
@@ -127,7 +145,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
         isFree = intent.getBooleanExtra("isFree", false);
-
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
         walkEndBtn.setOnClickListener(new View.OnClickListener(){
@@ -145,6 +162,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
+        popupBtn = (Button) findViewById(R.id.popupBtn);
+        popupBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                //데이터 담아서 팝업(액티비티) 호출
+                Intent intent = new Intent(WalkActivity.this, PopupActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
@@ -158,6 +186,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.setLocationPoint(lngs[0], lats[0]);
         tMapView.setCenterPoint(lngs[0], lats[0]);
 
+        prevLat = lats[0];
+        prevLong = lngs[0];
+
+        findNotes(prevLat, prevLong, maxFindNote, maxNoteDist);
+
         userRoute = new TMapPolyLine();
         userRoute.setLineColor(Color.RED);
         userRoute.setLineWidth(1);
@@ -170,21 +203,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
 
             for(int i = 0; i<spots.size() - 1; i++){
-                drawMarker(spots.get(i));
+                drawSpotMarker(spots.get(i));
                 drawPedestrianPath(spots.get(i), spots.get(i+1));
             }
         }
-
-
-        /*
-        SharedPreferences pref = getSharedPreferences("isGranted", MODE_PRIVATE);
-        if(pref.getString("isGranted", "empty").equals("empty")){
-            isGranted = false;
-        }
-        else{
-            isGranted = true;
-        }
-         */
 
         permissionManager = new PermissionManager(this); // 권한요청 관리자
         permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
@@ -253,7 +275,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
-    public void drawMarker(TMapPoint position){
+    public void drawSpotMarker(TMapPoint position){
 
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
@@ -265,7 +287,27 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         markerItem.setPosition(0.5f, 1.0f);
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
-        markerItem.setName("성대");
+        // markerItem.setName("성대");
+        tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
+    }
+
+    public void drawNoteMarker(NoteData noteData){
+
+        // get bitmap
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
+        // resize bitmap
+        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+        markerItem.setIcon(bitmap); // 마커 아이콘 지정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setTMapPoint(new TMapPoint(noteData.latitude, noteData.longitude)); // 마커의 좌표 지정
+        markerItem.setCalloutTitle(noteData.author);
+        markerItem.setCalloutSubTitle(noteData.noteContent);
+        markerItem.setCanShowCallout(true);
+        // markerItem.setAutoCalloutVisible(true);
+
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
     }
 
@@ -286,6 +328,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             double latitude = 0f;
             double longtitude = 0f;
 
+            // 최근 GPS에 잡힌 좌표들 10개의 평균을 현재 위치로 설정한다.
             for(int i = 0;i<10;i++){
                 latitude += lastLatitudes[i];
                 longtitude += lastLongtitudes[i];
@@ -295,27 +338,26 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             longtitude /= 10f;
 
             tMapView.setLocationPoint(longtitude, latitude);
-            tMapView.setCenterPoint(longtitude, latitude);
+            // 이 코드를 넣으면 화면 중앙으로 고정됨
+            //tMapView.setCenterPoint(longtitude, latitude);
             userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
             tMapView.addTMapPolyLine("Line1", userRoute);
 
-            if(prevLat != -1f){
-                double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
+            double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
 
-                curMoveLength += moveLength;
-                if(maxMoveLength <= curMoveLength){
-                    addCoordinationData(latitude, longtitude);
-                    addCoordinationID(latitude, longtitude);
-                    curMoveLength = 0f;
-                }
+            curMoveLength += moveLength;
+            if(maxMoveLength <= curMoveLength){
+                addCoordinationData(latitude, longtitude);
+                addCoordinationID(latitude, longtitude);
+                curMoveLength = 0f;
+            }
 
-                totalMoveLength += moveLength;
+            totalMoveLength += moveLength;
 
-                long intervalTime = System.currentTimeMillis() - prevTime;
-                // 만일 사용자가 최소 이동속도 (현재는 0.1m/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
-                if(moveLength * 1000d / (double)intervalTime > minMovementSpeed){
-                    realWalkTime += intervalTime;
-                }
+            long intervalTime = System.currentTimeMillis() - prevTime;
+            // 만일 사용자가 최소 이동속도 (minMovementSpeed, 현재는 0.1m/s -> 0.36km/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
+            if(moveLength * 1000d / (double)intervalTime > minMovementSpeed){
+                realWalkTime += intervalTime;
             }
 
             prevLat = latitude;
@@ -472,9 +514,73 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // 팝업에 입력된 데이터 받기
+                String noteContent = data.getStringExtra("result");
+                // 쪽지를 Firebase에 저장하기
+                addNewNote(nickname, prevLat, prevLong, noteContent);
+            }
+        }
+    }
 
-    //------------------------------------------------------------------
+    public void addNewNote(String nickname, double latitude, double longitude, String noteContent){
 
+        SharedPreferences noteNumberInfo = getSharedPreferences("currentNoteNumber", Context.MODE_PRIVATE);
+        int currentNoteNumber = noteNumberInfo.getInt("currentNoteNumber", 0);
+
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        NoteData data = new NoteData(latitude, longitude, noteContent, nickname);
+        postValues = data.toMap();
+        childUpdates.put("/note_list/" + nickname + "_" + currentNoteNumber + "/", postValues);
+        mPostReference.updateChildren(childUpdates);
+
+        currentNoteNumber++;
+        if(currentNoteNumber >= maxNoteNumber){
+            currentNoteNumber = 0;
+        }
+        SharedPreferences.Editor editor = noteNumberInfo.edit();
+        editor.putInt("currentNoteNumber", currentNoteNumber);
+        editor.commit();
+    }
+
+    public void findNotes(final double user_latitude, final double user_longitude, final int maxFindNote, final double maxNoteDist){
+        mPostReference.child("note_list").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int curFindNote = 0;
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    NoteData get = postSnapshot.getValue(NoteData.class);
+
+                    Log.w("asd", get.latitude + " " + get.longitude + " " +user_latitude + " " +user_longitude);
+
+                    // if note is located inside of maxNoteDist's range
+                    if(distFrom(get.latitude, get.longitude, user_latitude, user_longitude) < maxNoteDist){
+
+                        drawNoteMarker(get);
+
+                        curFindNote++;
+                        if(curFindNote >= maxFindNote){
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 /*
     void sortSpot(ArrayList<Spot> selected){
 
