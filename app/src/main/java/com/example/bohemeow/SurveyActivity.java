@@ -120,7 +120,7 @@ public class SurveyActivity extends AppCompatActivity{
                 if(cur_survey == num_survey){
                     int catType = decideCat(preference[0], preference[1], preference[2], 5);
                     savePreference(username, preference, catType);
-                    Intent intent = new Intent(SurveyActivity.this, MainMenu.class);
+                    Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
                     startActivity(intent);
                 }
@@ -137,7 +137,7 @@ public class SurveyActivity extends AppCompatActivity{
                 if(cur_survey == num_survey){
                     int catType = decideCat(preference[0], preference[1], preference[2], 5);
                     savePreference(username, preference, catType);
-                    Intent intent = new Intent(SurveyActivity.this, MainMenu.class);
+                    Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
                     startActivity(intent);
                 }
@@ -167,14 +167,14 @@ public class SurveyActivity extends AppCompatActivity{
         if(envi >= standard) isEnvi = true;
         if(pop >= standard) isPopu = true;
 
-        if(isSafe && isEnvi && isPopu) catType = 1;
-        if(!isSafe && isEnvi && isPopu) catType = 2;
-        if(isSafe && !isEnvi && isPopu) catType = 3;
-        if(isSafe && isEnvi && !isPopu) catType = 4;
-        if(!isSafe && !isEnvi && isPopu) catType = 5;
-        if(!isSafe && isEnvi && !isPopu) catType = 6;
-        if(isSafe && !isEnvi && !isPopu) catType = 7;
-        if(!isSafe && !isEnvi && !isPopu) catType = 8;
+        if(isSafe && isEnvi && isPopu) catType = 1; //한강
+        if(!isSafe && isEnvi && isPopu) catType = 2;//밤이
+        if(isSafe && !isEnvi && isPopu) catType = 3;//chacha
+        if(isSafe && isEnvi && !isPopu) catType = 4;//려니
+        if(!isSafe && !isEnvi && isPopu) catType = 5;//문문
+        if(!isSafe && isEnvi && !isPopu) catType = 6;//포포
+        if(isSafe && !isEnvi && !isPopu) catType = 7;//태태
+        if(!isSafe && !isEnvi && !isPopu) catType = 8;//새싹이
 
 
         return catType;

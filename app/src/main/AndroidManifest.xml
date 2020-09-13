@@ -22,6 +22,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".SurveyActivity" />
+        <activity android:name=".SurveyResultActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".SelectActivity" />
         <activity android:name=".MainMenu" />
