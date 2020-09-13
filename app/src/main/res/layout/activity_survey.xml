@@ -5,57 +5,99 @@
     android:id="@+id/survey_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/select_background"
+    android:background="@drawable/test_0009_background"
     tools:context=".SurveyActivity">
 
+
     <ImageView
-        android:id="@+id/ball"
+        android:id="@+id/imageView_no"
+        android:layout_width="180dp"
+        android:layout_height="234dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/test_0007_no" />
+
+    <ImageView
+        android:id="@+id/imageView_yes"
+        android:layout_width="180dp"
+        android:layout_height="234dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/test_0006_yes" />
+
+    <ImageView
+        android:id="@+id/imageView31"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView8"
+        app:srcCompat="@drawable/test_0004_nobox" />
+
+    <ImageView
+        android:id="@+id/imageView32"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView31"
+        app:srcCompat="@drawable/test_0009_box" />
+
+    <TextView
+        android:id="@+id/survey_text"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다"
+        android:textColor="#3674ae"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView32"
+        app:layout_constraintEnd_toEndOf="@+id/imageView32"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/imageView32"
+        app:layout_constraintTop_toTopOf="@+id/imageView32" />
+
+    <TextView
+        android:id="@+id/num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/mapobackpacking"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#3674ae"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView31"
+        app:layout_constraintEnd_toEndOf="@+id/imageView31"
+        app:layout_constraintStart_toStartOf="@+id/imageView31"
+        app:layout_constraintTop_toTopOf="@+id/imageView31" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapobackpacking"
+        android:gravity="end"
+        android:text="/ 9"
+        android:textColor="#3674ae"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView31"
+        app:layout_constraintEnd_toEndOf="@+id/imageView31" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.497"
-        app:srcCompat="@drawable/survey_ball" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/test_0005_line" />
 
-
-    <ImageView
-        android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        app:srcCompat="@drawable/survey_right" />
-
-    <ImageView
-        android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        app:srcCompat="@drawable/survey_left" />
-
-    <TextView
-        android:id="@+id/survey_text"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

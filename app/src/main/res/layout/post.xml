@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/writepost_0005_box" />
+        app:srcCompat="@drawable/writepost_0005_box_2" />
 
     <ImageView
         android:id="@+id/content_image"
@@ -62,13 +62,13 @@
 
     <ImageView
         android:id="@+id/user_icon"
-        android:layout_width="69dp"
-        android:layout_height="82dp"
-        android:layout_marginEnd="7dp"
+        android:layout_width="65dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView26"
-        app:srcCompat="@drawable/beth_0000" />
+        app:srcCompat="@drawable/beth_0001" />
 
     <TextView
         android:id="@+id/user_name"
@@ -97,10 +97,10 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="7dp"
         android:text="2020.00.00 00:00:00"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_icon" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

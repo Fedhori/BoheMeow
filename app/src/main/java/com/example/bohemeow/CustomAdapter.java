@@ -33,6 +33,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView contentTV;
         TextView tagTV;
         TextView timeTV;
+        TextView levelTV;
 
 
         public CustomViewHolder(View view) {
@@ -43,6 +44,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.contentTV = (TextView) view.findViewById(R.id.content);
             this.tagTV = (TextView) view.findViewById(R.id.tags);
             this.timeTV = (TextView) view.findViewById(R.id.time);
+            this.levelTV = (TextView) view.findViewById(R.id.user_level);
         }
     }
 
@@ -73,6 +75,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String content = mList.get(position).getContent();
         String tag = mList.get(position).getTags();
         String time = mList.get(position).getTime();
+        int level = mList.get(position).getLevel();
+        int catType = mList.get(position).getCatType();
+
+        int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
+                R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
 
         /*
         // set post's icon image
@@ -116,6 +123,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.contentTV.setText(content);
         viewholder.tagTV.setText(tag);
         viewholder.timeTV.setText(time);
+        viewholder.levelTV.setText("Lv." + Integer.toString(level));
+        viewholder.iconIV.setImageResource(icons[catType]);
+        System.out.println("\ncatType: " + catType);
     }
 
     @Override

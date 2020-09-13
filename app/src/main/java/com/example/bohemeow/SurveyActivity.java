@@ -65,8 +65,11 @@ public class SurveyActivity extends AppCompatActivity{
     boolean[] answers = new boolean[100];
 
     ConstraintLayout constraintLayout;
-    ImageView iv_ball;
+    ImageView iv_no;
+    ImageView iv_yes;
+    ImageView iv;
     TextView tv_survey;
+    TextView tv_num;
     // number of surveys
     int num_survey = 9;
     // current survey
@@ -92,9 +95,12 @@ public class SurveyActivity extends AppCompatActivity{
         makeSurvey();
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.survey_layout);
-        iv_ball = (ImageView) findViewById(R.id.ball);
+        iv_no = findViewById(R.id.imageView_no);
+        iv_yes = findViewById(R.id.imageView_yes);
+        iv = findViewById(R.id.imageView8);
         tv_survey = (TextView) findViewById(R.id.survey_text);
-
+        tv_num = findViewById(R.id.num);
+/*
         for(int i = 0;i<9;i++){
             ImageView remain_survey = new ImageView(this);
             remain_survey.setImageResource(R.drawable.survey_proceed);
@@ -104,19 +110,18 @@ public class SurveyActivity extends AppCompatActivity{
             constraintLayout.addView(remain_survey);
             setContentView(constraintLayout);
         }
-
+*/
         Intent intent = getIntent();
         final String username = intent.getStringExtra("username");
 
         tv_survey.setText(surveys[cur_survey].sentence);
 
-        iv_ball.setOnTouchListener(new OnSwipeTouchListener(SurveyActivity.this){
+        iv.setOnTouchListener(new OnSwipeTouchListener(SurveyActivity.this){
             public void onSwipeLeft(){
                 answers[cur_survey] = false;
                 preference[surveys[cur_survey].type] -= surveys[cur_survey].score;
 
                 cur_survey++;
-                remain_surveys[num_survey - cur_survey].setVisibility(View.INVISIBLE);
                 if(cur_survey == num_survey){
                     int catType = decideCat(preference[0], preference[1], preference[2], 5);
                     savePreference(username, preference, catType);
@@ -125,15 +130,16 @@ public class SurveyActivity extends AppCompatActivity{
                     startActivity(intent);
                 }
                 else{
+                    tv_num.setText(Integer.toString(cur_survey+1));
                     tv_survey.setText(surveys[cur_survey].sentence);
                 }
             }
+
             public void onSwipeRight(){
                 answers[cur_survey] = true;
                 preference[surveys[cur_survey].type] += surveys[cur_survey].score;
 
                 cur_survey++;
-                remain_surveys[num_survey - cur_survey].setVisibility(View.INVISIBLE);
                 if(cur_survey == num_survey){
                     int catType = decideCat(preference[0], preference[1], preference[2], 5);
                     savePreference(username, preference, catType);
@@ -142,10 +148,24 @@ public class SurveyActivity extends AppCompatActivity{
                     startActivity(intent);
                 }
                 else{
+                    tv_num.setText(Integer.toString(cur_survey+1));
                     tv_survey.setText(surveys[cur_survey].sentence);
                 }
             }
+
+
+
         });
+
+/*
+        iv_yes.setOnTouchListener(new OnSwipeTouchListener(SurveyActivity.this){
+
+
+        });
+
+
+ */
+
     }
 
     void savePreference(String username, int[] preference, int catType){

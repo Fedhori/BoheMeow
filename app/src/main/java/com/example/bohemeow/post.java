@@ -5,12 +5,16 @@ public class post {
     String content;
     String tags;
     String time;
+    int level;
+    int catType;
 
-    public post(String username, String content, String tags, String time) {
+    public post(String username, String content, String tags, String time, int level, int catType) {
         this.username = username;
         this.content = content;
         this.tags = tags;
         this.time = time;
+        this.level = level;
+        this.catType = catType;
     }
 
     public String getUsername() {
@@ -43,6 +47,22 @@ public class post {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getCatType() {
+        return catType;
+    }
+
+    public void setCatType(int catType) {
+        this.catType = catType;
     }
 }
 
