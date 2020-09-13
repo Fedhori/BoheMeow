@@ -22,7 +22,7 @@
         android:layout_height="451dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView17"
-        app:srcCompat="@drawable/result_0007_content" />
+        app:srcCompat="@drawable/result_0007" />
 
     <ImageView
         android:id="@+id/imageView21"
@@ -77,6 +77,19 @@
         android:layout_marginTop="210dp"
         android:fontFamily="@font/mapo"
         android:text="mm'ss&quot;"
+        android:textColor="#0072FF"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/cal_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="295dp"
+        android:fontFamily="@font/mapo"
+        android:text="000kcal"
         android:textColor="#0072FF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/imageView18"
