@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,16 +18,47 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+import java.util.TimeZone;
+
 public class MainMenu extends AppCompatActivity {
 
     //뒤로가기 두번 시 종료되도록 구현 예정
     private long backKeyPressedTime = 0;
     private Toast toast;
+    ImageView windowIV;
+    Button select_btn;
+    Random rnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        windowIV = findViewById(R.id.iv_window);
+        select_btn = findViewById(R.id.btn_to_select);
+
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("HH");
+        df.setTimeZone(tz);
+        int time = Integer.parseInt(df.format(date));
+
+        if(time >= 6 || time <= 18){
+            windowIV.setImageResource(R.drawable.main_window_sunny_night);
+        }
+
+        /*
+        rnd = new Random();
+        int num = rnd.nextInt(2);
+        if(num == 1){
+            select_btn.setBackgroundResource(R.drawable.main_cat_scaratch);
+        }
+
+         */
 
 
         Intent intent = getIntent();
