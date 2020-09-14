@@ -202,7 +202,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 spots.add(new TMapPoint(lats[i], lngs[i]));
             }
 
-            for(int i = 0; i<spots.size() - 1; i++){
+            for(int i = 0; i < spots.size() - 1; i++){
                 drawSpotMarker(spots.get(i));
                 drawPedestrianPath(spots.get(i), spots.get(i+1));
             }

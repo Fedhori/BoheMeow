@@ -78,7 +78,7 @@ public class SurveyActivity extends AppCompatActivity{
     float proceed_size = 52f;
     float center_x = 720f;
 
-    int[] preference = {5, 5, 5};
+    int[] preference = {8, 8, 8};
 
 
     @Override
@@ -123,7 +123,7 @@ public class SurveyActivity extends AppCompatActivity{
 
                 cur_survey++;
                 if(cur_survey == num_survey){
-                    int catType = decideCat(preference[0], preference[1], preference[2], 5);
+                    int catType = decideCat(preference[0], preference[1], preference[2], 8);
                     savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
@@ -141,7 +141,7 @@ public class SurveyActivity extends AppCompatActivity{
 
                 cur_survey++;
                 if(cur_survey == num_survey){
-                    int catType = decideCat(preference[0], preference[1], preference[2], 5);
+                    int catType = decideCat(preference[0], preference[1], preference[2], 8);
                     savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
