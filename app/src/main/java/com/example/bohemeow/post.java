@@ -5,14 +5,16 @@ public class post {
     String content;
     String tags;
     String time;
+    String uri;
     int level;
     int catType;
 
-    public post(String username, String content, String tags, String time, int level, int catType) {
+    public post(String username, String content, String tags, String time, String uri, int level, int catType) {
         this.username = username;
         this.content = content;
         this.tags = tags;
         this.time = time;
+        this.uri = uri;
         this.level = level;
         this.catType = catType;
     }
@@ -47,6 +49,14 @@ public class post {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public int getLevel() {

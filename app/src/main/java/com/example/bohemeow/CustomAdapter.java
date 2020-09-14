@@ -75,6 +75,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String content = mList.get(position).getContent();
         String tag = mList.get(position).getTags();
         String time = mList.get(position).getTime();
+        String uri = mList.get(position).getUri();
         int level = mList.get(position).getLevel();
         int catType = mList.get(position).getCatType();
 
@@ -104,20 +105,23 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         StorageReference islandRef;
         final long ONE_MEGABYTE = 2048 * 2048;
 
+        if (!uri.equals("")){
         mStorageRef = FirebaseStorage.getInstance().getReference("Post_images");
         islandRef = mStorageRef.child(time + ".jpg");
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                viewholder.contentIV.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
-        });
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    viewholder.contentIV.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
 
         viewholder.usernameTV.setText(username);
         viewholder.contentTV.setText(content);
@@ -125,7 +129,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.timeTV.setText(time);
         viewholder.levelTV.setText("Lv." + Integer.toString(level));
         viewholder.iconIV.setImageResource(icons[catType]);
-        System.out.println("\ncatType: " + catType);
+        //System.out.println("\ncatType: " + catType);
     }
 
     @Override
