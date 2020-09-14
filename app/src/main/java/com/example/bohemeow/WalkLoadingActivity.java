@@ -286,9 +286,15 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     void setRegion(final String region){
 
         if(isFree){
+
+            double[] lats = {userlat};
+            double[] lngs = {userlng};
+
             Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
             intent.putExtra("region", region);
             intent.putExtra("isFree", true);
+            intent.putExtra("lats", lats);
+            intent.putExtra("lngs", lngs);
             startActivity(intent);
             WalkLoadingActivity.this.finish();
         }

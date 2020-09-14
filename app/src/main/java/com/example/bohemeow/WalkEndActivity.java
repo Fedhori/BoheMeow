@@ -91,7 +91,7 @@ public class WalkEndActivity extends AppCompatActivity {
 
         double cal;
         int weight = 60;//임의의 무게
-        cal = 0.9 * weight * (hour * 60 + minute) / 15;
+        cal = 0.9 * weight * (realWalkTime/6000) / 15;
         callory.setText(Double.toString(cal) + "kcal");
 
 
