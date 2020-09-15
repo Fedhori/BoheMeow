@@ -39,7 +39,7 @@ public class MainMenu extends AppCompatActivity {
         int time = Integer.parseInt(df.format(date));
 
         if(time <= 6 || time >= 18){
-            windowIV.setImageResource(R.drawable.main_window_sunny_night);
+            windowIV.setImageResource(R.drawable.main_0005_windownight);
         }
 
         /*

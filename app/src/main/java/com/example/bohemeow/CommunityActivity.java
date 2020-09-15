@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 
 public class CommunityActivity extends AppCompatActivity {
@@ -40,6 +43,11 @@ public class CommunityActivity extends AppCompatActivity {
     ViewPager2 viewPager;
 
     ImageView user_icon;
+
+    private ArrayList<post> mArrayList;
+    private CustomAdapter mAdapter;
+
+    //private DatabaseReference mPostReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +72,10 @@ public class CommunityActivity extends AppCompatActivity {
 
 
         // view pager
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(createCardAdapter());
+        //viewPager = findViewById(R.id.view_pager);
+        //viewPager.setAdapter(createCardAdapter());
+
+
 
         // button
         Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
@@ -82,9 +92,66 @@ public class CommunityActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+
+
+        final TextView textViewCounter = findViewById(R.id.textViewFrag);
+
+        textViewCounter.setText("No post");
+        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_main_list);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(CommunityActivity.this);
+        mLinearLayoutManager.setReverseLayout(true);
+        mLinearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new CustomAdapter(mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        // get data
+
+        final ValueEventListener postListener = new ValueEventListener(){
+
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mArrayList.clear();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    postData get = postSnapshot.getValue(postData.class);
+                    post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType);
+                    mArrayList.add(data);
+                    textViewCounter.setText("");
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        mPostReference.child("post_list").addValueEventListener(postListener);
+
+
+
+
+
     }
 
 
+
+/*
     private ViewPagerAdapter createCardAdapter() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         return adapter;
@@ -105,6 +172,8 @@ public class CommunityActivity extends AppCompatActivity {
         }
     }
 
+
+ */
 
     @Override
     public void onBackPressed() {
