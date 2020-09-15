@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/tags"
-        android:layout_width="190dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
@@ -102,5 +102,14 @@
         android:text="2020.00.00 00:00:00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:text="Btn"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/tags"
+        app:layout_constraintTop_toBottomOf="@+id/content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
