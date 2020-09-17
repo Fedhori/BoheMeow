@@ -1,6 +1,8 @@
 package com.example.bohemeow;
 
-public class post {
+import java.io.Serializable;
+
+public class post implements Serializable {
     String username;
     String content;
     String tags;

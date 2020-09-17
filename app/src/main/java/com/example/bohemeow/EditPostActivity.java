@@ -4,23 +4,39 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-public class PostPopupActivity extends Activity {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
+public class EditPostActivity extends Activity {
 
     String username;
     int pos;
@@ -30,10 +46,11 @@ public class PostPopupActivity extends Activity {
     ImageView contentIV;
 
     TextView usernameTV;
-    TextView contentTV;
-    TextView tagTV;
     TextView timeTV;
     TextView levelTV;
+
+    EditText contentET;
+    EditText tagET;
 
     Button back_btn;
     Button edit_btn;
@@ -44,12 +61,22 @@ public class PostPopupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_community_popup);
+        setContentView(R.layout.activity_community_edit);
 
-        final Intent intent = getIntent();
+        Intent intent = getIntent();
         pst = (post)intent.getSerializableExtra("post");
         username = intent.getStringExtra("username");
-        pos = intent.getIntExtra("num", 0);
+        pos = intent.getIntExtra("num", pos);
+
+
+
+        contentET = findViewById(R.id.content);
+        tagET = findViewById(R.id.tags);
+
+        contentET.setText(pst.getContent());
+        tagET.setText(pst.getTags());
+
+
 
 
         back_btn = (Button) findViewById(R.id.back_btn);
@@ -64,46 +91,43 @@ public class PostPopupActivity extends Activity {
         edit_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(pst.getUsername().equals(username)){
-                    Intent intent1 = new Intent(PostPopupActivity.this, EditPostActivity.class);
-                    intent1.putExtra("post", pst);
-                    intent1.putExtra("num", pos);
-                    startActivity(intent1);
-                    finish();
+                if(contentET.length() == 0){
+                    Toast.makeText(EditPostActivity.this, "Please input contents", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(PostPopupActivity.this, "수정 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_list/" + pst.getTime());
+                    myRef.child("content").setValue(contentET);
+                    myRef.child("tags").setValue(tagET);
                 }
             }
         });
 
+        /*
         del_btn = (Button) findViewById(R.id.del_btn);
         del_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(pst.getUsername().equals(username)){
-                    Intent intent1 = new Intent(PostPopupActivity.this, EditPostActivity.class);
+                    Intent intent1 = new Intent(EditPostActivity.this, EditPostActivity.class);
                     intent1.putExtra("post", pst);
                     startActivity(intent1);
                 }
                 else {
-                    Toast.makeText(PostPopupActivity.this, "삭제 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditPostActivity.this, "삭제 권한이 없습니다.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+         */
 
 
         iconIV = (ImageView)findViewById(R.id.user_icon);
         contentIV = (ImageView)findViewById(R.id.content_image);
         usernameTV = (TextView)findViewById(R.id.user_name);
-        contentTV = (TextView)findViewById(R.id.content);
-        tagTV = (TextView)findViewById(R.id.tags);
         timeTV = (TextView)findViewById(R.id.time);
         levelTV = (TextView)findViewById(R.id.user_level);
 
         String username =pst.getUsername();
-        String content =pst.getContent();
-        String tag =pst.getTags();
         String time =pst.getTime();
         String uri =pst.getUri();
         int level =pst.getLevel();
@@ -135,8 +159,6 @@ public class PostPopupActivity extends Activity {
         }
 
         usernameTV.setText(username);
-        contentTV.setText(content);
-        tagTV.setText(tag);
         timeTV.setText(Date(time));
         levelTV.setText("Lv." + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);

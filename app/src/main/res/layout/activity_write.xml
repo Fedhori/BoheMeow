@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView19" />
 
     <EditText
-        android:id="@+id/tag"
+        android:id="@+id/tags"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

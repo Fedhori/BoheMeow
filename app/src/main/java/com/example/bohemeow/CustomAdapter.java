@@ -155,10 +155,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             });
         }
 
+
+
+
         viewholder.usernameTV.setText(username);
         viewholder.contentTV.setText(content);
         viewholder.tagTV.setText(tag);
-        viewholder.timeTV.setText(time);
+        viewholder.timeTV.setText(Date(time));
         viewholder.levelTV.setText("Lv." + Integer.toString(level));
         viewholder.iconIV.setImageResource(icons[catType]);
         //System.out.println("\ncatType: " + catType);
@@ -169,5 +172,21 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         return (null != mList ? mList.size() : 0);
     }
 
+    String Date(String time){
+        String t = "";
 
+        if(time.substring(5,6).equals("0")){
+            t = t + time.substring(6,7) + "월";
+        }
+        else t = t + time.substring(5,7) + "월";
+
+        if(time.substring(8,9).equals("0")){
+            t = t + time.substring(9,10) + "일 ";
+        }
+        else t = t + time.substring(8,10) + "일 ";
+
+        t = t + time.substring(11,16);
+
+        return t;
+    }
 }

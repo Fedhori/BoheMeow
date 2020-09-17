@@ -59,7 +59,7 @@ public class WritePostActivity extends AppCompatActivity{
 
         imageButton = findViewById(R.id.imageBtn);
         contentET = findViewById(R.id.content);
-        tagET = findViewById(R.id.tag);
+        tagET = findViewById(R.id.tags);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
         mPostReference = FirebaseDatabase.getInstance().getReference();

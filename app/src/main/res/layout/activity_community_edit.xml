@@ -75,12 +75,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView37" />
 
-    <TextView
+    <EditText
         android:id="@+id/content"
         android:layout_width="310dp"
         android:layout_height="165dp"
         android:layout_marginTop="225dp"
+        android:background="#00FFFFFF"
         android:fontFamily="@font/mapopeacefull"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         android:text="This is a sample sentence."
         android:textColor="#0072FF"
         android:textSize="16sp"
@@ -88,12 +92,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/tags"
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:layout_marginTop="410dp"
+        android:background="#00FFFFFF"
         android:fontFamily="@font/mapopeacefull"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         android:text="#sample"
         android:textColor="#3BA260"
         android:textSize="16sp"
