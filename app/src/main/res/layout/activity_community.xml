@@ -25,7 +25,6 @@
             android:id="@+id/recyclerview_main_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="100dp"
             android:scrollbarFadeDuration="0"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
@@ -50,7 +49,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="20dp"
             android:background="#FFFFFF"
-            android:foreground="@drawable/comm_0001_write_2" />
+            android:foreground="@drawable/comm_0001_write" />
 
 
     </FrameLayout>
