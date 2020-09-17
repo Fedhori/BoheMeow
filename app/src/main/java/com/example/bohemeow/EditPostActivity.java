@@ -78,7 +78,6 @@ public class EditPostActivity extends Activity {
 
 
 
-
         back_btn = (Button) findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,8 +95,9 @@ public class EditPostActivity extends Activity {
                 }
                 else {
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_list/" + pst.getTime());
-                    myRef.child("content").setValue(contentET);
-                    myRef.child("tags").setValue(tagET);
+                    myRef.child("content").setValue(contentET.getText().toString());
+                    myRef.child("tags").setValue(tagET.getText().toString());
+                    finish();
                 }
             }
         });

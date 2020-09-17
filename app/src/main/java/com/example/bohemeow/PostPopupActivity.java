@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -100,6 +101,9 @@ public class PostPopupActivity extends Activity {
         tagTV = (TextView)findViewById(R.id.tags);
         timeTV = (TextView)findViewById(R.id.time);
         levelTV = (TextView)findViewById(R.id.user_level);
+
+        contentTV.setMovementMethod(new ScrollingMovementMethod());
+        tagTV.setMovementMethod(new ScrollingMovementMethod());
 
         String username =pst.getUsername();
         String content =pst.getContent();

@@ -125,7 +125,7 @@ public class CommunityActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(CommunityActivity.this, PostPopupActivity.class);
                 intent.putExtra("post", mArrayList.get(pos));
-                intent.putExtra("user", username);
+                intent.putExtra("username", username);
                 intent.putExtra("num", pos);
                 startActivityForResult(intent, 1);
             }
