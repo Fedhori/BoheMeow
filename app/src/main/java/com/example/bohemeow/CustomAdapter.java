@@ -1,12 +1,17 @@
 package com.example.bohemeow;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +29,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     private ArrayList<post> mList;
 
+    public interface OnItemClickListener
+    {
+        void onItemClick(View v, int pos);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.mListener = listener;
+    }
+
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         ImageView iconIV;
@@ -35,7 +53,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         TextView timeTV;
         TextView levelTV;
 
-
         public CustomViewHolder(View view) {
             super(view);
             this.iconIV = (ImageView) view.findViewById(R.id.user_icon);
@@ -45,6 +62,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tagTV = (TextView) view.findViewById(R.id.tags);
             this.timeTV = (TextView) view.findViewById(R.id.time);
             this.levelTV = (TextView) view.findViewById(R.id.user_level);
+
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION)
+                    {
+                        mListener.onItemClick(v, pos);
+                    }
+
+                }
+            });
+
         }
     }
 
@@ -64,7 +97,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         return viewHolder;
     }
-
 
 
 
@@ -136,5 +168,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public int getItemCount() {
         return (null != mList ? mList.size() : 0);
     }
+
 
 }

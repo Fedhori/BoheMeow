@@ -117,6 +117,17 @@ public class CommunityActivity extends AppCompatActivity {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
+        mAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(View v, int pos)
+            {
+                Intent intent = new Intent(CommunityActivity.this, PostPopupActivity.class);
+
+                startActivityForResult(intent, 1);
+            }
+        });
+
 
         // get data
 
