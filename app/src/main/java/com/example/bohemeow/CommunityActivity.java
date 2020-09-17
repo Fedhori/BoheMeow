@@ -122,8 +122,11 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos)
             {
-                Intent intent = new Intent(CommunityActivity.this, PostPopupActivity.class);
 
+                Intent intent = new Intent(CommunityActivity.this, PostPopupActivity.class);
+                intent.putExtra("post", mArrayList.get(pos));
+                intent.putExtra("username", username);
+                intent.putExtra("num", pos);
                 startActivityForResult(intent, 1);
             }
         });

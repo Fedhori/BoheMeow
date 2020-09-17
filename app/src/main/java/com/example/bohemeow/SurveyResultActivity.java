@@ -1,20 +1,13 @@
 package com.example.bohemeow;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 class CatDetail{
 
@@ -63,7 +56,7 @@ public class SurveyResultActivity extends AppCompatActivity{
         makeCatDetail();
 
         cat_Img = findViewById(R.id.cat_Img);
-        name = findViewById(R.id.name);
+        name = findViewById(R.id.user_name);
         detail = findViewById(R.id.detail);
 
 

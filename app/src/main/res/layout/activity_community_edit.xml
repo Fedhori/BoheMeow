@@ -60,47 +60,48 @@
         android:id="@+id/edit_btn"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="15dp"
         android:layout_weight="1"
         android:background="@drawable/comm_popup_0008_edit"
-        app:layout_constraintEnd_toStartOf="@+id/del_btn"
-        app:layout_constraintTop_toBottomOf="@+id/imageView37" />
-
-    <Button
-        android:id="@+id/del_btn"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/comm_popup_0009_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView37" />
 
-    <TextView
+    <EditText
         android:id="@+id/content"
         android:layout_width="310dp"
         android:layout_height="165dp"
         android:layout_marginTop="225dp"
+        android:background="#00FFFFFF"
         android:fontFamily="@font/mapopeacefull"
+        android:gravity="start"
+        android:inputType="textMultiLine"
         android:scrollbars="vertical"
         android:text="This is a sample sentence."
         android:textColor="#0072FF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="#0072FF"
+        android:hint="텍스트를 입력해 주세요..." />
 
-    <TextView
+    <EditText
         android:id="@+id/tags"
         android:layout_width="220dp"
         android:layout_height="60dp"
         android:layout_marginTop="410dp"
+        android:background="#00FFFFFF"
         android:fontFamily="@font/mapopeacefull"
+        android:gravity="start"
+        android:inputType="textMultiLine"
         android:scrollbars="vertical"
         android:text="#sample"
         android:textColor="#3BA260"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/content"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="#0072FF"
+        android:hint="#tag" />
 
     <TextView
         android:id="@+id/time"
@@ -131,7 +132,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView38"
         app:layout_constraintStart_toStartOf="@+id/imageView38"
-        app:layout_constraintTop_toBottomOf="@+id/user_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/user_icon"/>
 
     <TextView
         android:id="@+id/user_level"

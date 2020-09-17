@@ -48,7 +48,7 @@
             android:layout_height="70dp"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="20dp"
-            android:background="#FFFFFF"
+            android:background="#00FFFFFF"
             android:foreground="@drawable/comm_0001_write" />
 
 
