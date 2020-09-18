@@ -7,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText idET;
     EditText passwordET;
+    EditText passwordET2;
+    EditText weightET;
     EditText nicknameET;
     ImageButton registerBtn;
 
@@ -46,7 +45,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         idET = (EditText) findViewById(R.id.idET);
         passwordET = (EditText) findViewById(R.id.passwordET);
+        passwordET2 = (EditText) findViewById(R.id.passwordET2);
+        weightET = (EditText) findViewById(R.id.weightET);
         nicknameET = (EditText) findViewById(R.id.nicknameET);
+
         registerBtn = (ImageButton) findViewById(R.id.registerBtn);
         catFace = (ImageView) findViewById(R.id.cat_face);
         catText = (TextView) findViewById(R.id.cat_text);
@@ -55,14 +57,18 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(nicknameET.length() * passwordET.length() * idET.length() == 0){
+                if(nicknameET.length() * passwordET.length() * passwordET2.length() * weightET.length() * idET.length() == 0){
                     catText.setText("비어있는 칸이 있어!");
+                }
+                else if(!passwordET.getText().toString().equals(passwordET2.getText().toString())){
+                    catText.setText("비밀번호가 다른걸? 다시 한번 확인해봐!");
                 }
                 else{
 
                     final String new_nickname = nicknameET.getText().toString();
                     final String new_id = idET.getText().toString();
                     final String new_password = passwordET.getText().toString();
+                    final String weight = weightET.getText().toString();
 
                     mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -88,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 catText.setText("그 아이디는 이미 존재해. 다른 아아디는 어때?");
                             }
                             else{
-                                addNewUser(new_nickname, new_id, new_password);
+                                addNewUser(new_nickname, new_id, new_password,  Integer.parseInt(weight));
                                 catText.setText(new_nickname + "!! \n멋진 이름이야. \n앞으로 잘 부탁해, " + new_nickname + ".");
                                 catFace.setImageResource(R.drawable.beth_0001);
 
@@ -113,14 +119,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void addNewUser(String new_nickname, String id, String password){
+    public void addNewUser(String new_nickname, String id, String password, int weight){
 
         DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
 
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
         // default value of userdata is -1,-1,-1 which means, user hadn't complete the survey yet!
-        UserData data = new UserData(new_nickname, id, password, -1, -1, -1);
+        UserData data = new UserData(new_nickname, id, password, weight);
         postValues = data.toMap();
         childUpdates.put("/user_list/" + new_nickname + "/", postValues);
         mPostReference.updateChildren(childUpdates);
