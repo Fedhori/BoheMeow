@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Random;
