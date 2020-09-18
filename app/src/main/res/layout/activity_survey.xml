@@ -10,24 +10,6 @@
 
 
     <ImageView
-        android:id="@+id/imageView_no"
-        android:layout_width="180dp"
-        android:layout_height="234dp"
-        android:layout_marginBottom="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/test_0007_no" />
-
-    <ImageView
-        android:id="@+id/imageView_yes"
-        android:layout_width="180dp"
-        android:layout_height="234dp"
-        android:layout_marginBottom="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/test_0006_yes" />
-
-    <ImageView
         android:id="@+id/imageView31"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -99,5 +81,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/test_0005_line" />
+
+    <Button
+        android:id="@+id/btn_no"
+        android:layout_width="180dp"
+        android:layout_height="234dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/test_0007_no"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_yes"
+        android:layout_width="180dp"
+        android:layout_height="234dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/test_0006_yes"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

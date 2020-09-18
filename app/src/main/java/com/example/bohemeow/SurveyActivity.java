@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,8 +67,7 @@ public class SurveyActivity extends AppCompatActivity{
     boolean[] answers = new boolean[100];
 
     ConstraintLayout constraintLayout;
-    ImageView iv_no;
-    ImageView iv_yes;
+
     ImageView iv;
     TextView tv_survey;
     TextView tv_num;
@@ -97,8 +98,7 @@ public class SurveyActivity extends AppCompatActivity{
         makeSurvey();
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.survey_layout);
-        iv_no = findViewById(R.id.imageView_no);
-        iv_yes = findViewById(R.id.imageView_yes);
+
         iv = findViewById(R.id.imageView8);
         tv_survey = (TextView) findViewById(R.id.survey_text);
         tv_num = findViewById(R.id.num);
@@ -118,6 +118,69 @@ public class SurveyActivity extends AppCompatActivity{
 
         tv_survey.setText(surveys[cur_survey].sentence);
 
+        Button btn_no = findViewById(R.id.btn_no);
+        btn_no.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                answers[cur_survey] = false;
+                preference[surveys[cur_survey].type] -= surveys[cur_survey].score;
+
+                cur_survey++;
+                if(cur_survey == num_survey){
+
+                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putString("registerUserName", username);
+                    editor.commit();
+
+                    int catType = decideCat(preference[0], preference[1], preference[2], 8);
+                    savePreference(username, preference, catType);
+                    Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
+                    intent.putExtra("catType", catType);
+                    startActivity(intent);
+                }
+                else{
+                    tv_num.setText(Integer.toString(cur_survey+1));
+                    tv_survey.setText(surveys[cur_survey].sentence);
+                }
+            }
+        });
+
+        Button btn_yes = findViewById(R.id.btn_yes);
+        btn_yes.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                answers[cur_survey] = true;
+                preference[surveys[cur_survey].type] += surveys[cur_survey].score;
+
+                cur_survey++;
+                if(cur_survey == num_survey){
+
+                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putString("registerUserName", username);
+                    editor.commit();
+
+                    int catType = decideCat(preference[0], preference[1], preference[2], 8);
+                    savePreference(username, preference, catType);
+                    Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
+                    intent.putExtra("catType", catType);
+                    startActivity(intent);
+                }
+                else{
+                    tv_num.setText(Integer.toString(cur_survey+1));
+                    tv_survey.setText(surveys[cur_survey].sentence);
+                }
+            }
+        });
+
+        /*
         iv.setOnTouchListener(new OnSwipeTouchListener(SurveyActivity.this){
             public void onSwipeLeft(){
                 answers[cur_survey] = false;
@@ -172,6 +235,7 @@ public class SurveyActivity extends AppCompatActivity{
 
 
         });
+         */
 
 /*
         iv_yes.setOnTouchListener(new OnSwipeTouchListener(SurveyActivity.this){
