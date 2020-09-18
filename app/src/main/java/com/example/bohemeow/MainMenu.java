@@ -38,8 +38,14 @@ public class MainMenu extends AppCompatActivity {
         df.setTimeZone(tz);
         int time = Integer.parseInt(df.format(date));
 
-        if(time <= 6 || time >= 18){
+        if(time <= 5 || time >= 21){
             windowIV.setImageResource(R.drawable.main_0005_windownight);
+        }
+        else if(time >= 18){
+            windowIV.setImageResource(R.drawable.windowsunset);
+        }
+        else if(time <= 8){
+            windowIV.setImageResource(R.drawable.windowmorning);
         }
 
         /*
