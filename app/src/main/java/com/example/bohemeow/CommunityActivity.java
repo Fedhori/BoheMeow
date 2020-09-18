@@ -1,5 +1,6 @@
 package com.example.bohemeow;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class CommunityActivity extends AppCompatActivity {
@@ -47,6 +53,7 @@ public class CommunityActivity extends AppCompatActivity {
     private ArrayList<post> mArrayList;
     private CustomAdapter mAdapter;
 
+    boolean isWritable = true;
     //private DatabaseReference mPostReference;
 
     @Override
@@ -67,24 +74,6 @@ public class CommunityActivity extends AppCompatActivity {
         // view pager
         //viewPager = findViewById(R.id.view_pager);
         //viewPager.setAdapter(createCardAdapter());
-
-
-
-        // button
-        Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
-        // add post button
-        add_post_btn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CommunityActivity.this, WritePostActivity.class);
-                intent.putExtra("username", username);
-                intent.putExtra("level", level);
-                intent.putExtra("catType", catType);
-                //intent.putExtra("name", name);
-                startActivity(intent);
-            }
-        });
 
 
 
@@ -138,6 +127,12 @@ public class CommunityActivity extends AppCompatActivity {
                     mArrayList.add(data);
                     textViewCounter.setText("");
                 }
+                int num = mArrayList.size();
+
+                String[] lastWriters = {mArrayList.get(num-1).getUsername(), mArrayList.get(num-2).getUsername(), mArrayList.get(num-3).getUsername()};
+                String lastDate = mArrayList.get(num-1).getTime();
+
+                isWritable = checkWritable(lastWriters, lastDate);
 
                 mAdapter.notifyDataSetChanged();
             }
@@ -151,6 +146,29 @@ public class CommunityActivity extends AppCompatActivity {
         mPostReference.child("post_list").addValueEventListener(postListener);
 
 
+
+
+
+        // button
+        Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
+        // add post button
+        add_post_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                if(isWritable) {
+                    Intent intent = new Intent(CommunityActivity.this, WritePostActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("level", level);
+                    intent.putExtra("catType", catType);
+                    //intent.putExtra("name", name);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(CommunityActivity.this, "연속해서 네개 이상의 게시물을 작성할수 없습니다.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
 
@@ -211,5 +229,31 @@ public class CommunityActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    //도배 방지, 하로에 연속해서 세개의 게시글을 올리면 isWritable = false
+    boolean checkWritable(String[] lastWriters, String lastDate){
+        int duplicated = 0;
+
+        for(String w:lastWriters){
+            if(username.equals(w)){
+                duplicated++;
+            }
+        }
+
+        if (duplicated >= 3){
+            TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+            Date date = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            df.setTimeZone(tz);
+            String time = df.format(date);
+
+            if(time.equals(lastDate.substring(0,10))){
+                return false;
+            }
+        }
+
+        return true;
     }
 }
