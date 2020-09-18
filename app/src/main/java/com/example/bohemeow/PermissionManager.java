@@ -1,7 +1,6 @@
 package com.example.bohemeow;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
