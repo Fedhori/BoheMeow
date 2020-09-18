@@ -29,11 +29,13 @@ public class WalkEndActivity extends AppCompatActivity {
     double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가? 단위: m
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
     long realWalkTime = 0; // 얼마나 오래 실제로 걸었는가? 단위: ms
+    long totalPoint = 0;
 
     long user_realWalkTime;
     long user_totalWalkTime;
     long user_totalWalkCount;
     double user_totalMoveLength;
+    long user_totalPoint;
 
     boolean isWritten = false;
 
@@ -48,6 +50,7 @@ public class WalkEndActivity extends AppCompatActivity {
         totalMoveLength = intent.getDoubleExtra("totalMoveLength", -1);
         totalWalkTime = intent.getLongExtra("totalWalkTime", -1);
         realWalkTime = intent.getLongExtra("realWalkTime", -1);
+        totalPoint = intent.getLongExtra("totalPoint", -1);
 
         TextView time = findViewById(R.id.time_view);
         TextView distance = findViewById(R.id.dis_view);
@@ -140,7 +143,7 @@ public class WalkEndActivity extends AppCompatActivity {
         // update value to firebase
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         String username = registerInfo.getString("registerUserName", "NULL");
-        updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength);
+        updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
     }
 
     @Override
@@ -149,7 +152,7 @@ public class WalkEndActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void updateUserData(String username, final long realWalkTime, final long totalWalkTime, final double totalMoveLength){
+    void updateUserData(String username, final long realWalkTime, final long totalWalkTime, final double totalMoveLength, final long totalPoint){
 
         ref = FirebaseDatabase.getInstance().getReference("user_list").child(username);
 
@@ -161,11 +164,13 @@ public class WalkEndActivity extends AppCompatActivity {
                     user_totalWalkTime = (long) dataSnapshot.child("totalWalkTime").getValue();
                     user_totalWalkCount = (long) dataSnapshot.child("totalWalkCount").getValue();
                     user_totalMoveLength = (double) dataSnapshot.child("totalWalkLength").getValue();
+                    user_totalPoint = (long) dataSnapshot.child("level").getValue();
 
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
+                    ref.child("level").setValue(user_totalPoint + totalPoint);
 
                     isWritten = true;
                 }

@@ -48,10 +48,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -87,7 +91,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     String region = "";
     boolean isFree = false;
 
-    private double maxMoveLength = 10f; // 최소 10m는 이동해야 데이터가 저장됨
+    private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
     private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
     private double prevLat = -1f;
@@ -96,11 +100,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private int moveCnt = 0;
 
     Double minMovementSpeed = 0.1d; // m/s, ex) 0.1m/s is 0.36km/h
+    Double maxMovementSpeed = 10d; // 36km/h
 
     long totalWalkTime = 0;
     long walkStartTime = 0;
     long walkEndTime = 0;
     long realWalkTime = 0;
+    long totalPoint = 0;
+
+    long user_totalPoint = 0;
+    DatabaseReference ref;
+    boolean isWritten = false;
+
+    double[] lats;
+    double[] lngs;
+    boolean[] isVisited;
+    int arr_length;
 
     String nickname;
 
@@ -158,6 +173,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("totalWalkTime", totalWalkTime);
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
+                intent.putExtra("totalPoint", totalPoint);
                 startActivity(intent);
             }
         });
@@ -179,8 +195,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
 
-        double[] lats = intent.getDoubleArrayExtra("lats");
-        double[] lngs = intent.getDoubleArrayExtra("lngs");
+        lats = intent.getDoubleArrayExtra("lats");
+        lngs = intent.getDoubleArrayExtra("lngs");
+        arr_length = lats.length;
 
         // set screen to start position
         tMapView.setLocationPoint(lngs[0], lats[0]);
@@ -343,21 +360,31 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
             tMapView.addTMapPolyLine("Line1", userRoute);
 
+            // get move length
             double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
 
-            curMoveLength += moveLength;
-            if(maxMoveLength <= curMoveLength){
-                addCoordinationData(latitude, longtitude);
-                addCoordinationID(latitude, longtitude);
-                curMoveLength = 0f;
-            }
-
-            totalMoveLength += moveLength;
-
+            // check the speed
             long intervalTime = System.currentTimeMillis() - prevTime;
             // 만일 사용자가 최소 이동속도 (minMovementSpeed, 현재는 0.1m/s -> 0.36km/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
-            if(moveLength * 1000d / (double)intervalTime > minMovementSpeed){
+            // 만일 사용자가 최대 이동속도 36km/h보다 빠르게 이동해도 제외.
+            if(moveLength * 1000d / (double)intervalTime > minMovementSpeed && moveLength * 1000d / (double)intervalTime < maxMovementSpeed){
+
                 realWalkTime += intervalTime;
+
+                curMoveLength += moveLength;
+                if(maxMoveLength <= curMoveLength){
+                    addCoordinationData(latitude, longtitude);
+                    addCoordinationID(latitude, longtitude);
+
+                    checkNearSpot(latitude, longtitude);
+                    // 100m당 10점이니까, 30m(maxMoveLength)당 3점
+                    totalPoint+=3;
+
+                    // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
+
+                    curMoveLength = 0f;
+                }
+                totalMoveLength += moveLength;
             }
 
             prevLat = latitude;
@@ -523,6 +550,33 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 String noteContent = data.getStringExtra("result");
                 // 쪽지를 Firebase에 저장하기
                 addNewNote(nickname, prevLat, prevLong, noteContent);
+
+                SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
+                int lastDate = countInfo.getInt("lastDate", -1); // 가장 마지막으로 쪽지를 남긴 날짜
+                int todayCount = countInfo.getInt("todayCount", 0); // 오늘 작성한 쪽지의 갯수
+
+                Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+                int todayDate = Integer.parseInt(dayFormat.format(currentTime)); // 실제 오늘 날짜
+
+                // 새로운 날에 쪽지 작성시, todayCount 초기화
+                if(todayDate != lastDate){
+                    lastDate = todayDate;
+                    todayCount = 0;
+                }
+
+                todayCount++;
+
+                // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
+                if(todayCount <= 3){
+                    totalPoint += 10;
+                }
+
+                // 로컬 데이터에 다시 업데이트
+                SharedPreferences.Editor editor = countInfo.edit();
+                editor.putInt("lastDate", lastDate);
+                editor.putInt("todayCount", todayCount);
+                editor.commit();
             }
         }
     }
@@ -577,6 +631,42 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void checkNearSpot(double user_lat, double user_lng){
+        // except first spot (which is start point)
+        for(int i = 1;i<arr_length;i++){
+            // if user is nearer than 50m at the point & not visited yet
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
+                isVisited[i] = true;
+                // add 100 point!
+                totalPoint += 100;
+
+                Toast.makeText(WalkActivity.this, "스팟 도달! +100포인트", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    // when you need to update the point, use this method
+    void updatePoint(String username, final long totalPoint){
+
+        ref = FirebaseDatabase.getInstance().getReference("user_list").child(username);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!isWritten) {
+                    user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                    ref.child("realWalkTime").setValue(user_totalPoint + totalPoint);
+                    isWritten = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
