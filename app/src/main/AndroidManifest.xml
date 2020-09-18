@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".PostPopupActivity" android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".DelPopupActivity" android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".WalkLoadingActivity" />
         <activity android:name=".WalkEndActivity" />
         <activity android:name=".LoginActivity" />

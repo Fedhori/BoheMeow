@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -83,15 +85,19 @@ public class PostPopupActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(pst.getUsername().equals(username)){
-                    Intent intent1 = new Intent(PostPopupActivity.this, EditPostActivity.class);
-                    intent1.putExtra("post", pst);
-                    startActivity(intent1);
+                    Intent intent = new Intent( PostPopupActivity.this, DelPopupActivity.class);
+                    intent.putExtra("post", pst);
+                    startActivityForResult(intent, 2);
+
+
                 }
                 else {
                     Toast.makeText(PostPopupActivity.this, "삭제 권한이 없습니다.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+
 
 
         iconIV = (ImageView)findViewById(R.id.user_icon);
@@ -146,6 +152,16 @@ public class PostPopupActivity extends Activity {
         iconIV.setImageResource(icons[catType]);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==2){
+            if(resultCode==RESULT_OK){
+                //데이터 받기
+                finish();
+            }
+        }
     }
 
     String Date(String time){
