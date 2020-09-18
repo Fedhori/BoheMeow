@@ -60,11 +60,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-
-
-
-
-
 public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
 
     private DatabaseReference mPostReference;

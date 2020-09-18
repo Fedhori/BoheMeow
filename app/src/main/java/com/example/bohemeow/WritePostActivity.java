@@ -17,8 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,6 +54,12 @@ public class WritePostActivity extends AppCompatActivity{
     String username;
     int level;
     int catType;
+    String date;
+
+    long user_totalPoint = 0;
+    DatabaseReference ref;
+
+    boolean isUpdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +111,7 @@ public class WritePostActivity extends AppCompatActivity{
                 }
                 else{
                     postFirebaseDatabase(true);
+                    updatePoint(username, 50);
 
                     Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
                     startActivity(intent);
@@ -143,11 +153,11 @@ public class WritePostActivity extends AppCompatActivity{
         }
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
-        Date date = new Date();
+        Date d = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         df.setTimeZone(tz);
-        String time = df.format(date);
-
+        String time = df.format(d);
+        date = time.substring(0,10);
 
 
         childUpdates = new HashMap<>();
@@ -184,5 +194,43 @@ public class WritePostActivity extends AppCompatActivity{
         else{
             mPostReference.updateChildren(childUpdates);
         }
+
     }
+
+
+
+    void updatePoint(String username, final long totalPoint){
+
+        ref = FirebaseDatabase.getInstance().getReference("user_list").child(username);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (!isUpdated) {
+                    String lastDate = dataSnapshot.child("lastPost").child("date").getValue().toString().substring(0, 10);
+                    if (date.equals(lastDate)) {
+                        long num = (long) dataSnapshot.child("lastPost").child("num").getValue();
+                        if (num < 3) {
+                            user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                            ref.child("level").setValue(user_totalPoint + totalPoint);
+                        }
+                        ref.child("lastPost").child("num").setValue(num + 1);
+                    } else {
+                        user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                        ref.child("level").setValue(user_totalPoint + totalPoint);
+                        ref.child("lastPost").child("date").setValue(date);
+                        ref.child("lastPost").child("num").setValue(0);
+                    }
+                    isUpdated = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

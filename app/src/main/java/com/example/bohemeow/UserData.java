@@ -19,6 +19,9 @@ public class UserData {
     public double enviScore;
     public double popularity;
 
+    public String date;
+    public int num;
+
     public UserData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
@@ -41,6 +44,9 @@ public class UserData {
         this.realWalkTime = 0;
         this.level = 1;
         this.isItemExist = false;
+
+        this.num = 0;
+        this.date = "0000-00-00 ";
     }
 
 
@@ -62,6 +68,12 @@ public class UserData {
         result.put("level", level);
         result.put("catType", catType);
         result.put("isItemExist", isItemExist);
+
+        HashMap<String, Object> lastPost = new HashMap<>();
+        lastPost.put("date", date);
+        lastPost.put("num", num);
+
+        result.put("lastPost", lastPost);
 
         return result;
     }
