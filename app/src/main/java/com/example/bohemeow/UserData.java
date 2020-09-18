@@ -9,9 +9,9 @@ public class UserData {
     public String password;
     public int weight;
     public double totalWalkLength;
-    public double totalWalkTime;
+    public long totalWalkTime;
     public int totalWalkCount;
-    public double realWalkTime;
+    public long realWalkTime;
     public int level;
     public int catType;
     public boolean isItemExist;

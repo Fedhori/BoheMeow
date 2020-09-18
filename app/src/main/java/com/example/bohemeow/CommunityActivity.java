@@ -54,14 +54,7 @@ public class CommunityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
-
-
-        // someday.. 언제나 bonjour! 유저의 데이터만 받아올수는 없잖아?
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = registerInfo.edit();
-        editor.putString("registerUserName", "Bonjour!");
-        editor.commit();
-
         // get user preference values
         username = registerInfo.getString("registerUserName", "NULL");
         getUserData(username);

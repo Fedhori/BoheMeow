@@ -35,12 +35,7 @@ public class SelectActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        // 현재는 유저 닉네임이 BonJour! 인 유저만의 정보를 받아올 수 있다. 추후 수정 예정
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = registerInfo.edit();
-        editor.putString("registerUserName", "Bonjour!");
-        editor.commit();
-
         // get user preference values
         String user_nickname = registerInfo.getString("registerUserName", "NULL");
         getUserPreferences(user_nickname);

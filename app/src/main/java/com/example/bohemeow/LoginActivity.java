@@ -79,8 +79,17 @@ public class LoginActivity extends AppCompatActivity {
 
                             // someday, you need to add sharedpreference stuff
                             if(isLoginSuccess){
+
+                                Toast.makeText(LoginActivity.this,  username, Toast.LENGTH_LONG).show();
+
                                 // go to main menu
                                 if(isSurveyComplete){
+                                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = registerInfo.edit();
+                                    editor.putString("registerUserName", username);
+                                    editor.commit();
+
                                     Intent intent = new Intent(LoginActivity.this, MainMenu.class);
                                     startActivity(intent);
                                 }

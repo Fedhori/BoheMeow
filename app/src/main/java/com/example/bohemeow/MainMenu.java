@@ -2,7 +2,9 @@ package com.example.bohemeow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +23,6 @@ public class MainMenu extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     private Toast toast;
     ImageView windowIV;
-    Button select_btn;
     Random rnd;
 
     @Override
@@ -30,7 +31,7 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         windowIV = findViewById(R.id.iv_window);
-        select_btn = findViewById(R.id.btn_to_select);
+
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
         Date date = new Date();
@@ -77,6 +78,21 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenu.this, SelectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button logoutBtn = (Button) findViewById(R.id.btn_logout);
+        logoutBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = registerInfo.edit();
+                editor.putString("registerUserName", "NULL");
+                editor.commit();
+
+                Intent intent = new Intent(MainMenu.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

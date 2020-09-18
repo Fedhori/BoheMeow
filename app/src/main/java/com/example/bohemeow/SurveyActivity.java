@@ -86,11 +86,13 @@ public class SurveyActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
 
+        /*
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = registerInfo.edit();
         editor.putString("registerUserName", "Bonjour!");
         editor.commit();
         String user_nickname = registerInfo.getString("registerUserName", "NULL");
+         */
 
         makeSurvey();
 
@@ -123,6 +125,13 @@ public class SurveyActivity extends AppCompatActivity{
 
                 cur_survey++;
                 if(cur_survey == num_survey){
+
+                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putString("registerUserName", username);
+                    editor.commit();
+
                     int catType = decideCat(preference[0], preference[1], preference[2], 8);
                     savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
@@ -141,6 +150,13 @@ public class SurveyActivity extends AppCompatActivity{
 
                 cur_survey++;
                 if(cur_survey == num_survey){
+
+                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putString("registerUserName", username);
+                    editor.commit();
+
                     int catType = decideCat(preference[0], preference[1], preference[2], 8);
                     savePreference(username, preference, catType);
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
