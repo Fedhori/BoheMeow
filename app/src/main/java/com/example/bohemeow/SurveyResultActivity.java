@@ -69,7 +69,7 @@ public class SurveyResultActivity extends AppCompatActivity{
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SurveyResultActivity.this, MainMenu.class);
+                Intent intent = new Intent(SurveyResultActivity.this, TutorialActivity.class);
                 SurveyResultActivity.this.finish();
                 startActivity(intent);
             }
