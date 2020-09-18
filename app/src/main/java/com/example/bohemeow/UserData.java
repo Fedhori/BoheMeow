@@ -7,6 +7,7 @@ public class UserData {
     public String nickname;
     public String id;
     public String password;
+    public int weight;
     public double totalWalkLength;
     public double totalWalkTime;
     public int totalWalkCount;
@@ -22,16 +23,17 @@ public class UserData {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public UserData(String nickname, String id, String password, double safeScore, double enviScore, double popularity) {
+    public UserData(String nickname, String id, String password, int weight) {
         // set by constructor
         this.nickname = nickname;
         this.id = id;
         this.password = password;
-        this.safeScore = safeScore;
-        this.enviScore = enviScore;
-        this.popularity = popularity;
+        this.weight = weight;
 
         // default value
+        this.safeScore = -1;
+        this.enviScore = -1;
+        this.popularity = -1;
         this.catType = 0;
         this.totalWalkLength = 0;
         this.totalWalkTime = 0;
@@ -56,6 +58,7 @@ public class UserData {
         result.put("totalWalkTime", totalWalkTime);
         result.put("totalWalkCount", totalWalkCount);
         result.put("realWalkTime", realWalkTime);
+        result.put("weight", weight);
         result.put("level", level);
         result.put("catType", catType);
         result.put("isItemExist", isItemExist);
