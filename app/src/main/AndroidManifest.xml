@@ -32,6 +32,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CommunityActivity" />
         <activity android:name=".WritePostActivity" />
+        <activity android:name=".TutorialActivity"/>
         <activity android:name=".EditPostActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".LoadingActivity">
             <intent-filter>
