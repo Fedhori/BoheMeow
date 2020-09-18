@@ -156,7 +156,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         }
 
 
-
+        level = calculateLevel(level);
 
         viewholder.usernameTV.setText(username);
         viewholder.contentTV.setText(content);
@@ -188,5 +188,18 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         t = t + time.substring(11,16);
 
         return t;
+    }
+
+
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
     }
 }
