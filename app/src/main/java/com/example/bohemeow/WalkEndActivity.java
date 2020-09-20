@@ -57,6 +57,7 @@ public class WalkEndActivity extends AppCompatActivity {
         TextView pace = findViewById(R.id.pace_view);
         TextView comment = findViewById(R.id.comment);
         TextView callory = findViewById(R.id.cal_view);
+        TextView score = findViewById(R.id.score_view);
 
         long totalTime = totalWalkTime; // ms
         long hour;
@@ -128,8 +129,7 @@ public class WalkEndActivity extends AppCompatActivity {
             pace.setText("데이터가 부족합니다.");
         }
 
-
-
+        score.setText(String.valueOf(totalPoint));
 
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +172,45 @@ public class WalkEndActivity extends AppCompatActivity {
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
                     ref.child("level").setValue(user_totalPoint + totalPoint);
+
+                    TextView totalTime_tv = findViewById(R.id.total_time_view);
+                    TextView totalDist_tv = findViewById(R.id.total_dis_view);
+
+                    long totalTime = user_totalWalkTime + totalWalkTime; // ms
+                    long hour;
+                    long minute;
+                    long second;
+
+                    hour = totalTime / 3600000;
+                    totalTime %= 3600000;
+                    minute = totalTime / 60000;
+                    totalTime %= 60000;
+                    second = totalTime / 1000;
+
+                    String timeText = "";
+                    if(hour >= 10){
+                        timeText += String.valueOf(hour);
+                    }
+                    else{
+                        timeText += "0" + hour;
+                    }
+                    timeText += ":";
+                    if(minute >= 10){
+                        timeText += String.valueOf(minute);
+                    }
+                    else{
+                        timeText += "0" + minute;
+                    }
+                    timeText += ":";
+                    if(second >= 10){
+                        timeText += String.valueOf(second);
+                    }
+                    else{
+                        timeText += "0" + second;
+                    }
+                    totalTime_tv.setText(timeText);
+
+                    totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d));
 
                     isWritten = true;
                 }
