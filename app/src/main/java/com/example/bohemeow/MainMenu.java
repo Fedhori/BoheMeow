@@ -125,8 +125,9 @@ public class MainMenu extends AppCompatActivity {
         }
 
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-            finish();
-            //toast.cancel();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
         }
     }
 
