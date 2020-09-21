@@ -148,6 +148,20 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         });
     }
 
+    void setNum(){
+
+        if(min <= 40) num = 1;
+        else if(min <= 70) num = 2;
+        else if(min <= 120) num = 3;
+        else if (min < 160) num = 4;
+        else num = 5;
+
+    }
+
+    void setDistance(){
+
+    }
+
     private void turnGPSOn(){
 
         LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);

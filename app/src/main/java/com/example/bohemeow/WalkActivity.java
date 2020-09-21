@@ -503,7 +503,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                             //childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             //myRef.updateChildren(childUpdates);
 
-                            if(num >= 30){
+                            if(num >= 25){
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
 
