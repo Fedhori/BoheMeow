@@ -1,6 +1,8 @@
 package com.example.bohemeow;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,8 +30,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -195,6 +199,35 @@ public class WritePostActivity extends AppCompatActivity{
             mPostReference.updateChildren(childUpdates);
         }
 
+    }
+
+    void updateScore(long totalPoint){
+        SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
+        int lastDate = countInfo.getInt("lastDate", -1); // 가장 마지막으로 쪽지를 남긴 날짜
+        int todayCount = countInfo.getInt("todayCount", 0); // 오늘 작성한 쪽지의 갯수
+
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd", Locale.getDefault());
+        int todayDate = Integer.parseInt(dayFormat.format(currentTime)); // 실제 오늘 날짜
+
+        // 새로운 날에 쪽지 작성시, todayCount 초기화
+        if(todayDate != lastDate){
+            lastDate = todayDate;
+            todayCount = 0;
+        }
+
+        todayCount++;
+
+        // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
+        if(todayCount <= 3){
+            totalPoint += 10;
+        }
+
+        // 로컬 데이터에 다시 업데이트
+        SharedPreferences.Editor editor = countInfo.edit();
+        editor.putInt("lastDate", lastDate);
+        editor.putInt("todayCount", todayCount);
+        editor.commit();
     }
 
 
