@@ -136,6 +136,17 @@ class SpotDetail {
         return user_score;
     }
 
+    public int getTotal_score(){
+        return total_score;
+    }
+
+    public int getVisitor() {
+        return visitor;
+    }
+
+    public int getVisitor_week() {
+        return visitor_week;
+    }
 }
 
 public class SpotFilter {
@@ -364,23 +375,35 @@ public class SpotFilter {
         final boolean[] isGood = {true};
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference MyRef = databaseReference.child("spot_data").child(region).child("spots");
+        final DatabaseReference MyRef = databaseReference.child("spot_data").child(region).child("spots");
 
         MyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                ArrayList<SpotDetail> del_list = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    int limitDis = 300;
+                    int limitDis = 800;
 
                     if (distFrom(spot.lat, spot.lng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                        isGood[0] = false;
-                        System.out.println("\nIt's too near. " + spot.name);
-                        break;
+                        int score = spotDetail.getTotal_score() + spotDetail.getVisitor() + spotDetail.getVisitor_week()*2;
+                        if(spot.total_score > score) {
+                            del_list.add(spotDetail);
+                        }
+                        else{
+                            isGood[0] = false;
+                            System.out.println("\nIt's too near. " + spot.name);
+                            break;
+                        }
                     }
                 }
                 if (isGood[0]){
+
+                    for(SpotDetail s:del_list){
+                        MyRef.child(s.getPlace_id()).removeValue();
+                    }
+
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
                     Map<String, Object> childUpdates = new HashMap<>();
