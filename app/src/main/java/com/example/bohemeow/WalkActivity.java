@@ -346,6 +346,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // 이 코드를 넣으면 화면 중앙으로 고정됨
             //tMapView.setCenterPoint(longtitude, latitude);
             userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
+            userRoute.setLineColor(Color.RED);
             tMapView.addTMapPolyLine("Line1", userRoute);
 
             // get move length
