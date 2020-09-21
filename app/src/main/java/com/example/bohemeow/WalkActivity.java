@@ -198,6 +198,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         userRoute = new TMapPolyLine();
         userRoute.setLineColor(Color.RED);
+        userRoute.setOutLineColor(Color.RED);
         userRoute.setLineWidth(1);
 
         if(!isFree) {
@@ -346,7 +347,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // 이 코드를 넣으면 화면 중앙으로 고정됨
             //tMapView.setCenterPoint(longtitude, latitude);
             userRoute.addLinePoint(new TMapPoint(latitude, longtitude));
+            /*
             userRoute.setLineColor(Color.RED);
+            userRoute.setOutLineColor(Color.RED);
+             */
             tMapView.addTMapPolyLine("Line1", userRoute);
 
             // get move length
