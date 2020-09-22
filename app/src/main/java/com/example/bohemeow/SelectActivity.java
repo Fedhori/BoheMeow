@@ -41,7 +41,7 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-        checkBox = findViewById(R.id.checkBox);
+        checkBox = findViewById(R.id.checkBox3);
 
 
 

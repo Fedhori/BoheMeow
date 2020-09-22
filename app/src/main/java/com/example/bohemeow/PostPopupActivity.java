@@ -141,6 +141,8 @@ public class PostPopupActivity extends Activity {
             });
         }
 
+        level = calculateLevel(level);
+
         usernameTV.setText(username);
         contentTV.setText(content);
         tagTV.setText(tag);
@@ -177,6 +179,18 @@ public class PostPopupActivity extends Activity {
         t = t + time.substring(11,16);
 
         return t;
+    }
+
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
     }
 
     @Override

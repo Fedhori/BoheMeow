@@ -1,9 +1,13 @@
 package com.example.bohemeow;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserData {
+public class UserData implements Serializable {
     public String nickname;
     public String id;
     public String password;
@@ -77,4 +81,7 @@ public class UserData {
 
         return result;
     }
+
+
+
 }

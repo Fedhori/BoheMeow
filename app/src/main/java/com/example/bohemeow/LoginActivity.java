@@ -54,55 +54,55 @@ public class LoginActivity extends AppCompatActivity {
                     final String password = passwordET.getText().toString();
 
                     mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            boolean isLoginSuccess = false;
-                            boolean isSurveyComplete = false;
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                boolean isLoginSuccess = false;
+                                boolean isSurveyComplete = false;
 
-                            String username = "";
+                                String username = "";
 
-                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                                UserData get = postSnapshot.getValue(UserData.class);
+                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                                    UserData get = postSnapshot.getValue(UserData.class);
 
-                                if(id.equals(get.id) && password.equals(get.password)){
-                                    isLoginSuccess = true;
-                                    if(get.popularity == -1){
-                                        isSurveyComplete = false;
+                                    if(id.equals(get.id) && password.equals(get.password)){
+                                        isLoginSuccess = true;
+                                        if(get.popularity == -1){
+                                            isSurveyComplete = false;
+                                        }
+                                        else{
+                                            isSurveyComplete = true;
+                                        }
+                                        username = get.nickname;
                                     }
+                                }
+
+                                // someday, you need to add sharedpreference stuff
+                                if(isLoginSuccess){
+
+                                    Toast.makeText(LoginActivity.this,  username, Toast.LENGTH_LONG).show();
+
+                                    // go to main menu
+                                    if(isSurveyComplete){
+                                        // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
+                                        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = registerInfo.edit();
+                                        editor.putString("registerUserName", username);
+                                        editor.commit();
+
+                                        Intent intent = new Intent(LoginActivity.this, MainMenu.class);
+                                        startActivity(intent);
+                                    }
+                                    // go to survey screen
                                     else{
-                                        isSurveyComplete = true;
+                                        Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
+                                        intent.putExtra("username", username);
+                                        startActivity(intent);
                                     }
-                                    username = get.nickname;
                                 }
-                            }
-
-                            // someday, you need to add sharedpreference stuff
-                            if(isLoginSuccess){
-
-                                Toast.makeText(LoginActivity.this,  username, Toast.LENGTH_LONG).show();
-
-                                // go to main menu
-                                if(isSurveyComplete){
-                                    // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
-                                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = registerInfo.edit();
-                                    editor.putString("registerUserName", username);
-                                    editor.commit();
-
-                                    Intent intent = new Intent(LoginActivity.this, MainMenu.class);
-                                    startActivity(intent);
-                                }
-                                // go to survey screen
                                 else{
-                                    Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
-                                    intent.putExtra("username", username);
-                                    startActivity(intent);
+                                    Toast.makeText(LoginActivity.this, "잘못된 아이디나 비밀번호입니다.", Toast.LENGTH_LONG).show();
                                 }
                             }
-                            else{
-                                Toast.makeText(LoginActivity.this, "잘못된 아이디나 비밀번호입니다.", Toast.LENGTH_LONG).show();
-                            }
-                        }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
