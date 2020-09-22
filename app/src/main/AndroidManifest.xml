@@ -34,6 +34,12 @@
         <activity android:name=".WritePostActivity" />
         <activity android:name=".TutorialActivity"/>
         <activity android:name=".EditPostActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".MainConfigActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ConfigDelActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ConfigEditActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ConfigLogoutActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ConfigBackgroundActivity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ConfigCharacterActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

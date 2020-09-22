@@ -1,15 +1,23 @@
 package com.example.bohemeow;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +31,7 @@ public class MainMenu extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     private Toast toast;
     ImageView windowIV;
+    String username;
     Random rnd;
 
     @Override
@@ -59,6 +68,9 @@ public class MainMenu extends AppCompatActivity {
          */
 
 
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        username = registerInfo.getString("registerUserName", "NULL");
+
         Intent intent = getIntent();
 
         Button communityBtn = (Button) findViewById(R.id.btn_community);
@@ -66,7 +78,6 @@ public class MainMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainMenu.this, CommunityActivity.class);
                 Intent intent = new Intent(MainMenu.this, CommunityActivity.class);
                 startActivity(intent);
             }
@@ -97,18 +108,32 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        /*
-        Button tempBtn = (Button) findViewById(R.id.btn_furniture);
-        tempBtn.setOnClickListener(new View.OnClickListener(){
+
+        Button configBtn = (Button) findViewById(R.id.btn_itemboard);
+        configBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, SurveyActivity.class);
-                startActivity(intent);
+                DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+                mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserData get = dataSnapshot.child(username).getValue(UserData.class);
+                        System.out.println(get);
+                        Intent intent = new Intent(MainMenu.this, MainConfigActivity.class);
+                        intent.putExtra("userdata", get);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
-         */
+
     }
 
 
@@ -117,10 +142,10 @@ public class MainMenu extends AppCompatActivity {
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            /*
+
             toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
-             */
+
             return;
         }
 
