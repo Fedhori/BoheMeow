@@ -39,10 +39,15 @@ public class WalkEndActivity extends AppCompatActivity {
 
     boolean isWritten = false;
 
+    TextView callory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk_end);
+
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        String username = registerInfo.getString("registerUserName", "NULL");
 
         // get intent
         Intent intent = getIntent();
@@ -56,7 +61,7 @@ public class WalkEndActivity extends AppCompatActivity {
         TextView distance = findViewById(R.id.dis_view);
         TextView pace = findViewById(R.id.pace_view);
         TextView comment = findViewById(R.id.comment);
-        TextView callory = findViewById(R.id.cal_view);
+        callory = findViewById(R.id.cal_view);
         TextView score = findViewById(R.id.score_view);
 
         long totalTime = totalWalkTime; // ms
@@ -93,11 +98,20 @@ public class WalkEndActivity extends AppCompatActivity {
         }
         time.setText(timeText);
 
-        double cal;
-        int weight = 60;//임의의 무게
-        cal = 0.9 * weight * (realWalkTime/60000) / 15;
-        callory.setText(Double.toString(cal) + "kcal");
 
+        ref = FirebaseDatabase.getInstance().getReference("user_list").child(username);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                double cal;
+                long weight =  (long) dataSnapshot.child("weight").getValue();
+                cal = 0.9 * weight * (realWalkTime/60000) / 15;
+                callory.setText(Double.toString(cal) + "kcal");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         distance.setText(String.format("%.2f", totalMoveLength / 1000d));
 
@@ -141,8 +155,6 @@ public class WalkEndActivity extends AppCompatActivity {
         });
 
         // update value to firebase
-        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        String username = registerInfo.getString("registerUserName", "NULL");
         updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
     }
 
@@ -222,5 +234,7 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }
