@@ -28,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton registerBtn;
     ImageButton loginBtn;
 
+    //뒤로가기 두번 시 종료되도록 구현 예정
+    private long backKeyPressedTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                                 // someday, you need to add sharedpreference stuff
                                 if(isLoginSuccess){
 
-                                    Toast.makeText(LoginActivity.this,  username, Toast.LENGTH_LONG).show();
-
                                     // go to main menu
                                     if(isSurveyComplete){
                                         // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
@@ -122,5 +123,24 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+        }
     }
 }

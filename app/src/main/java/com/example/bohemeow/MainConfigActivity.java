@@ -1,13 +1,17 @@
 package com.example.bohemeow;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainConfigActivity extends Activity {
 
@@ -25,6 +29,8 @@ public class MainConfigActivity extends Activity {
     Button man_btn;
     Button logout_btn;
     Button delacc_btn;
+
+    ProgressBar progressBar;
 
 
 
@@ -118,7 +124,8 @@ public class MainConfigActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigEditActivity.class);
-                startActivity(intent);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -127,7 +134,7 @@ public class MainConfigActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigBackgroundActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -136,7 +143,7 @@ public class MainConfigActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigLogoutActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -145,21 +152,47 @@ public class MainConfigActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigDelActivity.class);
-                startActivity(intent);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
             }
         });
 
 
+        progressBar = findViewById(R.id.progressbar);
 
+        double currentLevel = 0;
+
+        if(userData.level >= 10000){
+            currentLevel = ((double) ((userData.level - 10000) % 1500)) / 15d;
+        }
+        else{
+            currentLevel = ((double) userData.level % 1000) / 10d;
+        }
+
+        progressBar.setProgress((int)currentLevel);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==2){
-            if(resultCode==RESULT_OK){
-                //데이터 받기
-                finish();
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+
+            Intent intent = new Intent();
+
+            switch(resultCode){
+                case RESULT_OK: // result_ok -> nothing happened
+                    break;
+                case 0: // background case
+                    setResult(0, intent);
+                    finish();
+                    break;
+                case 1: // logout & delete account case
+                    setResult(1, intent);
+                    finish();
+                    break;
+                default:
+                    break;
             }
         }
     }

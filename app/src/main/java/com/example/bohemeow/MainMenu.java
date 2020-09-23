@@ -2,6 +2,8 @@ package com.example.bohemeow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,6 +70,8 @@ public class MainMenu extends AppCompatActivity {
          */
 
 
+        UpdateBackground();
+
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         username = registerInfo.getString("registerUserName", "NULL");
 
@@ -93,22 +97,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button logoutBtn = (Button) findViewById(R.id.btn_logout);
-        logoutBtn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = registerInfo.edit();
-                editor.putString("registerUserName", "NULL");
-                editor.commit();
-
-                Intent intent = new Intent(MainMenu.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         Button configBtn = (Button) findViewById(R.id.btn_itemboard);
         configBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -122,7 +110,7 @@ public class MainMenu extends AppCompatActivity {
                         System.out.println(get);
                         Intent intent = new Intent(MainMenu.this, MainConfigActivity.class);
                         intent.putExtra("userdata", get);
-                        startActivity(intent);
+                        startActivityForResult(intent, 1);
                     }
 
                     @Override
@@ -157,6 +145,44 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    public void UpdateBackground(){
+        ConstraintLayout background = findViewById(R.id.mainmenu_background);
+        SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
+        switch(backgroundImageCode){
+            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0005_blue));
+                break;
+            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0007_yellow));
+                break;
+            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0008_green));
+                break;
+            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0009_red));
+                break;
+            default:
+                break;
+        }
+    }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==1){
+            switch(resultCode){
+                case 0: // background case
+                    UpdateBackground();
+                    break;
+                case 1: // logout case
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putString("registerUserName", "NULL");
+                    editor.commit();
+
+                    Intent intent = new Intent(MainMenu.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+            }
+        }
+    }
 
 }

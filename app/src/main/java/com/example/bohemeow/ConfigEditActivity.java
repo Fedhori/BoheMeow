@@ -22,15 +22,16 @@ public class ConfigEditActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_popup_modify);
 
-        final Intent intent = getIntent();
+        Intent intent = getIntent();
+        final UserData userData = (UserData) intent.getSerializableExtra("userdata");
 
         Button editPW_btn = findViewById(R.id.editPW_btn);
         editPW_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                //double check
-
+                Intent intent = new Intent(ConfigEditActivity.this, ConfigEditPasswordActivity.class);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -38,6 +39,18 @@ public class ConfigEditActivity extends Activity {
         editWeight_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(ConfigEditActivity.this, ConfigEditWeightActivity.class);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        Button back_btn = findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -54,5 +67,23 @@ public class ConfigEditActivity extends Activity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+
+            Intent intent = new Intent();
+
+            switch(resultCode){
+                case RESULT_OK:
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    break;
+                default:
+                    // nothing happened
+                    break;
+            }
+        }
+    }
 
 }

@@ -19,8 +19,8 @@
 
     <CheckBox
         android:id="@+id/checkBox4"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:button="@drawable/mycheck"
         android:checked="false"
@@ -30,8 +30,8 @@
 
     <CheckBox
         android:id="@+id/checkBox5"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:button="@drawable/mycheck"
         android:checked="false"
@@ -41,8 +41,8 @@
 
     <CheckBox
         android:id="@+id/checkBox3"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:button="@drawable/mycheck"
         android:checked="false"
@@ -52,8 +52,8 @@
 
     <CheckBox
         android:id="@+id/checkBox2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:button="@drawable/mycheck"
         android:checked="false"
@@ -66,9 +66,9 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginEnd="40dp"
+        android:background="@drawable/_0009_red"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView35"
-        app:srcCompat="@drawable/_0009_red" />
+        app:layout_constraintTop_toTopOf="@+id/imageView35" />
 
     <ImageView
         android:id="@+id/imageView35"
@@ -76,15 +76,16 @@
         android:layout_height="90dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="45dp"
+        android:background="@drawable/_0008_green"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView29"
-        app:srcCompat="@drawable/_0008_green" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView29" />
 
     <ImageView
         android:id="@+id/imageView34"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginEnd="40dp"
+        android:background="@drawable/_0007_yellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView29"
         app:srcCompat="@drawable/_0007_yellow" />
@@ -95,6 +96,7 @@
         android:layout_height="90dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="60dp"
+        android:background="@drawable/_0005_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/_0005_blue" />

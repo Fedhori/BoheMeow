@@ -174,6 +174,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 //데이터 담아서 팝업(액티비티) 호출
                 Intent intent = new Intent(WalkActivity.this, PopupActivity.class);
                 startActivityForResult(intent, 1);
+                finish();
             }
         });
 
@@ -241,6 +242,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WalkActivity.this, MainMenu.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -300,7 +302,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     public void drawNoteMarker(NoteData noteData){
 
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map_memo);
         // resize bitmap
         bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
 
@@ -360,7 +362,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             long intervalTime = System.currentTimeMillis() - prevTime;
             // 만일 사용자가 최소 이동속도 (minMovementSpeed, 현재는 0.1m/s -> 0.36km/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
             // 만일 사용자가 최대 이동속도 36km/h보다 빠르게 이동해도 제외.
-            if(moveLength * 1000d / (double)intervalTime > minMovementSpeed && moveLength * 1000d / (double)intervalTime < maxMovementSpeed){
+            if(moveLength * 1000d > minMovementSpeed * (double)intervalTime && moveLength * 1000d < maxMovementSpeed * (double)intervalTime){
 
                 realWalkTime += intervalTime;
 
@@ -406,6 +408,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -562,6 +565,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
                 if(todayCount <= 3){
+                    Toast.makeText(WalkActivity.this, "쪽지 작성! +10포인트", Toast.LENGTH_LONG).show();
                     totalPoint += 10;
                 }
 
@@ -638,7 +642,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 // add 100 point!
                 totalPoint += 100;
 
-                Toast.makeText(WalkActivity.this, "스팟 도달! +100포인트", Toast.LENGTH_LONG).show();
+                Toast.makeText(WalkActivity.this, "스팟 도달! +100경험치", Toast.LENGTH_LONG).show();
             }
         }
     }

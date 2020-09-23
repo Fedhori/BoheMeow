@@ -7,7 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,18 +21,32 @@ public class ConfigDelActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_popup_check);
+        setContentView(R.layout.activity_config_delete);
+
+        Intent intent = getIntent();
+        final UserData userData = (UserData) intent.getSerializableExtra("userdata");
+
+        final EditText passwordCheck = findViewById(R.id.passwordCheck);
 
         TextView tv = findViewById(R.id.textView13);
         tv.setText("정말 계정을 삭제하시겠습니까?");
-
-        final Intent intent = getIntent();
 
         Button yes_btn = findViewById(R.id.yes_btn);
         yes_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
+                if(passwordCheck.getText().toString().equals(userData.password)){
+                    Toast.makeText(ConfigDelActivity.this, "계정이 삭제되었습니다.", Toast.LENGTH_LONG).show();
+                    deleteUser(userData.nickname);
+                    // 이 부분은 로그아웃과 같음
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(ConfigDelActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                }
                 //double check
 
             }
@@ -40,6 +56,8 @@ public class ConfigDelActivity extends Activity {
         no_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -54,6 +72,11 @@ public class ConfigDelActivity extends Activity {
             return false;
         }
         return true;
+    }
+
+    public void deleteUser(String username){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("user_list").child(username);
+        ref.removeValue();
     }
 
 

@@ -35,13 +35,9 @@ public class ConfigLogoutActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = registerInfo.edit();
-                editor.putString("registerUserName", "NULL");
-                editor.commit();
-
-                Intent intent = new Intent(ConfigLogoutActivity.this, LoginActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(1, intent);
+                finish();
 
             }
         });
@@ -50,6 +46,8 @@ public class ConfigLogoutActivity extends Activity {
         no_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
