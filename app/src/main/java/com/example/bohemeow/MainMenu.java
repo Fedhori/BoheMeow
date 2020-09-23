@@ -150,13 +150,13 @@ public class MainMenu extends AppCompatActivity {
         SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
         switch(backgroundImageCode){
-            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0005_blue));
+            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0001_blue));
                 break;
-            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0007_yellow));
+            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0000_yellow));
                 break;
-            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0008_green));
+            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0002_green));
                 break;
-            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0009_red));
+            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0003_red));
                 break;
             default:
                 break;
