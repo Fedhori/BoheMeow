@@ -52,6 +52,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
 
@@ -162,6 +164,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }
@@ -246,6 +250,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void denied() {
                 Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WalkActivity.this, MainMenu.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }
@@ -413,7 +419,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
-            finish();
         }
     }
 
