@@ -111,6 +111,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
         num = 1 + min / 30;
         if(num > 5) num = 5;
+        setNum();
 
         // choose loading text randomly
         loadingText = findViewById(R.id.loadingText);
@@ -560,7 +561,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         score += spotDetail.getSafe_score() * preference[0];
         score += spotDetail.getEnvi_score() * preference[1];
         score += spotDetail.getUser_score();
-        score += spotDetail.getPopularity() * preference[2];
+        //score += spotDetail.getPopularity() * preference[2];
+        score += spotDetail.getVisitor() * preference[2];
 
         return score;
     }
