@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#eeeeee"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="wrap_content">
+    android:layout_height="180dp"
+    android:background="@drawable/_0013_box">
 
     <!-- 타이틀바 -->
     <!-- //end 타이틀바 -->
 
     <!-- Notice -->
-    <LinearLayout
-        android:padding="24dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/noteET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="내용을 입력해주세요."
-            android:inputType="textPersonName" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/config_0004_quit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/noteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/_0000_writebutton"
+        android:gravity="center"
+        android:onClick="mOnClose"
+        android:padding="16dp"
+        android:textColor="#ff7a00"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteET" />
+
+    <EditText
+        android:id="@+id/noteET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="내용을 입력해주세요."
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Notice -->
 
-    <View
-        android:background="#66bdbdbd"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
     <!-- 닫기 버튼 -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/noteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:background="#00000000"
-            android:gravity="center"
-            android:onClick="mOnClose"
-            android:padding="16dp"
-            android:text="쪽지 설치"
-            android:textColor="#ff7a00"
-            android:textSize="15sp"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
     <!--// 닫기 버튼 -->
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
