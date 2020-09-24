@@ -102,7 +102,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     double[] lats;
     double[] lngs;
-    boolean[] isVisited;
+    boolean[] isVisited = new boolean[32];
     int arr_length;
 
     String nickname;
@@ -163,6 +163,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -187,6 +188,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         lats = intent.getDoubleArrayExtra("lats");
         lngs = intent.getDoubleArrayExtra("lngs");
         arr_length = lats.length;
+        for(int i = 0;i<arr_length;i++){
+            Log.w("asd", lats[i] + " " + lats[i]);
+        }
+
 
         // set screen to start position
         tMapView.setLocationPoint(lngs[0], lats[0]);
@@ -610,8 +615,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     NoteData get = postSnapshot.getValue(NoteData.class);
-
-                    Log.w("asd", get.latitude + " " + get.longitude + " " +user_latitude + " " +user_longitude);
 
                     // if note is located inside of maxNoteDist's range
                     if(distFrom(get.latitude, get.longitude, user_latitude, user_longitude) < maxNoteDist){
