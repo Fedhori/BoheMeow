@@ -88,10 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             if(isNicknameExist){
-                                catText.setText("그 이름은 이미 존재해. 다른 이름은 어때?");
+                                catText.setText("그 이름은 이미 존재해. \n다른 이름은 어때?");
                             }
                             else if(isIDExist){
-                                catText.setText("그 아이디는 이미 존재해. 다른 아아디는 어때?");
+                                catText.setText("그 아이디는 이미 존재해. \n다른 아이디는 어때?");
                             }
                             else{
                                 addNewUser(new_nickname, new_id, new_password,  Integer.parseInt(weight));

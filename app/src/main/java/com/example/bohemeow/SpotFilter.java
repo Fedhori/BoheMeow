@@ -235,12 +235,17 @@ public class SpotFilter {
     private int safe_calculator(double lat, double lng){
         double score = 0;
 
-        String[] positive = new String[] { "local_government_office", "police", "school", "secondary_school", "university" };
-        String[] negative = new String[] { "casino", "liquor_store", "night_club" };
+        String[] safePlace = new String[] {"police", "primary_school",};
+        String[] positive = new String[] { "secondary_school", "university" , "church", "city_hall"};
+        String[] negative = new String[] { "liquor_store", "night_club" , "bar"};
 
+        int safe_num = 1;
         int pos_num = 1;
         int neg_num = 1;
 
+        for (String s :safePlace) {
+            safe_num += count_spots(lat, lng, s);
+        }
         for (String s : positive) {
             pos_num += count_spots(lat, lng, s);
         }
@@ -248,7 +253,7 @@ public class SpotFilter {
             neg_num += count_spots(lat, lng, s);
         }
 
-        score = (pos_num / neg_num) * 100;
+        score = 100 + safe_num * 10 + pos_num * 5 - neg_num * 5;
 
         return (int)score;
     }
@@ -274,7 +279,7 @@ public class SpotFilter {
     }
 
     private int count_spots(double lat, double lng, String type){
-        int radius = 500;
+        int radius = 350;
         int num = 0;
 
         String uri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +
@@ -328,7 +333,7 @@ public class SpotFilter {
 
     private void SpotFilter(ArrayList<SpotDetail> Spots, String region){
         SpotDetail spot;
-        String[] bad_type = new String[] { "casino", "liquor_store", "night_club" };
+        String[] bad_type = new String[] { "casino", "liquor_store", "night_club", "bar" };
 
         System.out.println("Before: " + Spots);
         int len;
@@ -342,11 +347,11 @@ public class SpotFilter {
                 Spots.remove(i);
                 continue;
             }
-
             if(spot.safe_score < 70) {
                 Spots.remove(i);
                 continue;
             }
+
             len = spot.types.size();
             int isbad = 0;
             for(int j = 0; j < len; j++){
@@ -384,7 +389,7 @@ public class SpotFilter {
                 ArrayList<SpotDetail> del_list = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
-                    int limitDis = 800;
+                    int limitDis = 900;
 
                     if (distFrom(spot.lat, spot.lng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
                         int score = spotDetail.getTotal_score() + spotDetail.getVisitor() + spotDetail.getVisitor_week()*2;

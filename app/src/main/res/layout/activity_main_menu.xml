@@ -8,21 +8,10 @@
     android:background="@drawable/main_0007_background"
     tools:context=".MainMenu">
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_0006_decoline" />
-
     <Button
         android:id="@+id/btn_community"
-        android:layout_width="140dp"
-        android:layout_height="230dp"
+        android:layout_width="130dp"
+        android:layout_height="215dp"
         android:background="@drawable/main_0002_community"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +61,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.86"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/main_0003_windowsunny" />

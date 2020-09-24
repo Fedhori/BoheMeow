@@ -163,6 +163,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -174,7 +175,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 //데이터 담아서 팝업(액티비티) 호출
                 Intent intent = new Intent(WalkActivity.this, PopupActivity.class);
                 startActivityForResult(intent, 1);
-                finish();
+                //finish();
             }
         });
 
