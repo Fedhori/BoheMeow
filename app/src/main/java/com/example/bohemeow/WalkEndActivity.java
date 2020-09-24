@@ -158,13 +158,12 @@ public class WalkEndActivity extends AppCompatActivity {
         updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
     }
 
-    /*
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(WalkEndActivity.this, MainMenu.class);
         startActivity(intent);
     }
-     */
 
     void updateUserData(String username, final long realWalkTime, final long totalWalkTime, final double totalMoveLength, final long totalPoint){
 
