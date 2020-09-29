@@ -170,6 +170,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         nickname = registerInfo.getString("registerUserName", "NULL");
         phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
+        findLots();
+
         walkStartTime = System.currentTimeMillis();
 
         // get intent
@@ -778,10 +780,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         Toast.makeText(WalkActivity.this, "된다!", Toast.LENGTH_LONG).show();
 
+
         // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
         Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         df.setTimeZone(tz);
         String time = df.format(date);
 
