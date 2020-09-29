@@ -170,8 +170,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         nickname = registerInfo.getString("registerUserName", "NULL");
         phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
-        findLots();
-
         walkStartTime = System.currentTimeMillis();
 
         // get intent
