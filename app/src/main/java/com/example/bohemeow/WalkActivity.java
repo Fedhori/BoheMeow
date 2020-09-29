@@ -13,11 +13,13 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +47,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,10 +55,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
+public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback{
 
     private DatabaseReference mPostReference;
 
@@ -63,6 +68,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TMapGpsManager gps = null;
     private TMapView tMapView = null;
     private Context context;
+
+    TextView timeText_tv;
+    TextView distText_tv;
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 60000; //Delay for 60 seconds.  One second = 1000 milliseconds.
+    int cur_time = 0; // minute
 
     Button walkEndBtn;
     Button popupBtn;
@@ -108,6 +121,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int arr_length;
 
     String nickname;
+    String phoneNumber;
 
     // how many notes one user allow to write?
     int maxNoteNumber = 3;
@@ -117,6 +131,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     // how long can user can find notes?
     double maxNoteDist = 100d; // meter
+
+    double minWalkLengthToFindLots = 500; // meter
+    double maxWalkLengthToFindLots = 1500; // meter
+    double curWalkLengthToFindLots = 0;
+    boolean isAlreadyFindLots = false;
 
     //int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -138,10 +157,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         setContentView(R.layout.activity_walk);
         context = this;
 
+        isAlreadyFindLots = checkIsAlreadyFindLots();
+        // 유저는 오늘 아직 뽑기를 찾지 못했다.
+        if(!isAlreadyFindLots){
+            // determine the length to find lots
+            curWalkLengthToFindLots = new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
+        }
+
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         nickname = registerInfo.getString("registerUserName", "NULL");
+        phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
         walkStartTime = System.currentTimeMillis();
 
@@ -165,6 +192,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
 
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -189,9 +217,21 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
 
+        timeText_tv = findViewById(R.id.timeText);
+        distText_tv = findViewById(R.id.distText);
+
         lats = intent.getDoubleArrayExtra("lats");
         lngs = intent.getDoubleArrayExtra("lngs");
-        arr_length = lats.length;
+
+        int temp_length = lats.length;
+
+        for(int i = 1;i<temp_length;i++){
+            if(lats[0] == lats[i] && lngs[0] == lngs[i]){
+                // 마지막 스팟은 사용자 시작 위치임. 그렇기에 이를 통해 실제 배열의 길이를 구할 수 있다.
+                arr_length = i;
+                break;
+            }
+        }
         for(int i = 0;i<arr_length;i++){
             Log.w("asd", lats[i] + " " + lats[i]);
         }
@@ -251,11 +291,41 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WalkActivity.this, MainMenu.class);
 
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }
         });
+
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+
+                cur_time++;
+
+                int hour = cur_time / 60;
+                int minute = cur_time % 60;
+
+                String timeText = "";
+                if(hour >= 10){
+                    timeText += String.valueOf(hour);
+                }
+                else{
+                    timeText += "0" + hour;
+                }
+                timeText += ":";
+                if(minute >= 10){
+                    timeText += String.valueOf(minute);
+                }
+                else{
+                    timeText += "0" + minute;
+                }
+
+                timeText_tv.setText(timeText);
+
+                handler.postDelayed(runnable, delay);
+            }
+        }, delay);
 
         /*
         // set center point
@@ -390,7 +460,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                     curMoveLength = 0f;
                 }
+                // 충분히 걸었고, 만일 오늘 아직 쪽지를 발견하지 않았다면 쪽지 발견 함수를 호출한다.
+                if(curWalkLengthToFindLots <= curMoveLength && !isAlreadyFindLots){
+                    findLots();
+                }
                 totalMoveLength += moveLength;
+                distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
             }
 
             prevLat = latitude;
@@ -675,6 +750,62 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             }
         });
+    }
+
+    boolean checkIsAlreadyFindLots(){
+        SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
+        // 로컬 데이터에 저장된 가장 마지막으로 쪽지를 찾은 날짜를 가져온다.
+        int lastDate = countInfo.getInt("lastLotsFoundDate", -1);
+
+        // 실제 오늘 날짜를 구한다.
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        int todayDate = Integer.parseInt(dayFormat.format(currentTime));
+
+        Toast.makeText(this, todayDate + " " + lastDate, Toast.LENGTH_LONG).show();
+
+        // 새로운 날에 쪽지 작성시, 오늘은 아직 쪽지를 찾지 못했으므로 false를 반환
+        if(todayDate != lastDate){
+            return false;
+        }
+        // 이미 오늘 작성한 기록이 로컬 데이터에 남아 있으므로 true를 반환
+        else{
+            return true;
+        }
+    }
+
+    void findLots(){
+
+        Toast.makeText(WalkActivity.this, "된다!", Toast.LENGTH_LONG).show();
+
+        // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String time = df.format(date);
+
+        // 파이어베이스에 유저가 뽑기를 찾았음을 기록한다.
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        lotsData data = new lotsData(phoneNumber);
+        postValues = data.toMap();
+        childUpdates.put("/lots_list/" + time + "/", postValues);
+        mPostReference.updateChildren(childUpdates);
+
+        // 실제 오늘 날짜를 구한다.
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        int todayDate = Integer.parseInt(dayFormat.format(currentTime));
+        // 뽑기를 찾은 마지막 날짜를 갱신한다.
+        SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = countInfo.edit();
+        editor.putInt("lastLotsFoundDate", todayDate);
+        editor.commit();
+
+        // 이제 유저는 뽑기를 찾았다.
+        isAlreadyFindLots = true;
     }
 /*
     void sortSpot(ArrayList<Spot> selected){

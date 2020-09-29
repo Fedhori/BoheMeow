@@ -34,14 +34,14 @@
 
     <Button
         android:id="@+id/btn_to_select"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="275dp"
-        android:background="@drawable/main_cat_sitting"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_furniture"
+        android:layout_marginTop="136dp"
+        android:background="@drawable/_0001_sessak_lay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_itemboard"

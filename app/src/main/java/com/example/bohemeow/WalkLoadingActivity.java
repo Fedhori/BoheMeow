@@ -65,6 +65,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     private double userlng;
     private boolean isFirstLocation = false;
 
+    LocationManager locationManager;
+
     TextView loadingText;
 
     long textChangeSpan = 1000; // ms
@@ -125,6 +127,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             public void granted() {
 
                 turnGPSOn();
+
                 gps = new TMapGpsManager(WalkLoadingActivity.this);
                 gps.setMinTime(100);
                 gps.setMinDistance(0.1f);
@@ -165,7 +168,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     private void turnGPSOn(){
 
-        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             //GPS 설정화면으로 이동
@@ -202,6 +205,16 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 Random random = new Random();
                 loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
 
+                if(locationManager != null){
+                    if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        Toast.makeText(WalkLoadingActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(WalkLoadingActivity.this, MainMenu.class);
+                        startActivity(intent);
+                    }
+                }
+                else{
+                    Log.w("qwr", "YEAH!");
+                }
                 handler.postDelayed(runnable, textChangeSpan);
             }
         }, textChangeSpan);

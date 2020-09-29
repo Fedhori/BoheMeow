@@ -63,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                                 boolean isSurveyComplete = false;
 
                                 String username = "";
+                                int catType = 1;
+                                String phoneNumber = "";
 
                                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                     UserData get = postSnapshot.getValue(UserData.class);
@@ -76,18 +78,25 @@ public class LoginActivity extends AppCompatActivity {
                                             isSurveyComplete = true;
                                         }
                                         username = get.nickname;
+                                        catType = get.catType;
+                                        phoneNumber = get.phoneNumber;
                                     }
                                 }
 
                                 // someday, you need to add sharedpreference stuff
                                 if(isLoginSuccess){
 
+                                    // store user's phone number at local data
+                                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = registerInfo.edit();
+                                    editor.putString("phoneNumber", phoneNumber);
+                                    editor.commit();
+
                                     // go to main menu
                                     if(isSurveyComplete){
                                         // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
-                                        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = registerInfo.edit();
                                         editor.putString("registerUserName", username);
+                                        editor.putInt("userCatType", catType);
                                         editor.commit();
 
                                         Intent intent = new Intent(LoginActivity.this, MainMenu.class);

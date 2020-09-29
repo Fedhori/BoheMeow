@@ -22,6 +22,7 @@ public class UserData implements Serializable {
     public double safeScore;
     public double enviScore;
     public double popularity;
+    public String phoneNumber;
 
     public String date;
     public int num;
@@ -30,12 +31,13 @@ public class UserData implements Serializable {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public UserData(String nickname, String id, String password, int weight) {
+    public UserData(String nickname, String id, String password, int weight, String phoneNumber) {
         // set by constructor
         this.nickname = nickname;
         this.id = id;
         this.password = password;
         this.weight = weight;
+        this.phoneNumber = phoneNumber;
 
         // default value
         this.safeScore = -1;
@@ -78,6 +80,8 @@ public class UserData implements Serializable {
         lastPost.put("num", num);
 
         result.put("lastPost", lastPost);
+
+        result.put("phoneNumber", phoneNumber);
 
         return result;
     }
