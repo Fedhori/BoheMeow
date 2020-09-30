@@ -25,7 +25,9 @@ public class SelectActivity extends AppCompatActivity {
 
     int time = 30;
     TextView text;
-    CheckBox checkBox;
+    CheckBox checkBox1;
+    CheckBox checkBox2;
+    CheckBox checkBox3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,39 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-        checkBox = findViewById(R.id.checkBox3);
+        checkBox1 = findViewById(R.id.checkBox3);
+        checkBox2 = findViewById(R.id.checkBox);
+        checkBox3 = findViewById(R.id.checkBox6);
 
+        checkBox1.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    checkBox2.setChecked(false);
+                    checkBox3.setChecked(false);
+                }
+            }
+        }) ;
+
+        checkBox2.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    checkBox1.setChecked(false);
+                    checkBox3.setChecked(false);
+                }
+            }
+        }) ;
+
+        checkBox3.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    checkBox1.setChecked(false);
+                    checkBox2.setChecked(false);
+                }
+            }
+        }) ;
 
 
         ImageButton sub_btn = findViewById(R.id.sub_btn);
@@ -80,16 +113,25 @@ public class SelectActivity extends AppCompatActivity {
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(SelectActivity.this, WalkLoadingActivity.class);
                 intent.putExtra("time", time);
                 intent.putExtra("preference", preference);
-
-                if(checkBox.isChecked()){
+                if(checkBox1.isChecked()){
                     intent.putExtra("isFree", true);
+                    intent.putExtra("isChangable", false);
                 }
-                else intent.putExtra("isFree", false);
+                else if(checkBox2.isChecked()){
+                    intent.putExtra("isFree", false);
+                    intent.putExtra("isChangable", true);
+                }
+                else if(checkBox3.isChecked()){
+                    intent.putExtra("isFree", false);
+                    intent.putExtra("isChangable", false);
+                }
 
                 startActivity(intent);
+
             }
         });
 

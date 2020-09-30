@@ -5,9 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -16,8 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,9 +74,10 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     String region = "";
     int num; //선택할 스팟 수
     private int min; //소요 시간
-    private int speed = 60; //보행자 속도
+    private int speed = 50; //보행자 속도
 
     boolean isFree = false;
+    boolean isChangable = false;
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -110,6 +107,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         min = intent.getIntExtra("time", 60);
         preference = intent.getIntArrayExtra("preference");
         isFree = intent.getBooleanExtra("isFree", false);
+        isChangable = intent.getBooleanExtra("isChangable", false);
 
         num = 1 + min / 30;
         if(num > 5) num = 5;
@@ -398,10 +396,13 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     }
     //=========================================================================================
 
+    int limitDis;
 
     private void makeList(){
         System.out.println("\nprint: makeList start");
-        final int limitDis = (min * speed) / 2;
+
+        limitDis = (min * speed) / 3;
+        if (limitDis > 5000) limitDis = 5000;
 
 
         final ArrayList<SpotDetail> spotDetails = new ArrayList<>();
@@ -585,7 +586,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
 
     void chooseSpot(ArrayList<Spot> spots, int num) {
-        int limitDis = (min * speed / num) * (2);
+        int limit = (min * speed / num * 3) * 2;
 
         Map<Spot, Integer> temp = new HashMap<>();
         ArrayList<Spot> selected = new ArrayList<>();
@@ -604,7 +605,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             System.out.println("\n" + spot.name);
 
             temp.remove(spot);
-            if(getPedestrianDistance(userlat, userlng, spot.lat, spot.lng) > limitDis) {
+            if(getPedestrianDistance(userlat, userlng, spot.lat, spot.lng) > limit) {
                 i -= 1;
             }
             else selected.add(spot);
@@ -674,8 +675,6 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             lngs[i] = s.lng;
             i++;
         }
-        lats[i] = userlat;
-        lngs[i] = userlng;
 /*
         ArrayList<location> sorted = new ArrayList<>();
 
@@ -691,17 +690,35 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
 
 
-        Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
-        // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
-        //intent.putExtra("preference", preference);
-        intent.putExtra("region", region);
-        intent.putExtra("isFree", false);
-        intent.putExtra("lats", lats);
-        intent.putExtra("lngs", lngs);
-        //intent.putExtra("spots", sorted);
+        if(isChangable == true){
+            Intent intent = new Intent(WalkLoadingActivity.this, AddSpotActivity.class);
+            // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
+            //intent.putExtra("preference", preference);
+            intent.putExtra("region", region);
+            intent.putExtra("lats", lats);
+            intent.putExtra("lngs", lngs);
+            //intent.putExtra("spots", sorted);
 
-        startActivity(intent);
-        WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
+            startActivity(intent);
+            WalkLoadingActivity.this.finish();
+        }
+        else {
+            Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
+            // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
+            //intent.putExtra("preference", preference);
+            intent.putExtra("region", region);
+            intent.putExtra("isFree", false);
+
+            lats[i] = userlat;
+            lngs[i] = userlng;
+
+            intent.putExtra("lats", lats);
+            intent.putExtra("lngs", lngs);
+            //intent.putExtra("spots", sorted);
+
+            startActivity(intent);
+            WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
+        }
 
 /*
         for(int i = 0; i<sorted.size() - 1; i++){

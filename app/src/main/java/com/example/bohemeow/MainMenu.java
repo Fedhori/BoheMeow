@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -87,7 +88,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button selectBtn = (Button) findViewById(R.id.btn_to_select);
+        ImageButton selectBtn = findViewById(R.id.btn_to_select);
         selectBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override

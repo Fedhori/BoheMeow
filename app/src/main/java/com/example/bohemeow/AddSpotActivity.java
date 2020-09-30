@@ -3,57 +3,36 @@ package com.example.bohemeow;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapData.FindPathDataListenerCallback;
 import com.skt.Tmap.TMapData.TMapPathType;
 import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapGpsManager.onLocationChangedCallback;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class WalkPrepareActivity extends AppCompatActivity  {
+
+public class AddSpotActivity extends AppCompatActivity  {
 
     private DatabaseReference mPostReference;
 
@@ -62,61 +41,24 @@ public class WalkPrepareActivity extends AppCompatActivity  {
     private TMapView tMapView = null;
     private Context context;
 
-    Button walkEndBtn;
+    Button walkStart_btn;
     Button popupBtn;
-
-    private TMapPolyLine userRoute = null;
-    private double[] lastLatitudes = new double[10];
-    private double[] lastLongtitudes = new double[10];
-    private int curPos = 0;
-    private int lapNum = 0;
 
     private int polyLineCnt = 0;
     private int markerCnt = 0;
 
-    private boolean isFirstLocation = false;
-
     String region = "";
-    boolean isFree = false;
 
-    private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
-    private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
-    private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
-    private double prevLat = -1f;
-    private double prevLong = -1f;
-    private long prevTime = -1;
-    private int moveCnt = 0;
-
-    Double minMovementSpeed = 0.1d; // m/s, ex) 0.1m/s is 0.36km/h
-    Double maxMovementSpeed = 10d; // 36km/h
-
-    long totalWalkTime = 0;
-    long walkStartTime = 0;
-    long walkEndTime = 0;
-    long realWalkTime = 0;
-    long totalPoint = 0;
-
-    long user_totalPoint = 0;
-    DatabaseReference ref;
-    boolean isWritten = false;
-
+    int num;
     double[] lats;
     double[] lngs;
-    boolean[] isVisited = new boolean[32];
-    int arr_length;
+    double startLat, startLng;
 
-    String nickname;
+    int newnum = 0;
+    double newlat, newlng;
 
-    // how many notes one user allow to write?
-    int maxNoteNumber = 3;
-
-    // how many notes will user find in walk screen
-    int maxFindNote = 3;
-
-    // how long can user can find notes?
-    double maxNoteDist = 100d; // meter
-
-    //int[] preference = new int[3];//0:safe 1:envi 2:popularity
+    ArrayList<TMapPoint> spots = new ArrayList<>();
+    ArrayList<location> locs = new ArrayList<>();
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
 
@@ -133,34 +75,50 @@ public class WalkPrepareActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_walk_prepare);
+        setContentView(R.layout.activity_walk_addspot);
         context = this;
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        nickname = registerInfo.getString("registerUserName", "NULL");
-
-        walkStartTime = System.currentTimeMillis();
 
         // get intent
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
-        isFree = intent.getBooleanExtra("isFree", false);
 
-        walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
-        walkEndBtn.setOnClickListener(new View.OnClickListener(){
+        walkStart_btn = (Button) findViewById(R.id.walkStart_btn);
+        walkStart_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(WalkPrepareActivity.this, WalkEndActivity.class);
+                sortSpot();
+
+                double[] lats2 = {startLat, -1, -1, -1, -1, -1, -1};
+                double[] lngs2 = {startLng, -1, -1, -1, -1, -1, -1};
+                int i = 1;
+                for(location l : locs){
+                    lats2[i] = l.lat;
+                    lngs2[i] = l.lng;
+                    i++;
+                }
+                lats2[i] = startLat;
+                lngs2[i] = startLng;
+
+
+
+                Intent intent = new Intent(AddSpotActivity.this, WalkActivity.class);
+
+                intent.putExtra("region", region);
+                intent.putExtra("isFree", false);
+                intent.putExtra("lats", lats2);
+                intent.putExtra("lngs", lngs2);
+
                 startActivity(intent);
                 finish();
             }
         });
 
+        /*
         popupBtn = (Button) findViewById(R.id.popupBtn);
         popupBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -169,38 +127,32 @@ public class WalkPrepareActivity extends AppCompatActivity  {
             }
         });
 
+         */
+
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
 
+
         lats = intent.getDoubleArrayExtra("lats");
         lngs = intent.getDoubleArrayExtra("lngs");
-        arr_length = lats.length;
-        for(int i = 0;i<arr_length;i++){
-            Log.w("asd", lats[i] + " " + lats[i]);
-        }
 
+        startLat = lats[0];
+        startLng = lngs[0];
 
         // set screen to start position
-        tMapView.setLocationPoint(lngs[0], lats[0]);
-        tMapView.setCenterPoint(lngs[0], lats[0]);
+        tMapView.setLocationPoint(startLng, startLat);
+        tMapView.setCenterPoint(startLng, startLat);
 
-        prevLat = lats[0];
-        prevLong = lngs[0];
-
-        userRoute = new TMapPolyLine();
-        userRoute.setLineColor(Color.RED);
-        userRoute.setOutLineColor(Color.RED);
-        userRoute.setLineWidth(1);
-
-
-
-        ArrayList<TMapPoint> spots = new ArrayList<>();
-        for (int i = 0; lats[i] != -1; i++) {
+        spots.add(new TMapPoint(startLat, startLng));
+        for (int i = 1; lats[i] != -1; i++) {
             spots.add(new TMapPoint(lats[i], lngs[i]));
+            locs.add(new location(lats[i], lngs[i]));
         }
+        spots.add(new TMapPoint(startLat, startLng));
+        num = locs.size();
 
         for(int i = 0; i < spots.size() - 1; i++){
             drawSpotMarker(spots.get(i));
@@ -208,10 +160,37 @@ public class WalkPrepareActivity extends AppCompatActivity  {
         }
 
 
+
+
+        //===========================================================
+
+
+
         tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
             @Override
             public void onLongPressEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point) {
-                Toast.makeText(WalkPrepareActivity.this, "onLongPress~!\nlat:" + point.getLatitude() + "\nlng:" + point.getLongitude() , Toast.LENGTH_SHORT).show();
+
+                newlat = point.getLatitude();
+                newlng = point.getLongitude();
+
+                if(newnum >= 3){
+                    Toast.makeText(AddSpotActivity.this, "새로운 스팟을 3개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
+                }
+                else if(num >= 5){
+                    Toast.makeText(AddSpotActivity.this, "스팟을 5개 이상 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
+                }
+                else if (distFrom(newlat, newlng, startLat, startLng) < 500) {
+                    Toast.makeText(AddSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
+                }
+                else if(isNear(newlat, newlng)){
+                    Toast.makeText(AddSpotActivity.this, "다른 스팟과 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(AddSpotActivity.this, AddSpotPopupActivity.class);
+                    intent.putExtra("lat", newlat);
+                    intent.putExtra("lng", newlng);
+                    startActivityForResult(intent, 1);
+                }
 
 
 
@@ -226,7 +205,7 @@ public class WalkPrepareActivity extends AppCompatActivity  {
             public void granted() {
                 turnGPSOn();
 
-                gps = new TMapGpsManager(WalkPrepareActivity.this);
+                gps = new TMapGpsManager(AddSpotActivity.this);
                 // check every 1000ms
                 gps.setMinTime(100);
                 // if user moves at least 10m, call onLocationChange
@@ -243,8 +222,8 @@ public class WalkPrepareActivity extends AppCompatActivity  {
             // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
             @Override
             public void denied() {
-                Toast.makeText(WalkPrepareActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(WalkPrepareActivity.this, MainMenu.class);
+                Toast.makeText(AddSpotActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(AddSpotActivity.this, MainMenu.class);
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -339,25 +318,41 @@ public class WalkPrepareActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-
+            switch(resultCode){
+                case RESULT_OK: // result_ok -> nothing happened
+                    break;
+                case 1:
+                    newnum += 1;
+                    num += 1;
+                    locs.add(new location(newlat, newlng));
+                    drawSpotMarker(new TMapPoint(newlat, newlng));
+                    break;
+                default:
+                    break;
             }
         }
     }
 
 
+    boolean isNear(double lat, double lng){
+
+        for(location l : locs){
+            if(distFrom(lat, lng, l.lat, l.lng) < 300){
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
 
-
-/*
-    void sortSpot(ArrayList<Spot> selected){
-
-        Comparator<Spot> comparator = new Comparator<Spot>() {
+    void sortSpot(){
+        Comparator<location> comparator = new Comparator<location>() {
             @Override
-            public int compare(Spot lhs, Spot rhs) {
-                double lhsAngle = Math.atan2(lhs.lng - userlng, lhs.lat - userlat);
-                double rhsAngle = Math.atan2(rhs.lng - userlng, rhs.lat - userlat);
+            public int compare(location lhs, location rhs) {
+                double lhsAngle = Math.atan2(lhs.lng - startLng, lhs.lat - startLat);
+                double rhsAngle = Math.atan2(rhs.lng - startLng, rhs.lat - startLat);
                 // Depending on the coordinate system, you might need to reverse these two conditions
                 if (lhsAngle < rhsAngle) return -1;
                 if (lhsAngle > rhsAngle) return 1;
@@ -365,24 +360,9 @@ public class WalkPrepareActivity extends AppCompatActivity  {
             }
         };
 
-        Collections.sort(selected, comparator);
-
-        ArrayList<TMapPoint> sorted = new ArrayList<>();
-
-        sorted.add(new TMapPoint(userlat, userlng));
-        for(Spot s : selected){
-            sorted.add(new TMapPoint(s.lat, s.lng));
-        }
-        sorted.add(new TMapPoint(userlat, userlng));
-
-        for(int i = 0; i<sorted.size() - 1; i++){
-            drawMarker(sorted.get(i));
-            drawPedestrianPath(sorted.get(i), sorted.get(i+1));
-        }
+        Collections.sort(locs, comparator);
 
     }
-
- */
 
 
 }

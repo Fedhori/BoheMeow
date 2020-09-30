@@ -117,7 +117,7 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:button="@drawable/setcheck"
@@ -127,7 +127,7 @@
 
     <TextView
         android:id="@+id/textView18"
-        android:layout_width="170dp"
+        android:layout_width="220dp"
         android:layout_height="30dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="좋아, 대신 검토해볼래"
@@ -138,17 +138,17 @@
 
     <CheckBox
         android:id="@+id/checkBox6"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:button="@drawable/setcheck"
-        android:checked="false"
+        android:checked="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkBox" />
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="170dp"
+        android:layout_width="220dp"
         android:layout_height="30dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="좋아! 그대로 탐험할래"
