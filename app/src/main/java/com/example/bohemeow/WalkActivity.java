@@ -256,6 +256,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             ArrayList<TMapPoint> spots = new ArrayList<>();
             for (int i = 0; lats[i] != -1; i++) {
                 spots.add(new TMapPoint(lats[i], lngs[i]));
+                if(i == 6) break;
             }
 
             for(int i = 0; i < spots.size() - 1; i++){

@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/startwalk_0009_title" />
 
     <ImageView
@@ -42,7 +42,7 @@
         android:id="@+id/imageView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="170dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView15"
         app:srcCompat="@drawable/startwalk_0005_line2" />
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="90dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="90dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,11 +108,53 @@
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:button="@drawable/mycheck"
         android:checked="false"
         android:drawableRight="@drawable/select_comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:button="@drawable/setcheck"
+        android:checked="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox3" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="220dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="좋아, 대신 검토해볼래"
+        android:textColor="#F08538"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+    <CheckBox
+        android:id="@+id/checkBox6"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:button="@drawable/setcheck"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBox" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="220dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="좋아! 그대로 탐험할래"
+        android:textColor="#F08538"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/checkBox6"
+        app:layout_constraintTop_toTopOf="@+id/checkBox6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
