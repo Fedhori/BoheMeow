@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,6 +55,7 @@ public class WritePostActivity extends AppCompatActivity{
     ImageButton imageButton;
     EditText contentET;
     EditText tagET;
+    CheckBox checkBox;
 
     String username;
     int level;
@@ -73,6 +75,7 @@ public class WritePostActivity extends AppCompatActivity{
         imageButton = findViewById(R.id.imageBtn);
         contentET = findViewById(R.id.content);
         tagET = findViewById(R.id.tags);
+        checkBox = findViewById(R.id.postType);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
         mPostReference = FirebaseDatabase.getInstance().getReference();
@@ -145,6 +148,14 @@ public class WritePostActivity extends AppCompatActivity{
         String uri = "";
         String content = "";
         String tags = "";
+        boolean isPublic = true;
+
+        if(checkBox.isChecked()){
+            isPublic = true;
+        }
+        else{
+            isPublic = false;
+        }
 
         if(currentPostImage!=null){
             uri = currentPostImage.toString();
@@ -167,7 +178,7 @@ public class WritePostActivity extends AppCompatActivity{
         childUpdates = new HashMap<>();
         postValues = null;
         if(add){
-            postData data = new postData(username, uri, content, tags, time, level, catType);
+            postData data = new postData(username, uri, content, tags, time, level, catType, isPublic);
             postValues = data.toMap();
         }
         childUpdates.put("/post_list/" + time, postValues);

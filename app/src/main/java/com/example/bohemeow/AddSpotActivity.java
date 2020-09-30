@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -55,7 +57,10 @@ public class AddSpotActivity extends AppCompatActivity  {
     double startLat, startLng;
 
     int newnum = 0;
-    double newlat, newlng;
+    double curLat, curLng;
+    String markerID;
+
+    boolean isJumped = false;
 
     ArrayList<TMapPoint> spots = new ArrayList<>();
     ArrayList<location> locs = new ArrayList<>();
@@ -93,17 +98,30 @@ public class AddSpotActivity extends AppCompatActivity  {
 
                 sortSpot();
 
-                double[] lats2 = {startLat, -1, -1, -1, -1, -1, -1};
-                double[] lngs2 = {startLng, -1, -1, -1, -1, -1, -1};
-                int i = 1;
-                for(location l : locs){
-                    lats2[i] = l.lat;
-                    lngs2[i] = l.lng;
-                    i++;
+                double[] lats2 = {-1, -1, -1, -1, -1, -1, -1};
+                double[] lngs2 = {-1, -1, -1, -1, -1, -1, -1};
+                if(isJumped){ //출발지가 삭제된 경우 남은 스팟들로만 계산
+                    int i = 0;
+                    for(location l : locs){
+                        lats2[i] = l.lat;
+                        lngs2[i] = l.lng;
+                        i++;
+                    }
+                    lats2[i] = lats2[0];
+                    lngs2[i] = lngs2[0];
                 }
-                lats2[i] = startLat;
-                lngs2[i] = startLng;
-
+                else{ //출발지가 보존된 경우 원래대로 경로 계산
+                    lats2[0] = startLat;
+                    lngs2[0] = startLng;
+                    int i = 1;
+                    for(location l : locs){
+                        lats2[i] = l.lat;
+                        lngs2[i] = l.lng;
+                        i++;
+                    }
+                    lats2[i] = startLat;
+                    lngs2[i] = startLng;
+                }
 
 
                 Intent intent = new Intent(AddSpotActivity.this, WalkActivity.class);
@@ -164,14 +182,41 @@ public class AddSpotActivity extends AppCompatActivity  {
 
         //===========================================================
 
+        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressUpEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point, PointF pointf) {
+                return false;
+            }
+
+            @Override
+            public boolean onPressEvent(ArrayList markerlist, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                if(!markerlist.isEmpty()){
+                    //Log.e("MARKER ID : ", ""+ markerlist.get(0));
+                    TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
+                    markerID = markerItem.getID();
+                    TMapPoint point = markerItem.getTMapPoint();
+                    curLat = point.getLatitude();
+                    curLng = point.getLongitude();
+
+                    Intent intent = new Intent(AddSpotActivity.this, DelSpotPopupActivity.class);
+                    intent.putExtra("lat", curLat);
+                    intent.putExtra("lng", curLng);
+                    startActivityForResult(intent, 1);
+                    //System.out.println("\nID: " + MarkerID + ", loc = " + p.getLongitude() + p.getLatitude());
+
+
+                }
+                return false;
+            }
+        });
 
 
         tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
             @Override
             public void onLongPressEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point) {
 
-                newlat = point.getLatitude();
-                newlng = point.getLongitude();
+                curLat = point.getLatitude();
+                curLng = point.getLongitude();
 
                 if(newnum >= 3){
                     Toast.makeText(AddSpotActivity.this, "새로운 스팟을 3개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
@@ -179,16 +224,16 @@ public class AddSpotActivity extends AppCompatActivity  {
                 else if(num >= 5){
                     Toast.makeText(AddSpotActivity.this, "스팟을 5개 이상 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
-                else if (distFrom(newlat, newlng, startLat, startLng) < 500) {
+                else if (distFrom(curLat, curLng, startLat, startLng) < 600 && !isJumped) {
                     Toast.makeText(AddSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
-                else if(isNear(newlat, newlng)){
+                else if(isNear(curLat, curLng)){
                     Toast.makeText(AddSpotActivity.this, "다른 스팟과 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Intent intent = new Intent(AddSpotActivity.this, AddSpotPopupActivity.class);
-                    intent.putExtra("lat", newlat);
-                    intent.putExtra("lng", newlng);
+                    intent.putExtra("lat", curLat);
+                    intent.putExtra("lng", curLng);
                     startActivityForResult(intent, 1);
                 }
 
@@ -324,8 +369,24 @@ public class AddSpotActivity extends AppCompatActivity  {
                 case 1:
                     newnum += 1;
                     num += 1;
-                    locs.add(new location(newlat, newlng));
-                    drawSpotMarker(new TMapPoint(newlat, newlng));
+                    locs.add(new location(curLat, curLng));
+                    drawSpotMarker(new TMapPoint(curLat, curLng));
+                    break;
+                case 2:
+                    num -= 1;
+                    if(markerID.equals("0")) {
+                        isJumped = true;
+                    }
+                    else {
+                        for(location l:locs){
+                            if(l.lat == curLat && l.lng == curLng){
+                                locs.remove(l);
+                                System.out.println("\nDeleted");
+                                break;
+                            }
+                        }
+                    }
+                    tMapView.removeMarkerItem(markerID);
                     break;
                 default:
                     break;
@@ -337,7 +398,7 @@ public class AddSpotActivity extends AppCompatActivity  {
     boolean isNear(double lat, double lng){
 
         for(location l : locs){
-            if(distFrom(lat, lng, l.lat, l.lng) < 300){
+            if(distFrom(lat, lng, l.lat, l.lng) < 400){
                 return true;
             }
         }

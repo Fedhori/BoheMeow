@@ -10,8 +10,9 @@ public class post implements Serializable {
     String uri;
     int level;
     int catType;
+    boolean isPublic;
 
-    public post(String username, String content, String tags, String time, String uri, int level, int catType) {
+    public post(String username, String content, String tags, String time, String uri, int level, int catType, boolean isPublic) {
         this.username = username;
         this.content = content;
         this.tags = tags;
@@ -19,6 +20,7 @@ public class post implements Serializable {
         this.uri = uri;
         this.level = level;
         this.catType = catType;
+        this.isPublic = isPublic;
     }
 
     public String getUsername() {
@@ -75,6 +77,14 @@ public class post implements Serializable {
 
     public void setCatType(int catType) {
         this.catType = catType;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }
 
