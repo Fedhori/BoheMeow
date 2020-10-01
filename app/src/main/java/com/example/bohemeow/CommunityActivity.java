@@ -13,11 +13,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +50,7 @@ public class CommunityActivity extends AppCompatActivity {
     int level;
     int catType;
 
+    TabLayout tabLayout;
     ViewPager2 viewPager;
 
     ImageView user_icon;
@@ -71,69 +77,44 @@ public class CommunityActivity extends AppCompatActivity {
 
 
         // view pager
-        //viewPager = findViewById(R.id.view_pager);
-        //viewPager.setAdapter(createCardAdapter());
+        // view pager
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tabs);
+        viewPager.setAdapter(createCardAdapter());
+        new TabLayoutMediator(tabLayout, viewPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        if(position == 0){
+                            tab.setText("전체");
+                        }
+                        else if(position == 1){
+                            tab.setText("내 게시글");
+                        }
+                        else if(position == 2){
+                            tab.setText("검색");
+                        }
+                    }
+                }).attach();
 
 
-
-
-
-
-        final TextView textViewCounter = findViewById(R.id.textViewFrag);
-
-        textViewCounter.setText("No post");
-        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_main_list);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(CommunityActivity.this);
-        mLinearLayoutManager.setReverseLayout(true);
-        mLinearLayoutManager.setStackFromEnd(true);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         mArrayList = new ArrayList<>();
-
-        mAdapter = new CustomAdapter(mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
-        mAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(View v, int pos)
-            {
-
-                Intent intent = new Intent(CommunityActivity.this, PostPopupActivity.class);
-                intent.putExtra("post", mArrayList.get(pos));
-                intent.putExtra("username", username);
-                intent.putExtra("num", pos);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-
         // get data
 
         final ValueEventListener postListener = new ValueEventListener(){
 
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mArrayList.clear();
-
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     postData get = postSnapshot.getValue(postData.class);
-                    post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType);
+                    post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                     mArrayList.add(data);
-                    textViewCounter.setText("");
                 }
-                int num = mArrayList.size();
 
-                String[] lastWriters = {mArrayList.get(num-1).getUsername(), mArrayList.get(num-2).getUsername(), mArrayList.get(num-3).getUsername()};
-                String lastDate = mArrayList.get(num-1).getTime();
+                String[] lastWriters = {mArrayList.get(0).getUsername(), mArrayList.get(1).getUsername(), mArrayList.get(2).getUsername()};
+                String lastDate = mArrayList.get(2).getTime();
 
                 isWritable = checkWritable(lastWriters, lastDate);
-
-                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -142,7 +123,7 @@ public class CommunityActivity extends AppCompatActivity {
             }
         };
         mPostReference = FirebaseDatabase.getInstance().getReference();
-        mPostReference.child("post_list").addValueEventListener(postListener);
+        mPostReference.child("post_list").limitToLast(3).addValueEventListener(postListener);
 
 
 
@@ -175,14 +156,14 @@ public class CommunityActivity extends AppCompatActivity {
 
 
 
-/*
+
     private ViewPagerAdapter createCardAdapter() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         return adapter;
     }
 
     public class ViewPagerAdapter extends FragmentStateAdapter {
-        private static final int CARD_ITEM_SIZE = 1;
+        private static final int CARD_ITEM_SIZE = 3;
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
@@ -197,7 +178,7 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
 
- */
+
 
     @Override
     public void onBackPressed() {
