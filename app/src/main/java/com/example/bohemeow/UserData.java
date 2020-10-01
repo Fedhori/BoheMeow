@@ -48,7 +48,7 @@ public class UserData implements Serializable {
         this.totalWalkTime = 0;
         this.totalWalkCount = 0;
         this.realWalkTime = 0;
-        this.level = 1;
+        this.level = 0;
         this.isItemExist = false;
 
         this.num = 0;

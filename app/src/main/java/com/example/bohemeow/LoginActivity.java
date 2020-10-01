@@ -2,11 +2,16 @@ package com.example.bohemeow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,10 +36,86 @@ public class LoginActivity extends AppCompatActivity {
     //뒤로가기 두번 시 종료되도록 구현 예정
     private long backKeyPressedTime = 0;
 
+    String phoneNumber;
+    private static final int MY_PERMISSION_REQUEST_CODE_PHONE_STATE = 1;
+    private void askPermissionAndGetPhoneNumbers() {
+
+        // With Android Level >= 23, you have to ask the user
+        // for permission to get Phone Number.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // 23
+
+            // Check if we have READ_PHONE_STATE permission
+            int readPhoneStatePermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_PHONE_STATE);
+
+            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED) {
+                // If don't have permission so prompt the user.
+                this.requestPermissions(
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        MY_PERMISSION_REQUEST_CODE_PHONE_STATE
+                );
+                return;
+            }
+        }
+
+        this.getPhoneNumbers();
+    }
+
+    // Need to ask user for permission: android.permission.READ_PHONE_STATE
+    @SuppressLint("MissingPermission")
+    private void getPhoneNumbers() {
+        try {
+            TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+            phoneNumber = manager.getLine1Number();
+
+            SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = registerInfo.edit();
+            editor.putString("phoneNumber", phoneNumber);
+            editor.commit();
+
+        } catch (Exception ex) {
+            /*
+            Log.e( LOG_TAG,"Error: ", ex);
+            Toast.makeText(this,"Error: " + ex.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+             */
+        }
+    }
+
+    // When you have the request results
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_CODE_PHONE_STATE: {
+
+                // Note: If request is cancelled, the result arrays are empty.
+                // Permissions granted (SEND_SMS).
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.getPhoneNumbers();
+                }
+                // Cancelled or denied.
+                else {
+                    Toast.makeText(LoginActivity.this, "허가 없이는 진행이 불가합니다.", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // get phone number
+        askPermissionAndGetPhoneNumbers();
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 

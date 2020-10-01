@@ -3,22 +3,12 @@ package com.example.bohemeow;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.ContactsContract;
-import android.telephony.SignalStrength;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -46,6 +37,106 @@ public class MainMenu extends AppCompatActivity {
     int catType;
     String phoneNumber;
     Random rnd;
+
+    public void getRankAndStartActivity(){
+        final int[] rank = new int[5];
+        final int[] catTypes = new int[5];
+        final String[] usernames = new String[5];
+        final int[] points = new int[5];
+
+        final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
+        final Query[] query = {mPostReference.orderByChild("level").limitToLast(3)};
+        query[0].addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    int cnt = 0;
+
+                    // get 1st, 2nd, 3rd user's data
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        UserData get = issue.getValue(UserData.class);
+
+                        rank[2 - cnt] = 3 - cnt;
+                        catTypes[2 - cnt] = get.catType;
+                        usernames[2 - cnt] = get.nickname;
+                        points[2 - cnt] = get.level;
+
+                        cnt++;
+                    }
+                }
+
+                // get player rank
+                query[0] = mPostReference.orderByChild("level");
+                query[0].addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        long size = dataSnapshot.getChildrenCount();
+                        int cnt = 0;
+                        int user_rank = 0;
+
+                        boolean isArrived = false;
+
+                        if (dataSnapshot.exists()) {
+                            // dataSnapshot is the "issue" node with all children with id 0
+                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                UserData get = issue.getValue(UserData.class);
+                                if(get.nickname.equals(username)){
+
+                                    isArrived = true;
+
+                                    rank[4] = (int) (size - cnt);
+                                    catTypes[4] = get.catType;
+                                    usernames[4] = get.nickname;
+                                    points[4] = get.level;
+
+                                    user_rank = rank[4];
+
+                                    // 플레이어가 1위면 위에 아무도 없어야함!
+                                    if(user_rank == 1){
+                                        rank[3] = 0;
+                                        catTypes[3] = 1;
+                                        usernames[3] = "당신이 1위입니다!";
+                                        points[3] = 0;
+
+                                        break;
+                                    }
+                                }
+                                // 플레이어 바로 위의 유저 정보
+                                else if(isArrived){
+                                    rank[3] = user_rank -1;
+                                    catTypes[3] = get.catType;
+                                    usernames[3] = get.nickname;
+                                    points[3] = get.level;
+
+                                    break;
+                                }
+                                cnt++;
+                            }
+                        }
+
+                        // put information's to intent
+                        Intent intent = new Intent(MainMenu.this, RankActivity.class);
+                        intent.putExtra("rank", rank);
+                        intent.putExtra("catTypes", catTypes);
+                        intent.putExtra("points", points);
+                        intent.putExtra("usernames", usernames);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +193,7 @@ public class MainMenu extends AppCompatActivity {
         });
 
         // need to change someday
-        final int[] icons = {R.drawable.beth_0000, R.drawable._0011_habgang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
+        final int[] icons = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
                 R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
 
         final Button selectBtn = (Button) findViewById(R.id.btn_to_select);
@@ -140,7 +231,14 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        final Button rankBtn = findViewById(R.id.btn_rank);
+        rankBtn.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                getRankAndStartActivity();
+            }
+        });
     }
 
 

@@ -132,10 +132,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     // how long can user can find notes?
     double maxNoteDist = 100d; // meter
 
-    double minWalkLengthToFindLots = 500; // meter
-    double maxWalkLengthToFindLots = 1500; // meter
+    double minWalkLengthToFindLots = 300; // meter
+    double maxWalkLengthToFindLots = 500; // meter
     double curWalkLengthToFindLots = 0;
-    boolean isAlreadyFindLots = false;
+    int todayFindLotsCnt = 0;
 
     //int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -157,12 +157,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         setContentView(R.layout.activity_walk);
         context = this;
 
-        isAlreadyFindLots = checkIsAlreadyFindLots();
-        // 유저는 오늘 아직 뽑기를 찾지 못했다.
-        if(!isAlreadyFindLots){
-            // determine the length to find lots
-            curWalkLengthToFindLots = new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
-        }
+        todayFindLotsCnt = checkTodayFindLots();
+        curWalkLengthToFindLots = new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -460,8 +456,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                     curMoveLength = 0f;
                 }
-                // 충분히 걸었고, 만일 오늘 아직 쪽지를 발견하지 않았다면 쪽지 발견 함수를 호출한다.
-                if(curWalkLengthToFindLots <= curMoveLength && !isAlreadyFindLots){
+                // 충분히 걸었고, 만일 오늘 아직 쪽지를 3개 이상 발견하지 않았다면 쪽지 발견 함수를 호출한다.
+                if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
                     findLots();
                 }
                 totalMoveLength += moveLength;
@@ -752,32 +748,30 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
-    boolean checkIsAlreadyFindLots(){
+    int checkTodayFindLots(){
         SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
         // 로컬 데이터에 저장된 가장 마지막으로 쪽지를 찾은 날짜를 가져온다.
         int lastDate = countInfo.getInt("lastLotsFoundDate", -1);
+        int count = countInfo.getInt("lotsCnt", 0);
 
         // 실제 오늘 날짜를 구한다.
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
         int todayDate = Integer.parseInt(dayFormat.format(currentTime));
 
-        Toast.makeText(this, todayDate + " " + lastDate, Toast.LENGTH_LONG).show();
-
-        // 새로운 날에 쪽지 작성시, 오늘은 아직 쪽지를 찾지 못했으므로 false를 반환
+        // 새로운 날에 쪽지 작성시, 오늘은 아직 쪽지를 찾지 못했으므로 0을 반환
         if(todayDate != lastDate){
-            return false;
+            return 0;
         }
-        // 이미 오늘 작성한 기록이 로컬 데이터에 남아 있으므로 true를 반환
+        // 이미 오늘 작성한 기록이 로컬 데이터에 남아 있으므로 cnt를 반환 반환
         else{
-            return true;
+            return count;
         }
     }
 
     void findLots(){
 
-        Toast.makeText(WalkActivity.this, "된다!", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(WalkActivity.this, "제비뽑기 발견! 매일 오후 7시에 일괄적으로 추첨됩니다.", Toast.LENGTH_LONG).show();
 
         // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
@@ -806,7 +800,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         editor.commit();
 
         // 이제 유저는 뽑기를 찾았다.
-        isAlreadyFindLots = true;
+        todayFindLotsCnt++;
+        editor.putInt("lotsCnt", todayFindLotsCnt);
+        editor.commit();
+
+        // 뽑기를 찾기까지 추가로 더 걸어야 할 거리 추가!
+        curWalkLengthToFindLots += new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
     }
 /*
     void sortSpot(ArrayList<Spot> selected){
