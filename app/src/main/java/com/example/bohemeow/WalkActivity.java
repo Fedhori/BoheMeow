@@ -781,6 +781,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         df.setTimeZone(tz);
         String time = df.format(date);
 
+
         // 파이어베이스에 유저가 뽑기를 찾았음을 기록한다.
         DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
