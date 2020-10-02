@@ -43,6 +43,7 @@ public class MainMenu extends AppCompatActivity {
         final int[] catTypes = new int[5];
         final String[] usernames = new String[5];
         final int[] points = new int[5];
+        final String[] introductions = new String[5];
 
         final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
         final Query[] query = {mPostReference.orderByChild("level").limitToLast(3)};
@@ -60,6 +61,7 @@ public class MainMenu extends AppCompatActivity {
                         catTypes[2 - cnt] = get.catType;
                         usernames[2 - cnt] = get.nickname;
                         points[2 - cnt] = get.level;
+                        introductions[2 - cnt] = get.introduction;
 
                         cnt++;
                     }
@@ -89,6 +91,7 @@ public class MainMenu extends AppCompatActivity {
                                     catTypes[4] = get.catType;
                                     usernames[4] = get.nickname;
                                     points[4] = get.level;
+                                    introductions[4] = get.introduction;
 
                                     user_rank = rank[4];
 
@@ -98,6 +101,7 @@ public class MainMenu extends AppCompatActivity {
                                         catTypes[3] = 1;
                                         usernames[3] = "당신이 1위입니다!";
                                         points[3] = 0;
+                                        introductions[3] = get.introduction;
 
                                         break;
                                     }
@@ -108,6 +112,7 @@ public class MainMenu extends AppCompatActivity {
                                     catTypes[3] = get.catType;
                                     usernames[3] = get.nickname;
                                     points[3] = get.level;
+                                    introductions[3] = get.introduction;
 
                                     break;
                                 }
@@ -121,6 +126,7 @@ public class MainMenu extends AppCompatActivity {
                         intent.putExtra("catTypes", catTypes);
                         intent.putExtra("points", points);
                         intent.putExtra("usernames", usernames);
+                        intent.putExtra("introductions", introductions);
                         startActivity(intent);
                     }
 

@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ConfigEditIntroductionActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
             android:name=".RankUserInfoActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity

@@ -26,6 +26,7 @@ public class RankActivity extends Activity {
     int[] catTypes = new int[5];
     String[] usernames = new String[5];
     int[] points = new int[5];
+    String[] introductions = new String[5];
 
     //set cat image
     int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
@@ -44,6 +45,7 @@ public class RankActivity extends Activity {
         catTypes = intent.getIntArrayExtra("catTypes");
         usernames = intent.getStringArrayExtra("usernames");
         points = intent.getIntArrayExtra("points");
+        introductions = intent.getStringArrayExtra("introductions");
 
         rankViews[0] = findViewById(R.id.rank4);
         rankViews[1] = findViewById(R.id.rank5);
@@ -67,6 +69,19 @@ public class RankActivity extends Activity {
 
         for(int i = 0;i<5;i++){
             setRankPanel(rank[i], catTypes[i], usernames[i], points[i], i);
+        }
+        for(int i = 0;i<5;i++){
+            final int finalI = i;
+            catImages[i].setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(RankActivity.this, RankUserInfoActivity.class);
+                    intent.putExtra("username", usernames[finalI]);
+                    intent.putExtra("introduction", introductions[finalI]);
+                    startActivity(intent);
+                }
+            });
         }
 
         Button back_btn = findViewById(R.id.back_btn3);
