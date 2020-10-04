@@ -374,6 +374,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
                 polyLine.setLineColor(Color.BLUE);
+                routePolyLines[polyLineCnt] = polyLine;
                 tMapView.addTMapPolyLine(Integer.toString(polyLineCnt++), polyLine);
             }
         });
