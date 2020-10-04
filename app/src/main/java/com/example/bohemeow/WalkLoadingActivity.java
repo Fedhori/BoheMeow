@@ -401,7 +401,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     private void makeList(){
         System.out.println("\nprint: makeList start");
 
-        limitDis = (min * speed) / 3;
+        limitDis = (min * speed) / 3 + 100;
         if (limitDis > 5000) limitDis = 5000;
 
 
@@ -441,9 +441,22 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 if(num > 0) chooseSpot(spots, num);
                 else {
                     System.out.println("\nThere are no spot in this place!");
-                    Toast.makeText(WalkLoadingActivity.this, "가능한 스팟이 존재하지 않습니다.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(WalkLoadingActivity.this, MainMenu.class);
+                    Toast.makeText(WalkLoadingActivity.this, "가능한 스팟이 존재하지 않습니다.\n 원하시는 장소를 선택하세요!", Toast.LENGTH_LONG).show();
+
+
+                    Intent intent = new Intent(WalkLoadingActivity.this, AddSpotActivity.class);
+                    // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
+                    //intent.putExtra("preference", preference);
+                    intent.putExtra("region", region);
+
+                    double[] lats = {userlat, -1, -1, -1, -1, -1, -1};
+                    double[] lngs = {userlng, -1, -1, -1, -1, -1, -1};
+                    intent.putExtra("lats", lats);
+                    intent.putExtra("lngs", lngs);
+                    //intent.putExtra("spots", sorted);
+
                     startActivity(intent);
+                    WalkLoadingActivity.this.finish();
                 }
 
             }
@@ -692,8 +705,6 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
         if(isChangable == true){
             Intent intent = new Intent(WalkLoadingActivity.this, AddSpotActivity.class);
-            // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
-            //intent.putExtra("preference", preference);
             intent.putExtra("region", region);
             intent.putExtra("lats", lats);
             intent.putExtra("lngs", lngs);
