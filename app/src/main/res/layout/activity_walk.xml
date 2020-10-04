@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/stop_button" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -90,6 +91,15 @@
             android:text="0.00km"
             android:textColor="#0072FF"
             android:textSize="20sp" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/hideAndShowBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

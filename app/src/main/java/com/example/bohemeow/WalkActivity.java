@@ -86,8 +86,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private int curPos = 0;
     private int lapNum = 0;
 
+    private TMapPolyLine [] routePolyLines = new TMapPolyLine[32];
     private int polyLineCnt = 0;
     private int markerCnt = 0;
+    private boolean isRouteRemoved = false;
 
     private boolean isFirstLocation = false;
 
@@ -204,6 +206,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 Intent intent = new Intent(WalkActivity.this, PopupActivity.class);
                 startActivityForResult(intent, 1);
                 //finish();
+            }
+        });
+
+        final Button hideAndShowBtn = (Button) findViewById(R.id.hideAndShowBtn);
+        hideAndShowBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                if(isRouteRemoved){
+                    recoverAllRoutePolyLines();
+                    hideAndShowBtn.setText("Remove");
+                }
+                else{
+                    removeAllRoutePolyLines();
+                    hideAndShowBtn.setText("Show");
+                }
             }
         });
 
@@ -808,6 +826,20 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         // 뽑기를 찾기까지 추가로 더 걸어야 할 거리 추가!
         curWalkLengthToFindLots += new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
+    }
+
+    void removeAllRoutePolyLines(){
+        for(int i = 0;i<polyLineCnt;i++){
+            tMapView.removeTMapPolyLine(Integer.toString(i));
+        }
+        isRouteRemoved = true;
+    }
+
+    void recoverAllRoutePolyLines(){
+        for(int i = 0;i<polyLineCnt;i++){
+            tMapView.addTMapPolyLine(Integer.toString(i), routePolyLines[i]);
+        }
+        isRouteRemoved = false;
     }
 /*
     void sortSpot(ArrayList<Spot> selected){
