@@ -20,9 +20,9 @@
         android:id="@+id/username_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="새 체중을 입력해주세요."
+        android:text="asdf의 자기소개"
         android:textColor="#0072FF"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,26 +30,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/newWeight"
+    <TextView
+        android:id="@+id/introduction_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:maxLength="16"
+        android:text="자기소개 내용"
         android:textColor="#0072FF"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_tv" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/change_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/comm_popup_0008_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_password_check" />
 </androidx.constraintlayout.widget.ConstraintLayout>

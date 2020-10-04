@@ -45,6 +45,16 @@ public class ConfigEditActivity extends Activity {
             }
         });
 
+        Button editIntro_btn = findViewById(R.id.editIntro_btn);
+        editIntro_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConfigEditActivity.this, ConfigEditIntroductionActivity.class);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
+            }
+        });
+
         Button back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener(){
             @Override

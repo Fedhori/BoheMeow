@@ -26,7 +26,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="65dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="아이디를 입력해 주세요."
+        android:text="아이디를 입력해 주세요. (4글자 이상)"
         android:textColor="#3F51B5"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -45,7 +45,8 @@
         android:textColor="#0F2175"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        />
 
     <TextView
         android:id="@+id/textView8"
@@ -53,7 +54,7 @@
         android:layout_height="25dp"
         android:layout_marginTop="136dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="비밀번호를 입력해 주세요."
+        android:text="비밀번호를 입력해 주세요. (4글자 이상)"
         android:textColor="#3F51B5"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -146,7 +147,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="335dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="마지막으로 닉네임을 입력해 주세요. \n모험자에게 이름은 중요합니다!"
+        android:text="마지막으로 닉네임을 입력해 주세요!\n(8글자 이하)"
         android:textColor="#3F51B5"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -165,7 +166,8 @@
         android:textColor="#0F2175"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        android:maxLength="8"/>
 
     <ImageView
         android:id="@+id/imageView4"

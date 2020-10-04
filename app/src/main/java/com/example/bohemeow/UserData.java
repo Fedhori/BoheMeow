@@ -23,6 +23,7 @@ public class UserData implements Serializable {
     public double enviScore;
     public double popularity;
     public String phoneNumber;
+    public String introduction;
 
     public String date;
     public int num;
@@ -48,8 +49,9 @@ public class UserData implements Serializable {
         this.totalWalkTime = 0;
         this.totalWalkCount = 0;
         this.realWalkTime = 0;
-        this.level = 1;
+        this.level = 0;
         this.isItemExist = false;
+        this.introduction = "";
 
         this.num = 0;
         this.date = "0000-00-00 ";
@@ -82,6 +84,7 @@ public class UserData implements Serializable {
         result.put("lastPost", lastPost);
 
         result.put("phoneNumber", phoneNumber);
+        result.put("introduction", introduction);
 
         return result;
     }

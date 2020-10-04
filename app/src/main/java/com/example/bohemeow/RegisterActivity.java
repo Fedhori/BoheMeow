@@ -44,86 +44,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     String phoneNumber;
 
-    private static final int MY_PERMISSION_REQUEST_CODE_PHONE_STATE = 1;
-    private void askPermissionAndGetPhoneNumbers() {
-
-        // With Android Level >= 23, you have to ask the user
-        // for permission to get Phone Number.
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) { // 23
-
-            // Check if we have READ_PHONE_STATE permission
-            int readPhoneStatePermission = ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_PHONE_STATE);
-
-            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                        MY_PERMISSION_REQUEST_CODE_PHONE_STATE
-                );
-                return;
-            }
-        }
-
-        this.getPhoneNumbers();
-    }
-
-    // Need to ask user for permission: android.permission.READ_PHONE_STATE
-    @SuppressLint("MissingPermission")
-    private void getPhoneNumbers() {
-        try {
-            TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            phoneNumber = manager.getLine1Number();
-
-            SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = registerInfo.edit();
-            editor.putString("phoneNumber", phoneNumber);
-            editor.commit();
-
-        } catch (Exception ex) {
-            /*
-            Log.e( LOG_TAG,"Error: ", ex);
-            Toast.makeText(this,"Error: " + ex.getMessage(),
-                    Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-             */
-        }
-    }
-
-    // When you have the request results
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_CODE_PHONE_STATE: {
-
-                // Note: If request is cancelled, the result arrays are empty.
-                // Permissions granted (SEND_SMS).
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    this.getPhoneNumbers();
-                }
-                // Cancelled or denied.
-                else {
-                    Toast.makeText(RegisterActivity.this, "허가 없이는 계정 생성이 불가합니다.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // get phone number
-        askPermissionAndGetPhoneNumbers();
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -146,6 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if(!passwordET.getText().toString().equals(passwordET2.getText().toString())){
                     catText.setText("비밀번호가 다른걸? 다시 한번 확인해봐!");
+                }
+                else if(idET.length() < 4){
+                    catText.setText("아이디가 너무 짧아!");
+                }
+                else if(passwordET.length() < 4){
+                    catText.setText("비밀번호가 너무 짧아!");
                 }
                 else{
 

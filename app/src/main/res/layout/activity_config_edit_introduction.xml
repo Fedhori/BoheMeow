@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="180dp"
-    android:background="@drawable/_0013_box">
+    android:background="@drawable/_0013_box"
+    tools:context=".ConfigEditIntroductionActivity">
 
     <Button
         android:id="@+id/back_btn"
@@ -16,13 +17,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:maxLength="16"
+        android:textColor="#0072FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_tv" />
+
     <TextView
         android:id="@+id/username_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="새 체중을 입력해주세요."
+        android:gravity="center"
+        android:text="자기소개를 작성해주세요.\n(16글자 이하)"
         android:textColor="#0072FF"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,26 +44,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/newWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="#0072FF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_tv" />
-
     <Button
         android:id="@+id/change_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/comm_popup_0008_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_password_check" />
+        app:layout_constraintTop_toBottomOf="@+id/editIntro"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

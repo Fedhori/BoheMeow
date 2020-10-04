@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.Random;
+
 public class WalkEndActivity extends AppCompatActivity {
 
     DatabaseReference ref;
@@ -40,6 +42,19 @@ public class WalkEndActivity extends AppCompatActivity {
     boolean isWritten = false;
 
     TextView callory;
+
+    private String[] normalTexts = {
+            "이 구역 탐험가는 나야! 오늘도 좋은 모험이었어.",
+            "한층 건강해진 느낌이다옹. 오늘도 즐거웠어.",
+            "고양이는 말야. 한걸음 한걸음 허투루 걷는 법이 없지.",
+            "천리길도 한 걸음부터다옹. 이제 999리 남았나?",
+            "영차영차 해봅시다. 영! 영! 아니, 차 안해주냐옹.",
+            "늘 조금씩 나아지는 탐험가가 되자. 오늘도 수고했다옹."
+    };
+
+    private String[] levelUpTexts = {
+            "뭔가 강해진 기분이다옹..!"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,6 +240,17 @@ public class WalkEndActivity extends AppCompatActivity {
 
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d));
 
+                    TextView comment = findViewById(R.id.comment);
+                    // level up!
+                    if(calculateLevel((int)user_totalPoint) != calculateLevel((int) (user_totalPoint + totalPoint))){
+                        Random random = new Random();
+                        comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
+                    }
+                    else{
+                        Random random = new Random();
+                        comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
+                    }
+
                     isWritten = true;
                 }
             }
@@ -237,5 +263,15 @@ public class WalkEndActivity extends AppCompatActivity {
     }
 
 
-
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
+    }
 }
