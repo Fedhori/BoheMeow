@@ -8,16 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -169,7 +165,10 @@ public class CommunityActivity extends AppCompatActivity {
         }
         @NonNull @Override
         public Fragment createFragment(int position) {
-            return fragment.newInstance(position);
+            if(position <= 1){
+                return fragmentGeneral.newInstance(position);
+            }
+            else return fragmentSearch.newInstance(position);
         }
         @Override
         public int getItemCount() {
