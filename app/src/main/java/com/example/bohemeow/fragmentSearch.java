@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +36,6 @@ public class fragmentSearch extends Fragment {
 
     String user_name;
     boolean isWritable;
-    //hello
 
     private ArrayList<post> mArrayList;
     private CustomAdapter mAdapter;
@@ -45,6 +45,9 @@ public class fragmentSearch extends Fragment {
 
     private static final String ARG_COUNT = "param1";
     private static int counter;
+
+    EditText keywordET;
+    String keyword;
 
     public fragmentSearch() {
         // Required empty public constructor
@@ -81,10 +84,11 @@ public class fragmentSearch extends Fragment {
         user_name = ((CommunityActivity)context).username;
         isWritable = ((CommunityActivity)context).isWritable;
 
-        final ImageView imageViewCounter = view.findViewById(R.id.imageViewFrag);
+        //final ImageView imageViewCounter = view.findViewById(R.id.imageViewFrag);
+        final TextView textViewCounter = view.findViewById(R.id.textViewFrag);
 
-        ImageButton search_btn = view.findViewById(R.id.search_btn);
-        EditText content = view.findViewById(R.id.searchContent);
+
+        keywordET = view.findViewById(R.id.searchContent);
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -117,21 +121,25 @@ public class fragmentSearch extends Fragment {
         });
 
 
-        // get data
 
         final ValueEventListener postListener = new ValueEventListener(){
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mArrayList.clear();
+                //imageViewCounter.setVisibility(View.VISIBLE);
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     postData get = postSnapshot.getValue(postData.class);
                     if(get.isPublic == true) {
-                        post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
-                        mArrayList.add(data);
-                        imageViewCounter.setVisibility(View.INVISIBLE);
+                        if(get.content.contains(keyword) || get.tags.contains(keyword) || get.username.contains(keyword)) {
+                            post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
+                            mArrayList.add(data);
+                            //imageViewCounter.setVisibility(View.INVISIBLE);
+                            textViewCounter.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
-
+                if(mArrayList.size() == 0)
+                    textViewCounter.setVisibility(View.VISIBLE);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -140,9 +148,18 @@ public class fragmentSearch extends Fragment {
 
             }
         };
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-        mPostReference.child("post_list").addValueEventListener(postListener);
 
+        ImageButton search_btn = view.findViewById(R.id.search_btn);
+        search_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                keyword = keywordET.getText().toString();
+                mPostReference = FirebaseDatabase.getInstance().getReference();
+                mPostReference.child("post_list").addValueEventListener(postListener);
+            }
+        });
+        // get da
 
 
     }
