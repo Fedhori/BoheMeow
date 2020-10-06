@@ -35,6 +35,7 @@ public class fragmentSearch extends Fragment {
 
     String user_name;
     boolean isWritable;
+    //hello
 
     private ArrayList<post> mArrayList;
     private CustomAdapter mAdapter;
