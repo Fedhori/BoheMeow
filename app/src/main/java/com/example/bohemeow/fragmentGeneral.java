@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,7 +79,8 @@ public class fragmentGeneral extends Fragment {
         user_name = ((CommunityActivity)context).username;
         isWritable = ((CommunityActivity)context).isWritable;
 
-        final ImageView imageViewCounter = view.findViewById(R.id.imageViewFrag);
+        //final ImageView imageViewCounter = view.findViewById(R.id.imageViewFrag);
+        final TextView textViewCounter = view.findViewById(R.id.textViewFrag);
 
         if(counter == 0){
 
@@ -125,10 +127,12 @@ public class fragmentGeneral extends Fragment {
                         if(get.isPublic == true) {
                             post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                             mArrayList.add(data);
-                            imageViewCounter.setVisibility(View.INVISIBLE);
+                            //imageViewCounter.setVisibility(View.INVISIBLE);
+                            textViewCounter.setVisibility(View.INVISIBLE);
                         }
                     }
-
+                    if(mArrayList.size() == 0)
+                        textViewCounter.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();
                 }
 
@@ -187,10 +191,12 @@ public class fragmentGeneral extends Fragment {
                         if(get.username.equals(user_name)) {
                             post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                             mArrayList.add(data);
-                            imageViewCounter.setVisibility(View.INVISIBLE);
+                            //imageViewCounter.setVisibility(View.INVISIBLE);
+                            textViewCounter.setVisibility(View.INVISIBLE);
                         }
                     }
-
+                    if(mArrayList.size() == 0)
+                        textViewCounter.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();
                 }
 
