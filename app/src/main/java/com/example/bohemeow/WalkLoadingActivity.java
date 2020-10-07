@@ -5,7 +5,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -184,6 +186,12 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             userlat = point.getLatitude();
             userlng = point.getLongitude();
             //Toast.makeText(WalkLoadingActivity.this, userlat + " " + userlng, Toast.LENGTH_LONG).show();
+
+            SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = registerInfo.edit();
+            editor.putFloat("lastLat", (float)userlat);
+            editor.putFloat("lastlng", (float)userlng);
+            editor.commit();
 
             getRegion(userlat, userlng);
         }
