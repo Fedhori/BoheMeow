@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +24,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -168,6 +181,8 @@ public class MainMenu extends AppCompatActivity {
             windowIV.setImageResource(R.drawable.windowmorning);
         }
 
+        getWeather(37.2960, 126.9758);
+
         /*
         rnd = new Random();
         int num = rnd.nextInt(2);
@@ -306,6 +321,48 @@ public class MainMenu extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    String key = "55e6a5b4f589f421a74785f169c7abbb";
+    void getWeather(final double latitude, final double longtitude){
+        //final String[] region = {""};
+        final String[] weather = new String[1];
+
+
+        new Thread() {
+            public void run() {
+
+                String uri = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude +"&lon=" + longtitude +
+                        "&appid=" + key;
+
+                String page = "";
+                try {
+                    URL url = new URL(uri);
+                    URLConnection urlConnection = (URLConnection) url.openConnection();
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                    Log.d("line:", bufreader.toString());
+                    System.out.println("\ncheckpoint");
+                    String line;
+
+                    while ((line = bufreader.readLine()) != null) {
+                        Log.d("line:", line);
+                        page += line;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(page);
+                    String result = jsonObject.getString("weather");
+                    JSONArray jsonArray = new JSONArray(result);
+                    weather[0] = jsonArray.getJSONObject(0).getString("main");
+                    //Toast.makeText(MainMenu.this, "날씨:" + weather[0], Toast.LENGTH_LONG).show();
+                    System.out.println("날씨:" + weather[0]);
+
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
 }

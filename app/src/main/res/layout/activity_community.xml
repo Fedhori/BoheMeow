@@ -29,10 +29,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@drawable/comm_tab"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#2196F3"
+            app:tabIndicatorColor="#00000000"
+            app:tabIndicatorFullWidth="false"
             app:tabMaxWidth="0dp"
-            app:tabMode="fixed" />
+            app:tabMode="fixed"
+            app:tabTextColor="#262DB6" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

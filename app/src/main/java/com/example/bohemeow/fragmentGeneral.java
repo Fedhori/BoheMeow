@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -27,10 +27,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment#newInstance} factory method to
+ * Use the {@link fragmentGeneral#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment extends Fragment {
+public class fragmentGeneral extends Fragment {
 
     String user_name;
     boolean isWritable;
@@ -44,12 +44,12 @@ public class fragment extends Fragment {
     private static final String ARG_COUNT = "param1";
     private static int counter;
 
-    public fragment() {
+    public fragmentGeneral() {
         // Required empty public constructor
     }
 
-    public static fragment newInstance(Integer counter) {
-        fragment fragment = new fragment();
+    public static fragmentGeneral newInstance(Integer counter) {
+        fragmentGeneral fragment = new fragmentGeneral();
         Bundle args = new Bundle();
         args.putInt(ARG_COUNT, counter);
         fragment.setArguments(args);
@@ -68,7 +68,7 @@ public class fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_general, container, false);
     }
 
     @Override
@@ -79,11 +79,11 @@ public class fragment extends Fragment {
         user_name = ((CommunityActivity)context).username;
         isWritable = ((CommunityActivity)context).isWritable;
 
+        //final ImageView imageViewCounter = view.findViewById(R.id.imageViewFrag);
         final TextView textViewCounter = view.findViewById(R.id.textViewFrag);
 
         if(counter == 0){
 
-            textViewCounter.setText("No post");
             RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
             mLinearLayoutManager.setReverseLayout(true);
@@ -127,10 +127,12 @@ public class fragment extends Fragment {
                         if(get.isPublic == true) {
                             post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                             mArrayList.add(data);
-                            textViewCounter.setText("");
+                            //imageViewCounter.setVisibility(View.INVISIBLE);
+                            textViewCounter.setVisibility(View.INVISIBLE);
                         }
                     }
-
+                    if(mArrayList.size() == 0)
+                        textViewCounter.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();
                 }
 
@@ -146,7 +148,6 @@ public class fragment extends Fragment {
         }
         else if(counter == 1){
 
-            textViewCounter.setText("No post");
             RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
             mLinearLayoutManager.setReverseLayout(true);
@@ -190,10 +191,12 @@ public class fragment extends Fragment {
                         if(get.username.equals(user_name)) {
                             post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                             mArrayList.add(data);
-                            textViewCounter.setText("");
+                            //imageViewCounter.setVisibility(View.INVISIBLE);
+                            textViewCounter.setVisibility(View.INVISIBLE);
                         }
                     }
-
+                    if(mArrayList.size() == 0)
+                        textViewCounter.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();
                 }
 
@@ -205,9 +208,6 @@ public class fragment extends Fragment {
 
             mPostReference = FirebaseDatabase.getInstance().getReference();
             mPostReference.child("post_list").addValueEventListener(postListener);
-
-        }
-        else if(counter == 3){
 
         }
     }
