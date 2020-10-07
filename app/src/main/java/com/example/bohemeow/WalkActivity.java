@@ -469,8 +469,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     addCoordinationID(latitude, longtitude);
 
                     checkNearSpot(latitude, longtitude);
-                    // 100m당 10점이니까, 30m(maxMoveLength)당 3점
-                    totalPoint+=3;
+                    // 10m당 2점이니까, 30m(maxMoveLength)당 3점
+                    totalPoint+=6;
 
                     // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
@@ -666,8 +666,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
                 if(todayCount <= 3){
-                    Toast.makeText(WalkActivity.this, "쪽지 작성! +10포인트", Toast.LENGTH_LONG).show();
-                    totalPoint += 10;
+                    Toast.makeText(WalkActivity.this, "쪽지 작성! +100포인트", Toast.LENGTH_LONG).show();
+                    totalPoint += 100;
                 }
 
                 // 로컬 데이터에 다시 업데이트
@@ -738,10 +738,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // if user is nearer than 50m at the point & not visited yet
             if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
                 isVisited[i] = true;
-                // add 100 point!
-                totalPoint += 100;
+                // add 500 point!
+                totalPoint += 500;
 
-                Toast.makeText(WalkActivity.this, "스팟 도달! +100경험치", Toast.LENGTH_LONG).show();
+                Toast.makeText(WalkActivity.this, "스팟 도달! +500경험치", Toast.LENGTH_LONG).show();
             }
         }
     }
