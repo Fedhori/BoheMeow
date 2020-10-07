@@ -51,6 +51,8 @@ public class MainMenu extends AppCompatActivity {
     String phoneNumber;
     Random rnd;
 
+    double lastLat, lastLng;
+
     public void getRankAndStartActivity(){
         final int[] rank = new int[5];
         final int[] catTypes = new int[5];
@@ -162,8 +164,29 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        windowIV = findViewById(R.id.iv_window);
+        /*
+        rnd = new Random();
+        int num = rnd.nextInt(2);
+        if(num == 1){
+            select_btn.setBackgroundResource(R.drawable.main_cat_scaratch);
+        }
 
+         */
+
+        UpdateBackground();
+
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        username = registerInfo.getString("registerUserName", "NULL");
+        catType = registerInfo.getInt("userCatType", 1);
+        lastLat = (double) registerInfo.getFloat("lastLat", 0);
+        lastLng = (double) registerInfo.getFloat("lastLng", 0);
+
+        //phoneNumber = registerInfo.getString("phoneNumber", "NULL");
+
+        Intent intent = getIntent();
+
+
+        windowIV = findViewById(R.id.iv_window);
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
         Date date = new Date();
@@ -181,27 +204,12 @@ public class MainMenu extends AppCompatActivity {
             windowIV.setImageResource(R.drawable.windowmorning);
         }
 
-        getWeather(37.2960, 126.9758);
-
-        /*
-        rnd = new Random();
-        int num = rnd.nextInt(2);
-        if(num == 1){
-            select_btn.setBackgroundResource(R.drawable.main_cat_scaratch);
-        }
-
-         */
+        if(lastLat != 0)
+            getWeather(lastLat, lastLng);
 
 
-        UpdateBackground();
 
-        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        username = registerInfo.getString("registerUserName", "NULL");
-        catType = registerInfo.getInt("userCatType", 1);
 
-        //phoneNumber = registerInfo.getString("phoneNumber", "NULL");
-
-        Intent intent = getIntent();
 
         Button communityBtn = (Button) findViewById(R.id.btn_community);
         communityBtn.setOnClickListener(new View.OnClickListener(){
@@ -324,9 +332,9 @@ public class MainMenu extends AppCompatActivity {
     }
 
     String key = "55e6a5b4f589f421a74785f169c7abbb";
+    String weather;
     void getWeather(final double latitude, final double longtitude){
         //final String[] region = {""};
-        final String[] weather = new String[1];
 
 
         new Thread() {
@@ -352,10 +360,26 @@ public class MainMenu extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(page);
                     String result = jsonObject.getString("weather");
                     JSONArray jsonArray = new JSONArray(result);
-                    weather[0] = jsonArray.getJSONObject(0).getString("main");
+                    weather = jsonArray.getJSONObject(0).getString("main");
                     //Toast.makeText(MainMenu.this, "날씨:" + weather[0], Toast.LENGTH_LONG).show();
-                    System.out.println("날씨:" + weather[0]);
+                    System.out.println("날씨:" + weather);
 
+                    if(weather.equals("Clear")){
+                        System.out.println("\nweather: clear");
+                        windowIV.setImageResource(R.drawable.main_window_sunny_day);
+                    }
+                    else if(weather.equals("Rain") || weather.equals("Drizzle")){
+                        System.out.println("\nweather: rain or drizzle");
+                    }
+                    else if(weather.equals("Snow")){
+                        System.out.println("\nweather: snow");
+                    }
+                    else if(weather.equals("Thunderstorm")){
+                        System.out.println("\nweather: thunderstorm");
+                    }
+                    else {
+                        System.out.println("\nweather: cloud");
+                    }
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
