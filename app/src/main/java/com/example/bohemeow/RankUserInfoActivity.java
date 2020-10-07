@@ -1,7 +1,5 @@
 package com.example.bohemeow;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +20,7 @@ public class RankUserInfoActivity extends Activity {
         String username = intent.getStringExtra("username");
         String introduction = intent.getStringExtra("introduction");
 
-        TextView username_tv = findViewById(R.id.username_tv);
+        TextView username_tv = findViewById(R.id.bugreport_tv);
         username_tv.setText("유저 " + username + "의 자기소개");
         TextView introduction_tv = findViewById(R.id.introduction_tv);
         introduction_tv.setText(introduction);

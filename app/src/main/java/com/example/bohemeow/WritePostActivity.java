@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class WritePostActivity extends AppCompatActivity{
@@ -258,6 +259,22 @@ public class WritePostActivity extends AppCompatActivity{
                         if (num < 3) {
                             user_totalPoint = (long) dataSnapshot.child("level").getValue();
                             ref.child("level").setValue(user_totalPoint + totalPoint);
+
+                            int prev_level = calculateLevel((int)user_totalPoint);
+                            int cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
+
+                            // level up!
+                            if(prev_level < cur_level){
+                                // this value must be synchronized with WalkEndActivity's rewardLevelList array
+                                int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
+                                int length = rewardLevelList.length;
+                                for(int i = 0;i<length;i++){
+                                    if(cur_level == rewardLevelList[i]){
+                                        // now do something!
+                                        break;
+                                    }
+                                }
+                            }
                         }
                         ref.child("lastPost").child("num").setValue(num + 1);
                     } else {
@@ -265,6 +282,22 @@ public class WritePostActivity extends AppCompatActivity{
                         ref.child("level").setValue(user_totalPoint + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
+
+                        int prev_level = calculateLevel((int)user_totalPoint);
+                        int cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
+
+                        // level up!
+                        if(prev_level < cur_level){
+                            // this value must be synchronized with WalkEndActivity's rewardLevelList array
+                            int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
+                            int length = rewardLevelList.length;
+                            for(int i = 0;i<length;i++){
+                                if(cur_level == rewardLevelList[i]){
+                                    // now do something!
+                                    break;
+                                }
+                            }
+                        }
                     }
                     isUpdated = true;
                 }
@@ -275,6 +308,18 @@ public class WritePostActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
     }
 
 }

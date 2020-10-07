@@ -10,10 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 public class ConfigBackgroundActivity extends Activity {
 
@@ -45,7 +41,7 @@ public class ConfigBackgroundActivity extends Activity {
                 break;
         }
 
-        Button change_btn = findViewById(R.id.change_btn);
+        Button change_btn = findViewById(R.id.report_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

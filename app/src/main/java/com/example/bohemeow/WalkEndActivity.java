@@ -241,10 +241,23 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d));
 
                     TextView comment = findViewById(R.id.comment);
+
+                    int prev_level = calculateLevel((int)user_totalPoint);
+                    int cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
+
                     // level up!
-                    if(calculateLevel((int)user_totalPoint) != calculateLevel((int) (user_totalPoint + totalPoint))){
+                    if(prev_level < cur_level){
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
+
+                        int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
+                        int length = rewardLevelList.length;
+                        for(int i = 0;i<length;i++){
+                            if(cur_level == rewardLevelList[i]){
+                                // now do something!
+                                break;
+                            }
+                        }
                     }
                     else{
                         Random random = new Random();
