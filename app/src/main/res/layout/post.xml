@@ -11,11 +11,11 @@
     <ImageView
         android:id="@+id/imageView26"
         android:layout_width="wrap_content"
-        android:layout_height="140dp"
+        android:layout_height="133dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/writepost_0005_box_2" />
+        app:srcCompat="@drawable/comm_main_box" />
 
     <ImageView
         android:id="@+id/content_image"
@@ -28,10 +28,10 @@
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="190dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/mapo"
         android:lines="3"
@@ -46,9 +46,9 @@
 
     <TextView
         android:id="@+id/tags"
-        android:layout_width="140dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="2dp"
         android:ellipsize="end"
         android:fontFamily="@font/mapo"

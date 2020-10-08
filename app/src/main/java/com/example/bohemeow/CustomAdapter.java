@@ -58,6 +58,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.timeTV = (TextView) view.findViewById(R.id.time);
             this.levelTV = (TextView) view.findViewById(R.id.user_level);
 
+
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -159,6 +160,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.timeTV.setText(Date(time));
         viewholder.levelTV.setText("Lv." + Integer.toString(level));
         viewholder.iconIV.setImageResource(icons[catType]);
+
+
         //System.out.println("\ncatType: " + catType);
     }
 
