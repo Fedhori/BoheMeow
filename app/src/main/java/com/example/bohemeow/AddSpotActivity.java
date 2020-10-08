@@ -10,6 +10,9 @@ import android.graphics.PointF;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -85,12 +88,21 @@ public class AddSpotActivity extends AppCompatActivity  {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+
+
+
         // get intent
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
 
         walkStart_btn = (Button) findViewById(R.id.walkStart_btn);
+
+        String str = "산책 시작 GO!";
+        SpannableStringBuilder ssb = new SpannableStringBuilder(str);
+        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#fb8c3d")), 6, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        walkStart_btn.setText(ssb);
+
         walkStart_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
