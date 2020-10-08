@@ -93,7 +93,6 @@ public class MainMenu extends AppCompatActivity {
                         int user_rank = 0;
 
                         boolean isArrived = false;
-
                         if (dataSnapshot.exists()) {
                             // dataSnapshot is the "issue" node with all children with id 0
                             for (DataSnapshot issue : dataSnapshot.getChildren()) {
@@ -187,6 +186,7 @@ public class MainMenu extends AppCompatActivity {
 
 
         windowIV = findViewById(R.id.iv_window);
+        int w = 0;
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
         Date date = new Date();
@@ -205,7 +205,20 @@ public class MainMenu extends AppCompatActivity {
         }
 
         if(lastLat != 0)
-            getWeather(lastLat, lastLng);
+            w = getWeather(lastLat, lastLng);
+
+        if(w == 1){
+            windowIV.setImageResource(R.drawable.windowsunset);
+        }
+        else if(w == 2){
+            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+        }
+        else if(w == 3){
+            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+        }
+        else if(w == 4){
+            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+        }
 
 
 
@@ -333,8 +346,10 @@ public class MainMenu extends AppCompatActivity {
 
     String key = "55e6a5b4f589f421a74785f169c7abbb";
     String weather;
-    void getWeather(final double latitude, final double longtitude){
+    int w;
+    int getWeather(final double latitude, final double longtitude){
         //final String[] region = {""};
+        w = 0;
 
 
         new Thread() {
@@ -366,19 +381,22 @@ public class MainMenu extends AppCompatActivity {
 
                     if(weather.equals("Clear")){
                         System.out.println("\nweather: clear");
-                        windowIV.setImageResource(R.drawable.main_window_sunny_day);
                     }
                     else if(weather.equals("Rain") || weather.equals("Drizzle")){
                         System.out.println("\nweather: rain or drizzle");
+                        w = 1;
                     }
                     else if(weather.equals("Snow")){
                         System.out.println("\nweather: snow");
+                        w = 2;
                     }
                     else if(weather.equals("Thunderstorm")){
                         System.out.println("\nweather: thunderstorm");
+                        w = 3;
                     }
                     else {
                         System.out.println("\nweather: cloud");
+                        w = 4;
                     }
 
                 } catch (IOException | JSONException e) {
@@ -386,6 +404,8 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
         }.start();
+
+        return w;
 
     }
 
