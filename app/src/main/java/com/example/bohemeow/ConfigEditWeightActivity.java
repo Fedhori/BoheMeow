@@ -33,7 +33,7 @@ public class ConfigEditWeightActivity extends Activity {
 
         final EditText newWeight = findViewById(R.id.newWeight);
 
-        Button change_btn = findViewById(R.id.report_btn);
+        Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

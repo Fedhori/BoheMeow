@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".WalkEndPopUpActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
             android:name=".BugReportActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity

@@ -36,7 +36,7 @@ public class BugReportActivity extends Activity {
 
         final EditText bugreport_et = findViewById(R.id.bugreport_et);
 
-        Button report_btn = findViewById(R.id.report_btn);
+        Button report_btn = findViewById(R.id.yes_btn);
         report_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

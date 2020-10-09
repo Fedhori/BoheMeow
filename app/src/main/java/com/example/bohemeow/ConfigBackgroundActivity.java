@@ -41,7 +41,7 @@ public class ConfigBackgroundActivity extends Activity {
                 break;
         }
 
-        Button change_btn = findViewById(R.id.report_btn);
+        Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

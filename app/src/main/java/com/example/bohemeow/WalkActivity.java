@@ -181,19 +181,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             @Override
             public void onClick(View view) {
-                walkEndTime = System.currentTimeMillis();
-                totalWalkTime = walkEndTime - walkStartTime;
 
-                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
-                intent.putExtra("totalWalkTime", totalWalkTime);
-                intent.putExtra("realWalkTime", realWalkTime);
-                intent.putExtra("totalMoveLength", totalMoveLength);
-                intent.putExtra("totalPoint", totalPoint);
-
-                handler.removeCallbacks(runnable); //stop handler when activity not visible
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                Intent intent = new Intent(WalkActivity.this, WalkEndPopUpActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -216,11 +206,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void onClick(View view) {
                 if(isRouteRemoved){
                     recoverAllRoutePolyLines();
-                    hideAndShowBtn.setText("Remove");
+                    hideAndShowBtn.setBackgroundResource(R.drawable._0001_checked);
                 }
                 else{
                     removeAllRoutePolyLines();
-                    hideAndShowBtn.setText("Show");
+                    hideAndShowBtn.setBackgroundResource(R.drawable._0000_unchecked);
                 }
             }
         });
@@ -675,6 +665,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 editor.putInt("lastDate", lastDate);
                 editor.putInt("todayCount", todayCount);
                 editor.commit();
+            }
+            // confirm end walk
+            else if(resultCode == 10){
+                walkEndTime = System.currentTimeMillis();
+                totalWalkTime = walkEndTime - walkStartTime;
+
+                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                intent.putExtra("totalWalkTime", totalWalkTime);
+                intent.putExtra("realWalkTime", realWalkTime);
+                intent.putExtra("totalMoveLength", totalMoveLength);
+                intent.putExtra("totalPoint", totalPoint);
+
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         }
     }
