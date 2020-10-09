@@ -22,11 +22,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class WalkEndActivity extends AppCompatActivity {
 
     DatabaseReference ref;
+
+    String username;
+    String phoneNumber;
 
     double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가? 단위: m
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
@@ -62,7 +71,8 @@ public class WalkEndActivity extends AppCompatActivity {
         setContentView(R.layout.activity_walk_end);
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        String username = registerInfo.getString("registerUserName", "NULL");
+        username = registerInfo.getString("registerUserName", "NULL");
+        phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
         // get intent
         Intent intent = getIntent();
@@ -242,6 +252,9 @@ public class WalkEndActivity extends AppCompatActivity {
 
                     TextView comment = findViewById(R.id.comment);
 
+                    checkAndUpdateLevelReward((int)user_totalPoint, (int)(user_totalPoint + totalPoint));
+                    updateDailyPoint(totalPoint);
+
                     int prev_level = calculateLevel((int)user_totalPoint);
                     int cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
 
@@ -249,15 +262,6 @@ public class WalkEndActivity extends AppCompatActivity {
                     if(prev_level < cur_level){
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
-
-                        int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
-                        int length = rewardLevelList.length;
-                        for(int i = 0;i<length;i++){
-                            if(cur_level == rewardLevelList[i]){
-                                // now do something!
-                                break;
-                            }
-                        }
                     }
                     else{
                         Random random = new Random();
@@ -286,5 +290,80 @@ public class WalkEndActivity extends AppCompatActivity {
             level = score/1000 + 1;
         }
         return level;
+    }
+
+    void updateDailyPoint(final long totalPoint){
+        // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String time = df.format(date);
+
+        final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("daily_rank").child(time).child(username);
+        mPostReference.addValueEventListener(new ValueEventListener() {
+
+            boolean isWritten = false;
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(!isWritten) {
+
+                    long user_daily_totalPoint = 0;
+
+                    if(dataSnapshot.exists()){
+                        user_daily_totalPoint = (long) dataSnapshot.child("point").getValue();
+                    }
+                    else{
+                        // not generated yet
+                        mPostReference.child("username").setValue(username);
+                    }
+
+                    mPostReference.child("point").setValue(user_daily_totalPoint + totalPoint);
+
+                    isWritten = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void checkAndUpdateLevelReward(int user_totalPoint, int new_totalPoint){
+
+        int prev_level = calculateLevel(user_totalPoint);
+        int cur_level = calculateLevel(new_totalPoint);
+
+        if(prev_level < cur_level){
+            // this value must be synchronized with WalkEndActivity's rewardLevelList array
+            int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
+            int length = rewardLevelList.length;
+            for(int i = 0;i<length;i++) {
+                if (prev_level < rewardLevelList[i] && cur_level >= rewardLevelList[i]) {
+
+                    // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
+                    TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                    Date date = new Date();
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    df.setTimeZone(tz);
+                    String time = df.format(date);
+
+                    // 파이어베이스에 유저가 특정 레벨에 도달헀음을 저장한다.
+                    DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    Map<String, Object> postValues = null;
+                    lotsData data = new lotsData(phoneNumber);
+                    postValues = data.toMap();
+                    childUpdates.put("/level_reward/" + i + "/" + time + "/", postValues);
+                    mPostReference.updateChildren(childUpdates);
+
+                    break;
+                }
+            }
+        }
     }
 }

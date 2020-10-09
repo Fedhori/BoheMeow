@@ -797,16 +797,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     void findLots(){
 
-        Toast.makeText(WalkActivity.this, "제비뽑기 발견! 매일 오후 7시에 일괄적으로 추첨됩니다.", Toast.LENGTH_LONG).show();
-
-        // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
-        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        df.setTimeZone(tz);
-        String time = df.format(date);
-
-
+        /*
         // 파이어베이스에 유저가 뽑기를 찾았음을 기록한다.
         DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
@@ -815,6 +806,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         postValues = data.toMap();
         childUpdates.put("/lots_list/" + time + "/", postValues);
         mPostReference.updateChildren(childUpdates);
+         */
+
+        Toast.makeText(WalkActivity.this, "보물 발견! +300포인트!", Toast.LENGTH_LONG).show();
+        totalPoint += 300;
 
         // 실제 오늘 날짜를 구한다.
         Date currentTime = Calendar.getInstance().getTime();

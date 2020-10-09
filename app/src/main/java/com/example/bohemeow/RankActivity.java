@@ -15,7 +15,11 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
+
 public class RankActivity extends Activity {
+
+    boolean isDailyRank = false;
 
     TextView[] rankViews = new TextView[2];
     ImageButton[] catImages = new ImageButton[5];
@@ -39,6 +43,8 @@ public class RankActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_rank);
 
+        Arrays.fill(catTypes, 1);
+
         Intent intent = getIntent();
 
         rank = intent.getIntArrayExtra("rank");
@@ -46,6 +52,16 @@ public class RankActivity extends Activity {
         usernames = intent.getStringArrayExtra("usernames");
         points = intent.getIntArrayExtra("points");
         introductions = intent.getStringArrayExtra("introductions");
+        isDailyRank = intent.getBooleanExtra("isDailyRank", false);
+
+        TextView rank_text = findViewById(R.id.rank_text);
+        if(isDailyRank){
+            rank_text.setText("일간 랭킹");
+        }
+        else{
+            rank_text.setText("주간 랭킹");
+        }
+
 
         rankViews[0] = findViewById(R.id.rank4);
         rankViews[1] = findViewById(R.id.rank5);
@@ -65,8 +81,6 @@ public class RankActivity extends Activity {
         pointViews[3] = findViewById(R.id.point4);
         pointViews[4] = findViewById(R.id.point5);
 
-
-
         for(int i = 0;i<5;i++){
             setRankPanel(rank[i], catTypes[i], usernames[i], points[i], i);
         }
@@ -79,6 +93,7 @@ public class RankActivity extends Activity {
                     Intent intent = new Intent(RankActivity.this, RankUserInfoActivity.class);
                     intent.putExtra("username", usernames[finalI]);
                     intent.putExtra("introduction", introductions[finalI]);
+                    intent.putExtra("catType", catTypes[finalI]);
                     startActivity(intent);
                 }
             });

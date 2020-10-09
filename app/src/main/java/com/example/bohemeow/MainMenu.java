@@ -53,111 +53,6 @@ public class MainMenu extends AppCompatActivity {
 
     double lastLat, lastLng;
 
-    public void getRankAndStartActivity(){
-        final int[] rank = new int[5];
-        final int[] catTypes = new int[5];
-        final String[] usernames = new String[5];
-        final int[] points = new int[5];
-        final String[] introductions = new String[5];
-
-        final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
-        final Query[] query = {mPostReference.orderByChild("level").limitToLast(3)};
-        query[0].addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    int cnt = 0;
-
-                    // get 1st, 2nd, 3rd user's data
-                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        UserData get = issue.getValue(UserData.class);
-
-                        rank[2 - cnt] = 3 - cnt;
-                        catTypes[2 - cnt] = get.catType;
-                        usernames[2 - cnt] = get.nickname;
-                        points[2 - cnt] = get.level;
-                        introductions[2 - cnt] = get.introduction;
-
-                        cnt++;
-                    }
-                }
-
-                // get player rank
-                query[0] = mPostReference.orderByChild("level");
-                query[0].addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        long size = dataSnapshot.getChildrenCount();
-                        int cnt = 0;
-                        int user_rank = 0;
-
-                        boolean isArrived = false;
-                        if (dataSnapshot.exists()) {
-                            // dataSnapshot is the "issue" node with all children with id 0
-                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                                UserData get = issue.getValue(UserData.class);
-                                if(get.nickname.equals(username)){
-
-                                    isArrived = true;
-
-                                    rank[4] = (int) (size - cnt);
-                                    catTypes[4] = get.catType;
-                                    usernames[4] = get.nickname;
-                                    points[4] = get.level;
-                                    introductions[4] = get.introduction;
-
-                                    user_rank = rank[4];
-
-                                    // 플레이어가 1위면 위에 아무도 없어야함!
-                                    if(user_rank == 1){
-                                        rank[3] = 0;
-                                        catTypes[3] = 1;
-                                        usernames[3] = "당신이 1위입니다!";
-                                        points[3] = 0;
-                                        introductions[3] = get.introduction;
-
-                                        break;
-                                    }
-                                }
-                                // 플레이어 바로 위의 유저 정보
-                                else if(isArrived){
-                                    rank[3] = user_rank -1;
-                                    catTypes[3] = get.catType;
-                                    usernames[3] = get.nickname;
-                                    points[3] = get.level;
-                                    introductions[3] = get.introduction;
-
-                                    break;
-                                }
-                                cnt++;
-                            }
-                        }
-
-                        // put information's to intent
-                        Intent intent = new Intent(MainMenu.this, RankActivity.class);
-                        intent.putExtra("rank", rank);
-                        intent.putExtra("catTypes", catTypes);
-                        intent.putExtra("points", points);
-                        intent.putExtra("usernames", usernames);
-                        intent.putExtra("introductions", introductions);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -278,7 +173,8 @@ public class MainMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                getRankAndStartActivity();
+                Intent intent = new Intent(MainMenu.this, RankPopUpActivity.class);
+                startActivity(intent);
             }
         });
     }

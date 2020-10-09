@@ -67,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
             TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
             phoneNumber = manager.getLine1Number();
+            if (phoneNumber.startsWith("+82")) {
+                phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
+            }
 
             SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = registerInfo.edit();
