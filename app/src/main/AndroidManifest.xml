@@ -43,13 +43,13 @@
             android:name=".DelPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
-            android:name=".AddSpotPopupActivity"
+            android:name=".SelectSpotPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".DelSpotPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".WalkLoadingActivity" />
-        <activity android:name=".AddSpotActivity" />
+        <activity android:name=".SelectSpotActivity" />
         <activity android:name=".WalkEndActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />

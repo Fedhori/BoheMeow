@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AddSpotPopupActivity extends Activity {
+public class SelectSpotPopupActivity extends Activity {
 
     int pos;
     post pst;

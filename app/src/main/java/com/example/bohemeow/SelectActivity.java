@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,14 +45,18 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-        checkBox1 = findViewById(R.id.checkBox3);
-        checkBox2 = findViewById(R.id.checkBox);
-        checkBox3 = findViewById(R.id.checkBox6);
+        time = registerInfo.getInt("walkTime", 30);
+        text.setText(Integer.toString(time) + "분");
+
+        checkBox1 = findViewById(R.id.checkBox);
+        checkBox2 = findViewById(R.id.checkBox2);
+        checkBox3 = findViewById(R.id.checkBox3);
 
         checkBox1.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
+                    checkBox1.setChecked(true);
                     checkBox2.setChecked(false);
                     checkBox3.setChecked(false);
                 }
@@ -62,6 +68,7 @@ public class SelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     checkBox1.setChecked(false);
+                    checkBox2.setChecked(true);
                     checkBox3.setChecked(false);
                 }
             }
@@ -73,6 +80,7 @@ public class SelectActivity extends AppCompatActivity {
                 if (((CheckBox)v).isChecked()) {
                     checkBox1.setChecked(false);
                     checkBox2.setChecked(false);
+                    checkBox3.setChecked(true);
                 }
             }
         }) ;
@@ -100,7 +108,7 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton back_btn = findViewById(R.id.back_btn);
+        Button back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,28 +117,37 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton start_btn = findViewById(R.id.start_btn);
+        Button start_btn = findViewById(R.id.start_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = registerInfo.edit();
+                editor.putInt("walkTime", time);
+                editor.commit();
+
                 Intent intent = new Intent(SelectActivity.this, WalkLoadingActivity.class);
                 intent.putExtra("time", time);
                 intent.putExtra("preference", preference);
+
                 if(checkBox1.isChecked()){
-                    intent.putExtra("isFree", true);
-                    intent.putExtra("isChangable", false);
+                    intent.putExtra("walkType", 1);
+                    startActivity(intent);
                 }
                 else if(checkBox2.isChecked()){
-                    intent.putExtra("isFree", false);
-                    intent.putExtra("isChangable", true);
+                    intent.putExtra("walkType", 2);
+                    startActivity(intent);
                 }
                 else if(checkBox3.isChecked()){
-                    intent.putExtra("isFree", false);
-                    intent.putExtra("isChangable", false);
+                    intent.putExtra("walkType", 3);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(SelectActivity.this, "경로 추천 방식을 선택해주세요!", Toast.LENGTH_LONG).show();
                 }
 
-                startActivity(intent);
+
 
             }
         });
