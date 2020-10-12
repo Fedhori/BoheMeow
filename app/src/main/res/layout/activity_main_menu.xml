@@ -10,9 +10,9 @@
 
     <Button
         android:id="@+id/btn_community"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="110dp"
+        android:layout_height="132dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/_0003_community"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +30,10 @@
 
     <Button
         android:id="@+id/btn_itemboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="151dp"
+        android:layout_height="420dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/_0000_popo_lay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -50,9 +50,9 @@
 
     <Button
         android:id="@+id/btn_rank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="100dp"
+        android:layout_height="139dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/_0002_ranking"
         app:layout_constraintStart_toStartOf="parent"
