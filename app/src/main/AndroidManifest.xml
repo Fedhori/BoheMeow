@@ -21,43 +21,43 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".RankPopUpActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".WalkEndPopUpActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".BugReportActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditIntroductionActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".RankUserInfoActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".RankActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditWeightActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditPasswordActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".PopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".PostPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".DelPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".SelectSpotPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".DelSpotPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity android:name=".WalkLoadingActivity" />
         <activity android:name=".SelectSpotActivity" />
         <activity android:name=".WalkEndActivity" />
@@ -75,25 +75,25 @@
         <activity android:name=".TutorialActivity" />
         <activity
             android:name=".EditPostActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".MainConfigActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigDelActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigLogoutActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigBackgroundActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigCharacterActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.skt.Tmap.TMapCircle;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapData.FindPathDataListenerCallback;
 import com.skt.Tmap.TMapData.TMapPathType;
@@ -163,7 +164,10 @@ public class SelectSpotActivity extends AppCompatActivity  {
         tMapView.setLocationPoint(startLng, startLat);
         tMapView.setCenterPoint(startLng, startLat);
 
-        drawSpotMarker(new TMapPoint(startLat, startLng));
+        TMapPoint startPoint = new TMapPoint(startLat, startLng);
+
+        drawSpotMarker(startPoint,  R.drawable.point_start);
+        drawCircle(startPoint);
 
 
         //===========================================================
@@ -215,7 +219,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                 if(num >= 4){
                     Toast.makeText(SelectSpotActivity.this, "스팟을 4개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
-                else if (distFrom(curLat, curLng, startLat, startLng) < 600 && !isJumped) {
+                else if (distFrom(curLat, curLng, startLat, startLng) < 400 && !isJumped) {
                     Toast.makeText(SelectSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(isNear(curLat, curLng)){
@@ -283,31 +287,11 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
     }
 
-    public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
 
-        try {
-            //set time in mili
-            Thread.sleep(500);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        TMapData tmapdata = new TMapData();
-
-        tmapdata.findPathDataWithType(TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new FindPathDataListenerCallback() {
-            @Override
-            public void onFindPathData(TMapPolyLine polyLine) {
-                polyLine.setLineColor(Color.BLUE);
-                tMapView.addTMapPolyLine(Integer.toString(polyLineCnt++), polyLine);
-            }
-        });
-    }
-
-    public void drawSpotMarker(TMapPoint position){
+    public void drawSpotMarker(TMapPoint position, int marker){
 
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
         bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
 
@@ -320,6 +304,18 @@ public class SelectSpotActivity extends AppCompatActivity  {
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
     }
 
+    public void drawCircle(TMapPoint position){
+
+        TMapCircle tMapCircle = new TMapCircle();
+        tMapCircle.setCenterPoint(position);
+        tMapCircle.setRadius(400);
+        tMapCircle.setCircleWidth(2);
+        tMapCircle.setLineColor(Color.BLUE);
+        tMapCircle.setAreaColor(Color.GRAY);
+        tMapCircle.setAreaAlpha(100);
+        tMapView.addTMapCircle("circle1", tMapCircle);
+
+    }
 
 
     public double distFrom(double lat1, double lng1, double lat2, double lng2) {
@@ -361,7 +357,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     newnum += 1;
                     num += 1;
                     locs.add(new location(curLat, curLng));
-                    drawSpotMarker(new TMapPoint(curLat, curLng));
+                    drawSpotMarker(new TMapPoint(curLat, curLng), R.drawable.walk_point);
                     break;
                 case 2:
                     num -= 1;
