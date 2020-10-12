@@ -3,6 +3,7 @@ package com.example.bohemeow;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,7 +11,6 @@ import android.graphics.PointF;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,12 +29,14 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 
-public class AddSpotActivity extends AppCompatActivity  {
+public class SelectSpotActivity extends AppCompatActivity  {
 
     private DatabaseReference mPostReference;
 
@@ -51,11 +53,8 @@ public class AddSpotActivity extends AppCompatActivity  {
 
     String region = "";
 
-    int num;
-    double[] lats;
-    double[] lngs;
     double startLat, startLng;
-
+    int num = 0;
     int newnum = 0;
     double curLat, curLng;
     String markerID;
@@ -98,39 +97,43 @@ public class AddSpotActivity extends AppCompatActivity  {
 
                 sortSpot();
 
-                double[] lats2 = {-1, -1, -1, -1, -1, -1, -1};
-                double[] lngs2 = {-1, -1, -1, -1, -1, -1, -1};
+                double[] lats = {-1, -1, -1, -1, -1, -1, -1};
+                double[] lngs = {-1, -1, -1, -1, -1, -1, -1};
                 if(isJumped){ //출발지가 삭제된 경우 남은 스팟들로만 계산
                     int i = 0;
                     for(location l : locs){
-                        lats2[i] = l.lat;
-                        lngs2[i] = l.lng;
+                        lats[i] = l.lat;
+                        lngs[i] = l.lng;
                         i++;
                     }
-                    lats2[i] = lats2[0];
-                    lngs2[i] = lngs2[0];
+                    lats[i] = lats[0];
+                    lngs[i] = lngs[0];
                 }
                 else{ //출발지가 보존된 경우 원래대로 경로 계산
-                    lats2[0] = startLat;
-                    lngs2[0] = startLng;
+                    lats[0] = startLat;
+                    lngs[0] = startLng;
                     int i = 1;
                     for(location l : locs){
-                        lats2[i] = l.lat;
-                        lngs2[i] = l.lng;
+                        lats[i] = l.lat;
+                        lngs[i] = l.lng;
                         i++;
                     }
-                    lats2[i] = startLat;
-                    lngs2[i] = startLng;
+                    lats[i] = startLat;
+                    lngs[i] = startLng;
                 }
 
+                ArrayList<Double> lastLats = new ArrayList<>();
+                ArrayList<Double> lastLngs = new ArrayList<>();
+                for(int j = 0; lats[j] != -1 && j <7; j++){
+                    lastLats.add(lats[j]);
+                    lastLngs.add(lngs[j]);
+                }
+                recordArray("lastLats", lastLats);
+                recordArray("lastLngs", lastLngs);
 
-                Intent intent = new Intent(AddSpotActivity.this, WalkActivity.class);
-
-                intent.putExtra("region", region);
-                intent.putExtra("isFree", false);
-                intent.putExtra("lats", lats2);
-                intent.putExtra("lngs", lngs2);
-
+                Intent intent = new Intent(SelectSpotActivity.this, WalkActivity.class);
+                intent.putExtra("lats", lats);
+                intent.putExtra("lngs", lngs);
                 startActivity(intent);
                 finish();
             }
@@ -153,31 +156,14 @@ public class AddSpotActivity extends AppCompatActivity  {
         tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
         linearLayoutTmap.addView( tMapView );
 
-
-        lats = intent.getDoubleArrayExtra("lats");
-        lngs = intent.getDoubleArrayExtra("lngs");
-
-        startLat = lats[0];
-        startLng = lngs[0];
+        startLat = intent.getDoubleExtra("lat", 0);
+        startLng = intent.getDoubleExtra("lng", 0);
 
         // set screen to start position
         tMapView.setLocationPoint(startLng, startLat);
         tMapView.setCenterPoint(startLng, startLat);
 
-        spots.add(new TMapPoint(startLat, startLng));
-        for (int i = 1; lats[i] != -1; i++) {
-            spots.add(new TMapPoint(lats[i], lngs[i]));
-            locs.add(new location(lats[i], lngs[i]));
-        }
-        spots.add(new TMapPoint(startLat, startLng));
-        num = locs.size();
-
-        for(int i = 0; i < spots.size() - 1; i++){
-            drawSpotMarker(spots.get(i));
-            drawPedestrianPath(spots.get(i), spots.get(i+1));
-        }
-
-
+        drawSpotMarker(new TMapPoint(startLat, startLng));
 
 
         //===========================================================
@@ -198,7 +184,7 @@ public class AddSpotActivity extends AppCompatActivity  {
                     curLat = point.getLatitude();
                     curLng = point.getLongitude();
 
-                    Intent intent = new Intent(AddSpotActivity.this, DelSpotPopupActivity.class);
+                    Intent intent = new Intent(SelectSpotActivity.this, DelSpotPopupActivity.class);
                     intent.putExtra("lat", curLat);
                     intent.putExtra("lng", curLng);
                     startActivityForResult(intent, 1);
@@ -217,21 +203,26 @@ public class AddSpotActivity extends AppCompatActivity  {
 
                 curLat = point.getLatitude();
                 curLng = point.getLongitude();
-
+/*
                 if(newnum >= 3){
-                    Toast.makeText(AddSpotActivity.this, "새로운 스팟을 3개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectSpotActivity.this, "새로운 스팟을 3개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(num >= 5){
-                    Toast.makeText(AddSpotActivity.this, "스팟을 5개 이상 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectSpotActivity.this, "스팟을 5개 이상 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
+                }
+
+ */
+                if(num >= 4){
+                    Toast.makeText(SelectSpotActivity.this, "스팟을 4개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
                 else if (distFrom(curLat, curLng, startLat, startLng) < 600 && !isJumped) {
-                    Toast.makeText(AddSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(isNear(curLat, curLng)){
-                    Toast.makeText(AddSpotActivity.this, "다른 스팟과 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectSpotActivity.this, "다른 스팟과 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent intent = new Intent(AddSpotActivity.this, AddSpotPopupActivity.class);
+                    Intent intent = new Intent(SelectSpotActivity.this, SelectSpotPopupActivity.class);
                     intent.putExtra("lat", curLat);
                     intent.putExtra("lng", curLng);
                     startActivityForResult(intent, 1);
@@ -250,7 +241,7 @@ public class AddSpotActivity extends AppCompatActivity  {
             public void granted() {
                 turnGPSOn();
 
-                gps = new TMapGpsManager(AddSpotActivity.this);
+                gps = new TMapGpsManager(SelectSpotActivity.this);
                 // check every 1000ms
                 gps.setMinTime(100);
                 // if user moves at least 10m, call onLocationChange
@@ -267,8 +258,8 @@ public class AddSpotActivity extends AppCompatActivity  {
             // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
             @Override
             public void denied() {
-                Toast.makeText(AddSpotActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AddSpotActivity.this, MainMenu.class);
+                Toast.makeText(SelectSpotActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SelectSpotActivity.this, MainMenu.class);
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -425,5 +416,19 @@ public class AddSpotActivity extends AppCompatActivity  {
 
     }
 
+    private void recordArray(String key, ArrayList<Double> values) {
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = registerInfo.edit();
+        JSONArray a = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            a.put(Double.toString(values.get(i)));
+        }
+        if (!values.isEmpty()) {
+            editor.putString(key, a.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
+    }
 
 }
