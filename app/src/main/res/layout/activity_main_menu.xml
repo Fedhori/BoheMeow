@@ -15,16 +15,17 @@
         android:background="@drawable/main_0002_community"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.124"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.193" />
 
     <Button
         android:id="@+id/btn_to_select"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/_0001_sessak_lay"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/main_0008_door"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="388dp"
+        android:layout_marginTop="348dp"
         android:background="@drawable/_0002_ranking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

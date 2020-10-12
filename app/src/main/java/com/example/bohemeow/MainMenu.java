@@ -134,7 +134,9 @@ public class MainMenu extends AppCompatActivity {
                 R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
 
         final Button selectBtn = (Button) findViewById(R.id.btn_to_select);
+        /*
         selectBtn.setBackgroundResource(icons[catType]);
+         */
         selectBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
