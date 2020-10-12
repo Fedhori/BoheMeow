@@ -156,7 +156,6 @@ public class RankPopUpActivity extends Activity {
                                         if(get != null){
                                             catTypes[i] = get.catType;
                                             introductions[i] = get.introduction;
-                                            Log.d("asdf", introductions[i]);
                                         }
                                     }
                                 }
