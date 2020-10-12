@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,7 +41,8 @@ public class EditPostActivity extends Activity {
 
     Button back_btn;
     Button edit_btn;
-    Button del_btn;
+
+    CheckBox checkBox;
 
 
     @Override
@@ -61,6 +63,20 @@ public class EditPostActivity extends Activity {
 
         contentET.setText(pst.getContent());
         tagET.setText(pst.getTags());
+
+        checkBox = findViewById(R.id.postType2);
+        if(pst.isPublic){
+            checkBox.setChecked(true);
+        }
+
+
+        checkBox.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                }
+            }
+        }) ;
 
 
 
@@ -83,6 +99,12 @@ public class EditPostActivity extends Activity {
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_list/" + pst.getTime());
                     myRef.child("content").setValue(contentET.getText().toString());
                     myRef.child("tags").setValue(tagET.getText().toString());
+                    if(checkBox.isChecked()){
+                        myRef.child("isPublic").setValue(true);
+                    }
+                    else{
+                        myRef.child("isPublic").setValue(false);
+                    }
                     finish();
                 }
             }

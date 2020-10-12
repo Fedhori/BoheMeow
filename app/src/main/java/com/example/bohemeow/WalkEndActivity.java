@@ -131,7 +131,7 @@ public class WalkEndActivity extends AppCompatActivity {
                 double cal;
                 long weight =  (long) dataSnapshot.child("weight").getValue();
                 cal = 0.9 * weight * (realWalkTime/60000) / 15;
-                callory.setText(Double.toString(cal) + "kcal");
+                callory.setText(Double.toString(Double.parseDouble(String.format("%.2f",cal))) + "kcal");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
