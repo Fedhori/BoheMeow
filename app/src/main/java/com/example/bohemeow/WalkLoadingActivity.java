@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.TextView;
@@ -78,8 +79,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     private int min; //소요 시간
     private int speed = 50; //보행자 속도
 
-    boolean isFree = false;
-    boolean isChangable = false;
+    int walkType;
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
@@ -108,8 +108,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         Intent intent = getIntent();
         min = intent.getIntExtra("time", 60);
         preference = intent.getIntArrayExtra("preference");
-        isFree = intent.getBooleanExtra("isFree", false);
-        isChangable = intent.getBooleanExtra("isChangable", false);
+        walkType = intent.getIntExtra("walkType", 3);
 
         num = 1 + min / 30;
         if(num > 5) num = 5;
@@ -319,20 +318,36 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     void setRegion(final String region){
 
-        if(isFree){
-
-            double[] lats = {userlat};
-            double[] lngs = {userlng};
-
-            Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
+        if(walkType == 1){
+            System.out.println("\ntype:1");
+            double[] lats = getArray("lastLats");
+            double[] lngs = getArray("lastLngs");
+            if(lats[0] != -1){
+                Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
+                intent.putExtra("region", region);
+                intent.putExtra("lats", lats);
+                intent.putExtra("lngs", lngs);
+                startActivity(intent);
+                WalkLoadingActivity.this.finish();
+                isDone = true;
+            }
+            else{
+                Toast.makeText(WalkLoadingActivity.this, "기록된 경로가 존재하지 않습니다.\n 자동으로 추천을 받습니다!", Toast.LENGTH_LONG).show();
+            }
+        }
+        else if(walkType == 3){
+            System.out.println("\ntype:3");
+            Intent intent = new Intent(WalkLoadingActivity.this, SelectSpotActivity.class);
+            intent.putExtra("lat", userlat);
+            intent.putExtra("lng", userlng);
             intent.putExtra("region", region);
-            intent.putExtra("isFree", true);
-            intent.putExtra("lats", lats);
-            intent.putExtra("lngs", lngs);
             startActivity(intent);
             WalkLoadingActivity.this.finish();
+            isDone = true;
         }
-        else {
+
+        if(!isDone) {
+            System.out.println("\ntype:2");
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -378,6 +393,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 }
             });
         }
+
 
     }
 
@@ -451,18 +467,13 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     System.out.println("\nThere are no spot in this place!");
                     Toast.makeText(WalkLoadingActivity.this, "가능한 스팟이 존재하지 않습니다.\n 원하시는 장소를 선택하세요!", Toast.LENGTH_LONG).show();
 
-
-                    Intent intent = new Intent(WalkLoadingActivity.this, AddSpotActivity.class);
+                    Intent intent = new Intent(WalkLoadingActivity.this, SelectSpotActivity.class);
                     // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
                     //intent.putExtra("preference", preference);
                     intent.putExtra("region", region);
-
-                    double[] lats = {userlat, -1, -1, -1, -1, -1, -1};
-                    double[] lngs = {userlng, -1, -1, -1, -1, -1, -1};
-                    intent.putExtra("lats", lats);
-                    intent.putExtra("lngs", lngs);
+                    intent.putExtra("lat", userlat);
+                    intent.putExtra("lng", userlng);
                     //intent.putExtra("spots", sorted);
-
                     startActivity(intent);
                     WalkLoadingActivity.this.finish();
                 }
@@ -696,6 +707,17 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             lngs[i] = s.lng;
             i++;
         }
+        lats[i] = userlat;
+        lngs[i] = userlng;
+
+        ArrayList<Double> lastLats = new ArrayList<>();
+        ArrayList<Double> lastLngs = new ArrayList<>();
+        for(int j = 0; lats[j] != -1 && j <7; j++){
+            lastLats.add(lats[j]);
+            lastLngs.add(lngs[j]);
+        }
+        recordArray("lastLats", lastLats);
+        recordArray("lastLngs", lastLngs);
 /*
         ArrayList<location> sorted = new ArrayList<>();
 
@@ -708,45 +730,47 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         loc = new location(userlat, userlng);
         sorted.add(loc);
 */
+        Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
+        intent.putExtra("region", region);
+        intent.putExtra("lats", lats);
+        intent.putExtra("lngs", lngs);
 
+        startActivity(intent);
+        WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
 
-
-        if(isChangable == true){
-            Intent intent = new Intent(WalkLoadingActivity.this, AddSpotActivity.class);
-            intent.putExtra("region", region);
-            intent.putExtra("lats", lats);
-            intent.putExtra("lngs", lngs);
-            //intent.putExtra("spots", sorted);
-
-            startActivity(intent);
-            WalkLoadingActivity.this.finish();
-        }
-        else {
-            Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
-            // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
-            //intent.putExtra("preference", preference);
-            intent.putExtra("region", region);
-            intent.putExtra("isFree", false);
-
-            lats[i] = userlat;
-            lngs[i] = userlng;
-
-            intent.putExtra("lats", lats);
-            intent.putExtra("lngs", lngs);
-            //intent.putExtra("spots", sorted);
-
-            startActivity(intent);
-            WalkLoadingActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
-        }
-
-/*
-        for(int i = 0; i<sorted.size() - 1; i++){
-            drawMarker(sorted.get(i));
-            drawPedestrianPath(sorted.get(i), sorted.get(i+1));
-        }
- */
     }
 
 
+    private void recordArray(String key, ArrayList<Double> values) {
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = registerInfo.edit();
+        JSONArray a = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            a.put(Double.toString(values.get(i)));
+        }
+        if (!values.isEmpty()) {
+            editor.putString(key, a.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
+    }
 
+    private double[] getArray(String key) {
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        String json = registerInfo.getString(key, null);
+        double[] urls = {-1, -1, -1, -1, -1, -1, -1};
+        if (json != null) {
+            try {
+                JSONArray a = new JSONArray(json);
+                for (int i = 0; i < a.length(); i++) {
+                    double url = Double.parseDouble(a.optString(i));
+                    urls[i] = url;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
+    }
 }

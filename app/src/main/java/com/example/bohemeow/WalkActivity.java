@@ -94,7 +94,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private boolean isFirstLocation = false;
 
     String region = "";
-    boolean isFree = false;
 
     private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
@@ -174,7 +173,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
-        isFree = intent.getBooleanExtra("isFree", false);
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
         walkEndBtn.setOnClickListener(new View.OnClickListener(){
@@ -255,19 +253,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setOutLineColor(Color.RED);
         userRoute.setLineWidth(1);
 
-        if(!isFree) {
-
-            ArrayList<TMapPoint> spots = new ArrayList<>();
-            for (int i = 0; lats[i] != -1; i++) {
-                spots.add(new TMapPoint(lats[i], lngs[i]));
-                if(i == 6) break;
-            }
-
-            for(int i = 0; i < spots.size() - 1; i++){
-                drawSpotMarker(spots.get(i));
-                drawPedestrianPath(spots.get(i), spots.get(i+1));
-            }
+        ArrayList<TMapPoint> spots = new ArrayList<>();
+        for (int i = 0; lats[i] != -1; i++) {
+            spots.add(new TMapPoint(lats[i], lngs[i]));
+            if(i == 6) break;
         }
+
+        for(int i = 0; i < spots.size() - 1; i++){
+            drawSpotMarker(spots.get(i));
+            drawPedestrianPath(spots.get(i), spots.get(i+1));
+        }
+
 
         permissionManager = new PermissionManager(this); // 권한요청 관리자
         permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {

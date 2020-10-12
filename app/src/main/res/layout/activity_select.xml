@@ -4,157 +4,176 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_0006_background"
+    android:background="@drawable/_0017_background"
     tools:context=".SelectActivity">
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imageView42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_0016_topline" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="산책 옵션 설정"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView42"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView43"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/startwalk_0006_cat" />
+
+    <TextView
+        android:id="@+id/imageView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:drawableLeft="@drawable/_0010_dot"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  경로 추천 방식"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+    <TextView
+        android:id="@+id/imageView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:drawableLeft="@drawable/_0010_dot"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  산책 예상 시간"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView42" />
+
+    <ImageView
+        android:id="@+id/imageView43"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/startwalk_0009_title" />
-
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView8"
-        app:srcCompat="@drawable/startwalk_0006_cat" />
-
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView14"
-        app:srcCompat="@drawable/startwalk_0008_line1" />
-
-    <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView15"
-        app:srcCompat="@drawable/startwalk_0005_line2" />
+        app:srcCompat="@drawable/_0011_bottomline" />
 
     <ImageButton
         android:id="@+id/sub_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="20dp"
         android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/time_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView16"
-        app:srcCompat="@drawable/startwalk_0001_minus" />
+        app:layout_constraintTop_toTopOf="@+id/time_view"
+        app:srcCompat="@drawable/_0006_minus" />
 
     <ImageButton
         android:id="@+id/add_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="100dp"
         android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sub_btn"
-        app:srcCompat="@drawable/startwalk_0000_plus" />
-
-    <ImageButton
-        android:id="@+id/back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="90dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sub_btn"
-        app:srcCompat="@drawable/startwalk_0003_cancel" />
-
-    <ImageButton
-        android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="90dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sub_btn"
-        app:srcCompat="@drawable/startwalk_0002_permit" />
+        app:srcCompat="@drawable/_0003_plus" />
 
     <TextView
         android:id="@+id/time_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/mapo"
         android:text="30분"
         android:textColor="#548EF8"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sub_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:text="취소"
+        android:fontFamily="@font/mapopeacefull"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/startwalk_0003_cancel" />
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="경로 확인"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:button="@drawable/mycheck"
+        android:checked="true"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  이전 경로"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:button="@drawable/mycheck"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  추천 경로"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
     <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:button="@drawable/mycheck"
         android:checked="false"
-        android:drawableRight="@drawable/select_comment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:button="@drawable/setcheck"
-        android:checked="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkBox3" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="220dp"
-        android:layout_height="30dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="좋아, 대신 검토해볼래"
-        android:textColor="#F08538"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toTopOf="@+id/checkBox" />
-
-    <CheckBox
-        android:id="@+id/checkBox6"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:button="@drawable/setcheck"
-        android:checked="true"
+        android:text="  직접 선택"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkBox" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="220dp"
-        android:layout_height="30dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="좋아! 그대로 탐험할래"
-        android:textColor="#F08538"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/checkBox6"
-        app:layout_constraintTop_toTopOf="@+id/checkBox6" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
