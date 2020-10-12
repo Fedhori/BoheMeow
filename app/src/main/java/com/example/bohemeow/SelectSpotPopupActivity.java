@@ -15,6 +15,7 @@ public class SelectSpotPopupActivity extends Activity {
     post pst;
 
     Button cancel_btn;
+
     Button del_btn;
 
     @Override
@@ -27,7 +28,7 @@ public class SelectSpotPopupActivity extends Activity {
         double lat = intent.getDoubleExtra("lat", 0);
         double lng = intent.getDoubleExtra("lng", 0);
 
-        String loc = "( " + lat + ", " + lng + ")";
+        String loc = "( " + Double.parseDouble(String.format("%.4f",lat)) + ", " + Double.parseDouble(String.format("%.4f",lng)) + ")";
 
         TextView location = findViewById(R.id.location);
         location.setText(loc);

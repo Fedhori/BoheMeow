@@ -138,7 +138,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     double curWalkLengthToFindLots = 0;
     int todayFindLotsCnt = 0;
 
-    //int[] preference = new int[3];//0:safe 1:envi 2:popularity
+    ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
 
@@ -259,8 +259,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             if(i == 6) break;
         }
 
-        for(int i = 0; i < spots.size() - 1; i++){
-            drawSpotMarker(spots.get(i));
+        drawSpotMarker(spots.get(0), R.drawable.point_start);
+        drawPedestrianPath(spots.get(0), spots.get(1));
+        for(int i = 1; i < spots.size() - 1; i++){
+            drawSpotMarker(spots.get(i), R.drawable.walk_point);
             drawPedestrianPath(spots.get(i), spots.get(i+1));
         }
 
@@ -366,10 +368,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
-    public void drawSpotMarker(TMapPoint position){
+    public void drawSpotMarker(TMapPoint position, int marker){
 
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walk_point);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
         bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
 
@@ -379,6 +381,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
         // markerItem.setName("성대");
+        markerlist.add(markerItem);
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
     }
 
@@ -742,6 +745,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 500;
+
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.point_selected);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+                markerlist.get(i).setIcon(bitmap);
 
                 Toast.makeText(WalkActivity.this, "스팟 도달! +500경험치", Toast.LENGTH_LONG).show();
             }
