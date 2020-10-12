@@ -186,6 +186,12 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             userlng = point.getLongitude();
             //Toast.makeText(WalkLoadingActivity.this, userlat + " " + userlng, Toast.LENGTH_LONG).show();
 
+            SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = registerInfo.edit();
+            editor.putFloat("lastLat", (float)userlat);
+            editor.putFloat("lastlng", (float)userlng);
+            editor.commit();
+
             getRegion(userlat, userlng);
         }
     }

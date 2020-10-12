@@ -179,19 +179,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
             @Override
             public void onClick(View view) {
-                walkEndTime = System.currentTimeMillis();
-                totalWalkTime = walkEndTime - walkStartTime;
 
-                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
-                intent.putExtra("totalWalkTime", totalWalkTime);
-                intent.putExtra("realWalkTime", realWalkTime);
-                intent.putExtra("totalMoveLength", totalMoveLength);
-                intent.putExtra("totalPoint", totalPoint);
-
-                handler.removeCallbacks(runnable); //stop handler when activity not visible
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                Intent intent = new Intent(WalkActivity.this, WalkEndPopUpActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -214,11 +204,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void onClick(View view) {
                 if(isRouteRemoved){
                     recoverAllRoutePolyLines();
-                    hideAndShowBtn.setText("Remove");
+                    hideAndShowBtn.setBackgroundResource(R.drawable._0001_checked);
                 }
                 else{
                     removeAllRoutePolyLines();
-                    hideAndShowBtn.setText("Show");
+                    hideAndShowBtn.setBackgroundResource(R.drawable._0000_unchecked);
                 }
             }
         });
@@ -465,8 +455,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     addCoordinationID(latitude, longtitude);
 
                     checkNearSpot(latitude, longtitude);
-                    // 100m당 10점이니까, 30m(maxMoveLength)당 3점
-                    totalPoint+=3;
+                    // 10m당 2점이니까, 30m(maxMoveLength)당 3점
+                    totalPoint+=6;
 
                     // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
@@ -662,8 +652,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
                 if(todayCount <= 3){
-                    Toast.makeText(WalkActivity.this, "쪽지 작성! +10포인트", Toast.LENGTH_LONG).show();
-                    totalPoint += 10;
+                    Toast.makeText(WalkActivity.this, "쪽지 작성! +100포인트", Toast.LENGTH_LONG).show();
+                    totalPoint += 100;
                 }
 
                 // 로컬 데이터에 다시 업데이트
@@ -671,6 +661,22 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 editor.putInt("lastDate", lastDate);
                 editor.putInt("todayCount", todayCount);
                 editor.commit();
+            }
+            // confirm end walk
+            else if(resultCode == 10){
+                walkEndTime = System.currentTimeMillis();
+                totalWalkTime = walkEndTime - walkStartTime;
+
+                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                intent.putExtra("totalWalkTime", totalWalkTime);
+                intent.putExtra("realWalkTime", realWalkTime);
+                intent.putExtra("totalMoveLength", totalMoveLength);
+                intent.putExtra("totalPoint", totalPoint);
+
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         }
     }
@@ -734,10 +740,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // if user is nearer than 50m at the point & not visited yet
             if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
                 isVisited[i] = true;
-                // add 100 point!
-                totalPoint += 100;
+                // add 500 point!
+                totalPoint += 500;
 
-                Toast.makeText(WalkActivity.this, "스팟 도달! +100경험치", Toast.LENGTH_LONG).show();
+                Toast.makeText(WalkActivity.this, "스팟 도달! +500경험치", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -787,16 +793,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     void findLots(){
 
-        Toast.makeText(WalkActivity.this, "제비뽑기 발견! 매일 오후 7시에 일괄적으로 추첨됩니다.", Toast.LENGTH_LONG).show();
-
-        // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
-        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        df.setTimeZone(tz);
-        String time = df.format(date);
-
-
+        /*
         // 파이어베이스에 유저가 뽑기를 찾았음을 기록한다.
         DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
@@ -805,6 +802,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         postValues = data.toMap();
         childUpdates.put("/lots_list/" + time + "/", postValues);
         mPostReference.updateChildren(childUpdates);
+         */
+
+        Toast.makeText(WalkActivity.this, "보물 발견! +300포인트!", Toast.LENGTH_LONG).show();
+        totalPoint += 300;
 
         // 실제 오늘 날짜를 구한다.
         Date currentTime = Calendar.getInstance().getTime();

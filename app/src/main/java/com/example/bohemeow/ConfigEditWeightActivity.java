@@ -1,7 +1,5 @@
 package com.example.bohemeow;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +33,7 @@ public class ConfigEditWeightActivity extends Activity {
 
         final EditText newWeight = findViewById(R.id.newWeight);
 
-        Button change_btn = findViewById(R.id.change_btn);
+        Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

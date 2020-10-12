@@ -28,6 +28,7 @@ public class PostPopupActivity extends Activity {
     post pst;
     ImageView iconIV;
     ImageView contentIV;
+    ImageView privateIV;
 
     TextView usernameTV;
     TextView contentTV;
@@ -99,6 +100,7 @@ public class PostPopupActivity extends Activity {
 
         iconIV = (ImageView)findViewById(R.id.user_icon);
         contentIV = (ImageView)findViewById(R.id.content_image);
+        privateIV = findViewById(R.id.private_mark);
         usernameTV = (TextView)findViewById(R.id.user_name);
         contentTV = (TextView)findViewById(R.id.content);
         tagTV = (TextView)findViewById(R.id.tags);
@@ -115,6 +117,7 @@ public class PostPopupActivity extends Activity {
         String uri =pst.getUri();
         int level =pst.getLevel();
         int catType =pst.getCatType();
+        boolean isPublic = pst.isPublic();
 
         int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
                 R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
@@ -149,6 +152,11 @@ public class PostPopupActivity extends Activity {
         timeTV.setText(Date(time));
         levelTV.setText("Lv." + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);
+
+        if(isPublic)
+            privateIV.setImageResource(R.drawable.public_mark);
+        else
+            privateIV.setImageResource(R.drawable.private_mark);
 
 
     }

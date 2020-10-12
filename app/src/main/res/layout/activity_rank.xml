@@ -22,169 +22,173 @@
         android:id="@+id/panel5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="404dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/_0011_panel"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/catImage5"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="408dp"
+        android:layout_margin="15dp"
         android:background="@drawable/heads_0005"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel5"
+        app:layout_constraintStart_toEndOf="@+id/rank5"
+        app:layout_constraintTop_toTopOf="@+id/panel5"
+        app:layout_constraintVertical_bias="0.5" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rank5"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
+        android:layout_marginStart="5dp"
         android:fontFamily="@font/mapohongdae"
-        app:fontFamily="@font/mapohongdae"
         android:gravity="center"
         android:text="1234"
         android:textColor="#FB8C3D"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:fontFamily="@font/mapohongdae"
+        app:layout_constraintBottom_toBottomOf="@+id/panel5"
+        app:layout_constraintStart_toStartOf="@+id/panel5"
+        app:layout_constraintTop_toTopOf="@+id/panel5" />
 
     <ImageView
         android:id="@+id/panel4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/_0011_panel"
+        app:layout_constraintBottom_toTopOf="@+id/panel5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rank4"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="5dp"
         android:fontFamily="@font/mapohongdae"
-        app:fontFamily="@font/mapohongdae"
         android:gravity="center"
         android:text="1233"
         android:textColor="#FB8C3D"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:fontFamily="@font/mapohongdae"
+        app:layout_constraintBottom_toBottomOf="@+id/panel4"
+        app:layout_constraintStart_toStartOf="@+id/panel4"
+        app:layout_constraintTop_toTopOf="@+id/panel4" />
 
     <ImageButton
         android:id="@+id/catImage4"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="344dp"
+        android:layout_margin="15dp"
         android:background="@drawable/heads_0005"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel4"
+        app:layout_constraintStart_toEndOf="@+id/rank4"
+        app:layout_constraintTop_toTopOf="@+id/panel4"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/panel3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/_0000_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintTop_toBottomOf="@+id/panel2" />
 
     <TextView
         android:id="@+id/username3"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="nickname"
         android:textColor="#FB8C3D"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel3"
+        app:layout_constraintStart_toEndOf="@+id/catImage3"
+        app:layout_constraintTop_toTopOf="@+id/panel3"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/username5"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="가나다라마바사아"
         android:textColor="#FB8C3D"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel5"
+        app:layout_constraintStart_toEndOf="@+id/catImage5"
+        app:layout_constraintTop_toTopOf="@+id/panel5" />
 
     <TextView
         android:id="@+id/username4"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="nickname"
         android:textColor="#FB8C3D"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel4"
+        app:layout_constraintStart_toEndOf="@+id/catImage4"
+        app:layout_constraintTop_toTopOf="@+id/panel4"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/username1"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="nickname"
         android:textColor="#FB8C3D"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel1"
+        app:layout_constraintStart_toEndOf="@+id/catImage1"
+        app:layout_constraintTop_toTopOf="@+id/panel1"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/username2"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="nickname"
         android:textColor="#FB8C3D"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel2"
+        app:layout_constraintStart_toEndOf="@+id/catImage2"
+        app:layout_constraintTop_toTopOf="@+id/panel2" />
 
     <ImageButton
         android:id="@+id/catImage3"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginStart="50dp"
         android:background="@drawable/heads_0005"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel3"
+        app:layout_constraintStart_toStartOf="@+id/panel3"
+        app:layout_constraintTop_toTopOf="@+id/panel3"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/rank_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/mapohongdae"
-        android:text="모험자 랭킹"
+        android:text="전체 랭킹"
         android:textColor="#0072FF"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -195,23 +199,22 @@
         android:id="@+id/imageView41"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/_0013_icon"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rank_text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="순위"
         android:textColor="#FB8C3D"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background" />
 
@@ -219,13 +222,12 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="캐릭터"
         android:textColor="#FB8C3D"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background" />
 
@@ -234,13 +236,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:layout_marginEnd="128dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="닉네임"
         android:textColor="#FB8C3D"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.546"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background" />
 
     <TextView
@@ -248,13 +249,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:layout_marginEnd="48dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="경험치"
         android:textColor="#FB8C3D"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.832"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background" />
 
     <Button
@@ -281,90 +281,97 @@
         android:id="@+id/catImage1"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="50dp"
         android:background="@drawable/heads_0005"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel1"
+        app:layout_constraintStart_toStartOf="@+id/panel1"
+        app:layout_constraintTop_toTopOf="@+id/panel1"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/point1"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="12543"
         android:textColor="#FB8C3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel1"
+        app:layout_constraintStart_toEndOf="@+id/username1"
+        app:layout_constraintTop_toTopOf="@+id/panel1"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/point5"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="12543"
         android:textColor="#FB8C3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel5"
+        app:layout_constraintStart_toEndOf="@+id/username5"
+        app:layout_constraintTop_toTopOf="@+id/panel5"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/point2"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="12543"
         android:textColor="#FB8C3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel2"
+        app:layout_constraintStart_toEndOf="@+id/username2"
+        app:layout_constraintTop_toTopOf="@+id/panel2"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/point3"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="12543"
         android:textColor="#FB8C3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel3"
+        app:layout_constraintStart_toEndOf="@+id/username3"
+        app:layout_constraintTop_toTopOf="@+id/panel3"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/point4"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="12543"
         android:textColor="#FB8C3D"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel4"
+        app:layout_constraintStart_toEndOf="@+id/username4"
+        app:layout_constraintTop_toTopOf="@+id/panel4"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/panel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/_0001_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintTop_toBottomOf="@+id/panel1" />
 
     <ImageButton
         android:id="@+id/catImage2"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginStart="50dp"
         android:background="@drawable/heads_0005"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        app:layout_constraintBottom_toBottomOf="@+id/panel2"
+        app:layout_constraintStart_toStartOf="@+id/panel2"
+        app:layout_constraintTop_toTopOf="@+id/panel2"
+        app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,5 @@
 package com.example.bohemeow;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,7 +39,7 @@ public class ConfigEditPasswordActivity extends Activity {
             }
         });
 
-        Button change_btn = findViewById(R.id.change_btn);
+        Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

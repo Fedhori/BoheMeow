@@ -146,6 +146,15 @@
         app:layout_constraintStart_toStartOf="@+id/imageView38"
         app:layout_constraintTop_toBottomOf="@id/user_name" />
 
+    <ImageView
+        android:id="@+id/private_mark"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+        app:layout_constraintTop_toTopOf="@+id/edit_btn"
+        app:srcCompat="@drawable/public_mark" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

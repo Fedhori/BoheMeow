@@ -131,25 +131,36 @@
         android:layout_width="120dp"
         android:layout_height="35dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/_0011_delacc"
-        app:layout_constraintBottom_toBottomOf="@+id/logout_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/_0012_logout"
+        app:layout_constraintBottom_toTopOf="@+id/bugreport_btn"
+        app:layout_constraintStart_toStartOf="@+id/bugreport_btn" />
+
+    <Button
+        android:id="@+id/bugreport_btn"
+        android:layout_width="120dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bugreport"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/edit_btn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/man_btn"
         android:layout_width="120dp"
         android:layout_height="35dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/_0013_changeback"
         app:layout_constraintBottom_toTopOf="@+id/delacc_btn"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -179,21 +190,20 @@
         android:id="@+id/edit_btn"
         android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/_0014_editdata"
         app:layout_constraintBottom_toTopOf="@+id/logout_btn"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/logout_btn" />
 
     <ProgressBar
         android:id="@+id/progressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/custom_progressbar_1"
         android:layout_width="291dp"
         android:layout_height="21dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="204dp"
         android:progress="100"
+        android:progressDrawable="@drawable/custom_progressbar_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

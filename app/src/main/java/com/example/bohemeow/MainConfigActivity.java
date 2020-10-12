@@ -29,6 +29,7 @@ public class MainConfigActivity extends Activity {
     Button man_btn;
     Button logout_btn;
     Button delacc_btn;
+    Button bugreport_btn;
 
     ProgressBar progressBar;
 
@@ -156,6 +157,17 @@ public class MainConfigActivity extends Activity {
                 startActivityForResult(intent, 1);
             }
         });
+
+        bugreport_btn = findViewById(R.id.bugreport_btn);
+        bugreport_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainConfigActivity.this, BugReportActivity.class);
+                intent.putExtra("userdata", userData);
+                startActivityForResult(intent, 1);
+            }
+        });
+
 
 
         progressBar = findViewById(R.id.progressbar);
