@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
     private StorageReference mStorageRef;
-
     private ArrayList<post> mList;
 
     public interface OnItemClickListener
