@@ -93,17 +93,37 @@
         app:layout_constraintTop_toTopOf="@+id/sub_btn"
         app:srcCompat="@drawable/_0003_plus" />
 
-    <TextView
+    <EditText
         android:id="@+id/time_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
+        android:background="#00FFFFFF"
         android:fontFamily="@font/mapo"
-        android:text="30분"
+        android:gravity="right"
+        android:hint="0"
+        android:inputType="number"
+        android:maxLength="3"
+        android:selectAllOnFocus="true"
+        android:text="30"
         android:textColor="#548EF8"
         android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sub_btn"
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+    <TextView
+        android:id="@+id/t"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="40dp"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/mapo"
+        android:text="분"
+        android:textColor="#548EF8"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/time_view"
         app:layout_constraintTop_toBottomOf="@+id/imageView16" />
 
     <Button

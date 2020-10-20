@@ -46,7 +46,7 @@ public class SelectActivity extends AppCompatActivity {
 
         text = findViewById(R.id.time_view);
         time = registerInfo.getInt("walkTime", 30);
-        text.setText(Integer.toString(time) + "분");
+        text.setText(Integer.toString(time));
 
         checkBox1 = findViewById(R.id.checkBox);
         checkBox2 = findViewById(R.id.checkBox2);
@@ -90,9 +90,10 @@ public class SelectActivity extends AppCompatActivity {
         sub_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                time = Integer.parseInt(text.getText().toString());
                 if(time > 10) {
                     time -= 10;
-                    text.setText(Integer.toString(time) + "분");
+                    text.setText(Integer.toString(time));
                 }
             }
         });
@@ -101,9 +102,10 @@ public class SelectActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                time = Integer.parseInt(text.getText().toString());
                 if(time < 180) {
                     time += 10;
-                    text.setText(Integer.toString(time) + "분");
+                    text.setText(Integer.toString(time));
                 }
             }
         });
@@ -121,6 +123,8 @@ public class SelectActivity extends AppCompatActivity {
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                time = Integer.parseInt(text.getText().toString());
 
                 SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = registerInfo.edit();

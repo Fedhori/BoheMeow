@@ -100,6 +100,7 @@ public class WalkEndActivity extends AppCompatActivity {
         totalTime %= 60000;
         second = totalTime / 1000;
 
+        /*
         String timeText = "";
         if(hour >= 10){
             timeText += String.valueOf(hour);
@@ -107,7 +108,7 @@ public class WalkEndActivity extends AppCompatActivity {
         else{
             timeText += "0" + hour;
         }
-        timeText += ":";
+        timeText += "";
         if(minute >= 10){
             timeText += String.valueOf(minute);
         }
@@ -121,6 +122,10 @@ public class WalkEndActivity extends AppCompatActivity {
         else{
             timeText += "0" + second;
         }
+        time.setText(timeText);
+
+         */
+        String timeText = hour + "시간 " + minute + "분" + second + "초";
         time.setText(timeText);
 
 
@@ -138,7 +143,7 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
-        distance.setText(String.format("%.2f", totalMoveLength / 1000d));
+        distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 
         if(totalMoveLength != 0){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
@@ -225,6 +230,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalTime %= 60000;
                     second = totalTime / 1000;
 
+                    /*
                     String timeText = "";
                     if(hour >= 10){
                         timeText += String.valueOf(hour);
@@ -248,7 +254,11 @@ public class WalkEndActivity extends AppCompatActivity {
                     }
                     totalTime_tv.setText(timeText);
 
-                    totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d));
+                     */
+                    String timeText = hour + "시간 " + minute + "분" + second + "초";
+                    totalTime_tv.setText(timeText);
+
+                    totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
 
                     TextView comment = findViewById(R.id.comment);
 
