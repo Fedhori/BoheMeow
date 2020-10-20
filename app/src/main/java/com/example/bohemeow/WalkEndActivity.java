@@ -255,7 +255,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalTime_tv.setText(timeText);
 
                      */
-                    String timeText = hour + "시간 " + minute + "분" + second + "초";
+                    String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
 
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");

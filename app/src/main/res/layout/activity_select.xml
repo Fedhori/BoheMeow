@@ -95,9 +95,9 @@
 
     <EditText
         android:id="@+id/time_view"
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="35dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"
         android:background="#00FFFFFF"
         android:fontFamily="@font/mapo"
