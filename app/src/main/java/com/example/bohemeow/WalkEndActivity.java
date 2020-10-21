@@ -125,7 +125,7 @@ public class WalkEndActivity extends AppCompatActivity {
         time.setText(timeText);
 
          */
-        String timeText = hour + "시간 " + minute + "분" + second + "초";
+        String timeText = hour + "시간 " + minute + "분 " + second + "초";
         time.setText(timeText);
 
 
