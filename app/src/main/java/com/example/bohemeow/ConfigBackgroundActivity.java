@@ -24,7 +24,7 @@ public class ConfigBackgroundActivity extends Activity {
         int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
 
         final CheckBox cb1 = findViewById(R.id.checkBox2);
-        final CheckBox cb2 = findViewById(R.id.checkBox);
+        final CheckBox cb2 = findViewById(R.id.checkBox3);
         final CheckBox cb3 = findViewById(R.id.checkBox4);
         final CheckBox cb4 = findViewById(R.id.checkBox5);
 

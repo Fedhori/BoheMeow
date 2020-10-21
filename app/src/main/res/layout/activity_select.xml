@@ -152,19 +152,47 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/record_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:button="@drawable/mycheck"
         android:checked="true"
         android:fontFamily="@font/mapopeacefull"
-        android:text="  이전 경로"
+        android:text="  이전 경로 1"
         android:textColor="#0072FF"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+    <CheckBox
+        android:id="@+id/record_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:button="@drawable/mycheck"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  이전 경로 2"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/record_1"
+        app:layout_constraintTop_toBottomOf="@+id/record_1" />
+
+    <CheckBox
+        android:id="@+id/record_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:button="@drawable/mycheck"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  이전 경로 3"
+        android:textColor="#0072FF"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/record_2"
+        app:layout_constraintTop_toBottomOf="@+id/record_2" />
 
     <CheckBox
         android:id="@+id/checkBox2"
@@ -177,9 +205,8 @@
         android:text="  추천 경로"
         android:textColor="#0072FF"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintStart_toStartOf="@+id/record_3"
+        app:layout_constraintTop_toBottomOf="@+id/record_3" />
 
     <CheckBox
         android:id="@+id/checkBox3"
@@ -192,8 +219,7 @@
         android:text="  직접 선택"
         android:textColor="#0072FF"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/checkBox2"
         app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

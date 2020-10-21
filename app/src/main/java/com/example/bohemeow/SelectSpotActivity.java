@@ -31,10 +31,15 @@ import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class SelectSpotActivity extends AppCompatActivity  {
@@ -53,6 +58,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     private int markerCnt = 0;
 
     String region = "";
+    String sub_region;
 
     double startLat, startLng;
     int num = 0;
@@ -89,6 +95,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
+        sub_region = intent.getStringExtra("sub_region");
 
         walkStart_btn = (Button) findViewById(R.id.walkStart_btn);
         walkStart_btn.setOnClickListener(new View.OnClickListener(){
@@ -129,8 +136,10 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     lastLats.add(lats[j]);
                     lastLngs.add(lngs[j]);
                 }
-                recordArray("lastLats", lastLats);
-                recordArray("lastLngs", lastLngs);
+
+                String key = checkRecord();
+                recordArray(key + "lats", sub_region, lastLats);
+                recordArray(key + "lngs", sub_region, lastLngs);
 
                 Intent intent = new Intent(SelectSpotActivity.this, WalkActivity.class);
                 intent.putExtra("lats", lats);
@@ -412,10 +421,20 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
     }
 
-    private void recordArray(String key, ArrayList<Double> values) {
+    private void recordArray(String key, String sub_region, ArrayList<Double> values) {
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = registerInfo.edit();
         JSONArray a = new JSONArray();
+        a.put(sub_region);
+
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date d = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String date = df.format(d);
+
+        a.put(date);
+        a.put(Integer.toString(values.size() - 2));
         for (int i = 0; i < values.size(); i++) {
             a.put(Double.toString(values.get(i)));
         }
@@ -425,6 +444,22 @@ public class SelectSpotActivity extends AppCompatActivity  {
             editor.putString(key, null);
         }
         editor.apply();
+    }
+
+    public String checkRecord(){
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        if(registerInfo.getString("R1_lats", null) == null){
+            return "R1_";
+        }
+        else if(registerInfo.getString("R2_lats", null) == null){
+            return "R2_";
+        }
+        else if(registerInfo.getString("R3_lats", null) == null){
+            return "R3_";
+        }
+        else{
+            return "R1_";
+        }
     }
 
 }
