@@ -28,6 +28,8 @@ public class SelectActivity extends AppCompatActivity {
     private DatabaseReference mPostReference;
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
+    UserData userData;
+
     int time = 30;
     TextView text;
     CheckBox record1;
@@ -237,6 +239,7 @@ public class SelectActivity extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     UserData get = postSnapshot.getValue(UserData.class);
+                    userData = get;
 
                     if(user_nickname.equals(get.nickname)){
                         preference[0] = (int)get.safeScore;

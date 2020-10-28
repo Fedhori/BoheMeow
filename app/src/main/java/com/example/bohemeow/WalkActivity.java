@@ -138,6 +138,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     double curWalkLengthToFindLots = 0;
     int todayFindLotsCnt = 0;
 
+    //뒤로가기 두번 시 종료되도록 구현 예정
+    private long backKeyPressedTime = 0;
+
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
@@ -149,7 +152,19 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     @Override
     public void onBackPressed(){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
 
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 산책 선택화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+
+            Intent intent = new Intent(WalkActivity.this, BackToSelectActivity.class);
+
+            startActivityForResult(intent, 1);
+        }
     }
 
     @Override
@@ -670,6 +685,23 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 editor.putInt("lastDate", lastDate);
                 editor.putInt("todayCount", todayCount);
                 editor.commit();
+            }
+            // confirm back to SelectActivity
+            else if(resultCode == 1){
+                walkEndTime = System.currentTimeMillis();
+                totalWalkTime = walkEndTime - walkStartTime;
+
+                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                intent.putExtra("isBackToSelect", true);
+                intent.putExtra("totalWalkTime", totalWalkTime);
+                intent.putExtra("realWalkTime", realWalkTime);
+                intent.putExtra("totalMoveLength", totalMoveLength);
+                intent.putExtra("totalPoint", totalPoint);
+
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
             // confirm end walk
             else if(resultCode == 10){

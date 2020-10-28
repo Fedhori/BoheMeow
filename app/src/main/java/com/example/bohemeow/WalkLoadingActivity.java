@@ -73,11 +73,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     TextView loadingText;
 
-    long textChangeSpan = 1000; // ms
+    long textChangeSpan = 2000; // ms
     Handler handler = new Handler();
     Runnable runnable;
-
-    long waitingTime = 3000; // ms
 
     String region = "";
     int num; //선택할 스팟 수

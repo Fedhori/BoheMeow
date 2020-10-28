@@ -49,6 +49,7 @@ public class WalkEndActivity extends AppCompatActivity {
     long user_totalPoint;
 
     boolean isWritten = false;
+    boolean isBackToSelect = false;
 
     TextView callory;
 
@@ -76,6 +77,8 @@ public class WalkEndActivity extends AppCompatActivity {
 
         // get intent
         Intent intent = getIntent();
+
+        isBackToSelect = intent.getBooleanExtra("isBackToSelect", false);
 
         totalMoveLength = intent.getDoubleExtra("totalMoveLength", -1);
         totalWalkTime = intent.getLongExtra("totalWalkTime", -1);
@@ -280,6 +283,10 @@ public class WalkEndActivity extends AppCompatActivity {
                     }
 
                     isWritten = true;
+                    if(isBackToSelect){
+                        Intent intent = new Intent(WalkEndActivity.this, SelectActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
 

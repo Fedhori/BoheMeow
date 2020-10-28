@@ -14,11 +14,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon_bohemeow"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:largeHeap="true"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".BackToSelectActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".RankPopUpActivity"
             android:theme="@style/Theme.noBackgroundDialog" />

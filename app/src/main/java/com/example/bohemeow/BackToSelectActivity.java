@@ -1,28 +1,22 @@
 package com.example.bohemeow;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-public class ConfigLogoutActivity extends Activity {
+public class BackToSelectActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_popup_check);
-
-        final Intent intent = getIntent();
+        setContentView(R.layout.activity_back_to_select);
 
         Button yes_btn = findViewById(R.id.yes_btn);
         yes_btn.setOnClickListener(new View.OnClickListener(){
@@ -41,7 +35,7 @@ public class ConfigLogoutActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
+                setResult(2, intent); // nothing happened in WalkActivity
                 finish();
             }
         });
@@ -57,6 +51,4 @@ public class ConfigLogoutActivity extends Activity {
         }
         return true;
     }
-
-
 }
