@@ -571,32 +571,27 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         HashMap<String, Long> temp_list = new HashMap<>();
 
                         long num = 0;
-                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) {
+                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) { //이미 등록되어 있는 경우
+
                             System.out.println("ID check line");
                             num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
                             myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+1);
-                            //temp_list.put("visit", num + 1);
-                            //childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
-                            //myRef.updateChildren(childUpdates);
 
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+1);
                             num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+1);
 
                         }
-                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){
+                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){//등록되어있지 않고, 임시 리스트에 있는 경우
 
                             System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
                             System.out.println();
                             num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
 
                             myRef.child("spot_data/temp_list/").child(Place_id).child("count").setValue(num+1);
-                            //temp_list.put("count", num + 1);
-                            //childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
-                            //myRef.updateChildren(childUpdates);
 
-                            if(num >= 25){
+                            if(num >= 25){ // 등록
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
 
