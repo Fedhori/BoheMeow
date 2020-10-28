@@ -20,6 +20,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".NotePopUpActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
             android:name=".BackToSelectActivity"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity

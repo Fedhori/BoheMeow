@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -140,6 +141,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     //뒤로가기 두번 시 종료되도록 구현 예정
     private long backKeyPressedTime = 0;
+
+    double curLat, curLng;
+    String markerID;
+
+    NoteData[] noteDatas = new NoteData[32]; // I know data is already plural.. however, I want to express multiple data!
+    int noteCnt = 0;
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
@@ -345,12 +352,30 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         }, delay);
 
-        tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback()
-        {
+        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
-            public void onCalloutRightButton(TMapMarkerItem markerItem) {
-                // 수정 필요 - 여기에 이제 팝업 띄우는 코드 넣으면 될듯 - 그리고 쪽지 내용 간략하게 보여주고!
-                Toast.makeText(WalkActivity.this, "클릭", Toast.LENGTH_SHORT).show();
+            public boolean onPressUpEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point, PointF pointf) {
+                return false;
+            }
+
+            @Override
+            public boolean onPressEvent(ArrayList markerlist, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                if(!markerlist.isEmpty()){
+                    //Log.e("MARKER ID : ", ""+ markerlist.get(0));
+                    TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
+                    markerID = markerItem.getID();
+                    TMapPoint point = markerItem.getTMapPoint();
+                    curLat = point.getLatitude();
+                    curLng = point.getLongitude();
+
+                    Intent intent = new Intent(WalkActivity.this, NotePopUpActivity.class);
+                    intent.putExtra("noteContent", noteDatas[Integer.parseInt(markerID)].noteContent);
+                    intent.putExtra("author", noteDatas[Integer.parseInt(markerID)].author);
+                    startActivityForResult(intent, 1);
+
+                    //Toast.makeText(WalkActivity.this, noteDatas[Integer.parseInt(markerID)].author + " " + noteDatas[Integer.parseInt(markerID)].noteContent, Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
         });
 
@@ -422,13 +447,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(new TMapPoint(noteData.latitude, noteData.longitude)); // 마커의 좌표 지정
 
-        markerItem.setCalloutTitle(noteData.author);
-        markerItem.setCalloutSubTitle(noteData.noteContent);
-        markerItem.setCanShowCallout(true);
+        //markerItem.setCalloutTitle(noteData.author);
+        //markerItem.setCalloutSubTitle(noteData.noteContent);
+        //markerItem.setCanShowCallout(true);
         //markerItem.setAutoCalloutVisible(true);
-        markerItem.setCalloutRightButtonImage(bitmap);
+        //markerItem.setCalloutRightButtonImage(bitmap);
 
-        tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
+        noteDatas[noteCnt] = noteData;
+        tMapView.addMarkerItem(Integer.toString(noteCnt++), markerItem); // 지도에 마커 추가
     }
 
     @Override
@@ -743,6 +769,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         SharedPreferences.Editor editor = noteNumberInfo.edit();
         editor.putInt("currentNoteNumber", currentNoteNumber);
         editor.commit();
+
+        drawNoteMarker(data);
     }
 
     public void findNotes(final double user_latitude, final double user_longitude, final int maxFindNote, final double maxNoteDist){
