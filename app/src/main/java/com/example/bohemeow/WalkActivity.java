@@ -330,6 +330,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         }, delay);
 
+        tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback()
+        {
+            @Override
+            public void onCalloutRightButton(TMapMarkerItem markerItem) {
+                // 수정 필요 - 여기에 이제 팝업 띄우는 코드 넣으면 될듯 - 그리고 쪽지 내용 간략하게 보여주고!
+                Toast.makeText(WalkActivity.this, "클릭", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         /*
         // set center point
         tMapView.setCenterPoint(126.97406798055658, 37.29389181202027);
@@ -397,10 +406,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         markerItem.setPosition(0.5f, 1.0f);
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(new TMapPoint(noteData.latitude, noteData.longitude)); // 마커의 좌표 지정
+
         markerItem.setCalloutTitle(noteData.author);
         markerItem.setCalloutSubTitle(noteData.noteContent);
         markerItem.setCanShowCallout(true);
-        // markerItem.setAutoCalloutVisible(true);
+        //markerItem.setAutoCalloutVisible(true);
+        markerItem.setCalloutRightButtonImage(bitmap);
 
         tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
     }

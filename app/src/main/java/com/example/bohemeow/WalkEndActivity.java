@@ -218,6 +218,7 @@ public class WalkEndActivity extends AppCompatActivity {
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
+                    TextView totalCount_tv = findViewById(R.id.total_walk_count);
 
                     long totalTime = user_totalWalkTime + totalWalkTime; // ms
                     long hour;
@@ -257,8 +258,8 @@ public class WalkEndActivity extends AppCompatActivity {
                      */
                     String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
-
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
+                    totalCount_tv.setText(user_totalWalkCount + "");
 
                     TextView comment = findViewById(R.id.comment);
 

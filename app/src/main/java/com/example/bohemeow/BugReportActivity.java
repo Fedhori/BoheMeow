@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;

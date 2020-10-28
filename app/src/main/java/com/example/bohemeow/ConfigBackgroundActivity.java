@@ -78,44 +78,40 @@ public class ConfigBackgroundActivity extends Activity {
         cb1.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb2.setChecked(false);
-                    cb3.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(true);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb2.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb3.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(true);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb3.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb2.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(true);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb4.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb2.setChecked(false);
-                    cb3.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(true);
             }
         }) ;
     }
