@@ -75,8 +75,18 @@ public class MainMenu extends AppCompatActivity {
         username = registerInfo.getString("registerUserName", "NULL");
         catType = registerInfo.getInt("userCatType", 1);
         exp = registerInfo.getInt("exp", 0);
+        //Toast.makeText(this, exp + "", Toast.LENGTH_SHORT).show();
         lastLat = (double) registerInfo.getFloat("lastLat", 0);
         lastLng = (double) registerInfo.getFloat("lastLng", 0);
+
+        boolean isGrowth = registerInfo.getBoolean("isGrowth", false);
+        if(isGrowth){
+            SharedPreferences.Editor editor = registerInfo.edit();
+            editor.putBoolean("isGrowth", false);
+            editor.commit();
+            Intent intent = new Intent(MainMenu.this, GrowthActivity.class);
+            startActivity(intent);
+        }
 
         //phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 

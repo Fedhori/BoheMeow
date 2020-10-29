@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".GrowthActivity"></activity>
         <activity
             android:name=".RankingExplanationActivity"
             android:theme="@style/Theme.noBackgroundDialog" />

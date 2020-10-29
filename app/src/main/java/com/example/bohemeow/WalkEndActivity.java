@@ -283,8 +283,13 @@ public class WalkEndActivity extends AppCompatActivity {
                     if(prev_level < cur_level){
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
+
+                        if(cur_level == 5 || cur_level == 10){
+                            editor.putBoolean("isGrowth", true);
+                            editor.commit();
+                        }
                     }
-                    else{
+                   else{
                         Random random = new Random();
                         comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
                     }
