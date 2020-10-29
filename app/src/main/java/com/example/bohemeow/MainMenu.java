@@ -69,7 +69,7 @@ public class MainMenu extends AppCompatActivity {
 
          */
 
-        UpdateBackground();
+        //UpdateBackground();
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         username = registerInfo.getString("registerUserName", "NULL");
@@ -100,29 +100,33 @@ public class MainMenu extends AppCompatActivity {
         int time = Integer.parseInt(df.format(date));
 
         if(time <= 5 || time >= 20){
-            windowIV.setImageResource(R.drawable.main_0005_windownight);
+            windowIV.setImageResource(R.drawable.main__0002_nightclear);
         }
         else if(time >= 18){
-            windowIV.setImageResource(R.drawable.windowsunset);
+            windowIV.setImageResource(R.drawable.main__0012_sunsetclear);
         }
         else if(time <= 8){
-            windowIV.setImageResource(R.drawable.windowmorning);
+            windowIV.setImageResource(R.drawable.main__0011_morningclear);
         }
 
         if(lastLat != 0)
             w = getWeather(lastLat, lastLng);
 
         if(w == 1){
-            windowIV.setImageResource(R.drawable.windowsunset);
+            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0008_dayrain);
+            else windowIV.setImageResource(R.drawable.main__0010_nightrain);
         }
         else if(w == 2){
-            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0005_daysnow);
+            else windowIV.setImageResource(R.drawable.main__0006_nightsnow);
         }
         else if(w == 3){
-            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0007_daythunder);
+            else windowIV.setImageResource(R.drawable.main__0009_nighthunder);
         }
         else if(w == 4){
-            windowIV.setImageResource(R.drawable.main_window_sunny_day);
+            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0004_daycloudy);
+            else windowIV.setImageResource(R.drawable.main__0003_nightcloudy);
         }
 
 
@@ -159,7 +163,7 @@ public class MainMenu extends AppCompatActivity {
 
         int level = calculateLevel(exp);
 
-        final Button configBtn = (Button) findViewById(R.id.btn_itemboard);
+        final Button configBtn = (Button) findViewById(R.id.btn_config);
         configBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -182,14 +186,16 @@ public class MainMenu extends AppCompatActivity {
                 });
             }
         });
+
+        Button catBtn = findViewById(R.id.btn_itemboard);
         if(level < 5){
-            configBtn.setBackgroundResource(icons_stage1[catType]);
+            catBtn.setBackgroundResource(icons_stage1[catType]);
         }
         else if(level < 10){
-            configBtn.setBackgroundResource(icons_stage2[catType]);
+            catBtn.setBackgroundResource(icons_stage2[catType]);
         }
         else{
-            configBtn.setBackgroundResource(icons_stage3[catType]);
+            catBtn.setBackgroundResource(icons_stage3[catType]);
         }
 
 

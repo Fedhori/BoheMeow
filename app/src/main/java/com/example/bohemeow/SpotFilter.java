@@ -405,7 +405,14 @@ public class SpotFilter {
                         else{
                             isGood[0] = false;
                             System.out.println("\nIt's too near. " + spot.name);
-                            MyRef.child("temp_list").child(spot.place_id).child("count").setValue(spot.popularity/25);
+
+                            Map<String, Object> childUpdates= new HashMap<>();
+                            HashMap<String, Long> temp_list = new HashMap<>();
+                            temp_list.put("count", (long)spot.popularity/25);
+                            temp_list.put("visit", (long)0);
+                            childUpdates.put("/temp_list/" + spot.place_id, temp_list);
+                            MyRef.updateChildren(childUpdates);
+
                             break;
                         }
                     }
