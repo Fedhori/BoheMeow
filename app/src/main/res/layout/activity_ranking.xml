@@ -2,17 +2,104 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <ListView
-        android:id="@+id/listView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+
+            <Button
+                android:id="@+id/questionBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rank_question"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/mapohongdae"
+                android:text="대회랭킹"
+                android:textColor="#0072FF"
+                android:textSize="40sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.594"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView44"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/textView24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/_0013_icon" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="순위"
+                android:textColor="#FB8C3D"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:text="캐릭터"
+                android:textColor="#FB8C3D"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView25" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="경험치"
+                android:textColor="#FB8C3D"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:text="닉네임"
+                android:textColor="#FB8C3D"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView27" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -215,13 +215,16 @@ public class WalkEndActivity extends AppCompatActivity {
                     user_totalPoint = (long) dataSnapshot.child("level").getValue();
                     user_totalRealPoint = (long) dataSnapshot.child("point").getValue();
 
-
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
                     ref.child("level").setValue(user_totalPoint + totalPoint);
                     ref.child("point").setValue(user_totalRealPoint + totalPoint);
+
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putInt("exp", (int)(user_totalPoint + totalPoint));
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);

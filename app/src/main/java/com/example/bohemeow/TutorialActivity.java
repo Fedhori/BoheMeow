@@ -43,8 +43,8 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TutorialActivity.this, MainMenu.class);
-                finish();
                 startActivity(intent);
+                finish();
             }
         });
 

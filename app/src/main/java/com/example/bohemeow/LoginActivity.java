@@ -148,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 String username = "";
                                 int catType = 1;
+                                int exp = 0;
                                 String phoneNumber = "";
 
                                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -163,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         username = get.nickname;
                                         catType = get.catType;
+                                        exp = get.level;
                                         phoneNumber = get.phoneNumber;
                                     }
                                 }
@@ -181,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                                         // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
                                         editor.putString("registerUserName", username);
                                         editor.putInt("userCatType", catType);
+                                        editor.putInt("exp", exp);
                                         editor.commit();
 
                                         Intent intent = new Intent(LoginActivity.this, MainMenu.class);

@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
@@ -47,11 +50,24 @@ public class RankingCustomAdapter extends BaseAdapter {
     public View getView(int position, View converView, ViewGroup parent) {
         View view = mLayoutInflater.inflate(R.layout.rank_list_view, null);
 
-        ImageView catImage = (ImageView)view.findViewById(R.id.poster);
+        ConstraintLayout background = view.findViewById(R.id.background);
+        ImageView catImage = (ImageView)view.findViewById(R.id.image);
         TextView rank = (TextView)view.findViewById(R.id.rank);
         TextView username = (TextView)view.findViewById(R.id.username);
         TextView point = (TextView)view.findViewById(R.id.point);
 
+        if(rankData.get(position).rank == 1){
+            background.setBackgroundResource(R.drawable.rank1);
+        }
+        else if(rankData.get(position).rank == 2){
+            background.setBackgroundResource(R.drawable.rank2);
+        }
+        else if(rankData.get(position).rank == 3){
+            background.setBackgroundResource(R.drawable.rank3);
+        }
+        else{
+            background.setBackgroundResource(R.drawable.rank4);
+        }
         rank.setText(rankData.get(position).rank + "");
         catImage.setImageResource(icons[rankData.get(position).catType]);
         username.setText(rankData.get(position).nickname);

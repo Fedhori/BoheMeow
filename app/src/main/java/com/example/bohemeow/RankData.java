@@ -1,9 +1,10 @@
 package com.example.bohemeow;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RankData {
+public class RankData implements Serializable {
     public String nickname;
     public double totalWalkLength;
     public long totalWalkTime;
@@ -28,7 +29,6 @@ public class RankData {
         this.rank =rank;
         this.introduction = introduction;
     }
-
 
     public Map<String, Object> toMap() {
 

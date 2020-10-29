@@ -1,5 +1,6 @@
 package com.example.bohemeow;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -9,6 +10,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Random;
 
@@ -32,7 +39,6 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
         /*
         // 테스트를 위해 넣어둔 코드임, 이러면 매번 접속할때마다 새로 로그인할 수 있다. (테스트를 위한 자동 로그인 방지용!)
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);

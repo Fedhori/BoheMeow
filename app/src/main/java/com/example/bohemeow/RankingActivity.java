@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -30,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +54,15 @@ public class RankingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
+        Button questionBtn = findViewById(R.id.questionBtn);
+        questionBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RankingActivity.this, RankingExplanationActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Intent intent = getIntent();
         userData = (UserData[]) intent.getSerializableExtra("userData");
         rank = intent.getIntArrayExtra("rank");
@@ -67,58 +79,13 @@ public class RankingActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
-                /*
-                Toast.makeText(getApplicationContext(),
-                        myAdapter.getItem(position).getMovieName(),
-                        Toast.LENGTH_LONG).show();
-                 */
+
+                RankData rankData = myAdapter.getItem(position);
+                Intent intent = new Intent(RankingActivity.this, RankPopUpActivity.class);
+                intent.putExtra("rankData", rankData);
+                startActivity(intent);
             }
         });
-
-        /*
-        // view pager  // 탭 관리. 탭을 늘리려면 porition == 2 ...
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabs);
-        viewPager.setAdapter(createCardAdapter());
-        new TabLayoutMediator(tabLayout, viewPager,
-                new TabLayoutMediator.TabConfigurationStrategy() {
-                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                        if(position == 0){
-                            tab.setText("일간랭킹");
-                        }
-                        else if(position == 1){
-                            tab.setText("주간랭킹");
-                        }
-                    }
-                }).attach();
-
-
-        mArrayList = new ArrayList<>();
-        // get data
-         */
-
-
-
-        /*  버튼을 사용할것이라면 추가
-
-        // button
-        Button add_post_btn = (Button) findViewById(R.id.add_post_btn);
-        // add post button
-        add_post_btn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                    Intent intent = new Intent(RankingActivity.this, WritePostActivity.class);
-                    intent.putExtra("username", username);
-                    intent.putExtra("level", level);
-                    intent.putExtra("catType", catType);
-                    //intent.putExtra("name", name);
-                    startActivity(intent);
-
-            }
-        });
-
-         */
     }
 
     public void ConvertUserDataToRankData(){

@@ -51,6 +51,8 @@ public class MainMenu extends AppCompatActivity {
     String phoneNumber;
     Random rnd;
 
+    int exp;
+
     double lastLat, lastLng;
 
     @Override
@@ -72,13 +74,11 @@ public class MainMenu extends AppCompatActivity {
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         username = registerInfo.getString("registerUserName", "NULL");
         catType = registerInfo.getInt("userCatType", 1);
+        exp = registerInfo.getInt("exp", 0);
         lastLat = (double) registerInfo.getFloat("lastLat", 0);
         lastLng = (double) registerInfo.getFloat("lastLng", 0);
 
         //phoneNumber = registerInfo.getString("phoneNumber", "NULL");
-
-        Intent intent = getIntent();
-
 
         windowIV = findViewById(R.id.iv_window);
         int w = 0;
@@ -116,9 +116,6 @@ public class MainMenu extends AppCompatActivity {
         }
 
 
-
-
-
         Button communityBtn = (Button) findViewById(R.id.btn_community);
         communityBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -129,9 +126,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        // need to change someday
-        final int[] icons = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
-                R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
+
 
         final Button selectBtn = (Button) findViewById(R.id.btn_to_select);
         selectBtn.setOnClickListener(new View.OnClickListener(){
@@ -143,8 +138,18 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button configBtn = (Button) findViewById(R.id.btn_itemboard);
-        configBtn.setBackgroundResource(icons[catType]);
+        final int[] icons_stage1 = {R.drawable.beth_0000, R.drawable._0000_hangang_1, R.drawable._0007_bamee_1, R.drawable._0010_chacha_1,
+                R.drawable._0004_ryoni_1, R.drawable._0003_moonmoon_1, R.drawable._0008_popo_1,R.drawable._0002_taetae_1, R.drawable._0001_sessak_1};
+
+        final int[] icons_stage2 = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
+                R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
+
+        final int[] icons_stage3 = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
+                R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
+
+        int level = calculateLevel(exp);
+
+        final Button configBtn = (Button) findViewById(R.id.btn_itemboard);
         configBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -167,6 +172,16 @@ public class MainMenu extends AppCompatActivity {
                 });
             }
         });
+        if(level < 5){
+            configBtn.setBackgroundResource(icons_stage1[catType]);
+        }
+        else if(level < 10){
+            configBtn.setBackgroundResource(icons_stage2[catType]);
+        }
+        else{
+            configBtn.setBackgroundResource(icons_stage3[catType]);
+        }
+
 
         final Button rankBtn = findViewById(R.id.btn_rank);
         rankBtn.setOnClickListener(new View.OnClickListener(){
@@ -400,6 +415,18 @@ public class MainMenu extends AppCompatActivity {
 
             }
         });
+    }
+
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
     }
 
 }
