@@ -220,5 +220,4 @@ public class MainConfigActivity extends Activity {
         }
         return level;
     }
-
 }

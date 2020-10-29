@@ -173,8 +173,7 @@ public class MainMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, RankPopUpActivity.class);
-                startActivity(intent);
+                getRankingAndStartRankActivity();
             }
         });
     }
@@ -303,6 +302,92 @@ public class MainMenu extends AppCompatActivity {
 
         return w;
 
+    }
+
+    public void getRankingAndStartRankActivity(){
+        // save user data
+        final UserData[] userData = new UserData[11];
+        // save rank number
+        final int[] rank = new int[11];
+
+        final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
+        final Query[] query = {mPostReference.orderByChild("level").limitToLast(10)};
+        query[0].addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    int size = (int)dataSnapshot.getChildrenCount();
+                    int cnt = 0;
+
+                    // get ranked users data
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        cnt++;
+                        userData[size - cnt] = issue.getValue(UserData.class);
+                        // array start at 0, but rank start at 1
+                        rank[size - cnt] = size - cnt + 1;
+                    }
+                }
+
+                // get player rank
+                query[0] = mPostReference.orderByChild("level");
+                query[0].addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        int size = (int)dataSnapshot.getChildrenCount();
+                        int cnt = 0;
+
+                        if (dataSnapshot.exists()) {
+                            // dataSnapshot is the "issue" node with all children with id 0
+                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                cnt++;
+                                UserData get = issue.getValue(UserData.class);
+                                if(get.nickname.equals(username)){
+
+                                    int index;
+
+                                    // if there are lesser than 10 users, index should be changed
+                                    if(size < 10){
+                                        index = size;
+                                    }
+                                    // else, it will located in 11th index of array
+                                    else{
+                                        index = 10;
+                                    }
+
+                                    userData[index] = issue.getValue(UserData.class);
+                                    // array start at 0, but rank start at 1
+                                    rank[index] = size - cnt + 1;
+                                }
+                            }
+                        }
+
+                        // put information's to intent and start ranking activity
+                        Intent intent = new Intent(MainMenu.this, RankingActivity.class);
+                        intent.putExtra("rank", rank);
+                        intent.putExtra("userData", userData);
+                        if(size < 10){
+                            intent.putExtra("size", size+1);
+                        }
+                        else{
+                            intent.putExtra("size", 11);
+                        }
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

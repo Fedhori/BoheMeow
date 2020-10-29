@@ -47,6 +47,7 @@ public class WalkEndActivity extends AppCompatActivity {
     long user_totalWalkCount;
     double user_totalMoveLength;
     long user_totalPoint;
+    long user_totalRealPoint;
 
     boolean isWritten = false;
     boolean isBackToSelect = false;
@@ -212,12 +213,15 @@ public class WalkEndActivity extends AppCompatActivity {
                     // Double.class를 한 이유는, Firebase에서 0을 가져오면 그냥 Long으로 취급해버림. 그래서 타입 캐스팅 오류가 발생하므로 이를 방지하고자 Double형으로 받아오도록 명시해줘야 함
                     user_totalMoveLength = dataSnapshot.child("totalWalkLength").getValue(Double.class);
                     user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                    user_totalRealPoint = (long) dataSnapshot.child("point").getValue();
+
 
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
                     ref.child("level").setValue(user_totalPoint + totalPoint);
+                    ref.child("point").setValue(user_totalRealPoint + totalPoint);
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);

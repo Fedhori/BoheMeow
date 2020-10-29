@@ -66,6 +66,7 @@
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity android:name=".WalkLoadingActivity" />
         <activity android:name=".SelectSpotActivity" />
+        <activity android:name=".RankingActivity" />
         <activity android:name=".WalkEndActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />

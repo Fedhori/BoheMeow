@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,42 +39,43 @@ import java.util.TimeZone;
 
 public class RankingActivity extends AppCompatActivity {
 
-    private static final int PICK_IMAGE = 777;
-    private StorageReference mStorageRef;
-    Uri currentImageUri;
+    ArrayList<RankData> rankDataList;
 
-
-    private DatabaseReference mPostReference;
-    String username; // 보고있는 유저의 정보
-    int level;
-    int catType;
-
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
-
-    ImageView user_icon;
-
-    private ArrayList<post> mArrayList;
-    private CustomAdapter mAdapter;
-
-    boolean isWritable = true;
-    //private DatabaseReference mPostReference;
+    UserData[] userData = new UserData[11];
+    RankData[] rankData = new RankData[11];
+    int[] rank = new int[11];
+    int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_community);
+        setContentView(R.layout.activity_ranking);
 
-        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
-        // get user preference values
-        username = registerInfo.getString("registerUserName", "NULL");
-        getUserData(username); // 레벨과 타입을 가져옴. 아래 함수 참고
+        Intent intent = getIntent();
+        userData = (UserData[]) intent.getSerializableExtra("userData");
+        rank = intent.getIntArrayExtra("rank");
+        size = intent.getIntExtra("size", 11);
 
+        ConvertUserDataToRankData();
+        InitializeRankData();
 
-        // get user icon
-        mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
+        ListView listView = (ListView)findViewById(R.id.listView);
+        final RankingCustomAdapter myAdapter = new RankingCustomAdapter(this,rankDataList);
 
+        listView.setAdapter(myAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+                /*
+                Toast.makeText(getApplicationContext(),
+                        myAdapter.getItem(position).getMovieName(),
+                        Toast.LENGTH_LONG).show();
+                 */
+            }
+        });
+
+        /*
         // view pager  // 탭 관리. 탭을 늘리려면 porition == 2 ...
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabs);
@@ -89,9 +93,9 @@ public class RankingActivity extends AppCompatActivity {
                 }).attach();
 
 
-
         mArrayList = new ArrayList<>();
         // get data
+         */
 
 
 
@@ -115,70 +119,27 @@ public class RankingActivity extends AppCompatActivity {
         });
 
          */
-
-
-
     }
 
-
-
-
-    private ViewPagerAdapter createCardAdapter() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
-        return adapter;
-    }
-
-    public class ViewPagerAdapter extends FragmentStateAdapter {
-        private static final int CARD_ITEM_SIZE = 2; // 탭의 수
-        public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
-        @NonNull @Override
-        public Fragment createFragment(int position) {  // fragment 호출. 여기서 모든 데이터를 가져오고 보여줌.
-            return fragmentGeneral.newInstance(position);
-
-        }
-        @Override
-        public int getItemCount() {
-            return CARD_ITEM_SIZE;
+    public void ConvertUserDataToRankData(){
+        for(int i = 0;i<size;i++){
+            rankData[i] = new RankData(userData[i].nickname, userData[i].catType, userData[i].totalWalkLength, userData[i].totalWalkTime, userData[i].totalWalkCount,
+                    userData[i].level, rank[i], userData[i].introduction);
         }
     }
 
+    public void InitializeRankData()
+    {
+        rankDataList = new ArrayList<RankData>();
 
-
+        for(int i = 0;i<size;i++){
+            rankDataList.add(rankData[i]);
+        }
+    }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(RankingActivity.this, MainMenu.class);
         startActivity(intent);
     }
-
-    public void getUserData(final String user_nickname){ // 서버에서 유저의 정보를 가져오는 함수, 이 함수에서는 레벨과 타입만을 가져옴.
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-        mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    UserData get = postSnapshot.getValue(UserData.class);
-
-                    if(user_nickname.equals(get.nickname)){
-                        level = get.level;
-                        catType = get.catType;
-                        //다른 정보가 필요하면 추가
-                        //Toast.makeText(WalkActivity.this, preference[0] + " " + preference[1] + " " + preference[2], Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-
 }
