@@ -59,6 +59,8 @@ public class PayActivity extends Activity {
     int point_use;
     int code;
 
+    String time;
+
     TextView point_remainTV;
     CheckBox store1;
     CheckBox store2;
@@ -157,6 +159,14 @@ public class PayActivity extends Activity {
 
                             if(code == dataSnapshot.child("code").getValue(Integer.class)){
                                 payment(storeName, point_use, dataSnapshot.child("totalPoint").getValue(Integer.class));
+
+                                Intent intent = new Intent(PayActivity.this, PayReceiptActivity.class);
+                                intent.putExtra("storeName", storeName);
+                                intent.putExtra("time", time);
+                                intent.putExtra("point_use", Integer.toString(point_use));
+                                intent.putExtra("point_remain", Integer.toString(point_remain));
+                                startActivityForResult(intent, 1);
+
                             }
                             else{
                                 Toast.makeText(PayActivity.this, "잘못된 코드입니다.", Toast.LENGTH_LONG).show();
@@ -186,7 +196,7 @@ public class PayActivity extends Activity {
         mPostReference.child("totalPoint").setValue(total_point);
 
         SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = t.format(Calendar.getInstance().getTime());
+        time = t.format(Calendar.getInstance().getTime());
 
         Log log = new Log(point, time, username);
 
@@ -199,6 +209,8 @@ public class PayActivity extends Activity {
         point_remainTV.setText(Integer.toString(point_remain));
         point_useET.setText("");
         codeET.setText("");
+
+
     }
 
 
