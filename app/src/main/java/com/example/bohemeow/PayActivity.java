@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,6 +122,17 @@ public class PayActivity extends Activity {
             }
         }) ;
 
+
+        ImageButton imageButton = findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(PayActivity.this, MainMenu.class);
+                //startActivity(intent);
+                finish();
+            }
+        });
 
         Button pay_btn =findViewById(R.id.pay_btn);
         pay_btn.setOnClickListener(new View.OnClickListener(){
