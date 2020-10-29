@@ -159,13 +159,13 @@ public class SpotFilter {
     }
 
 
-    public void FeatureCalculator(final ArrayList<String> searched, final String region){
+    public void FeatureCalculator(final ArrayList<String> searched, final String region, final int visit_num){
 
         final ArrayList<SpotDetail> Spots = new ArrayList<>();
         new Thread() {
             public void run() {
                 for(String place_id:searched){
-                    Spots.add(Calculator(place_id));
+                    Spots.add(Calculator(place_id, visit_num));
                 }
 
                 SpotFilter(Spots, region);
@@ -174,7 +174,8 @@ public class SpotFilter {
 
     }
 
-    private SpotDetail Calculator(String place_id){
+
+    private SpotDetail Calculator(String place_id, int visit_num){
         SpotDetail spot = new SpotDetail();
 
         String uri = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + place_id +
@@ -227,7 +228,8 @@ public class SpotFilter {
 
         spot.safe_score = safe_calculator(spot.lat, spot.lng);
         spot.envi_score = env_calculator(spot.lat, spot.lng);
-        spot.total_score = spot.safe_score + spot.envi_score + spot.user_score;
+        spot.popularity = visit_num;
+        spot.total_score = spot.safe_score + spot.envi_score + spot.popularity + spot.user_score;
 
         return spot;
     }

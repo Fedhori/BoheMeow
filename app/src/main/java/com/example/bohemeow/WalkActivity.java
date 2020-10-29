@@ -637,28 +637,31 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         }
                         else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){//등록되어있지 않고, 임시 리스트에 있는 경우
 
-                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue());
                             System.out.println();
-                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
 
-                            myRef.child("spot_data/temp_list/").child(Place_id).child("count").setValue(num+1);
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
 
-                            if(num >= 25){ // 등록
+                            if(num >= 3){ // 등록
                                 System.out.println("delete");
-                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+                                //myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+                                long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+                                count = count * 25 + num;
 
                                 System.out.println("calculated");
                                 ArrayList<String> spot = new ArrayList<>();
                                 spot.add(Place_id);
 
                                 SpotFilter sf = new SpotFilter(WalkActivity.this);
-                                sf.FeatureCalculator(spot, region);
+                                sf.FeatureCalculator(spot, region, Long.valueOf(count).intValue());
                             }
 
 
                         }
                         else{
                             temp_list.put("count", num);
+                            temp_list.put("visit", num + 1);
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
                         }
