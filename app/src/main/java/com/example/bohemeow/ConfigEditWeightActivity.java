@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ConfigEditWeightActivity extends Activity {
 
+    int weight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -32,17 +33,24 @@ public class ConfigEditWeightActivity extends Activity {
         });
 
         final EditText newWeight = findViewById(R.id.newWeight);
+        weight = Integer.parseInt(newWeight.getText().toString());
 
         Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("user_list").child(userData.nickname);
-                ref.child("weight").setValue(Integer.valueOf(newWeight.getText().toString()));
+                if(weight > 20 && weight < 200){
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("user_list").child(userData.nickname);
+                    ref.child("weight").setValue(Integer.valueOf(newWeight.getText().toString()));
 
-                Toast.makeText(ConfigEditWeightActivity.this, "체중 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
-                finish();
+                    Toast.makeText(ConfigEditWeightActivity.this, "체중 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                else{
+                    Toast.makeText(ConfigEditWeightActivity.this, "정확한 체중을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
