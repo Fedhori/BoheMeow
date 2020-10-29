@@ -371,18 +371,22 @@ public class SpotFilter {
         System.out.println("\nNum: " + Spots.size());
         //String region = "Suwon-si";
 
-
-        for (int i = 0; i < Spots.size(); i++)//배열
-        {
-            spotUpload(Spots.get(i), region);
+        if (Spots.size() == 1){
+            spotUpload(Spots.get(0), region, true);
+        }
+        else {
+            for (int i = 0; i < Spots.size(); i++)//배열
+            {
+                spotUpload(Spots.get(i), region, false);
+            }
         }
     }
 
-    void spotUpload(final SpotDetail spot, final String region){
+    void spotUpload(final SpotDetail spot, final String region, final boolean isSingle){
         final boolean[] isGood = {true};
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference MyRef = databaseReference.child("spot_data").child(region).child("spots");
+        final DatabaseReference MyRef = databaseReference.child("spot_data");
 
         MyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -401,6 +405,7 @@ public class SpotFilter {
                         else{
                             isGood[0] = false;
                             System.out.println("\nIt's too near. " + spot.name);
+                            MyRef.child("temp_list").child(spot.place_id).child("count").setValue(spot.popularity/25);
                             break;
                         }
                     }
@@ -408,7 +413,7 @@ public class SpotFilter {
                 if (isGood[0]){
 
                     for(SpotDetail s:del_list){
-                        MyRef.child(s.getPlace_id()).removeValue();
+                        MyRef.child(region).child("spots").child(s.getPlace_id()).removeValue();
                     }
 
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
@@ -427,6 +432,10 @@ public class SpotFilter {
 
                     SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     myRef.child("spot_data").child(region).child("last_record_time").setValue(t.format(Calendar.getInstance().getTime()));
+
+                    if(isSingle){
+                        myRef.child("spot_data/temp_list").child(spot.place_id).removeValue();
+                    }
 
                     System.out.println("uploaded");
 
