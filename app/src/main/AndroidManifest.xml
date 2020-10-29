@@ -86,6 +86,12 @@
         <activity android:name=".TutorialActivity" />
         <activity android:name=".PayActivity" />
         <activity
+            android:name=".WriteCheckActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".PayReceiptActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
             android:name=".EditPostActivity"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
