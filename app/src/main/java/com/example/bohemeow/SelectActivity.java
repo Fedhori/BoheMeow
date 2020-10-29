@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class SelectActivity extends AppCompatActivity {
     CheckBox record3;
     CheckBox checkBox2;
     CheckBox checkBox3;
+    ImageView imageView;
 
     boolean isExist[] = {true, true, true};
 
@@ -63,6 +65,8 @@ public class SelectActivity extends AppCompatActivity {
         checkBox2 = findViewById(R.id.checkBox2);
         checkBox3 = findViewById(R.id.checkBox3);
 
+        imageView = findViewById(R.id.imageView53);
+
         record1.setText(getRecord("R1_lats", 0));
         record2.setText(getRecord("R2_lats", 1));
         record3.setText(getRecord("R3_lats", 2));
@@ -76,6 +80,7 @@ public class SelectActivity extends AppCompatActivity {
                     record3.setChecked(false);
                     checkBox2.setChecked(false);
                     checkBox3.setChecked(false);
+                    imageView.setVisibility(View.VISIBLE);
                 }
             }
         }) ;
@@ -89,6 +94,7 @@ public class SelectActivity extends AppCompatActivity {
                     record3.setChecked(false);
                     checkBox2.setChecked(false);
                     checkBox3.setChecked(false);
+                    imageView.setVisibility(View.VISIBLE);
                 }
             }
         }) ;
@@ -102,6 +108,7 @@ public class SelectActivity extends AppCompatActivity {
                     record3.setChecked(true);
                     checkBox2.setChecked(false);
                     checkBox3.setChecked(false);
+                    imageView.setVisibility(View.VISIBLE);
                 }
             }
         }) ;
@@ -115,6 +122,7 @@ public class SelectActivity extends AppCompatActivity {
                     record3.setChecked(false);
                     checkBox2.setChecked(true);
                     checkBox3.setChecked(false);
+                    imageView.setVisibility(View.GONE);
                 }
             }
         }) ;
@@ -128,6 +136,7 @@ public class SelectActivity extends AppCompatActivity {
                     record3.setChecked(false);
                     checkBox2.setChecked(false);
                     checkBox3.setChecked(true);
+                    imageView.setVisibility(View.VISIBLE);
                 }
             }
         }) ;
@@ -138,7 +147,7 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 time = Integer.parseInt(text.getText().toString());
-                if(time > 10) {
+                if(time > 10 && checkBox2.isChecked()) {
                     time -= 10;
                     text.setText(Integer.toString(time));
                 }
@@ -150,19 +159,10 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 time = Integer.parseInt(text.getText().toString());
-                if(time < 180) {
+                if(time < 180 && checkBox2.isChecked()) {
                     time += 10;
                     text.setText(Integer.toString(time));
                 }
-            }
-        });
-
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SelectActivity.this, MainMenu.class);
-                startActivity(intent);
             }
         });
 
@@ -268,7 +268,7 @@ public class SelectActivity extends AppCompatActivity {
         if (json != null) {
             try {
                 JSONArray a = new JSONArray(json);
-                data += a.optString(0) + ", " + a.optString(2) + "개 스팟, " + Date(a.optString(1));
+                data += a.optString(0) + " · " + a.optString(2) + " 개 스팟 · " + Date(a.optString(1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -284,9 +284,9 @@ public class SelectActivity extends AppCompatActivity {
         String t = "";
 
         if(time.substring(5,6).equals("0")){
-            t = t + time.substring(6,7) + "월";
+            t = t + time.substring(6,7) + "월 ";
         }
-        else t = t + time.substring(5,7) + "월";
+        else t = t + time.substring(5,7) + "월 ";
 
         if(time.substring(8,9).equals("0")){
             t = t + time.substring(9,10) + "일 ";
