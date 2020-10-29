@@ -79,6 +79,7 @@
         <activity android:name=".CommunityActivity" />
         <activity android:name=".WritePostActivity" />
         <activity android:name=".TutorialActivity" />
+        <activity android:name=".PayActivity" />
         <activity
             android:name=".EditPostActivity"
             android:theme="@style/Theme.noBackgroundDialog" />

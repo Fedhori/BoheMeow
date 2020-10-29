@@ -177,6 +177,18 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        Button payBtn = findViewById(R.id.btn_pay);
+        payBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenu.this, PayActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
