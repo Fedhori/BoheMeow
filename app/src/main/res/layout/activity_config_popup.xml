@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv" />
 
     <TextView
-        android:id="@+id/weight"
+        android:id="@+id/total_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -119,7 +119,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="260dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="체중"
+        android:text="산책 횟수"
         android:textColor="#055B37"
         android:textSize="17sp"
         android:textStyle="bold"

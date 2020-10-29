@@ -16,12 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ConfigLogoutActivity extends Activity {
 
-    int pos;
-    post pst;
-
-    Button cancel_btn;
-    Button del_btn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

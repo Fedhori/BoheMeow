@@ -7,13 +7,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class BugReportActivity extends Activity {
 
@@ -50,12 +55,13 @@ public class BugReportActivity extends Activity {
                     Map<String, Object> postValues = null;
                     bugReportData data = new bugReportData(bugreport_et.getText().toString(), userData.nickname);
                     postValues = data.toMap();
-                    if(length < 5){
-                        childUpdates.put("/bug_report/" + bugreport_et.getText().toString().substring(0, length) + "/", postValues);
-                    }
-                    else{
-                        childUpdates.put("/bug_report/" + bugreport_et.getText().toString().substring(0, 5) + "/", postValues);
-                    }
+
+                    TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                    Date date = new Date();
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    df.setTimeZone(tz);
+                    String time = df.format(date);
+                    childUpdates.put("/bug_report/" + time + "/", postValues);
                     mPostReference.updateChildren(childUpdates);
                     Toast.makeText(BugReportActivity.this, "버그 제보가 완료되었습니다. 감사합니다.", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);

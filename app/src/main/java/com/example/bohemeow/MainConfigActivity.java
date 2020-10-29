@@ -20,7 +20,7 @@ public class MainConfigActivity extends Activity {
     TextView user_id;
     TextView user_name;
     TextView user_level;
-    TextView weight;
+    TextView total_count;
     TextView total_dis;
     TextView total_time;
 
@@ -49,7 +49,7 @@ public class MainConfigActivity extends Activity {
         user_id = findViewById(R.id.user_id);
         user_name = findViewById(R.id.user_name);
         user_level = findViewById(R.id.user_level);
-        weight = findViewById(R.id.weight);
+        total_count = findViewById(R.id.total_count);
         total_dis = findViewById(R.id.total_dis);
         total_time = findViewById(R.id.total_time);
 
@@ -70,7 +70,7 @@ public class MainConfigActivity extends Activity {
         user_id.setText(userData.id);
         user_name.setText(userData.nickname);
         user_level.setText("Lv." + Integer.toString(calculateLevel(userData.level)));
-        weight.setText(Integer.toString(userData.weight) + "kg");
+        total_count.setText(Integer.toString(userData.totalWalkCount) + "번");
 
         int distance = (int) userData.totalWalkLength;
         total_dis.setText(Integer.toString(distance) + "m");
@@ -220,5 +220,4 @@ public class MainConfigActivity extends Activity {
         }
         return level;
     }
-
 }

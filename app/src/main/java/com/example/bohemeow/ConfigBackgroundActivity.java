@@ -24,7 +24,7 @@ public class ConfigBackgroundActivity extends Activity {
         int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
 
         final CheckBox cb1 = findViewById(R.id.checkBox2);
-        final CheckBox cb2 = findViewById(R.id.checkBox);
+        final CheckBox cb2 = findViewById(R.id.checkBox3);
         final CheckBox cb3 = findViewById(R.id.checkBox4);
         final CheckBox cb4 = findViewById(R.id.checkBox5);
 
@@ -78,44 +78,40 @@ public class ConfigBackgroundActivity extends Activity {
         cb1.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb2.setChecked(false);
-                    cb3.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(true);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb2.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb3.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(true);
+                cb3.setChecked(false);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb3.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb2.setChecked(false);
-                    cb4.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(true);
+                cb4.setChecked(false);
             }
         }) ;
 
         cb4.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    cb1.setChecked(false);
-                    cb2.setChecked(false);
-                    cb3.setChecked(false);
-                }
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                cb4.setChecked(true);
             }
         }) ;
     }

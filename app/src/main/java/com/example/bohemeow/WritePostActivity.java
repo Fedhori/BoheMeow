@@ -109,8 +109,8 @@ public class WritePostActivity extends AppCompatActivity{
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(WritePostActivity.this, WriteCheckActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -122,7 +122,7 @@ public class WritePostActivity extends AppCompatActivity{
             public void onClick(View view) {
 
                 if(contentET.length() == 0){
-                    Toast.makeText(WritePostActivity.this, "Please input contents", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WritePostActivity.this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     postFirebaseDatabase(true);
@@ -139,14 +139,23 @@ public class WritePostActivity extends AppCompatActivity{
 
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == SELECT_IMAGE){
-            if(data.getData() != null) {
+            if(data != null) {
                 currentPostImage = data.getData();
                 boolean imageUriChecker = true;
                 imageButton.setImageURI(currentPostImage);
+            }
+        }
+        else if(requestCode==1){
+            if(resultCode == 1){
+                Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     }
@@ -235,21 +244,23 @@ public class WritePostActivity extends AppCompatActivity{
                         long num = (long) dataSnapshot.child("lastPost").child("num").getValue();
                         if (num < 3) {
                             user_totalPoint = (long) dataSnapshot.child("level").getValue();
-                            ref.child("level").setValue(user_totalPoint + totalPoint);
+                            long point = (long) dataSnapshot.child("point").getValue();
 
-                            checkAndUpdateLevelReward((int)user_totalPoint, (int) (user_totalPoint + totalPoint));
-                            updateDailyPoint(totalPoint);
+                            ref.child("level").setValue(user_totalPoint + totalPoint);
+                            ref.child("point").setValue(point + totalPoint);
+
                         }
                         ref.child("lastPost").child("num").setValue(num + 1);
                     }
                     else {
                         user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                        long point = (long) dataSnapshot.child("point").getValue();
+
                         ref.child("level").setValue(user_totalPoint + totalPoint);
+                        ref.child("point").setValue(point + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
 
-                        checkAndUpdateLevelReward((int)user_totalPoint, (int) (user_totalPoint + totalPoint));
-                        updateDailyPoint(totalPoint);
                     }
                     isUpdated = true;
                 }
@@ -274,78 +285,9 @@ public class WritePostActivity extends AppCompatActivity{
         return level;
     }
 
-    void updateDailyPoint(final long totalPoint){
-        // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
-        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        df.setTimeZone(tz);
-        String time = df.format(date);
-
-        final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("daily_rank").child(time).child(username);
-        mPostReference.addValueEventListener(new ValueEventListener() {
-
-            boolean isWritten = false;
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if(!isWritten) {
-
-                    long user_daily_totalPoint = 0;
-
-                    if(dataSnapshot.exists()){
-                        user_daily_totalPoint = (long) dataSnapshot.child("point").getValue();
-                    }
-                    else{
-                        // not generated yet
-                        mPostReference.child("username").setValue(username);
-                    }
-
-                    mPostReference.child("point").setValue(user_daily_totalPoint + totalPoint);
-
-                    isWritten = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    void checkAndUpdateLevelReward(int user_totalPoint, int new_totalPoint){
-
-        int prev_level = calculateLevel(user_totalPoint);
-        int cur_level = calculateLevel(new_totalPoint);
-
-        if(prev_level < cur_level){
-            // this value must be synchronized with WalkEndActivity's rewardLevelList array
-            int[] rewardLevelList = {2, 5, 10, 20, 30, 40};
-            int length = rewardLevelList.length;
-            for(int i = 0;i<length;i++) {
-                if (prev_level < rewardLevelList[i] && cur_level >= rewardLevelList[i]) {
-
-                    // 파이어베이스에 Primary key값으로 저장할 시간을 구한다.
-                    TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
-                    Date date = new Date();
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    df.setTimeZone(tz);
-                    String time = df.format(date);
-
-                    // 파이어베이스에 유저가 특정 레벨에 도달헀음을 저장한다.
-                    DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    Map<String, Object> postValues = null;
-                    lotsData data = new lotsData(phoneNumber);
-                    postValues = data.toMap();
-                    childUpdates.put("/level_reward/" + i + "/" + time + "/", postValues);
-                    mPostReference.updateChildren(childUpdates);
-
-                    break;
-                }
-            }
-        }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(WritePostActivity.this, WriteCheckActivity.class);
+        startActivityForResult(intent, 1);
     }
 }

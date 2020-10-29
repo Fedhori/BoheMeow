@@ -14,11 +14,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon_bohemeow"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:largeHeap="true"
         android:usesCleartextTraffic="true">
+        <activity android:name=".GrowthActivity"></activity>
+        <activity
+            android:name=".RankingExplanationActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".NotePopUpActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".BackToSelectActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".RankPopUpActivity"
             android:theme="@style/Theme.noBackgroundDialog" />
@@ -60,6 +70,7 @@
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity android:name=".WalkLoadingActivity" />
         <activity android:name=".SelectSpotActivity" />
+        <activity android:name=".RankingActivity" />
         <activity android:name=".WalkEndActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
@@ -73,6 +84,13 @@
         <activity android:name=".CommunityActivity" />
         <activity android:name=".WritePostActivity" />
         <activity android:name=".TutorialActivity" />
+        <activity android:name=".PayActivity" />
+        <activity
+            android:name=".WriteCheckActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".PayReceiptActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".EditPostActivity"
             android:theme="@style/Theme.noBackgroundDialog" />

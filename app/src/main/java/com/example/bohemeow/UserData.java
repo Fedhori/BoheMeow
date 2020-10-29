@@ -17,6 +17,7 @@ public class UserData implements Serializable {
     public int totalWalkCount;
     public long realWalkTime;
     public int level;
+    public int point;
     public int catType;
     public boolean isItemExist;
     public double safeScore;
@@ -50,6 +51,7 @@ public class UserData implements Serializable {
         this.totalWalkCount = 0;
         this.realWalkTime = 0;
         this.level = 0;
+        this.point = 0;
         this.isItemExist = false;
         this.introduction = "";
 
@@ -74,6 +76,7 @@ public class UserData implements Serializable {
         result.put("realWalkTime", realWalkTime);
         result.put("weight", weight);
         result.put("level", level);
+        result.put("point", point);
         result.put("catType", catType);
         result.put("isItemExist", isItemExist);
 

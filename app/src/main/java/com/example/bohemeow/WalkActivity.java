@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -138,6 +139,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     double curWalkLengthToFindLots = 0;
     int todayFindLotsCnt = 0;
 
+    //뒤로가기 두번 시 종료되도록 구현 예정
+    private long backKeyPressedTime = 0;
+
+    double curLat, curLng;
+    String markerID;
+
+    NoteData[] noteDatas = new NoteData[32]; // I know data is already plural.. however, I want to express multiple data!
+    int noteCnt = 0;
+
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
@@ -149,7 +159,19 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     @Override
     public void onBackPressed(){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
 
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 산책 선택화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+
+            Intent intent = new Intent(WalkActivity.this, BackToSelectActivity.class);
+
+            startActivityForResult(intent, 1);
+        }
     }
 
     @Override
@@ -330,6 +352,33 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         }, delay);
 
+        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressUpEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point, PointF pointf) {
+                return false;
+            }
+
+            @Override
+            public boolean onPressEvent(ArrayList markerlist, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                if(!markerlist.isEmpty()){
+                    //Log.e("MARKER ID : ", ""+ markerlist.get(0));
+                    TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
+                    markerID = markerItem.getID();
+                    TMapPoint point = markerItem.getTMapPoint();
+                    curLat = point.getLatitude();
+                    curLng = point.getLongitude();
+
+                    Intent intent = new Intent(WalkActivity.this, NotePopUpActivity.class);
+                    intent.putExtra("noteContent", noteDatas[Integer.parseInt(markerID)].noteContent);
+                    intent.putExtra("author", noteDatas[Integer.parseInt(markerID)].author);
+                    startActivityForResult(intent, 1);
+
+                    //Toast.makeText(WalkActivity.this, noteDatas[Integer.parseInt(markerID)].author + " " + noteDatas[Integer.parseInt(markerID)].noteContent, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
         /*
         // set center point
         tMapView.setCenterPoint(126.97406798055658, 37.29389181202027);
@@ -397,12 +446,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         markerItem.setPosition(0.5f, 1.0f);
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(new TMapPoint(noteData.latitude, noteData.longitude)); // 마커의 좌표 지정
-        markerItem.setCalloutTitle(noteData.author);
-        markerItem.setCalloutSubTitle(noteData.noteContent);
-        markerItem.setCanShowCallout(true);
-        // markerItem.setAutoCalloutVisible(true);
 
-        tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
+        //markerItem.setCalloutTitle(noteData.author);
+        //markerItem.setCalloutSubTitle(noteData.noteContent);
+        //markerItem.setCanShowCallout(true);
+        //markerItem.setAutoCalloutVisible(true);
+        //markerItem.setCalloutRightButtonImage(bitmap);
+
+        noteDatas[noteCnt] = noteData;
+        tMapView.addMarkerItem(Integer.toString(noteCnt++), markerItem); // 지도에 마커 추가
     }
 
     @Override
@@ -571,47 +623,45 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         HashMap<String, Long> temp_list = new HashMap<>();
 
                         long num = 0;
-                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) {
+                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) { //이미 등록되어 있는 경우
+
                             System.out.println("ID check line");
                             num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
                             myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+1);
-                            //temp_list.put("visit", num + 1);
-                            //childUpdates.put("spot_data/ID_list/" + Place_id, temp_list);
-                            //myRef.updateChildren(childUpdates);
 
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+1);
                             num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+1);
 
                         }
-                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){
+                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){//등록되어있지 않고, 임시 리스트에 있는 경우
 
-                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue());
+                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue());
                             System.out.println();
-                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
 
-                            myRef.child("spot_data/temp_list/").child(Place_id).child("count").setValue(num+1);
-                            //temp_list.put("count", num + 1);
-                            //childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
-                            //myRef.updateChildren(childUpdates);
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
 
-                            if(num >= 25){
+                            if(num >= 3){ // 등록
                                 System.out.println("delete");
-                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+                                //myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+                                long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+                                count = count * 25 + num;
 
                                 System.out.println("calculated");
                                 ArrayList<String> spot = new ArrayList<>();
                                 spot.add(Place_id);
 
                                 SpotFilter sf = new SpotFilter(WalkActivity.this);
-                                sf.FeatureCalculator(spot, region);
+                                sf.FeatureCalculator(spot, region, Long.valueOf(count).intValue());
                             }
 
 
                         }
                         else{
                             temp_list.put("count", num);
+                            temp_list.put("visit", num + 1);
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
                         }
@@ -665,6 +715,23 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 editor.putInt("todayCount", todayCount);
                 editor.commit();
             }
+            // confirm back to SelectActivity
+            else if(resultCode == 1){
+                walkEndTime = System.currentTimeMillis();
+                totalWalkTime = walkEndTime - walkStartTime;
+
+                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
+                intent.putExtra("isBackToSelect", true);
+                intent.putExtra("totalWalkTime", totalWalkTime);
+                intent.putExtra("realWalkTime", realWalkTime);
+                intent.putExtra("totalMoveLength", totalMoveLength);
+                intent.putExtra("totalPoint", totalPoint);
+
+                handler.removeCallbacks(runnable); //stop handler when activity not visible
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
             // confirm end walk
             else if(resultCode == 10){
                 walkEndTime = System.currentTimeMillis();
@@ -705,6 +772,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         SharedPreferences.Editor editor = noteNumberInfo.edit();
         editor.putInt("currentNoteNumber", currentNoteNumber);
         editor.commit();
+
+        drawNoteMarker(data);
     }
 
     public void findNotes(final double user_latitude, final double user_longitude, final int maxFindNote, final double maxNoteDist){

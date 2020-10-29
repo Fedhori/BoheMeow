@@ -47,8 +47,10 @@ public class WalkEndActivity extends AppCompatActivity {
     long user_totalWalkCount;
     double user_totalMoveLength;
     long user_totalPoint;
+    long user_totalRealPoint;
 
     boolean isWritten = false;
+    boolean isBackToSelect = false;
 
     TextView callory;
 
@@ -77,6 +79,8 @@ public class WalkEndActivity extends AppCompatActivity {
         // get intent
         Intent intent = getIntent();
 
+        isBackToSelect = intent.getBooleanExtra("isBackToSelect", false);
+
         totalMoveLength = intent.getDoubleExtra("totalMoveLength", -1);
         totalWalkTime = intent.getLongExtra("totalWalkTime", -1);
         realWalkTime = intent.getLongExtra("realWalkTime", -1);
@@ -100,6 +104,7 @@ public class WalkEndActivity extends AppCompatActivity {
         totalTime %= 60000;
         second = totalTime / 1000;
 
+        /*
         String timeText = "";
         if(hour >= 10){
             timeText += String.valueOf(hour);
@@ -107,7 +112,7 @@ public class WalkEndActivity extends AppCompatActivity {
         else{
             timeText += "0" + hour;
         }
-        timeText += ":";
+        timeText += "";
         if(minute >= 10){
             timeText += String.valueOf(minute);
         }
@@ -121,6 +126,10 @@ public class WalkEndActivity extends AppCompatActivity {
         else{
             timeText += "0" + second;
         }
+        time.setText(timeText);
+
+         */
+        String timeText = hour + "시간 " + minute + "분 " + second + "초";
         time.setText(timeText);
 
 
@@ -138,7 +147,7 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
-        distance.setText(String.format("%.2f", totalMoveLength / 1000d));
+        distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 
         if(totalMoveLength != 0){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
@@ -204,15 +213,22 @@ public class WalkEndActivity extends AppCompatActivity {
                     // Double.class를 한 이유는, Firebase에서 0을 가져오면 그냥 Long으로 취급해버림. 그래서 타입 캐스팅 오류가 발생하므로 이를 방지하고자 Double형으로 받아오도록 명시해줘야 함
                     user_totalMoveLength = dataSnapshot.child("totalWalkLength").getValue(Double.class);
                     user_totalPoint = (long) dataSnapshot.child("level").getValue();
+                    user_totalRealPoint = (long) dataSnapshot.child("point").getValue();
 
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
                     ref.child("level").setValue(user_totalPoint + totalPoint);
+                    ref.child("point").setValue(user_totalRealPoint + totalPoint);
+
+                    SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = registerInfo.edit();
+                    editor.putInt("exp", (int)(user_totalPoint + totalPoint));
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
+                    TextView totalCount_tv = findViewById(R.id.total_walk_count);
 
                     long totalTime = user_totalWalkTime + totalWalkTime; // ms
                     long hour;
@@ -225,6 +241,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalTime %= 60000;
                     second = totalTime / 1000;
 
+                    /*
                     String timeText = "";
                     if(hour >= 10){
                         timeText += String.valueOf(hour);
@@ -248,7 +265,11 @@ public class WalkEndActivity extends AppCompatActivity {
                     }
                     totalTime_tv.setText(timeText);
 
-                    totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d));
+                     */
+                    String timeText = hour + "시간 " + minute + "분 " + second + "초";
+                    totalTime_tv.setText(timeText);
+                    totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
+                    totalCount_tv.setText(user_totalWalkCount + "");
 
                     TextView comment = findViewById(R.id.comment);
 
@@ -262,13 +283,22 @@ public class WalkEndActivity extends AppCompatActivity {
                     if(prev_level < cur_level){
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
+
+                        if(cur_level == 5 || cur_level == 10){
+                            editor.putBoolean("isGrowth", true);
+                            editor.commit();
+                        }
                     }
-                    else{
+                   else{
                         Random random = new Random();
                         comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
                     }
 
                     isWritten = true;
+                    if(isBackToSelect){
+                        Intent intent = new Intent(WalkEndActivity.this, SelectActivity.class);
+                        startActivity(intent);
+                    }
                 }
             }
 

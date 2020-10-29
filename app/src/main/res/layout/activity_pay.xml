@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    android:foreground="#00FFFFFF">
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="냥"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView27"
+        app:layout_constraintEnd_toEndOf="@+id/textView32" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="보유 포인트"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView44" />
+
+    <TextView
+        android:id="@+id/point_remain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="99999"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView32"
+        app:layout_constraintStart_toEndOf="@+id/textView24"
+        app:layout_constraintTop_toTopOf="@+id/textView24" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="매장명"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/textView24"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <CheckBox
+        android:id="@+id/store1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:button="@drawable/paycheck"
+        android:checked="true"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  Cafe NU:"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+    <CheckBox
+        android:id="@+id/store2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:button="@drawable/paycheck"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  팬도로시"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/store1"
+        app:layout_constraintTop_toBottomOf="@+id/store1" />
+
+    <CheckBox
+        android:id="@+id/store3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:button="@drawable/paycheck"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="  ㅇㅅㅇ"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/store2"
+        app:layout_constraintTop_toBottomOf="@+id/store2" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="금액"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/textView26"
+        app:layout_constraintTop_toBottomOf="@+id/store3" />
+
+    <ImageView
+        android:id="@+id/imageView45"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/textbox"
+        app:layout_constraintBottom_toBottomOf="@+id/textView27"
+        app:layout_constraintEnd_toStartOf="@+id/textView33"
+        app:layout_constraintStart_toEndOf="@+id/textView27"
+        app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+    <ImageView
+        android:id="@+id/imageView46"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:background="@drawable/textbox"
+        app:layout_constraintBottom_toBottomOf="@+id/textView28"
+        app:layout_constraintEnd_toEndOf="@+id/imageView45"
+        app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+    <EditText
+        android:id="@+id/point_use"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="right|center_vertical"
+        android:inputType="number"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView45"
+        app:layout_constraintEnd_toEndOf="@+id/imageView45"
+        app:layout_constraintStart_toStartOf="@+id/imageView45"
+        app:layout_constraintTop_toTopOf="@+id/imageView45" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="코드"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/textView27"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+    <EditText
+        android:id="@+id/code"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="right|center_vertical"
+        android:inputType="numberPassword"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView46"
+        app:layout_constraintEnd_toEndOf="@+id/point_use"
+        app:layout_constraintTop_toTopOf="@+id/imageView46" />
+
+    <Button
+        android:id="@+id/pay_btn"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button"
+        android:text="결제"
+        android:textColor="#FFFFFF"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/code" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView44"
+        android:layout_width="95dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/pay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="냥"
+        android:textColor="#508811"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

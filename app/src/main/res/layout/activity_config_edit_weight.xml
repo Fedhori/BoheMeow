@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="새 체중을 입력해주세요."
+        android:text="체중을 입력해주세요."
         android:textColor="#0072FF"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

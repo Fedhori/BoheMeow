@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -39,12 +40,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 class Spot {
@@ -68,11 +73,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     TextView loadingText;
 
-    long textChangeSpan = 1000; // ms
+    long textChangeSpan = 2000; // ms
     Handler handler = new Handler();
     Runnable runnable;
-
-    long waitingTime = 3000; // ms
 
     String region = "";
     int num; //선택할 스팟 수
@@ -233,6 +236,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         super.onPause();
     }
 
+    String sub_region;
     void getRegion(final double latitude, final double longtitude){
         //final String[] region = {""};
 
@@ -270,9 +274,12 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                         String types = subJsonObject.getString("types");
                         JSONArray typJsonArray = new JSONArray(types);
                         for (int j = 0; j < typJsonArray.length(); j++) {
+                            if(typJsonArray.optString(j).equals("sublocality_level_2")){
+                                sub_region = subJsonObject.getString("short_name");
+                            }
                             if(typJsonArray.optString(j).equals("locality")){
                                 region = subJsonObject.getString("short_name");
-                                setRegion(region);
+                                setRegion(region, sub_region);
                                 isSuccess = true;
                                 break;
                             }
@@ -287,13 +294,13 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                                         if(region.equals(d)) {
                                             JSONObject subJsonObject2 = addJsonArray.getJSONObject(i-1);
                                             region = subJsonObject2.getString("short_name");
-                                            setRegion(region);
+                                            setRegion(region, sub_region);
                                             isSuccess = true;
                                             break;
                                         }
                                     }
                                     if(!isSuccess) {
-                                        setRegion(region);
+                                        setRegion(region, sub_region);
                                         break;
                                     }
                                 }
@@ -316,12 +323,13 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     boolean isExist = false;
     boolean isDone = false;
 
-    void setRegion(final String region){
+    void setRegion(final String region, String sub_region){
 
-        if(walkType == 1){
+        if(walkType <= 3){
             System.out.println("\ntype:1");
-            double[] lats = getArray("lastLats");
-            double[] lngs = getArray("lastLngs");
+            String key = "R" + walkType;
+            double[] lats = getArray(key + "_lats");
+            double[] lngs = getArray(key + "_lngs");
             if(lats[0] != -1){
                 Intent intent = new Intent(WalkLoadingActivity.this, WalkActivity.class);
                 intent.putExtra("region", region);
@@ -331,16 +339,14 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 WalkLoadingActivity.this.finish();
                 isDone = true;
             }
-            else{
-                Toast.makeText(WalkLoadingActivity.this, "기록된 경로가 존재하지 않습니다.\n 자동으로 추천을 받습니다!", Toast.LENGTH_LONG).show();
-            }
         }
-        else if(walkType == 3){
+        else if(walkType == 5){
             System.out.println("\ntype:3");
             Intent intent = new Intent(WalkLoadingActivity.this, SelectSpotActivity.class);
             intent.putExtra("lat", userlat);
             intent.putExtra("lng", userlng);
             intent.putExtra("region", region);
+            intent.putExtra("sub_region", sub_region);
             startActivity(intent);
             WalkLoadingActivity.this.finish();
             isDone = true;
@@ -716,8 +722,10 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             lastLats.add(lats[j]);
             lastLngs.add(lngs[j]);
         }
-        recordArray("lastLats", lastLats);
-        recordArray("lastLngs", lastLngs);
+
+        String key = checkRecord();
+        recordArray(key + "lats", sub_region, lastLats);
+        recordArray(key + "lngs", sub_region, lastLngs);
 /*
         ArrayList<location> sorted = new ArrayList<>();
 
@@ -741,10 +749,20 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     }
 
 
-    private void recordArray(String key, ArrayList<Double> values) {
+    private void recordArray(String key, String sub_region, ArrayList<Double> values) {
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = registerInfo.edit();
         JSONArray a = new JSONArray();
+        a.put(sub_region);
+
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date d = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String date = df.format(d);
+
+        a.put(date);
+        a.put(Integer.toString(values.size() - 2));
         for (int i = 0; i < values.size(); i++) {
             a.put(Double.toString(values.get(i)));
         }
@@ -763,14 +781,30 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         if (json != null) {
             try {
                 JSONArray a = new JSONArray(json);
-                for (int i = 0; i < a.length(); i++) {
+                for (int i = 3; i < a.length(); i++) {
                     double url = Double.parseDouble(a.optString(i));
-                    urls[i] = url;
+                    urls[i - 3] = url;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         return urls;
+    }
+
+    public String checkRecord(){
+        SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+        if(registerInfo.getString("R1_lats", null) == null){
+            return "R1_";
+        }
+        else if(registerInfo.getString("R2_lats", null) == null){
+            return "R2_";
+        }
+        else if(registerInfo.getString("R3_lats", null) == null){
+            return "R3_";
+        }
+        else{
+            return "R1_";
+        }
     }
 }

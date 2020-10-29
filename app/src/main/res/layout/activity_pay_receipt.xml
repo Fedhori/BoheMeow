@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="280dp"
+    android:layout_height="400dp"
+    android:background="@drawable/bill">
+
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="영수증"
+        android:textColor="#508811"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="금액 :"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/textView31"
+        app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="잔여 :"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/textView25"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="75dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="매장명 :"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="일시 :"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/textView30"
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/storeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:gravity="right"
+        android:text="Cafe NU:"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        android:fontFamily="@font/mapopeacefull"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="right"
+        android:text="2020-10-30\n00:09:27"
+        android:textColor="#508811"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView31"
+        app:layout_constraintEnd_toEndOf="@+id/storeName"
+        app:layout_constraintTop_toTopOf="@+id/textView31" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="999999"
+        android:textColor="#508811"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView35"
+        app:layout_constraintTop_toTopOf="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="999999"
+        android:textColor="#508811"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView29"
+        app:layout_constraintEnd_toEndOf="@+id/textView36"
+        app:layout_constraintTop_toTopOf="@+id/textView29" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
