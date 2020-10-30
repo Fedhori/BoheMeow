@@ -36,7 +36,6 @@ public class PostPopupActivity extends Activity {
     TextView timeTV;
     TextView levelTV;
 
-    Button back_btn;
     Button edit_btn;
     Button del_btn;
 
@@ -52,14 +51,6 @@ public class PostPopupActivity extends Activity {
         username = intent.getStringExtra("username");
         pos = intent.getIntExtra("num", 0);
 
-
-        back_btn = (Button) findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         edit_btn = (Button) findViewById(R.id.edit_btn);
         edit_btn.setOnClickListener(new View.OnClickListener(){
@@ -143,6 +134,7 @@ public class PostPopupActivity extends Activity {
                 }
             });
         }
+        else contentIV.setImageResource(R.drawable.photoempty);
 
         level = calculateLevel(level);
 

@@ -19,7 +19,7 @@ android:layout_height="match_parent">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search_0005_searchbox" />
+            app:srcCompat="@drawable/searchbox" />
 
         <EditText
             android:id="@+id/searchContent"
@@ -31,8 +31,8 @@ android:layout_height="match_parent">
             android:fontFamily="@font/mapopeacefull"
             android:hint="검색어를 입력해 주세요.."
             android:inputType="text"
-            android:textColor="#FB8C3D"
-            android:textColorHint="#FB8C3D"
+            android:textColor="#2699FB"
+            android:textColorHint="#2699FB"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView40"
             app:layout_constraintStart_toStartOf="@+id/imageView40"
@@ -49,7 +49,7 @@ android:layout_height="match_parent">
             app:layout_constraintEnd_toEndOf="@+id/imageView40"
             app:layout_constraintStart_toEndOf="@+id/searchContent"
             app:layout_constraintTop_toTopOf="@+id/imageView40"
-            app:srcCompat="@drawable/tap_0007_searchmark" />
+            app:srcCompat="@drawable/searchmark" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_main_list"
