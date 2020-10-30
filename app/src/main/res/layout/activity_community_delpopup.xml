@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="160dp"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
     android:background="@drawable/popup_small">
 
 
@@ -11,13 +11,13 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="게시글을 삭제하시겠습니까?"
         android:textColor="#707070"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:id="@+id/can_btn"
         android:layout_width="90dp"
         android:layout_height="35dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="25dp"
         android:layout_weight="1"
         android:background="#00FFFFFF"
@@ -35,7 +35,7 @@
         android:onClick="mOnClose"
         android:text="취소"
         android:textColor="#707070"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -43,7 +43,7 @@
         android:id="@+id/del_btn"
         android:layout_width="90dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="50dp"
         android:layout_weight="1"
         android:background="#00FFFFFF"
         android:fontFamily="@font/mapopeacefull"
@@ -51,7 +51,7 @@
         android:onClick="mOnClose"
         android:text="삭제"
         android:textColor="#707070"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/can_btn" />
 

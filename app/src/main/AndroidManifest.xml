@@ -68,6 +68,9 @@
         <activity
             android:name=".DelSpotPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".TutorialPopupActivity"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity android:name=".WalkLoadingActivity" />
         <activity android:name=".SelectSpotActivity" />
         <activity android:name=".RankingActivity" />
