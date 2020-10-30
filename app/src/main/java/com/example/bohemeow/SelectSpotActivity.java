@@ -118,6 +118,10 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
                 sortSpot();
 
+                for(location l : locs){
+                    addCoordinationID(l.lat, l.lng);
+                }
+
                 double[] lats = {-1, -1, -1, -1, -1, -1, -1};
                 double[] lngs = {-1, -1, -1, -1, -1, -1, -1};
                 if(isJumped){ //출발지가 삭제된 경우 남은 스팟들로만 계산
@@ -548,7 +552,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                             System.out.println();
                             num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
 
-                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+7);
 
                             if(num >= 25){ // 등록
                                 System.out.println("delete");
