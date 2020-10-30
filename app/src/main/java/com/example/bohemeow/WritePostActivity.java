@@ -105,14 +105,6 @@ public class WritePostActivity extends AppCompatActivity{
 
 
 
-        ImageButton cancel_btn = findViewById(R.id.can_btn);
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WritePostActivity.this, WriteCheckActivity.class);
-                startActivityForResult(intent, 1);
-            }
-        });
 
 
         ImageButton create_post_btn = findViewById(R.id.create_post_btn);
