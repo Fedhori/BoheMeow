@@ -142,7 +142,7 @@ public class PostPopupActivity extends Activity {
         contentTV.setText(content);
         tagTV.setText(tag);
         timeTV.setText(Date(time));
-        levelTV.setText("Lv." + Integer.toString(level));
+        levelTV.setText("Lv. " + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);
 
         if(isPublic)

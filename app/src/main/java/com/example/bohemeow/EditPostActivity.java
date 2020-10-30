@@ -39,7 +39,6 @@ public class EditPostActivity extends Activity {
     EditText contentET;
     EditText tagET;
 
-    Button back_btn;
     Button edit_btn;
 
     CheckBox checkBox;
@@ -79,14 +78,6 @@ public class EditPostActivity extends Activity {
         }) ;
 
 
-
-        back_btn = (Button) findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         edit_btn = (Button) findViewById(R.id.edit_btn);
         edit_btn.setOnClickListener(new View.OnClickListener(){
@@ -165,10 +156,13 @@ public class EditPostActivity extends Activity {
                 }
             });
         }
+        else contentIV.setImageResource(R.drawable.photoempty);
+
+        level = calculateLevel(level);
 
         usernameTV.setText(username);
         timeTV.setText(Date(time));
-        levelTV.setText("Lv." + Integer.toString(level));
+        levelTV.setText("Lv. " + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);
 
 
@@ -191,6 +185,19 @@ public class EditPostActivity extends Activity {
 
         return t;
     }
+
+    int calculateLevel(int score){
+        int level;
+        if(score >= 10000){
+            score -= 10000;
+            level = (score / 1500) + 11;
+        }
+        else{
+            level = score/1000 + 1;
+        }
+        return level;
+    }
+
 
     @Override
     public void onBackPressed() {

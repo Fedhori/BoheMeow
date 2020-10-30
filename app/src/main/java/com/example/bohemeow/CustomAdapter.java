@@ -157,7 +157,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.contentTV.setText(content);
         viewholder.tagTV.setText(tag);
         viewholder.timeTV.setText(Date(time));
-        viewholder.levelTV.setText("Lv." + Integer.toString(level));
+        viewholder.levelTV.setText("Lv. " + Integer.toString(level));
         viewholder.iconIV.setImageResource(icons[catType]);
 
 
