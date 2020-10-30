@@ -21,44 +21,97 @@ public class ConfigBackgroundActivity extends Activity {
 
         SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = userInfo.edit();
-        int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
 
-        final CheckBox cb1 = findViewById(R.id.checkBox2);
-        final CheckBox cb2 = findViewById(R.id.checkBox3);
-        final CheckBox cb3 = findViewById(R.id.checkBox4);
-        final CheckBox cb4 = findViewById(R.id.checkBox5);
-
-        switch(backgroundImageCode){
-            case 1: cb1.setChecked(true);
-                break;
-            case 2: cb2.setChecked(true);
-                break;
-            case 3: cb3.setChecked(true);
-                break;
-            case 4: cb4.setChecked(true);
-                break;
-            default:
-                break;
-        }
-
-        Button change_btn = findViewById(R.id.yes_btn);
-        change_btn.setOnClickListener(new View.OnClickListener(){
+        Button red = findViewById(R.id.red);
+        red.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(cb1.isChecked()){
-                    editor.putInt("backgroundImageCode", 1);
-                }
-                else if(cb2.isChecked()){
-                    editor.putInt("backgroundImageCode", 2);
-                }
-                else if(cb3.isChecked()){
-                    editor.putInt("backgroundImageCode", 3);
-                }
-                else if(cb4.isChecked()){
-                    editor.putInt("backgroundImageCode", 4);
-                }
+                editor.putInt("backgroundImageCode", 1);
                 editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
 
+        Button white = findViewById(R.id.white);
+        white.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 2);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button blue = findViewById(R.id.blue);
+        blue.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 3);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button black = findViewById(R.id.black);
+        black.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 4);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button rainbow = findViewById(R.id.rainbow);
+        rainbow.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 5);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button andro = findViewById(R.id.andro);
+        andro.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 6);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button purple = findViewById(R.id.purple);
+        purple.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 7);
+                editor.commit();
+                Intent intent = new Intent();
+                setResult(0, intent);
+                finish();
+            }
+        });
+
+        Button green = findViewById(R.id.green);
+        green.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                editor.putInt("backgroundImageCode", 8);
+                editor.commit();
                 Intent intent = new Intent();
                 setResult(0, intent);
                 finish();
@@ -74,46 +127,6 @@ public class ConfigBackgroundActivity extends Activity {
                 finish();
             }
         });
-
-        cb1.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cb1.setChecked(true);
-                cb2.setChecked(false);
-                cb3.setChecked(false);
-                cb4.setChecked(false);
-            }
-        }) ;
-
-        cb2.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cb1.setChecked(false);
-                cb2.setChecked(true);
-                cb3.setChecked(false);
-                cb4.setChecked(false);
-            }
-        }) ;
-
-        cb3.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cb1.setChecked(false);
-                cb2.setChecked(false);
-                cb3.setChecked(true);
-                cb4.setChecked(false);
-            }
-        }) ;
-
-        cb4.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cb1.setChecked(false);
-                cb2.setChecked(false);
-                cb3.setChecked(false);
-                cb4.setChecked(true);
-            }
-        }) ;
     }
 
     @Override

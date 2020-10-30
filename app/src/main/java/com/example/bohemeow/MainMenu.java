@@ -69,7 +69,7 @@ public class MainMenu extends AppCompatActivity {
 
          */
 
-        //UpdateBackground();
+        UpdateBackground();
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         username = registerInfo.getString("registerUserName", "NULL");
@@ -257,13 +257,21 @@ public class MainMenu extends AppCompatActivity {
         SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
         switch(backgroundImageCode){
-            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0001_blue));
+            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0000_red));
                 break;
-            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0000_yellow));
+            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0001_white));
                 break;
-            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0002_green));
+            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0002_blue));
                 break;
-            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable.mainwall_0003_red));
+            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0003_black));
+                break;
+            case 5: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0004_rainbow));
+                break;
+            case 6: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0005_andro));
+                break;
+            case 7: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0006_purple));
+                break;
+            case 8: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0007_green));
                 break;
             default:
                 break;
