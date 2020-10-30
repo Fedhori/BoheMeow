@@ -308,6 +308,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.here);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+                tMapView.setIcon(bitmap);
             }
 
             // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
@@ -437,9 +440,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     public void drawNoteMarker(NoteData noteData){
 
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map_memo);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.memo);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 160, 160, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정

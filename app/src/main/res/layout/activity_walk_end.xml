@@ -4,180 +4,325 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/result_0010_background"
     tools:context=".WalkEndActivity">
 
     <ImageView
+        android:id="@+id/imageView55"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17"
+        app:srcCompat="@drawable/box_00001_click" />
+
+    <ImageView
+        android:id="@+id/imageView57"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18"
+        app:srcCompat="@drawable/box_00001_click" />
+
+    <TextView
+        android:id="@+id/dis_view2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/mapo"
+        android:text="오늘"
+        android:textColor="#436850"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView55"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
+    <TextView
+        android:id="@+id/dis_view3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/mapo"
+        android:text="누적"
+        android:textColor="#436850"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView57"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
+
+    <ImageView
         android:id="@+id/imageView17"
-        android:layout_width="166dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/result_0008_title" />
+        app:srcCompat="@drawable/result_title" />
 
     <ImageView
         android:id="@+id/imageView18"
-        android:layout_width="275dp"
-        android:layout_height="451dp"
+        android:layout_width="390dp"
+        android:layout_height="257dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/box1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView17"
-        app:srcCompat="@drawable/result_0007_layer_11" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
 
     <ImageView
         android:id="@+id/imageView21"
-        android:layout_width="288dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/result_0005_box2" />
-
-    <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="120dp"
-        android:layout_height="110dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="390dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rect1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView21"
-        app:srcCompat="@drawable/result_0004_box1" />
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/time_view"
+        android:id="@+id/textView38"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/mapo"
-        android:text="hh:mm:ss"
-        android:textColor="#0072FF"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
-
-    <TextView
-        android:id="@+id/dis_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="64dp"
-        android:fontFamily="@font/mapo"
-        android:text="00km"
-        android:textColor="#0072FF"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
-
-    <TextView
-        android:id="@+id/pace_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="136dp"
-        android:fontFamily="@font/mapo"
-        android:text="mm'ss&quot;"
-        android:textColor="#0072FF"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="시간"
+        android:textColor="#A8707070"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="거리"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="페이스"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="칼로리"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="경험치"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView41" />
 
     <TextView
         android:id="@+id/cal_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/mapo"
         android:text="000kcal"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/pace_view" />
+
+    <TextView
+        android:id="@+id/pace_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/mapo"
+        android:text="mm'ss&quot;"
+        android:textColor="#707070"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/dis_view" />
+
+    <TextView
+        android:id="@+id/dis_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/mapo"
+        android:text="00km"
+        android:textColor="#707070"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/time_view" />
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/mapo"
+        android:text="hh:mm:ss"
+        android:textColor="#707070"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
     <TextView
         android:id="@+id/score_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/mapo"
         android:text="+00"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/cal_view" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="390dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/box2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="횟수"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="시간"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="거리"
+        android:textColor="#A8707070"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toTopOf="@+id/imageView23" />
 
     <TextView
         android:id="@+id/total_dis_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="364dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/mapo"
         android:text="+00"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toTopOf="@+id/imageView23" />
 
     <TextView
         android:id="@+id/total_time_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/mapo"
         android:text="+00"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/total_dis_view" />
 
     <TextView
         android:id="@+id/total_walk_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="468dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/mapo"
         android:text="+00"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/total_time_view" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="53dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:background="#00FFFFFF"
-        android:foreground="@drawable/result_0006_confirm"
+        android:foreground="@drawable/ok1"
         app:layout_constraintBottom_toBottomOf="@+id/imageView21"
-        app:layout_constraintEnd_toEndOf="@+id/imageView21" />
+        app:layout_constraintEnd_toStartOf="@+id/catFace" />
 
     <ImageView
-        android:id="@+id/imageView23"
-        android:layout_width="68dp"
-        android:layout_height="93dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView22"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView21"
-        app:layout_constraintTop_toTopOf="@+id/imageView22"
+        android:id="@+id/catFace"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView21"
+        app:layout_constraintEnd_toEndOf="@+id/imageView21"
+        app:layout_constraintTop_toTopOf="@+id/imageView21"
         app:srcCompat="@drawable/beth_0000" />
 
     <TextView
         android:id="@+id/comment"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="오늘의 산책은 어땠어?"
-        android:textColor="#0072FF"
-        android:textSize="15sp"
+        android:textColor="#707070"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/imageView21"
         app:layout_constraintTop_toTopOf="@+id/imageView21" />
 </androidx.constraintlayout.widget.ConstraintLayout>

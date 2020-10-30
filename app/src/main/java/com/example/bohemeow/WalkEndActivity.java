@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +49,14 @@ public class WalkEndActivity extends AppCompatActivity {
     double user_totalMoveLength;
     long user_totalPoint;
     long user_totalRealPoint;
+    long user_catType;
 
     boolean isWritten = false;
     boolean isBackToSelect = false;
+
+    //set cat image
+    int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
+            R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
 
     TextView callory;
 
@@ -214,6 +220,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     user_totalMoveLength = dataSnapshot.child("totalWalkLength").getValue(Double.class);
                     user_totalPoint = (long) dataSnapshot.child("level").getValue();
                     user_totalRealPoint = (long) dataSnapshot.child("point").getValue();
+                    user_catType = (long) dataSnapshot.child("catType").getValue();
 
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
@@ -229,6 +236,9 @@ public class WalkEndActivity extends AppCompatActivity {
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
                     TextView totalCount_tv = findViewById(R.id.total_walk_count);
+
+                    ImageView catFace = findViewById(R.id.catFace);
+                    catFace.setImageResource(icons[(int)user_catType]);
 
                     long totalTime = user_totalWalkTime + totalWalkTime; // ms
                     long hour;
