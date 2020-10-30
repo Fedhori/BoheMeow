@@ -95,11 +95,6 @@ public class fragmentGeneral extends Fragment {
             mAdapter = new CustomAdapter(mArrayList);
             mRecyclerView.setAdapter(mAdapter);
 
-
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                    mLinearLayoutManager.getOrientation());
-            mRecyclerView.addItemDecoration(dividerItemDecoration);
-
             mAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener()
             {
                 @Override
@@ -158,11 +153,6 @@ public class fragmentGeneral extends Fragment {
 
             mAdapter = new CustomAdapter(mArrayList);
             mRecyclerView.setAdapter(mAdapter);
-
-
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                    mLinearLayoutManager.getOrientation());
-            mRecyclerView.addItemDecoration(dividerItemDecoration);
 
             mAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener()
             {

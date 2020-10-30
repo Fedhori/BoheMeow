@@ -11,10 +11,10 @@
         android:layout_width="280dp"
         android:layout_height="160dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/photoempty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/photoempty" />
 
 
     <Button
@@ -57,7 +57,7 @@
         android:id="@+id/tags"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/mapopeacefull"
         android:lines="2"
         android:minLines="1"
@@ -74,7 +74,6 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="2020.00.00 00:00"
         android:textColor="#70707075"
@@ -110,7 +109,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="right|center_vertical"
         android:text="LV.00"

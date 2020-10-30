@@ -19,7 +19,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="22dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/commtitle" />
@@ -37,7 +37,7 @@
             app:tabIndicatorFullWidth="false"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabTextColor="#262DB6" />
+            app:tabTextColor="#707070" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

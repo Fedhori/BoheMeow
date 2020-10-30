@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-    android:background="#F5F5F5"
+    android:background="#00F5F5F5"
     tools:context=".fragmentGeneral">
 
 
@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="175dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
@@ -48,7 +48,7 @@
 
     <TextView
         android:id="@+id/tags"
-        android:layout_width="175dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:ellipsize="end"
@@ -74,7 +74,7 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/mapo"
         android:gravity="right"
@@ -87,9 +87,9 @@
 
     <TextView
         android:id="@+id/user_level"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/mapo"
         android:gravity="right"
@@ -106,7 +106,7 @@
         android:gravity="left"
         android:text="2020.00.00 00:00:00"
         android:textColor="#707070"
-        app:layout_constraintBottom_toBottomOf="@+id/user_name"
+        app:layout_constraintBottom_toBottomOf="@+id/user_level"
         app:layout_constraintStart_toStartOf="@+id/content_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
