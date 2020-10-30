@@ -27,7 +27,7 @@ public class DelSpotPopupActivity extends Activity {
         double lat = intent.getDoubleExtra("lat", 0);
         double lng = intent.getDoubleExtra("lng", 0);
 
-        String loc = "( " + lat + ", " + lng + ")";
+        String loc = "( " + Double.parseDouble(String.format("%.4f",lat)) + ", " + Double.parseDouble(String.format("%.4f",lng)) + ")";
 
         TextView tv = findViewById(R.id.textView13);
         tv.setText("스팟을 삭제하시겠습니까?");
