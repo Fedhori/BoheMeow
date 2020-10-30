@@ -219,6 +219,16 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        Button infoBtn = findViewById(R.id.btn_info);
+        infoBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenu.this, TutorialPopupActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
