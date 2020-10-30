@@ -16,10 +16,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.skt.Tmap.TMapCircle;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapData.FindPathDataListenerCallback;
@@ -32,13 +36,22 @@ import com.skt.Tmap.TMapView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 
@@ -460,6 +473,115 @@ public class SelectSpotActivity extends AppCompatActivity  {
         else{
             return "R1_";
         }
+    }
+
+    public void addCoordinationID(final Double latitude, final Double longtitude){
+
+        new Thread() {
+            public void run() {
+
+                String uri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longtitude +
+                        "&language=ko&location_type=ROOFTOP&key=" + key;
+
+
+                String page = "";
+                String place_id = "";
+
+                try {
+                    URL url = new URL(uri);
+                    URLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+                    //Log.d("line:", bufreader.toString());
+
+                    String line;
+
+                    while ((line = bufreader.readLine()) != null) {
+                        //Log.d("line:", line);
+                        page += line;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(page);
+                    String results = jsonObject.getString("results");
+                    JSONArray jsonArray = new JSONArray(results);
+
+                    JSONObject subJsonObject = jsonArray.getJSONObject(0);
+                    //String name = subJsonObject.getString("name");
+                    place_id = subJsonObject.getString("place_id");
+
+                    System.out.println("\nnum: " +
+                            //"\tname: " + name +
+                            "\tid: " + place_id);
+
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //temp_list.put("TEST", 0);
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+
+                final String Place_id = place_id;
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                        Map<String, Object> childUpdates= new HashMap<>();
+                        HashMap<String, Long> temp_list = new HashMap<>();
+
+                        long num = 0;
+                        if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) { //이미 등록되어 있는 경우
+
+                            System.out.println("ID check line");
+                            num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
+
+                            myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+7);
+
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+7);
+                            num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+7);
+
+                        }
+                        else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){//등록되어있지 않고, 임시 리스트에 있는 경우
+
+                            System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue());
+                            System.out.println();
+                            num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
+
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
+
+                            if(num >= 25){ // 등록
+                                System.out.println("delete");
+                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
+                                long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
+                                count = count * 25 + num;
+
+                                System.out.println("calculated");
+                                ArrayList<String> spot = new ArrayList<>();
+                                spot.add(Place_id);
+
+                                SpotFilter sf = new SpotFilter(SelectSpotActivity.this);
+                                sf.FeatureCalculator(spot, region, Long.valueOf(count).intValue());
+                            }
+
+
+                        }
+                        else{
+                            temp_list.put("count", num);
+                            temp_list.put("visit", num + 7);
+                            childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
+                            myRef.updateChildren(childUpdates);
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        }.start();
+
     }
 
 }

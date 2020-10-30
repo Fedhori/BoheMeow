@@ -5,22 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@drawable/comm_back">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
         <ImageView
             android:id="@+id/imageView20"
-            android:layout_width="129dp"
-            android:layout_height="60dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="22dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/comm_0002_title" />
-
+            app:srcCompat="@drawable/commtitle" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -57,12 +59,13 @@
         <Button
             android:id="@+id/add_post_btn"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
             android:background="#00FFFFFF"
-            android:foreground="@drawable/comm_0001_write"
+            android:foreground="@drawable/write"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
