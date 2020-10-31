@@ -3,50 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="200dp"
-    android:background="@drawable/_0019_box">
+    android:layout_height="300dp"
+    android:background="@drawable/popup_small">
 
-
-    <Button
-        android:id="@+id/no_btn"
-        android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/_0013_no"
-        app:layout_constraintBottom_toBottomOf="@+id/yes_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/yes_btn"
-        android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="136dp"
-        android:background="@drawable/_0014_yes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="56dp"
+        android:background="#FFFFFF"
+        android:text="예"
+        android:textColor="#707070"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/no_btn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:background="#FFFFFF"
+        android:text="아니오"
+        android:textColor="#707070"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/yes_btn" />
 
     <TextView
         android:id="@+id/authorTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="정말 계정을 삭제하시겠습니까?"
         android:textColor="#F44336"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordCheck" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/self_check_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="본인확인을 위해 비밀번호를 입력해주세요."
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -57,11 +61,13 @@
         android:id="@+id/passwordCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/self_check_TV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

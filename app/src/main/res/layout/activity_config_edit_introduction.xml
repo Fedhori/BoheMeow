@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="320dp"
-    android:background="@drawable/_0013_box"
+    android:background="@drawable/popup_big"
     tools:context=".ConfigEditIntroductionActivity">
 
     <Button
@@ -28,7 +28,7 @@
         android:maxLines="5"
         android:minLines="5"
         android:scrollbars="vertical"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bugreport_tv" />
@@ -41,7 +41,7 @@
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="자기소개를 작성해주세요.\n(50글자 이하)"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -53,7 +53,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/comm_popup_0008_edit"
+        android:background="#FFFFFF"
+        android:text="수정"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"

@@ -28,9 +28,6 @@ public class ConfigDelActivity extends Activity {
 
         final EditText passwordCheck = findViewById(R.id.passwordCheck);
 
-        TextView tv = findViewById(R.id.textView13);
-        tv.setText("정말 계정을 삭제하시겠습니까?");
-
         Button yes_btn = findViewById(R.id.yes_btn);
         yes_btn.setOnClickListener(new View.OnClickListener(){
             @Override

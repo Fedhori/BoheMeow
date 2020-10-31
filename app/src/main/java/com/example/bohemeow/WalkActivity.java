@@ -367,16 +367,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     //Log.e("MARKER ID : ", ""+ markerlist.get(0));
                     TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
                     markerID = markerItem.getID();
-                    TMapPoint point = markerItem.getTMapPoint();
-                    curLat = point.getLatitude();
-                    curLng = point.getLongitude();
 
-                    Intent intent = new Intent(WalkActivity.this, NotePopUpActivity.class);
-                    intent.putExtra("noteContent", noteDatas[Integer.parseInt(markerID)].noteContent);
-                    intent.putExtra("author", noteDatas[Integer.parseInt(markerID)].author);
-                    startActivityForResult(intent, 1);
+                    if(!markerID.contains("Spot")){
+                        TMapPoint point = markerItem.getTMapPoint();
+                        curLat = point.getLatitude();
+                        curLng = point.getLongitude();
 
-                    //Toast.makeText(WalkActivity.this, noteDatas[Integer.parseInt(markerID)].author + " " + noteDatas[Integer.parseInt(markerID)].noteContent, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(WalkActivity.this, NotePopUpActivity.class);
+                        intent.putExtra("noteContent", noteDatas[Integer.parseInt(markerID)].noteContent);
+                        intent.putExtra("author", noteDatas[Integer.parseInt(markerID)].author);
+                        startActivityForResult(intent, 1);
+                        //Toast.makeText(WalkActivity.this, noteDatas[Integer.parseInt(markerID)].author + " " + noteDatas[Integer.parseInt(markerID)].noteContent, Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return false;
             }
@@ -434,7 +436,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
         // markerItem.setName("성대");
         markerlist.add(markerItem);
-        tMapView.addMarkerItem(Integer.toString(markerCnt++), markerItem); // 지도에 마커 추가
+        tMapView.addMarkerItem("Spot" + markerCnt++, markerItem); // 지도에 마커 추가
     }
 
     public void drawNoteMarker(NoteData noteData){

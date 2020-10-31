@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="180dp"
-    android:background="@drawable/_0013_box">
+    android:background="@drawable/popup_small">
 
     <Button
         android:id="@+id/back_btn"
@@ -23,7 +23,7 @@
         android:layout_marginTop="28dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="체중을 입력해주세요."
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -34,10 +34,12 @@
         android:id="@+id/newWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="number"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bugreport_tv" />
 
@@ -47,7 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/comm_popup_0008_edit"
+        android:background="#FFFFFF"
+        android:text="수정"
+        android:textColor="#707070"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -35,10 +35,10 @@ public class RankPopUpActivity extends Activity {
         });
 
         ImageView catFace = findViewById(R.id.catFace);
-        catFace.setImageResource(icons[rankData.catType]);
+        catFace.setBackgroundResource(icons[rankData.catType]);
 
         TextView usernameTV = findViewById(R.id.username);
-        usernameTV.setText(rankData.nickname + "의 한마디");
+        usernameTV.setText(rankData.nickname + "의 산책정보");
 
         TextView introductionTV = findViewById(R.id.introduction);
         introductionTV.setText(rankData.introduction);
@@ -47,9 +47,10 @@ public class RankPopUpActivity extends Activity {
         TextView levelTV = findViewById(R.id.level);
         levelTV.setText("레벨: " + level);
 
-        int distance = (int) rankData.totalWalkLength;
+        double distance = rankData.totalWalkLength / 1000f;
+        String strNumber = String.format("%.2f", distance);
         TextView walkLengthTV = findViewById(R.id.walkLength);
-        walkLengthTV.setText("누적거리: " + Integer.toString(distance) + "m");
+        walkLengthTV.setText("누적거리: " + strNumber + "km");
 
         TextView walkCountTV = findViewById(R.id.walkCount);
         walkCountTV.setText("산책횟수 " + rankData.totalWalkCount + "회");

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="200dp"
-    android:background="@drawable/_0013_box">
+    android:background="@drawable/popup_small">
 
 
     <Button
@@ -12,7 +12,9 @@
         android:layout_width="105dp"
         android:layout_height="35dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/_0012_modifyweight"
+        android:background="#FFFFFF"
+        android:text="체중 변경"
+        android:textColor="#707070"
         app:layout_constraintBottom_toBottomOf="@+id/editPW_btn"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -22,7 +24,9 @@
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="60dp"
-        android:background="@drawable/_0011_modifypw"
+        android:background="#FFFFFF"
+        android:text="비밀번호 변경"
+        android:textColor="#707070"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +36,9 @@
         android:layout_height="35dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="124dp"
-        android:background="@drawable/introduction"
+        android:background="#FFFFFF"
+        android:text="자기소개 변경"
+        android:textColor="#707070"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

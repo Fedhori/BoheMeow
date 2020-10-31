@@ -4,43 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="500dp"
-    android:background="@drawable/rank_popup"
+    android:background="@drawable/intro_background"
     tools:context=".RankPopUpActivity">
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/mapohongdae"
         android:text="의 한마디"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/level"
+        app:layout_constraintStart_toStartOf="@+id/level" />
 
     <TextView
         android:id="@+id/walkLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="24sp"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkCount"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/walkCount" />
 
     <TextView
         android:id="@+id/walkTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="128dp"
         android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="24sp"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,53 +46,52 @@
         android:id="@+id/walkCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="24sp"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkTime"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/walkTime" />
 
     <TextView
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="24sp"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkLength"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/walkLength" />
 
     <TextView
         android:id="@+id/introduction"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="52dp"
         android:text="TextView"
-        android:textColor="#296F42"
-        android:textSize="24sp"
+        android:textColor="#707070"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/back_btn"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/config_0004_quit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/allright"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/catFace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="136dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/heads_0001"
         app:layout_constraintEnd_toEndOf="parent"

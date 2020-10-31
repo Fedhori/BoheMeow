@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
-    android:layout_height="180dp"
-    android:background="@drawable/_0013_box">
+    android:layout_height="300dp"
+    android:background="@drawable/popup_small">
 
     <!-- 타이틀바 -->
     <!-- //end 타이틀바 -->
@@ -15,8 +15,8 @@
         android:id="@+id/back_btn"
         android:layout_width="30dp"
         android:layout_height="25dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/config_0004_quit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,15 +25,17 @@
         android:id="@+id/noteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:background="@drawable/_0000_writebutton"
+        android:background="#FFFFFF"
         android:gravity="center"
         android:onClick="mOnClose"
         android:padding="16dp"
-        android:textColor="#ff7a00"
+        android:text="쪽지 작성"
+        android:textColor="#707070"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteET" />
 
@@ -41,11 +43,15 @@
         android:id="@+id/noteET"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:hint="내용을 입력해주세요."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:minLines="5"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.32"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

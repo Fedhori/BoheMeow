@@ -69,7 +69,7 @@ public class MainConfigActivity extends Activity {
         //set detail data
         user_id.setText(userData.id);
         user_name.setText(userData.nickname);
-        user_level.setText("Lv." + Integer.toString(calculateLevel(userData.level)));
+        user_level.setText(Integer.toString(calculateLevel(userData.level)));
         total_count.setText(Integer.toString(userData.totalWalkCount) + "번");
 
         int distance = (int) userData.totalWalkLength;

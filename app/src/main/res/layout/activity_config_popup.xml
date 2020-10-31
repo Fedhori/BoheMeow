@@ -4,47 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="500dp"
-    android:background="@drawable/_0018_box">
+    android:background="@drawable/config_popup">
 
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView29"
+        android:layout_width="300dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/box_userinfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:shadowColor="#A60A0A0A"
+        android:text="산책정보"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView29"
+        app:layout_constraintTop_toBottomOf="@+id/imageView29" />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:shadowColor="#73707070"
+        android:text="아이디"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView29"
+        app:layout_constraintStart_toStartOf="@+id/imageView29"
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="0.361" />
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:shadowColor="#73707070"
+        android:text="Lv."
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/textView51"
+        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+    <TextView
+        android:id="@+id/textView51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:shadowColor="#73707070"
+        android:text="닉네임"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/textView49"
+        app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
     <TextView
         android:id="@+id/total_dis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="000km"
-        android:textColor="#055B37"
+        android:textColor="#2699FB"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv5"
-        app:layout_constraintTop_toTopOf="@+id/tv5" />
+        app:layout_constraintEnd_toEndOf="@+id/total_time"
+        app:layout_constraintTop_toBottomOf="@+id/total_time" />
 
     <TextView
         android:id="@+id/total_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="56dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="00:00:00"
-        android:textColor="#055B37"
+        android:textColor="#2699FB"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv"
-        app:layout_constraintTop_toTopOf="@+id/tv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv1" />
 
     <TextView
         android:id="@+id/total_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="00kg"
-        android:textColor="#055B37"
+        android:text="00번"
+        android:textColor="#2699FB"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv1"
-        app:layout_constraintTop_toTopOf="@+id/tv1" />
+        app:layout_constraintEnd_toEndOf="@+id/total_dis"
+        app:layout_constraintTop_toBottomOf="@+id/total_dis" />
 
     <TextView
         android:id="@+id/tv5"
@@ -53,7 +121,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="누적 산책 거리"
-        android:textColor="#055B37"
+        android:textColor="#73313131"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv1"
@@ -65,8 +133,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="누적 산책 시간"
-        android:textColor="#055B37"
+        android:text="총 산책 횟수"
+        android:textColor="#73313131"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv1"
@@ -76,15 +144,14 @@
         android:id="@+id/user_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="아이디"
         android:textColor="#055B37"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView49"
+        app:layout_constraintTop_toTopOf="@+id/textView49" />
 
     <TextView
         android:id="@+id/user_name"
@@ -116,61 +183,59 @@
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="산책 횟수"
-        android:textColor="#055B37"
+        android:text="누적 산책 시간"
+        android:textColor="#73313131"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/imageView29"
+        app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
     <Button
         android:id="@+id/delacc_btn"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/_0011_delacc"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="64dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/button_delete"
+        app:layout_constraintStart_toEndOf="@+id/man_btn"
+        app:layout_constraintTop_toTopOf="@+id/man_btn" />
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/_0012_logout"
-        app:layout_constraintBottom_toTopOf="@+id/bugreport_btn"
-        app:layout_constraintStart_toStartOf="@+id/bugreport_btn" />
+        android:layout_width="64dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/button_logout"
+        app:layout_constraintStart_toEndOf="@+id/edit_btn"
+        app:layout_constraintTop_toTopOf="@+id/edit_btn" />
 
     <Button
         android:id="@+id/bugreport_btn"
         android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginBottom="456dp"
         android:background="@drawable/bugreport"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/man_btn"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/_0013_changeback"
-        app:layout_constraintBottom_toTopOf="@+id/delacc_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="64dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/button_background"
+        app:layout_constraintStart_toEndOf="@+id/logout_btn"
+        app:layout_constraintTop_toTopOf="@+id/logout_btn" />
 
     <Button
         android:id="@+id/back_btn"
         android:layout_width="30dp"
         android:layout_height="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/config_0004_quit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -179,33 +244,36 @@
         android:id="@+id/cat_img"
         android:layout_width="90dp"
         android:layout_height="100dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginEnd="12dp"
         android:background="#00FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView29"
+        app:layout_constraintEnd_toEndOf="@+id/imageView29"
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="0.385"
         app:srcCompat="@drawable/heads_0001" />
 
     <Button
         android:id="@+id/edit_btn"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/_0014_editdata"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn"
-        app:layout_constraintStart_toStartOf="@+id/logout_btn" />
+        android:layout_width="64dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <ProgressBar
         android:id="@+id/progressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="291dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="204dp"
+        android:layout_width="250dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="140dp"
         android:progress="100"
         android:progressDrawable="@drawable/custom_progressbar_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView29"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/imageView29"
+        app:layout_constraintTop_toTopOf="@+id/imageView29" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
