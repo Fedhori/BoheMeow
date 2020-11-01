@@ -7,220 +7,110 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="350dp"
-        android:layout_height="520dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
-        app:srcCompat="@drawable/register_popup" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="65dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="아이디를 입력해 주세요. (4글자 이상)"
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
     <EditText
         android:id="@+id/idET"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:background="#00FFFFFF"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="아이디가 입력됩니다"
+        android:hint="아이디 (4글자 이상)"
         android:inputType="textPersonName"
-        android:textColor="#0F2175"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginTop="136dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="비밀번호를 입력해 주세요. (4글자 이상)"
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        android:textColor="#99707070"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/passwordET"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:background="#00FFFFFF"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="비밀번호가 입력됩니다"
+        android:hint="비밀번호 (4글자 이상)"
         android:inputType="textPassword"
-        android:textColor="#0F2175"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        android:textColor="#99707070"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/idET"
+        app:layout_constraintTop_toBottomOf="@+id/idET" />
 
-    <TextView
-        android:id="@+id/textView9"
+    <EditText
+        android:id="@+id/nicknameET"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="닉네임"
+        android:inputType="textPersonName"
+        android:maxLength="8"
+        android:textColor="#99707070"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/passwordET2"
+        app:layout_constraintTop_toBottomOf="@+id/passwordET2" />
 
-        android:layout_marginTop="203dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="비밀번호를 한번 더 입력해 주세요."
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+    <EditText
+        android:id="@+id/weightET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="체중(kg)"
+        android:inputType="number|textPassword"
+        android:textColor="#99707070"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/nicknameET"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameET" />
 
     <EditText
         android:id="@+id/passwordET2"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="1dp"
-        android:background="#00FFFFFF"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="비밀번호가 입력됩니다."
+        android:hint="비밀번호 확인"
         android:inputType="textPassword"
-        android:textColor="#0F2175"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        android:textColor="#99707070"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/passwordET"
+        app:layout_constraintTop_toBottomOf="@+id/passwordET" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginTop="262dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="체중(kg)을 입력해 주세요."
-        android:textColor="#3F51B5"
+        android:text="칼로리 계산의 정확도가 향상됩니다"
+        android:textColor="#99707070"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/weightET"
+        app:layout_constraintTop_toBottomOf="@+id/weightET" />
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="계산 정확도가 높아집니다."
-        android:textColor="#3F51B5"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView11"
-        app:layout_constraintStart_toEndOf="@+id/textView11" />
-
-    <EditText
-        android:id="@+id/weightET"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:background="#00FFFFFF"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="체중이 입력됩니다."
-        android:inputType="number|textPassword"
-        android:textColor="#0F2175"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="335dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="마지막으로 닉네임을 입력해 주세요!\n(8글자 이하)"
-        android:textColor="#3F51B5"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <EditText
-        android:id="@+id/nicknameET"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="닉네임이 입력됩니다"
-        android:inputType="textPersonName"
-        android:textColor="#0F2175"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        android:maxLength="8"/>
-
-    <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cat_face"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/box_0002_2" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="회원가입"
+        android:textColor="#707070"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/box_0003_1" />
-
-    <ImageView
-        android:id="@+id/cat_face"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintHorizontal_bias="0.962"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/beth_0000" />
-
-    <TextView
-        android:id="@+id/cat_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="반가워! 새로운 모험자로군. \n 뭐라고 부르는게 좋을까?"
-        android:textColor="#006943"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/registerBtn"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="#00FFFFFF"
-        android:foreground="@drawable/register_check"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:background="@drawable/register_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

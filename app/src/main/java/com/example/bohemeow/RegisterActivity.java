@@ -39,9 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText nicknameET;
     ImageButton registerBtn;
 
-    ImageView catFace;
-    TextView catText;
-
     String phoneNumber;
 
     @Override
@@ -61,24 +58,22 @@ public class RegisterActivity extends AppCompatActivity {
         nicknameET = (EditText) findViewById(R.id.nicknameET);
 
         registerBtn = (ImageButton) findViewById(R.id.registerBtn);
-        catFace = (ImageView) findViewById(R.id.cat_face);
-        catText = (TextView) findViewById(R.id.cat_text);
 
         registerBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 if(nicknameET.length() * passwordET.length() * passwordET2.length() * weightET.length() * idET.length() == 0){
-                    catText.setText("비어있는 칸이 있어!");
+                    Toast.makeText(RegisterActivity.this, "비어있는 칸이 있습니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(!passwordET.getText().toString().equals(passwordET2.getText().toString())){
-                    catText.setText("비밀번호가 다른걸? 다시 한번 확인해봐!");
+                    Toast.makeText(RegisterActivity.this, "비밀번호가 다릅니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(idET.length() < 4){
-                    catText.setText("아이디가 너무 짧아!");
+                    Toast.makeText(RegisterActivity.this, "아이디가 너무 짧습니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(passwordET.length() < 4){
-                    catText.setText("비밀번호가 너무 짧아!");
+                    Toast.makeText(RegisterActivity.this, "비밀번호가 너무 짧습니다.", Toast.LENGTH_LONG).show();
                 }
                 else{
 
@@ -105,15 +100,13 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             if(isNicknameExist){
-                                catText.setText("그 이름은 이미 존재해. \n다른 이름은 어때?");
+                                Toast.makeText(RegisterActivity.this, "그 닉네임은 이미 존재합니다.", Toast.LENGTH_LONG).show();
                             }
                             else if(isIDExist){
-                                catText.setText("그 아이디는 이미 존재해. \n다른 아이디는 어때?");
+                                Toast.makeText(RegisterActivity.this, "그 아이디는 이미 존재합니다.", Toast.LENGTH_LONG).show();
                             }
                             else{
                                 addNewUser(new_nickname, new_id, new_password,  Integer.parseInt(weight), phoneNumber);
-                                catText.setText(new_nickname + "!! \n멋진 이름이야. \n앞으로 잘 부탁해, " + new_nickname + ".");
-                                catFace.setImageResource(R.drawable.beth_0001);
 
                                 SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = registerInfo.edit();
