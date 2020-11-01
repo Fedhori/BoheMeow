@@ -25,7 +25,7 @@ public class NotePopUpActivity extends Activity {
         String noteContent = intent.getStringExtra("noteContent");
 
         TextView authorTV = findViewById(R.id.authorTV);
-        authorTV.setText("작성자: " + author);
+        authorTV.setText("from. " + author);
 
         TextView contentTV = findViewById(R.id.contentTV);
         contentTV.setText(noteContent);

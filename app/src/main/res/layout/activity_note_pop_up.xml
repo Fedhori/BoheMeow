@@ -4,42 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="300dp"
-    android:background="@drawable/_0019_box">
+    android:background="@drawable/note_background">
 
 
     <TextView
         android:id="@+id/authorTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:fontFamily="@font/mapopeacefull"
+        android:layout_marginBottom="52dp"
+        android:fontFamily="@font/maponaru"
         android:text="작성자: Hellow"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/contentTV"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/mapopeacefull"
+        android:layout_marginTop="68dp"
+        android:fontFamily="@font/maponaru"
         android:text="내용"
-        android:textColor="#0072FF"
+        android:textColor="#707070"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/authorTV" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/back_btn2"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/config_0004_quit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
