@@ -94,7 +94,7 @@ public class SurveyActivity extends AppCompatActivity{
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.survey_layout);
 
-        iv = findViewById(R.id.imageView8);
+
         tv_survey = (TextView) findViewById(R.id.survey_text);
         tv_num = findViewById(R.id.num);
 /*

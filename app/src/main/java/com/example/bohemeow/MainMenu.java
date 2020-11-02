@@ -99,10 +99,10 @@ public class MainMenu extends AppCompatActivity {
         df.setTimeZone(tz);
         int time = Integer.parseInt(df.format(date));
 
-        if(time <= 5 || time >= 20){
+        if(time <= 5 || time >= 19){
             windowIV.setImageResource(R.drawable.main__0002_nightclear);
         }
-        else if(time >= 18){
+        else if(time >= 17){
             windowIV.setImageResource(R.drawable.main__0012_sunsetclear);
         }
         else if(time <= 8){

@@ -5,7 +5,7 @@
     android:id="@+id/survey_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/test_0009_background"
+    android:background="#0D6FEB9B"
     tools:context=".SurveyActivity">
 
 
@@ -16,17 +16,18 @@
         android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView8"
-        app:srcCompat="@drawable/test_0004_nobox" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/survey_box2" />
 
     <ImageView
         android:id="@+id/imageView32"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView31"
-        app:srcCompat="@drawable/test_0009_box" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:srcCompat="@drawable/survey_box1" />
 
     <TextView
         android:id="@+id/survey_text"
@@ -35,7 +36,7 @@
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다"
-        android:textColor="#3674ae"
+        android:textColor="#707070"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView32"
         app:layout_constraintEnd_toEndOf="@+id/imageView32"
@@ -48,10 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:fontFamily="@font/mapobackpacking"
+        android:fontFamily="@font/maponaru"
         android:gravity="center"
         android:text="1"
-        android:textColor="#3674ae"
+        android:textColor="#707070"
         android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView31"
         app:layout_constraintEnd_toEndOf="@+id/imageView31"
@@ -62,42 +63,40 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/mapobackpacking"
+        android:fontFamily="@font/maponaru"
         android:gravity="end"
-        android:text="/ 9"
-        android:textColor="#3674ae"
+        android:text="/9"
+        android:textColor="#707070"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView31"
         app:layout_constraintEnd_toEndOf="@+id/imageView31" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/test_0005_line" />
 
     <Button
         android:id="@+id/btn_no"
         android:layout_width="180dp"
         android:layout_height="234dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/test_0007_no"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        android:background="@drawable/no_"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_yes"
         android:layout_width="180dp"
         android:layout_height="234dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/test_0006_yes"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        android:background="@drawable/yes_"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="나는..."
+        android:textColor="#707070"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView32"
+        app:layout_constraintTop_toBottomOf="@+id/imageView31" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

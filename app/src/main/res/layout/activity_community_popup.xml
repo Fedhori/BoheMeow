@@ -11,10 +11,10 @@
         android:layout_width="280dp"
         android:layout_height="160dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/photoempty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/photoempty" />
 
 
     <Button
