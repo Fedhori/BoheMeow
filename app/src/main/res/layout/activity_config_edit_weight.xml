@@ -50,6 +50,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="28dp"
         android:background="#FFFFFF"
+        android:fontFamily="@font/mapo"
         android:text="수정"
         android:textColor="#707070"
         app:layout_constraintBottom_toBottomOf="parent"
