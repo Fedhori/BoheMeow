@@ -38,16 +38,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/testresult_0005_box" />
+        app:srcCompat="@drawable/rect1" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/mapobackpacking"
+        android:fontFamily="@font/mapopeacefull"
         android:text="당신은 .."
-        android:textColor="#2a7bf6"
+        android:textColor="#707070"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,9 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/mapobackpacking"
+        android:fontFamily="@font/mapopeacefull"
         android:text="태태"
-        android:textColor="#0260f1"
+        android:textColor="#707070"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
         android:layout_marginTop="35dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="울산대교에 사는 태태는 한낮 태화강변을 따라 산책하기를 좋아합니다."
-        android:textColor="#3D89FE"
+        android:textColor="#707070"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView33"
         app:layout_constraintStart_toStartOf="@+id/imageView33"
@@ -93,12 +93,12 @@
 
     <Button
         android:id="@+id/next_btn"
-        android:layout_width="80dp"
+        android:layout_width="45dp"
         android:layout_height="25dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="50dp"
         android:background="#00FFFFFF"
-        android:foreground="@drawable/testresult_0003_ok"
+        android:foreground="@drawable/answer_confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView33" />
 

@@ -16,14 +16,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
         android:background="#00F5F5F5"
         android:fontFamily="@font/maponaru"
         android:text="취소"
         android:textColor="#686868"
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/noteET"
-        app:layout_constraintTop_toBottomOf="@+id/noteET" />
+        app:layout_constraintBottom_toBottomOf="@+id/noteBtn"
+        app:layout_constraintStart_toStartOf="@+id/noteET" />
 
     <Button
         android:id="@+id/noteBtn"
@@ -48,6 +47,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
+        android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/maponaru"
         android:hint="내용을 입력해주세요."
