@@ -72,6 +72,7 @@ public class RankingActivity extends AppCompatActivity {
         InitializeRankData();
 
         ListView listView = (ListView)findViewById(R.id.listView);
+        listView.setDivider(null);
         final RankingCustomAdapter myAdapter = new RankingCustomAdapter(this,rankDataList);
 
         listView.setAdapter(myAdapter);

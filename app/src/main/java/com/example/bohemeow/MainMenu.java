@@ -152,14 +152,14 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        final int[] icons_stage1 = {R.drawable.beth_0000, R.drawable._0000_hangang_1, R.drawable._0007_bamee_1, R.drawable._0010_chacha_1,
-                R.drawable._0004_ryoni_1, R.drawable._0003_moonmoon_1, R.drawable._0008_popo_1,R.drawable._0002_taetae_1, R.drawable._0001_sessak_1};
+        final int[] icons_stage1 = {R.drawable.beth_0000, R.drawable.maincatnew_0000_hangang1, R.drawable.maincatnew_0002_bamee1, R.drawable.maincatnew_0004_chacha1,
+                R.drawable.maincatnew_0006_ryoni1, R.drawable.maincatnew_0008_moonmoon1, R.drawable.maincatnew_0014_popo1,R.drawable.maincatnew_0010_taetae1, R.drawable.maincatnew_0012_sessak1};
 
-        final int[] icons_stage2 = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
-                R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
+        final int[] icons_stage2 = {R.drawable.beth_0000, R.drawable.maincatnew_0001_hangang2, R.drawable.maincatnew_0003_bamee2, R.drawable.maincatnew_0005_chacha2,
+                R.drawable.maincatnew_0007_ryoni2, R.drawable.maincatnew_0009_moonmoon2, R.drawable.maincatnew_0015_popo2,R.drawable.maincatnew_0011_taetae2, R.drawable.maincatnew_0013_sessak2};
 
-        final int[] icons_stage3 = {R.drawable.beth_0000, R.drawable._0011_hangang_lay, R.drawable._0008_bamee_sit, R.drawable._0005_chacha_scratch,
-                R.drawable._0004_ryoni_scratch, R.drawable._0003_moonmoon_sit, R.drawable._0000_popo_lay,R.drawable._0002_taetae_sit, R.drawable._0001_sessak_lay};
+        final int[] icons_stage3 = {R.drawable.beth_0000, R.drawable.maincatnew_0001_hangang2, R.drawable.maincatnew_0003_bamee2, R.drawable.maincatnew_0005_chacha2,
+                R.drawable.maincatnew_0007_ryoni2, R.drawable.maincatnew_0009_moonmoon2, R.drawable.maincatnew_0015_popo2,R.drawable.maincatnew_0011_taetae2, R.drawable.maincatnew_0013_sessak2};
 
         int level = calculateLevel(exp);
 
