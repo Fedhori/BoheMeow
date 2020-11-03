@@ -188,7 +188,7 @@ public class MainMenu extends AppCompatActivity {
         });
 
         Button catBtn = findViewById(R.id.btn_itemboard);
-        if(level < 5){
+        if(level < 3){
             catBtn.setBackgroundResource(icons_stage1[catType]);
         }
         else if(level < 10){
