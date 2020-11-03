@@ -238,7 +238,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
-        tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
+        tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
         linearLayoutTmap.addView( tMapView );
 
         timeText_tv = findViewById(R.id.timeText);
@@ -626,6 +626,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
                         Map<String, Object> childUpdates= new HashMap<>();
                         HashMap<String, Long> temp_list = new HashMap<>();
+                        System.out.println(region);
 
                         long num = 0;
                         if (dataSnapshot.child("spot_data/ID_list/").child(Place_id).getValue() != null) { //이미 등록되어 있는 경우

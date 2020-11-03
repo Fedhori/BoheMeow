@@ -92,11 +92,6 @@ public class SelectSpotActivity extends AppCompatActivity  {
     }
 
     @Override
-    public void onBackPressed(){
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk_addspot);
@@ -161,6 +156,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                 Intent intent = new Intent(SelectSpotActivity.this, WalkActivity.class);
                 intent.putExtra("lats", lats);
                 intent.putExtra("lngs", lngs);
+                intent.putExtra("region", region);
                 startActivity(intent);
                 finish();
             }
@@ -180,7 +176,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
-        tMapView.setSKTMapApiKey("l7xxc4527e777ef245ef932b366ccefaa9b0");
+        tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
         linearLayoutTmap.addView( tMapView );
 
         startLat = intent.getDoubleExtra("lat", 0);
@@ -540,8 +536,8 @@ public class SelectSpotActivity extends AppCompatActivity  {
                             num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
                             myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+7);
-
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+7);
+
                             num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
                             myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+7);
 
@@ -550,24 +546,9 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
                             System.out.println("temp check line : " + dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue());
                             System.out.println();
+
                             num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
-
                             myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+7);
-
-                            if(num >= 25){ // 등록
-                                System.out.println("delete");
-                                myRef.child("spot_data/temp_list").child(Place_id).removeValue();
-                                long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
-                                count = count * 25 + num;
-
-                                System.out.println("calculated");
-                                ArrayList<String> spot = new ArrayList<>();
-                                spot.add(Place_id);
-
-                                SpotFilter sf = new SpotFilter(SelectSpotActivity.this);
-                                sf.FeatureCalculator(spot, region, Long.valueOf(count).intValue());
-                            }
-
 
                         }
                         else{
@@ -588,4 +569,20 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
     }
 
+    private long backKeyPressedTime = 0;
+    @Override
+    public void onBackPressed(){
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 산책 선택화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+
+            Intent intent = new Intent(SelectSpotActivity.this, SelectActivity.class);
+            startActivityForResult(intent, 1);
+        }
+    }
 }
