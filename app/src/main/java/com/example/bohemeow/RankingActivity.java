@@ -100,7 +100,10 @@ public class RankingActivity extends AppCompatActivity {
     {
         rankDataList = new ArrayList<RankData>();
 
-        for(int i = 0;i<size;i++){
+        // last array is user data
+        rankDataList.add(rankData[size - 1]);
+        // add 1st~10th user's data
+        for(int i = 0;i<size - 1;i++){
             rankDataList.add(rankData[i]);
         }
     }
