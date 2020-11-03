@@ -154,6 +154,7 @@ public class SpotFilter {
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo";
     private Context mContext = null;
 
+
     public SpotFilter(Context context) {
         this.mContext = context;
     }
@@ -386,7 +387,7 @@ public class SpotFilter {
         final boolean[] isGood = {true};
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference MyRef = databaseReference.child("spot_data");
+        DatabaseReference MyRef = databaseReference.child("spot_data").child(region).child("spots");
 
         MyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -410,20 +411,22 @@ public class SpotFilter {
                             HashMap<String, Long> temp_list = new HashMap<>();
                             temp_list.put("count", (long)spot.popularity/25);
                             temp_list.put("visit", (long)0);
-                            childUpdates.put("/temp_list/" + spot.place_id, temp_list);
-                            MyRef.updateChildren(childUpdates);
+                            childUpdates.put("/spot_data/temp_list/" + spot.place_id, temp_list);
+
+                            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                            myRef.updateChildren(childUpdates);
 
                             break;
                         }
                     }
                 }
                 if (isGood[0]){
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
                     for(SpotDetail s:del_list){
-                        MyRef.child(region).child("spots").child(s.getPlace_id()).removeValue();
+                        myRef.child("spot_data").child(region).child("spots").child(s.getPlace_id()).removeValue();
+                        myRef.child("spot_data").child("ID_list").child(s.getPlace_id()).removeValue();
                     }
-
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
                     Map<String, Object> childUpdates = new HashMap<>();
                     Map<String, Object> value = spot.toMap();

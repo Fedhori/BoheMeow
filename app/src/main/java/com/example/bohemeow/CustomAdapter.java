@@ -2,6 +2,7 @@ package com.example.bohemeow;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +141,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+
                     viewholder.contentIV.setImageBitmap(bitmap);
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -163,6 +167,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         //System.out.println("\ncatType: " + catType);
     }
+
+
+
 
     @Override
     public int getItemCount() {
