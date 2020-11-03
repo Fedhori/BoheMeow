@@ -118,7 +118,7 @@ public class WritePostActivity extends AppCompatActivity{
                 }
                 else{
                     postFirebaseDatabase(true);
-                    updatePoint(username, 50);
+                    updatePoint(username, 100);
 
                     Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
                     startActivity(intent);
