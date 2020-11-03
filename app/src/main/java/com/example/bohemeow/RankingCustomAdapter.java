@@ -56,17 +56,20 @@ public class RankingCustomAdapter extends BaseAdapter {
         TextView username = (TextView)view.findViewById(R.id.username);
         TextView point = (TextView)view.findViewById(R.id.point);
 
-        if(rankData.get(position).rank == 1){
-            background.setBackgroundResource(R.drawable.first_box);
+        if(rankData.get(position).isUser){
+            background.setBackgroundResource(R.drawable.user_rank);
+        }
+        else if(rankData.get(position).rank == 1){
+            background.setBackgroundResource(R.drawable.rank1);
         }
         else if(rankData.get(position).rank == 2){
-            background.setBackgroundResource(R.drawable.second_box);
+            background.setBackgroundResource(R.drawable.rank2);
         }
         else if(rankData.get(position).rank == 3){
-            background.setBackgroundResource(R.drawable.third_box);
+            background.setBackgroundResource(R.drawable.rank3);
         }
         else{
-            background.setBackgroundResource(R.drawable.fourth_box);
+            background.setBackgroundResource(R.drawable.rank4);
         }
         rank.setText(rankData.get(position).rank + "");
         catImage.setImageResource(icons[rankData.get(position).catType]);

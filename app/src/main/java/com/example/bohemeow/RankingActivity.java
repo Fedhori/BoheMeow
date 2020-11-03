@@ -33,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,8 +42,10 @@ import java.util.TimeZone;
 
 
 public class RankingActivity extends AppCompatActivity {
+// last array is user data
 
     ArrayList<RankData> rankDataList;
+    ArrayList<RankData> userDataList;
 
     UserData[] userData = new UserData[11];
     RankData[] rankData = new RankData[11];
@@ -71,12 +74,25 @@ public class RankingActivity extends AppCompatActivity {
         ConvertUserDataToRankData();
         InitializeRankData();
 
+        ListView userListView = (ListView)findViewById(R.id.user_listView);
+        userListView.setDivider(null);
+        final RankingCustomAdapter myUserAdapter = new RankingCustomAdapter(this,userDataList);
+        userListView.setAdapter(myUserAdapter);
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+
+                RankData rankData = myUserAdapter.getItem(position);
+                Intent intent = new Intent(RankingActivity.this, RankPopUpActivity.class);
+                intent.putExtra("rankData", rankData);
+                startActivity(intent);
+            }
+        });
+
         ListView listView = (ListView)findViewById(R.id.listView);
         listView.setDivider(null);
         final RankingCustomAdapter myAdapter = new RankingCustomAdapter(this,rankDataList);
-
         listView.setAdapter(myAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
@@ -98,9 +114,14 @@ public class RankingActivity extends AppCompatActivity {
 
     public void InitializeRankData()
     {
-        rankDataList = new ArrayList<RankData>();
+        // put user data
+        userDataList = new ArrayList<RankData>();
+        rankData[size - 1].isUser = true;
+        userDataList.add(rankData[size - 1]);
 
-        for(int i = 0;i<size;i++){
+        // add 1st~10th user's data
+        rankDataList = new ArrayList<RankData>();
+        for(int i = 0;i<size - 1;i++){
             rankDataList.add(rankData[i]);
         }
     }
