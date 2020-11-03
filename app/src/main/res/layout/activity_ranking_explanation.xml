@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
     android:background="@drawable/popup_small"
     tools:context=".RankingExplanationActivity">
 
@@ -21,9 +21,9 @@
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="대회 준비중..."
+        android:text="점수 획득방법\n\n산책거리 1km당 200점.\n산책 스팟 도달 시 500점.\n쪽지 작성시 100점. (하루 3회 제한)\n게시물 작성시 50점. (하루 3회 제한)\n랜덤하게 등장하는 보물 발견 시 300점. (하루 3회 제한)"
         android:textColor="#707070"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
