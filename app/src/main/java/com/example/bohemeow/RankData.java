@@ -13,6 +13,7 @@ public class RankData implements Serializable {
     public int catType;
     public int rank;
     public String introduction;
+    public boolean isUser;
 
     public RankData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -28,6 +29,7 @@ public class RankData implements Serializable {
         this.level = level;
         this.rank =rank;
         this.introduction = introduction;
+        this.isUser = false;
     }
 
     public Map<String, Object> toMap() {
@@ -42,6 +44,7 @@ public class RankData implements Serializable {
         result.put("catType", catType);
         result.put("rank", rank);
         result.put("introduction", introduction);
+        result.put("isUser", isUser);
 
         return result;
     }
