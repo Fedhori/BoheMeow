@@ -69,7 +69,7 @@ public class CommunityActivity extends AppCompatActivity {
 
 
         // get user icon
-        mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
+        //mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
 
 
         // view pager
@@ -107,10 +107,12 @@ public class CommunityActivity extends AppCompatActivity {
                     mArrayList.add(data);
                 }
 
-                String[] lastWriters = {mArrayList.get(0).getUsername(), mArrayList.get(1).getUsername(), mArrayList.get(2).getUsername()};
-                String lastDate = mArrayList.get(2).getTime();
+                if(mArrayList.size() >= 3){
+                    String[] lastWriters = {mArrayList.get(0).getUsername(), mArrayList.get(1).getUsername(), mArrayList.get(2).getUsername()};
+                    String lastDate = mArrayList.get(2).getTime();
 
-                isWritable = checkWritable(lastWriters, lastDate);
+                    isWritable = checkWritable(lastWriters, lastDate);
+                }
             }
 
             @Override

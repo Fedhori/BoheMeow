@@ -240,7 +240,7 @@ public class WritePostActivity extends AppCompatActivity{
 
                             ref.child("level").setValue(user_totalPoint + totalPoint);
                             ref.child("point").setValue(point + totalPoint);
-                            Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +50경험치", Toast.LENGTH_LONG).show();
+                            Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
                         }
                         ref.child("lastPost").child("num").setValue(num + 1);
@@ -253,7 +253,7 @@ public class WritePostActivity extends AppCompatActivity{
                         ref.child("point").setValue(point + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
-                        Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +50경험치", Toast.LENGTH_LONG).show();
+                        Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
                     }
                     isUpdated = true;

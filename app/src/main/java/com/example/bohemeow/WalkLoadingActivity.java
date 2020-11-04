@@ -352,6 +352,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             isDone = true;
         }
 
+
+
         if(!isDone) {
             System.out.println("\ntype:2");
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
@@ -466,7 +468,10 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     }
                 }
 
-                if(spots.size() < num) num = spots.size(); //최종 후보가 원래 뽑으려던 스팟 수보다 적을경우 뽑으려던 수 변경
+                if(spots.size() < num) {
+                    num = spots.size(); //최종 후보가 원래 뽑으려던 스팟 수보다 적을경우 뽑으려던 수 변경
+                    System.out.println("\nchanged num : " + num);
+                }
 
                 if(num > 0) chooseSpot(spots, num);
                 else {
