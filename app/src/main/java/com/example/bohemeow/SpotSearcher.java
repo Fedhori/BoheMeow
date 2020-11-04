@@ -67,7 +67,7 @@ public class SpotSearcher {
         String uri;
 
         if(nextPage){
-            uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=" + page_token + "&key=AIzaSyDS_hnV0LrPuy7UTzaZf73zK5XXHWgXsdk";
+            uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=" + page_token + "&key=" + key;
         }else{
             uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + type + "+in+" + region +
                     "&region=kr&language=ko&type="+ type +

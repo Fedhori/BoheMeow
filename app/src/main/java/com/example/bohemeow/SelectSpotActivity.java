@@ -583,6 +583,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
             Intent intent = new Intent(SelectSpotActivity.this, SelectActivity.class);
             startActivityForResult(intent, 1);
+            finish();
         }
     }
 }
