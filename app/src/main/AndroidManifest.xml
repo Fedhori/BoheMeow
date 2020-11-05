@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bohemeow">
+    package="com.bohemeow.bohemeow">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
@@ -20,148 +20,148 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".GrowthActivity"
+            android:name="com.bohemeow.bohemeow.GrowthActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".RankingExplanationActivity"
+            android:name="com.bohemeow.bohemeow.RankingExplanationActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".NotePopUpActivity"
+            android:name="com.bohemeow.bohemeow.NotePopUpActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".BackToSelectActivity"
+            android:name="com.bohemeow.bohemeow.BackToSelectActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".RankPopUpActivity"
+            android:name="com.bohemeow.bohemeow.RankPopUpActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".WalkEndPopUpActivity"
+            android:name="com.bohemeow.bohemeow.WalkEndPopUpActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".BugReportActivity"
+            android:name="com.bohemeow.bohemeow.BugReportActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigEditIntroductionActivity"
+            android:name="com.bohemeow.bohemeow.ConfigEditIntroductionActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".RankUserInfoActivity"
+            android:name="com.bohemeow.bohemeow.RankUserInfoActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".RankActivity"
+            android:name="com.bohemeow.bohemeow.RankActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigEditWeightActivity"
+            android:name="com.bohemeow.bohemeow.ConfigEditWeightActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigEditPasswordActivity"
+            android:name="com.bohemeow.bohemeow.ConfigEditPasswordActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".PopupActivity"
+            android:name="com.bohemeow.bohemeow.PopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".PostPopupActivity"
+            android:name="com.bohemeow.bohemeow.PostPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".DelPopupActivity"
+            android:name="com.bohemeow.bohemeow.DelPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".SelectSpotPopupActivity"
+            android:name="com.bohemeow.bohemeow.SelectSpotPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".DelSpotPopupActivity"
+            android:name="com.bohemeow.bohemeow.DelSpotPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".TutorialPopupActivity"
+            android:name="com.bohemeow.bohemeow.TutorialPopupActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
-        <activity android:name=".WalkLoadingActivity"
+        <activity android:name="com.bohemeow.bohemeow.WalkLoadingActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SelectSpotActivity"
+        <activity android:name="com.bohemeow.bohemeow.SelectSpotActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".RankingActivity"
+        <activity android:name="com.bohemeow.bohemeow.RankingActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".WalkEndActivity"
+        <activity android:name="com.bohemeow.bohemeow.WalkEndActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.bohemeow.bohemeow.LoginActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".RegisterActivity"
+        <activity android:name="com.bohemeow.bohemeow.RegisterActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SurveyActivity"
+        <activity android:name="com.bohemeow.bohemeow.SurveyActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SurveyResultActivity"
+        <activity android:name="com.bohemeow.bohemeow.SurveyResultActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".WalkActivity"
+        <activity android:name="com.bohemeow.bohemeow.WalkActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SelectActivity"
+        <activity android:name="com.bohemeow.bohemeow.SelectActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MainMenu"
+        <activity android:name="com.bohemeow.bohemeow.MainMenu"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SpotSearcher"
+        <activity android:name="com.bohemeow.bohemeow.SpotSearcher"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.bohemeow.bohemeow.MainActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".CommunityActivity"
+        <activity android:name="com.bohemeow.bohemeow.CommunityActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".WritePostActivity"
+        <activity android:name="com.bohemeow.bohemeow.WritePostActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".TutorialActivity"
+        <activity android:name="com.bohemeow.bohemeow.TutorialActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".PayActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".WriteCheckActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
+        <activity android:name="com.bohemeow.bohemeow.PayActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".PayReceiptActivity"
+            android:name="com.bohemeow.bohemeow.WriteCheckActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".EditPostActivity"
+            android:name="com.bohemeow.bohemeow.PayReceiptActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".MainConfigActivity"
+            android:name="com.bohemeow.bohemeow.EditPostActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigDelActivity"
+            android:name="com.bohemeow.bohemeow.MainConfigActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigEditActivity"
+            android:name="com.bohemeow.bohemeow.ConfigDelActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigLogoutActivity"
+            android:name="com.bohemeow.bohemeow.ConfigEditActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigBackgroundActivity"
+            android:name="com.bohemeow.bohemeow.ConfigLogoutActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ConfigCharacterActivity"
+            android:name="com.bohemeow.bohemeow.ConfigBackgroundActivity"
             android:theme="@style/Theme.noBackgroundDialog"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".LoadingActivity"
+            android:name="com.bohemeow.bohemeow.ConfigCharacterActivity"
+            android:theme="@style/Theme.noBackgroundDialog"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.bohemeow.bohemeow.LoadingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

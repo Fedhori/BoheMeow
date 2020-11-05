@@ -39,7 +39,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:902016479954:android:5d19e7a658696e9c4cb30b",
         "android_client_info": {
-          "package_name": "com.example.bohemeow"
+          "package_name": "com.bohemeow.bohemeow"
         }
       },
       "oauth_client": [
@@ -47,7 +47,7 @@
           "client_id": "902016479954-ks3515j5gc082r7ofqdl8ckpevoqjdg7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.bohemeow",
+            "package_name": "com.bohemeow.bohemeow",
             "certificate_hash": "fc0b02e0d0a2a0a72602a07a1dd9a94efcd65d34"
           }
         },
