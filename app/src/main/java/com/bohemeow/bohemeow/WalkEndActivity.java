@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +49,11 @@ public class WalkEndActivity extends AppCompatActivity {
 
     boolean isWritten = false;
     boolean isBackToSelect = false;
+
+    // 치팅을 했다고 판정되는 경우 true가 됨
+    boolean isCheating = false;
+    // 유저가 산책을 제대로 진행하지 않았을 경우 true가 됨
+    boolean isTooShort = false;
 
     //set cat image
     int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
@@ -148,10 +154,23 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
+        int catType = registerInfo.getInt("userCatType", 1);
+        ImageView catFace = findViewById(R.id.catFace);
+        catFace.setImageResource(icons[(int)user_catType]);
+
         distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 
         if(totalMoveLength != 0){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
+
+            // 100m도 안 움직였어?
+            if(totalMoveLength <= 100d){
+                isTooShort = true;
+            }
+            // 20분(1200000ms) 이하에서 1km를 3분(180초)만에 완주하는 페이스이거나, 평균 4분만에 완주하는 페이스 -> 치팅!
+            if((realWalkTime < 1200000 && paceTime < 180) || paceTime < 240){
+                isCheating = true;
+            }
 
             minute = paceTime / 60;
             paceTime %= 60;
@@ -175,7 +194,7 @@ public class WalkEndActivity extends AppCompatActivity {
             pace.setText(paceText);
         }
         else{
-            pace.setText("데이터가 부족합니다.");
+            isTooShort = true;
         }
 
         score.setText(String.valueOf(totalPoint));
@@ -189,8 +208,26 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
-        // update value to firebase
-        updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
+        if(!isCheating && !isTooShort){
+            // update value to firebase
+            updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
+        }
+        else{
+            comment = findViewById(R.id.comment);
+            if(isCheating){
+                Toast.makeText(WalkEndActivity.this, "산책이 정상적으로 진행이 되지 않았음이 감지되어 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
+                comment.setText("뭔가 이상하다옹..");
+            }
+            else {
+                Toast.makeText(WalkEndActivity.this, "산책을 너무 짧게 진행하여 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
+                comment.setText("너무 조금 걸었다옹..");
+            }
+
+            if(isBackToSelect){
+                intent = new Intent(WalkEndActivity.this, SelectActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
 
@@ -231,9 +268,6 @@ public class WalkEndActivity extends AppCompatActivity {
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
                     TextView totalCount_tv = findViewById(R.id.total_walk_count);
-
-                    ImageView catFace = findViewById(R.id.catFace);
-                    catFace.setImageResource(icons[(int)user_catType]);
 
                     long totalTime = user_totalWalkTime + totalWalkTime; // ms
                     long hour;

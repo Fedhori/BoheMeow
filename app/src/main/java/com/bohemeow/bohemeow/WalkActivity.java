@@ -256,6 +256,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             Log.w("asd", lats[i] + " " + lats[i]);
         }
 
+        double lastLat = (double) registerInfo.getFloat("lastLat", 0);
+        double lastLng = (double) registerInfo.getFloat("lastLng", 0);
 
         // set screen to start position
         tMapView.setLocationPoint(lngs[0], lats[0]);
@@ -810,9 +812,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     void checkNearSpot(double user_lat, double user_lng){
         // except first spot (which is start point)
-        for(int i = 1;i<arr_length;i++){
+        for(int i = 0;i<arr_length;i++){
             // if user is nearer than 50m at the point & not visited yet
-            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i] && lapNum > 1){
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 500;
