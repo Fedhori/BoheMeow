@@ -75,7 +75,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     double curLat, curLng;
     String markerID;
 
-    boolean isJumped = false;
+    //boolean isJumped = false;
 
     ArrayList<TMapPoint> spots = new ArrayList<>();
     ArrayList<location> locs = new ArrayList<>();
@@ -109,12 +109,16 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
                 sortSpot();
 
+                /*
                 for(location l : locs){
                     addCoordinationID(l.lat, l.lng);
                 }
 
+                 */
+
                 double[] lats = {-1, -1, -1, -1, -1, -1, -1};
                 double[] lngs = {-1, -1, -1, -1, -1, -1, -1};
+                /*
                 if(isJumped){ //출발지가 삭제된 경우 남은 스팟들로만 계산
                     int i = 0;
                     for(location l : locs){
@@ -126,17 +130,20 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     lngs[i] = lngs[0];
                 }
                 else{ //출발지가 보존된 경우 원래대로 경로 계산
-                    lats[0] = startLat;
-                    lngs[0] = startLng;
-                    int i = 1;
-                    for(location l : locs){
-                        lats[i] = l.lat;
-                        lngs[i] = l.lng;
-                        i++;
-                    }
-                    lats[i] = startLat;
-                    lngs[i] = startLng;
+
+                 */
+                lats[0] = startLat;
+                lngs[0] = startLng;
+                int i = 1;
+                for(location l : locs){
+                    addCoordinationID(l.lat, l.lng);
+                    lats[i] = l.lat;
+                    lngs[i] = l.lng;
+                    i++;
                 }
+                lats[i] = startLat;
+                lngs[i] = startLng;
+                //}
 
                 ArrayList<Double> lastLats = new ArrayList<>();
                 ArrayList<Double> lastLngs = new ArrayList<>();
@@ -202,17 +209,22 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     //Log.e("MARKER ID : ", ""+ markerlist.get(0));
                     TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
                     markerID = markerItem.getID();
-                    TMapPoint point = markerItem.getTMapPoint();
-                    curLat = point.getLatitude();
-                    curLng = point.getLongitude();
 
-                    Intent intent = new Intent(SelectSpotActivity.this, DelSpotPopupActivity.class);
-                    intent.putExtra("lat", curLat);
-                    intent.putExtra("lng", curLng);
-                    startActivityForResult(intent, 1);
-                    //System.out.println("\nID: " + MarkerID + ", loc = " + p.getLongitude() + p.getLatitude());
+                    if(markerID.equals("0")){
+                        Toast.makeText(SelectSpotActivity.this, "시작점은 삭제할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        TMapPoint point = markerItem.getTMapPoint();
+                        curLat = point.getLatitude();
+                        curLng = point.getLongitude();
 
 
+                        Intent intent = new Intent(SelectSpotActivity.this, DelSpotPopupActivity.class);
+                        intent.putExtra("lat", curLat);
+                        intent.putExtra("lng", curLng);
+                        startActivityForResult(intent, 1);
+                        //System.out.println("\nID: " + MarkerID + ", loc = " + p.getLongitude() + p.getLatitude());
+                    }
                 }
                 return false;
             }
@@ -237,7 +249,8 @@ public class SelectSpotActivity extends AppCompatActivity  {
                 if(num >= 4){
                     Toast.makeText(SelectSpotActivity.this, "스팟을 4개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
-                else if (distFrom(curLat, curLng, startLat, startLng) < 400 && !isJumped) {
+                //else if (distFrom(curLat, curLng, startLat, startLng) < 800 && !isJumped) {
+                else if (distFrom(curLat, curLng, startLat, startLng) < 700) {
                     Toast.makeText(SelectSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(isNear(curLat, curLng)){
@@ -326,7 +339,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
         TMapCircle tMapCircle = new TMapCircle();
         tMapCircle.setCenterPoint(position);
-        tMapCircle.setRadius(400);
+        tMapCircle.setRadius(800);
         tMapCircle.setCircleWidth(2);
         tMapCircle.setLineColor(Color.BLUE);
         tMapCircle.setAreaColor(Color.GRAY);
@@ -379,18 +392,21 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     break;
                 case 2:
                     num -= 1;
+                    /*
                     if(markerID.equals("0")) {
                         isJumped = true;
                     }
                     else {
-                        for(location l:locs){
-                            if(l.lat == curLat && l.lng == curLng){
-                                locs.remove(l);
-                                System.out.println("\nDeleted");
-                                break;
-                            }
+
+                     */
+                    for(location l:locs){
+                        if(l.lat == curLat && l.lng == curLng){
+                            locs.remove(l);
+                            System.out.println("\nDeleted");
+                            break;
                         }
                     }
+                    //}
                     tMapView.removeMarkerItem(markerID);
                     break;
                 default:
@@ -403,7 +419,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     boolean isNear(double lat, double lng){
 
         for(location l : locs){
-            if(distFrom(lat, lng, l.lat, l.lng) < 400){
+            if(distFrom(lat, lng, l.lat, l.lng) < 800){
                 return true;
             }
         }
