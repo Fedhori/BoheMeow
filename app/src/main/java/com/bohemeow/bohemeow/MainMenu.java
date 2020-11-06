@@ -53,6 +53,8 @@ public class MainMenu extends AppCompatActivity {
 
     double lastLat, lastLng;
 
+    int maxRankUser = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -365,12 +367,12 @@ public class MainMenu extends AppCompatActivity {
 
     public void getRankingAndStartRankActivity(){
         // save user data
-        final UserData[] userData = new UserData[11];
+        final UserData[] userData = new UserData[maxRankUser + 1];
         // save rank number
-        final int[] rank = new int[11];
+        final int[] rank = new int[maxRankUser + 1];
 
         final DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
-        final Query[] query = {mPostReference.orderByChild("level").limitToLast(10)};
+        final Query[] query = {mPostReference.orderByChild("level").limitToLast(maxRankUser)};
         query[0].addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -406,13 +408,13 @@ public class MainMenu extends AppCompatActivity {
 
                                     int index;
 
-                                    // if there are lesser than 10 users, index should be changed
-                                    if(size < 10){
+                                    // if there are lesser than 100 users, index should be changed
+                                    if(size < maxRankUser){
                                         index = size;
                                     }
-                                    // else, it will located in 11th index of array
+                                    // else, it will located in 101th index of array
                                     else{
-                                        index = 10;
+                                        index = maxRankUser;
                                     }
 
                                     userData[index] = issue.getValue(UserData.class);
@@ -426,11 +428,11 @@ public class MainMenu extends AppCompatActivity {
                         Intent intent = new Intent(MainMenu.this, RankingActivity.class);
                         intent.putExtra("rank", rank);
                         intent.putExtra("userData", userData);
-                        if(size < 10){
+                        if(size < maxRankUser){
                             intent.putExtra("size", size+1);
                         }
                         else{
-                            intent.putExtra("size", 11);
+                            intent.putExtra("size", maxRankUser + 1);
                         }
                         startActivity(intent);
                     }

@@ -74,12 +74,12 @@
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="80dp"
                 android:text="캐릭터"
                 android:textColor="#B3707070"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView25"
-                app:layout_constraintStart_toEndOf="@+id/textView25" />
+                app:layout_constraintStart_toStartOf="@+id/imageView35" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -97,18 +97,18 @@
                 android:id="@+id/textView28"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="56dp"
+                android:layout_marginStart="24dp"
                 android:text="닉네임"
                 android:textColor="#B3707070"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView27"
-                app:layout_constraintEnd_toStartOf="@+id/textView27" />
+                app:layout_constraintStart_toEndOf="@+id/textView26" />
 
             <TextView
                 android:id="@+id/textView27"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="28dp"
                 android:layout_marginBottom="8dp"
                 android:text="경험치"
                 android:textColor="#B3707070"

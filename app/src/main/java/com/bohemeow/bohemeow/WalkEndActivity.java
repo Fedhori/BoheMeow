@@ -156,7 +156,7 @@ public class WalkEndActivity extends AppCompatActivity {
 
         int catType = registerInfo.getInt("userCatType", 1);
         ImageView catFace = findViewById(R.id.catFace);
-        catFace.setImageResource(icons[(int)user_catType]);
+        catFace.setImageResource(icons[catType]);
 
         distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 

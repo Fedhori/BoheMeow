@@ -15,7 +15,7 @@
         android:fontFamily="@font/mapopeacefull"
         android:text="의 한마디"
         android:textColor="#707070"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/level"
         app:layout_constraintStart_toStartOf="@+id/level" />
 

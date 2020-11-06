@@ -18,9 +18,12 @@ public class RankingActivity extends AppCompatActivity {
     ArrayList<RankData> rankDataList;
     ArrayList<RankData> userDataList;
 
-    UserData[] userData = new UserData[11];
-    RankData[] rankData = new RankData[11];
-    int[] rank = new int[11];
+    // !!!this value must synchronize with MainMenu's maxRankUser variable!!!
+    int maxRankUser = 100;
+
+    UserData[] userData = new UserData[maxRankUser + 1];
+    RankData[] rankData = new RankData[maxRankUser + 1];
+    int[] rank = new int[maxRankUser + 1];
     int size;
 
     @Override
@@ -40,7 +43,7 @@ public class RankingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userData = (UserData[]) intent.getSerializableExtra("userData");
         rank = intent.getIntArrayExtra("rank");
-        size = intent.getIntExtra("size", 11);
+        size = intent.getIntExtra("size", maxRankUser + 1);
 
         ConvertUserDataToRankData();
         InitializeRankData();
