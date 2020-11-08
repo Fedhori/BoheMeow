@@ -39,7 +39,7 @@
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
-        android:text="버그 제보"
+        android:text="버그 및 신고 제보"
         android:textColor="#707070"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
