@@ -125,7 +125,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int maxNoteNumber = 3;
 
     // how many notes will user find in walk screen
-    int maxFindNote = 3;
+    int maxFindNote = 10;
+    int maxNoteCapacity = 100;
 
     // how long can user can find notes?
     double maxNoteDist = 100d; // meter
@@ -141,7 +142,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     double curLat, curLng;
     String markerID;
 
-    NoteData[] noteDatas = new NoteData[32]; // I know data is already plural.. however, I want to express multiple data!
+    // I know data are already plural.. however, I want to express multiple data!
+    NoteData[] noteDatas = new NoteData[32];
     int noteCnt = 0;
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
@@ -266,7 +268,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         prevLat = lats[0];
         prevLong = lngs[0];
 
-        findNotes(prevLat, prevLong, maxFindNote, maxNoteDist);
+        findNotes(prevLat, prevLong, maxFindNote, maxNoteCapacity, maxNoteDist);
 
         userRoute = new TMapPolyLine();
         userRoute.setLineColor(Color.RED);
@@ -520,7 +522,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                     curMoveLength = 0f;
                 }
-                // 충분히 걸었고, 만일 오늘 아직 쪽지를 3개 이상 발견하지 않았다면 쪽지 발견 함수를 호출한다.
+                // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
                 if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
                     findLots();
                 }
@@ -780,12 +782,13 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawNoteMarker(data);
     }
 
-    public void findNotes(final double user_latitude, final double user_longitude, final int maxFindNote, final double maxNoteDist){
+    public void findNotes(final double user_latitude, final double user_longitude, final int maxFindNote, final int maxNoteCapacity, final double maxNoteDist){
         mPostReference.child("note_list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 int curFindNote = 0;
+                NoteData[] noteData = new NoteData[maxNoteCapacity];
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     NoteData get = postSnapshot.getValue(NoteData.class);
@@ -793,12 +796,29 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     // if note is located inside of maxNoteDist's range
                     if(distFrom(get.latitude, get.longitude, user_latitude, user_longitude) < maxNoteDist){
 
-                        drawNoteMarker(get);
+                        noteData[curFindNote] = get;
 
                         curFindNote++;
-                        if(curFindNote >= maxFindNote){
+                        if(curFindNote >= maxNoteCapacity){
                             break;
                         }
+                    }
+                }
+
+                int[] arr = new int[curFindNote];
+                for(int i = 0; i < curFindNote; i++){
+                    arr[i] = i;
+                }
+                arr = shuffle(arr);
+
+                if(maxFindNote < curFindNote){
+                    for(int i = 0;i<maxFindNote; i++){
+                        drawNoteMarker(noteData[arr[i]]);
+                    }
+                }
+                else{
+                    for(int i = 0;i<curFindNote; i++){
+                        drawNoteMarker(noteData[arr[i]]);
                     }
                 }
             }
@@ -810,11 +830,26 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
+    int[] shuffle(int[] arr){
+        Random rand = new Random();
+
+        int length = arr.length;
+
+        for (int i = 0; i < arr.length; i++) {
+            int randomIndexToSwap = rand.nextInt(length);
+            int temp = arr[randomIndexToSwap];
+            arr[randomIndexToSwap] = arr[i];
+            arr[i] = temp;
+        }
+
+        return arr;
+    }
+
     void checkNearSpot(double user_lat, double user_lng){
         // except first spot (which is start point)
-        for(int i = 0;i<arr_length;i++){
+        for(int i = 1;i<arr_length;i++){
             // if user is nearer than 50m at the point & not visited yet
-            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i] && lapNum > 1){
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 500;
