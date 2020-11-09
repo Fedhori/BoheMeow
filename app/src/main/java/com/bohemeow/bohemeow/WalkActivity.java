@@ -517,8 +517,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     addCoordinationID(latitude, longtitude);
 
                     checkNearSpot(latitude, longtitude);
-                    // 10m당 2점이니까, 30m(maxMoveLength)당 3점
-                    totalPoint+=6;
+                    // 10m당 1점이니까, 30m(maxMoveLength)당 3점
+                    totalPoint+=3;
 
                     // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
@@ -713,8 +713,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
                 if(todayCount <= 3){
-                    Toast.makeText(WalkActivity.this, "쪽지 작성! +100포인트", Toast.LENGTH_LONG).show();
-                    totalPoint += 100;
+                    Toast.makeText(WalkActivity.this, "쪽지 작성! +50포인트", Toast.LENGTH_LONG).show();
+                    totalPoint += 50;
                 }
 
                 // 로컬 데이터에 다시 업데이트
@@ -856,14 +856,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
                 isVisited[i] = true;
                 // add 500 point!
-                totalPoint += 500;
+                totalPoint += 300;
                 spotCount++;
 
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.point_selected);
                 bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
                 markerlist.get(i).setIcon(bitmap);
 
-                Toast.makeText(WalkActivity.this, "스팟 도달! +500경험치", Toast.LENGTH_LONG).show();
+                Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -924,8 +924,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         mPostReference.updateChildren(childUpdates);
          */
 
-        Toast.makeText(WalkActivity.this, "보물 발견! +300포인트!", Toast.LENGTH_LONG).show();
-        totalPoint += 300;
+        Toast.makeText(WalkActivity.this, "보물 발견! +100포인트!", Toast.LENGTH_LONG).show();
+        totalPoint += 100;
 
         // 실제 오늘 날짜를 구한다.
         Date currentTime = Calendar.getInstance().getTime();
