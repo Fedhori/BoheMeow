@@ -129,8 +129,6 @@ public class WalkEndActivity extends AppCompatActivity {
         double[] visitedLats = intent.getDoubleArrayExtra("visitedLats");
         double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
 
-        Log.d("asdf", "" + visitedSize);
-
         for(int i = 0;i<visitedSize;i++){
             drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.point_start);
         }
@@ -308,6 +306,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = registerInfo.edit();
                     editor.putInt("exp", (int)(user_totalPoint + totalPoint));
+                    editor.putInt("totalSpotCount", (int)(user_totalSpotCount + spotCount));
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
@@ -368,7 +367,7 @@ public class WalkEndActivity extends AppCompatActivity {
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
 
-                        if(cur_level == 3 || cur_level == 10){
+                        if(cur_level == 10){
                             editor.putBoolean("isGrowth", true);
                             editor.commit();
                         }
