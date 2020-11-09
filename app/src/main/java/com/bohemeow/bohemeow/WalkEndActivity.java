@@ -38,10 +38,12 @@ public class WalkEndActivity extends AppCompatActivity {
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
     long realWalkTime = 0; // 얼마나 오래 실제로 걸었는가? 단위: ms
     long totalPoint = 0;
+    long spotCount = 0;
 
     long user_realWalkTime;
     long user_totalWalkTime;
     long user_totalWalkCount;
+    long user_totalSpotCount;
     double user_totalMoveLength;
     long user_totalPoint;
     long user_totalRealPoint;
@@ -92,6 +94,7 @@ public class WalkEndActivity extends AppCompatActivity {
         totalWalkTime = intent.getLongExtra("totalWalkTime", -1);
         realWalkTime = intent.getLongExtra("realWalkTime", -1);
         totalPoint = intent.getLongExtra("totalPoint", -1);
+        spotCount = intent.getLongExtra("spotCount", 0);
 
         TextView time = findViewById(R.id.time_view);
         TextView distance = findViewById(R.id.dis_view);
@@ -100,7 +103,7 @@ public class WalkEndActivity extends AppCompatActivity {
         callory = findViewById(R.id.cal_view);
         TextView score = findViewById(R.id.score_view);
 
-        long totalTime = totalWalkTime; // ms
+        long totalTime = realWalkTime; // ms
         long hour;
         long minute;
         long second;
@@ -248,6 +251,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     user_realWalkTime = (long) dataSnapshot.child("realWalkTime").getValue();
                     user_totalWalkTime = (long) dataSnapshot.child("totalWalkTime").getValue();
                     user_totalWalkCount = (long) dataSnapshot.child("totalWalkCount").getValue();
+                    user_totalSpotCount = (long) dataSnapshot.child("totalSpotCount").getValue();
                     // Double.class를 한 이유는, Firebase에서 0을 가져오면 그냥 Long으로 취급해버림. 그래서 타입 캐스팅 오류가 발생하므로 이를 방지하고자 Double형으로 받아오도록 명시해줘야 함
                     user_totalMoveLength = dataSnapshot.child("totalWalkLength").getValue(Double.class);
                     user_totalPoint = (long) dataSnapshot.child("level").getValue();
@@ -257,6 +261,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
                     ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
                     ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
+                    ref.child("totalSpotCount").setValue(user_totalSpotCount + spotCount);
                     ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
                     ref.child("level").setValue(user_totalPoint + totalPoint);
                     ref.child("point").setValue(user_totalRealPoint + totalPoint);
@@ -269,7 +274,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
                     TextView totalCount_tv = findViewById(R.id.total_walk_count);
 
-                    long totalTime = user_totalWalkTime + totalWalkTime; // ms
+                    long totalTime = user_realWalkTime + realWalkTime; // ms
                     long hour;
                     long minute;
                     long second;

@@ -146,6 +146,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     NoteData[] noteDatas = new NoteData[32];
     int noteCnt = 0;
 
+    int spotCount = 0;
+
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
     String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
@@ -732,6 +734,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
+                intent.putExtra("spotCount", spotCount);
 
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -748,6 +751,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
+                intent.putExtra("spotCount", spotCount);
 
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -853,6 +857,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 500;
+                spotCount++;
 
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.point_selected);
                 bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);

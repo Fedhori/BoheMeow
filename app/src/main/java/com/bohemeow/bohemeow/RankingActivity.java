@@ -81,7 +81,7 @@ public class RankingActivity extends AppCompatActivity {
 
     public void ConvertUserDataToRankData(){
         for(int i = 0;i<size;i++){
-            rankData[i] = new RankData(userData[i].nickname, userData[i].catType, userData[i].totalWalkLength, userData[i].totalWalkTime, userData[i].totalWalkCount,
+            rankData[i] = new RankData(userData[i].nickname, userData[i].catType, userData[i].totalWalkLength, userData[i].realWalkTime, userData[i].totalWalkCount,
                     userData[i].level, rank[i], userData[i].introduction);
         }
     }

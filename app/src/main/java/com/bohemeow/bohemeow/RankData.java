@@ -7,7 +7,7 @@ import java.util.Map;
 public class RankData implements Serializable {
     public String nickname;
     public double totalWalkLength;
-    public long totalWalkTime;
+    public long realWalkTime;
     public int totalWalkCount;
     public int level;
     public int catType;
@@ -19,12 +19,12 @@ public class RankData implements Serializable {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public RankData(String nickname, int catType, double totalWalkLength, long totalWalkTime, int totalWalkCount, int level, int rank, String introduction) {
+    public RankData(String nickname, int catType, double totalWalkLength, long realWalkTime, int totalWalkCount, int level, int rank, String introduction) {
         // set by constructor
         this.nickname = nickname;
         this.catType = catType;
         this.totalWalkLength = totalWalkLength;
-        this.totalWalkTime = totalWalkTime;
+        this.realWalkTime = realWalkTime;
         this.totalWalkCount = totalWalkCount;
         this.level = level;
         this.rank =rank;
@@ -38,7 +38,7 @@ public class RankData implements Serializable {
 
         result.put("nickname", nickname);
         result.put("totalWalkLength", totalWalkLength);
-        result.put("totalWalkTime", totalWalkTime);
+        result.put("realWalkTime", realWalkTime);
         result.put("totalWalkCount", totalWalkCount);
         result.put("level", level);
         result.put("catType", catType);

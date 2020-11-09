@@ -54,7 +54,7 @@ public class RankPopUpActivity extends Activity {
         TextView walkCountTV = findViewById(R.id.walkCount);
         walkCountTV.setText("산책횟수: " + rankData.totalWalkCount + "회");
 
-        long totalTime = rankData.totalWalkTime; // ms
+        long totalTime = rankData.realWalkTime; // ms
         long hour;
         long minute;
         long second;

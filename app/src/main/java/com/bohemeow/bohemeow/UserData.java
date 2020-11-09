@@ -12,6 +12,7 @@ public class UserData implements Serializable {
     public double totalWalkLength;
     public long totalWalkTime;
     public int totalWalkCount;
+    public int totalSpotCount;
     public long realWalkTime;
     public int level;
     public int point;
@@ -46,6 +47,7 @@ public class UserData implements Serializable {
         this.totalWalkLength = 0;
         this.totalWalkTime = 0;
         this.totalWalkCount = 0;
+        this.totalSpotCount = 0;
         this.realWalkTime = 0;
         this.level = 0;
         this.point = 0;
@@ -70,6 +72,7 @@ public class UserData implements Serializable {
         result.put("totalWalkLength", totalWalkLength);
         result.put("totalWalkTime", totalWalkTime);
         result.put("totalWalkCount", totalWalkCount);
+        result.put("totalSpotCount", totalSpotCount);
         result.put("realWalkTime", realWalkTime);
         result.put("weight", weight);
         result.put("level", level);

@@ -72,7 +72,7 @@ public class MainConfigActivity extends Activity {
         int distance = (int) userData.totalWalkLength;
         total_dis.setText(Integer.toString(distance) + "m");
 
-        long totalTime = userData.totalWalkTime; // ms
+        long totalTime = userData.realWalkTime; // ms
         long hour;
         long minute;
         long second;
