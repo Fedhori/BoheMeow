@@ -235,6 +235,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
+        final FAQDAta[] faqData = getFaqData();
+        Button FAQ_btn = findViewById(R.id.walk_FAQbrtn);
+        FAQ_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WalkActivity.this, FAQActivity.class);
+                intent.putExtra("faqData", faqData);
+                startActivityForResult(intent, 1);
+            }
+        });
+
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
@@ -958,6 +969,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             tMapView.addTMapPolyLine(Integer.toString(i), routePolyLines[i]);
         }
         isRouteRemoved = false;
+    }
+
+    FAQDAta[] getFaqData(){
+        return new FAQDAta[]{
+                new FAQDAta("나는 강을 지키고 있는 진기다. 누군지 이름을 밝혀라!", "관우"),
+                new FAQDAta("어디로 가는 길이오?", "하북"),
+                new FAQDAta("통행증은 갖고 있겠지?", "그런 건 없다")
+        };
     }
 /*
     void sortSpot(ArrayList<Spot> selected){

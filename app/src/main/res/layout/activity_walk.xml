@@ -28,6 +28,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            android:id="@+id/walk_FAQbrtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FAQ"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
             android:id="@+id/hideAndShowBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -55,13 +63,12 @@
             android:id="@+id/asda"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginEnd="20dp"
             android:gravity="center_vertical|center"
             android:text="산책 거리"
             android:textColor="#57A0FB"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/distText"
+            app:layout_constraintStart_toEndOf="@+id/timeText"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -69,13 +76,12 @@
             android:id="@+id/distText"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginEnd="28dp"
             android:gravity="center_vertical|left"
             android:text="0.00km"
             android:textColor="#0072FF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/asda"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -83,13 +89,12 @@
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginEnd="20dp"
             android:gravity="center_vertical|left"
             android:text="00:00"
             android:textColor="#0072FF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/asda"
+            app:layout_constraintStart_toEndOf="@+id/asda2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 

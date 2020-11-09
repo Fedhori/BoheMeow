@@ -27,6 +27,7 @@ public class MainConfigActivity extends Activity {
     Button logout_btn;
     Button delacc_btn;
     Button bugreport_btn;
+    Button FAQ_btn;
 
     ProgressBar progressBar;
 
@@ -165,7 +166,16 @@ public class MainConfigActivity extends Activity {
             }
         });
 
-
+        final FAQDAta[] faqData = getFaqData();
+        FAQ_btn = findViewById(R.id.FAQ_btn);
+        FAQ_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainConfigActivity.this, FAQActivity.class);
+                intent.putExtra("faqData", faqData);
+                startActivityForResult(intent, 1);
+            }
+        });
 
         progressBar = findViewById(R.id.progressbar);
 
@@ -180,6 +190,14 @@ public class MainConfigActivity extends Activity {
 
         progressBar.setProgress((int)currentLevel);
 
+    }
+
+    FAQDAta[] getFaqData(){
+        return new FAQDAta[]{
+                new FAQDAta("나는 강을 지키고 있는 진기다. 누군지 이름을 밝혀라!", "관우"),
+                new FAQDAta("어디로 가는 길이오?", "하북"),
+                new FAQDAta("통행증은 갖고 있겠지?", "그런 건 없다")
+        };
     }
 
     @Override

@@ -84,6 +84,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
     }
 
@@ -100,6 +101,17 @@ public class SelectSpotActivity extends AppCompatActivity  {
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
         sub_region = intent.getStringExtra("sub_region");
+
+        final FAQDAta[] faqData = getFaqData();
+        Button addspot_FAQbtn = findViewById(R.id.addspot_FAQbtn);
+        addspot_FAQbtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SelectSpotActivity.this, FAQActivity.class);
+                intent.putExtra("faqData", faqData);
+                startActivityForResult(intent, 1);
+            }
+        });
 
         walkStart_btn = (Button) findViewById(R.id.walkStart_btn);
         walkStart_btn.setOnClickListener(new View.OnClickListener(){
@@ -316,6 +328,14 @@ public class SelectSpotActivity extends AppCompatActivity  {
         drawPedestrianPath(startPoint, endPoint);
          */
 
+    }
+
+    FAQDAta[] getFaqData(){
+        return new FAQDAta[]{
+                new FAQDAta("나는 강을 지키고 있는 진기다. 누군지 이름을 밝혀라!", "관우"),
+                new FAQDAta("어디로 가는 길이오?", "하북"),
+                new FAQDAta("통행증은 갖고 있겠지?", "그런 건 없다")
+        };
     }
 
 

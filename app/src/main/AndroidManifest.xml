@@ -19,7 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CheckPermissionActivity"></activity>
+        <activity
+            android:name=".FAQActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog"
+            />
+        <activity
+            android:name=".CheckPermissionActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".GrowthActivity"
             android:screenOrientation="portrait" />

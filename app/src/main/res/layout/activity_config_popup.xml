@@ -194,6 +194,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
     <Button
+        android:id="@+id/FAQ_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:text="FAQ"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/delacc_btn"
         android:layout_width="64dp"
         android:layout_height="81dp"
