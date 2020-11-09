@@ -33,6 +33,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -173,7 +174,7 @@ public class WritePostActivity extends AppCompatActivity{
         content = contentET.getText().toString();
 
         if(tagET.getText() != null){
-            tags = tagET.getText().toString();
+            tags = splitTag(tagET.getText().toString());
         }
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
@@ -277,6 +278,21 @@ public class WritePostActivity extends AppCompatActivity{
             level = score/1000 + 1;
         }
         return level;
+    }
+
+    String splitTag(String tags){
+        String tag = "";
+
+        tags= tags.replace("#", " ");
+        tags = tags.replaceAll("\\s+", " ");
+        String[] ta = tags.split(" ");
+        for(String t : ta){
+            System.out.println(t + "+");
+            tag = tag + "#" + t + " ";
+        }
+        tag = tag.replace("# ", "");
+
+        return tag;
     }
 
     @Override

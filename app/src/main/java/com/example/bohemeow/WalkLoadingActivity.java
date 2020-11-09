@@ -192,7 +192,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = registerInfo.edit();
             editor.putFloat("lastLat", (float)userlat);
-            editor.putFloat("lastlng", (float)userlng);
+            editor.putFloat("lastLng", (float)userlng);
             editor.commit();
 
             getRegion(userlat, userlng);
@@ -479,6 +479,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     intent.putExtra("region", region);
                     intent.putExtra("lat", userlat);
                     intent.putExtra("lng", userlng);
+                    intent.putExtra("sub_region", sub_region);
                     //intent.putExtra("spots", sorted);
                     startActivity(intent);
                     WalkLoadingActivity.this.finish();
