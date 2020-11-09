@@ -34,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     String phoneNumber;
 
+    int reservation_reward = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,16 +124,43 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void addNewUser(String new_nickname, String id, String password, int weight, String phoneNumber){
+    public void addNewUser(final String new_nickname, final String id, final String password, final int weight, final String phoneNumber){
 
-        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref;
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-        // default value of userdata is -1,-1,-1 which means, user hadn't complete the survey yet!
-        UserData data = new UserData(new_nickname, id, password, weight, phoneNumber);
-        postValues = data.toMap();
-        childUpdates.put("/user_list/" + new_nickname + "/", postValues);
-        mPostReference.updateChildren(childUpdates);
+        ref = FirebaseDatabase.getInstance().getReference("reservation_list");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                boolean isReserved = false;
+
+                for (DataSnapshot get : dataSnapshot.getChildren()) {
+                    if(get.getValue().toString().equals(phoneNumber)) {
+                        DatabaseReference reservation_user = FirebaseDatabase.getInstance().getReference("reservation_list").child(phoneNumber);
+                        reservation_user.removeValue();
+                        isReserved = true;
+                        break;
+                    }
+                }
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                Map<String, Object> postValues = null;
+                // default value of userdata is -1,-1,-1 which means, user hadn't complete the survey yet!
+                UserData data = new UserData(new_nickname, id, password, weight, phoneNumber);
+                if(isReserved){
+                    data.level = reservation_reward;
+                    data.point = reservation_reward;
+                }
+                postValues = data.toMap();
+                childUpdates.put("/user_list/" + new_nickname + "/", postValues);
+                mPostReference.updateChildren(childUpdates);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
