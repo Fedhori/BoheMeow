@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.skt.Tmap.TMapGpsManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,12 +34,15 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton registerBtn;
     ImageButton loginBtn;
 
+    PermissionManager permissionManager = null; // 권한요청 관리자
+
     //뒤로가기 두번 시 종료되도록 구현 예정
     private long backKeyPressedTime = 0;
 
     String phoneNumber;
     private static final int MY_PERMISSION_REQUEST_CODE_PHONE_STATE = 1;
-    private void askPermissionAndGetPhoneNumbers() {
+    private static final int MY_PERMISSION_REQUEST_CODE_FINE_LOCATION = 2;
+    private void askPhoneNumberPermission() {
 
         // With Android Level >= 23, you have to ask the user
         // for permission to get Phone Number.
@@ -47,11 +51,13 @@ public class LoginActivity extends AppCompatActivity {
             // Check if we have READ_PHONE_STATE permission
             int readPhoneStatePermission = ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.READ_PHONE_STATE);
+            int readLocationStatePermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION);
 
-            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED) {
+            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED) {
                 // If don't have permission so prompt the user.
                 this.requestPermissions(
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSION_REQUEST_CODE_PHONE_STATE
                 );
                 return;
@@ -99,7 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                 // Note: If request is cancelled, the result arrays are empty.
                 // Permissions granted (SEND_SMS).
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     this.getPhoneNumbers();
                 }
                 // Cancelled or denied.
@@ -117,8 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // get phone number
-        askPermissionAndGetPhoneNumbers();
+        askPhoneNumberPermission();
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -219,6 +225,24 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /*
+        permissionManager = new PermissionManager(this); // 권한요청 관리자
+        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
+            // 허가 시 GPS 화면 출력
+            @Override
+            public void granted() {
+
+            }
+
+            // 허가하지 않을 경우 토스트 메시지와 함께 메인 메뉴로 돌려보낸다
+            @Override
+            public void denied() {
+                Toast.makeText(LoginActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+         */
     }
 
     @Override

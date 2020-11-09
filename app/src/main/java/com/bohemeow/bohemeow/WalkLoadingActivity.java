@@ -97,6 +97,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
     }
 

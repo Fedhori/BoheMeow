@@ -166,12 +166,12 @@ public class WalkEndActivity extends AppCompatActivity {
         if(totalMoveLength != 0){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
 
-            // 100m도 안 움직였어?
+            // 100m도 안 움직였어?!!
             if(totalMoveLength <= 100d){
                 isTooShort = true;
             }
-            // 20분(1200000ms) 이하에서 1km를 3분(180초)만에 완주하는 페이스이거나, 평균 4분만에 완주하는 페이스 -> 치팅!
-            if((realWalkTime < 1200000 && paceTime < 180) || paceTime < 240){
+            // 1km를 평균 4분만에 완주하는 페이스 -> 치팅!
+            if(paceTime < 240){
                 isCheating = true;
             }
 

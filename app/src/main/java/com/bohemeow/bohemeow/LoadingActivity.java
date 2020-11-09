@@ -1,11 +1,14 @@
 package com.bohemeow.bohemeow;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
@@ -16,6 +19,8 @@ public class LoadingActivity extends AppCompatActivity {
 
     TextView loadingText;
     long waitingTime = 3000; // millisecond
+    int readPhoneStatePermission;
+    int readLocationStatePermission;
 
     private String[] loadingTexts = {
             "예의바르게 야옹하는 중",
@@ -40,6 +45,13 @@ public class LoadingActivity extends AppCompatActivity {
         editor.commit();
          */
 
+        // Check if we have READ_PHONE_STATE permission
+        readPhoneStatePermission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_PHONE_STATE);
+        readLocationStatePermission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+
         loadingText = findViewById(R.id.loading_text);
         Random random = new Random();
         loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
@@ -53,8 +65,16 @@ public class LoadingActivity extends AppCompatActivity {
             SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
             // user hasn't registered yet
             if(registerInfo.getString("registerUserName", "NULL").equals("NULL")){
-                Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
-                startActivity(intent);
+
+                // permission not granted yey
+                if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(LoadingActivity.this, CheckPermissionActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
             // user already registered
             else{
