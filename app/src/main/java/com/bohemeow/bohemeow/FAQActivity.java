@@ -42,12 +42,9 @@ public class FAQActivity extends Activity {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
                 FAQDAta faqData = myAdapter.getItem(position);
-                /*
                 Intent intent = new Intent(FAQActivity.this, FAQPopupActivity.class);
                 intent.putExtra("faqData", faqData);
                 startActivity(intent);
-
-                 */
             }
         });
     }

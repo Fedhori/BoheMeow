@@ -47,10 +47,8 @@ public class FAQCustomAdapter extends BaseAdapter {
         View view = mLayoutInflater.inflate(R.layout.faq_list_view, null);
 
         TextView question = view.findViewById(R.id.question);
-        TextView answer = view.findViewById(R.id.answer);
 
         question.setText(faqData.get(position).question);
-        answer.setText(faqData.get(position).answer);
 
         return view;
     }

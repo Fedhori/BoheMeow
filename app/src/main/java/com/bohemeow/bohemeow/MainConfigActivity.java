@@ -1,7 +1,9 @@
 package com.bohemeow.bohemeow;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -9,6 +11,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainConfigActivity extends Activity {
 
@@ -177,6 +188,14 @@ public class MainConfigActivity extends Activity {
             }
         });
 
+        Button notice_btn = findViewById(R.id.notice_btn);
+        notice_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getNoticeDataAndStartActivity();
+            }
+        });
+
         progressBar = findViewById(R.id.progressbar);
 
         double currentLevel = 0;
@@ -190,6 +209,32 @@ public class MainConfigActivity extends Activity {
 
         progressBar.setProgress((int)currentLevel);
 
+    }
+
+    void getNoticeDataAndStartActivity(){
+
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+        mPostReference.child("notice_list").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int cnt = 0;
+                NoticeData[] noticeData = new NoticeData[(int)dataSnapshot.getChildrenCount()];
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    noticeData[cnt++] = postSnapshot.getValue(NoticeData.class);
+                }
+
+                Intent intent = new Intent(MainConfigActivity.this, NoticeActivity.class);
+                intent.putExtra("noticeData", noticeData);
+                startActivityForResult(intent, 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     FAQDAta[] getFaqData(){

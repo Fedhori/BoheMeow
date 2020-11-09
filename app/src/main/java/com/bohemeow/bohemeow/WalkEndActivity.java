@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,6 +42,10 @@ public class WalkEndActivity extends AppCompatActivity {
 
     String username;
     String phoneNumber;
+
+    TMapView tMapView;
+
+    int markerCnt = 0;
 
     double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가? 단위: m
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
@@ -95,6 +108,32 @@ public class WalkEndActivity extends AppCompatActivity {
         realWalkTime = intent.getLongExtra("realWalkTime", -1);
         totalPoint = intent.getLongExtra("totalPoint", -1);
         spotCount = intent.getLongExtra("spotCount", 0);
+
+        LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.tmapLinearLayout);
+
+        String strObj = getIntent().getStringExtra("tMapView");
+        Gson gson = new Gson();
+        TMapPolyLine userRoute = gson.fromJson(strObj, TMapPolyLine.class);
+        tMapView = new TMapView(this);
+        tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
+        linearLayoutTmap.addView( tMapView );
+
+        tMapView.addTMapPolyLine("Line1", userRoute);
+
+        double centerLat = intent.getDoubleExtra("centerLat", 0);
+        double centerLng = intent.getDoubleExtra("centerLng", 0);
+
+        tMapView.setCenterPoint(centerLng, centerLat);
+
+        int visitedSize = intent.getIntExtra("visitedSize", 0);
+        double[] visitedLats = intent.getDoubleArrayExtra("visitedLats");
+        double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
+
+        Log.d("asdf", "" + visitedSize);
+
+        for(int i = 0;i<visitedSize;i++){
+            drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.point_start);
+        }
 
         TextView time = findViewById(R.id.time_view);
         TextView distance = findViewById(R.id.dis_view);
@@ -440,5 +479,20 @@ public class WalkEndActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void drawSpotMarker(TMapPoint position, int marker){
+
+        // get bitmap
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), marker);
+        // resize bitmap
+        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+        markerItem.setIcon(bitmap); // 마커 아이콘 지정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setTMapPoint(position); // 마커의 좌표 지정
+        tMapView.addMarkerItem("Spot" + markerCnt++, markerItem); // 지도에 마커 추가
     }
 }

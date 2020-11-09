@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapGpsManager.onLocationChangedCallback;
@@ -45,6 +47,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -154,6 +157,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
     }
 
@@ -735,34 +739,39 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 editor.commit();
             }
             // confirm back to SelectActivity
-            else if(resultCode == 1){
+            else if(resultCode == 1 || resultCode == 10){
                 walkEndTime = System.currentTimeMillis();
                 totalWalkTime = walkEndTime - walkStartTime;
 
+                Gson gson = new Gson();
+
                 Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
-                intent.putExtra("isBackToSelect", true);
+                if(resultCode == 1){
+                    intent.putExtra("isBackToSelect", true);
+                }
                 intent.putExtra("totalWalkTime", totalWalkTime);
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
                 intent.putExtra("spotCount", spotCount);
+                intent.putExtra("tMapView", gson.toJson(userRoute));
+                intent.putExtra("centerLat",lats[0]);
+                intent.putExtra("centerLng",lngs[0]);
 
-                handler.removeCallbacks(runnable); //stop handler when activity not visible
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            }
-            // confirm end walk
-            else if(resultCode == 10){
-                walkEndTime = System.currentTimeMillis();
-                totalWalkTime = walkEndTime - walkStartTime;
+                int cnt = 0;
+                double[] visitedLats = new double[arr_length];
+                double[] visitedLngs = new double[arr_length];
+                for(int i = 0; i<arr_length;i++){
+                    if(isVisited[i]){
+                        visitedLats[cnt] = lats[i];
+                        visitedLngs[cnt] = lngs[i];
+                        cnt++;
+                    }
+                }
 
-                Intent intent = new Intent(WalkActivity.this, WalkEndActivity.class);
-                intent.putExtra("totalWalkTime", totalWalkTime);
-                intent.putExtra("realWalkTime", realWalkTime);
-                intent.putExtra("totalMoveLength", totalMoveLength);
-                intent.putExtra("totalPoint", totalPoint);
-                intent.putExtra("spotCount", spotCount);
+                intent.putExtra("visitedSize", cnt);
+                intent.putExtra("visitedLats", visitedLats);
+                intent.putExtra("visitedLngs", visitedLngs);
 
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
