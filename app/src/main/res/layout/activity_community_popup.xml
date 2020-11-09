@@ -6,15 +6,15 @@
     android:layout_height="550dp"
     android:background="@drawable/comm_popup_box">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/content_image"
         android:layout_width="280dp"
         android:layout_height="160dp"
         android:layout_marginTop="40dp"
+        android:background="@drawable/photoempty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/photoempty" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
