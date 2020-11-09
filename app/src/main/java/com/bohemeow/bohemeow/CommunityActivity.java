@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -81,6 +82,8 @@ public class CommunityActivity extends AppCompatActivity {
                     @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                         if(position == 0){
                             tab.setText("전체");
+
+
                         }
                         else if(position == 1){
                             tab.setText("내 게시글");
@@ -94,6 +97,7 @@ public class CommunityActivity extends AppCompatActivity {
 
 
         mArrayList = new ArrayList<>();
+        final ArrayList<post> publicArrayList = new ArrayList<>();
         // get data
 
         final ValueEventListener postListener = new ValueEventListener(){
@@ -104,11 +108,16 @@ public class CommunityActivity extends AppCompatActivity {
                     postData get = postSnapshot.getValue(postData.class);
                     post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                     mArrayList.add(data);
+                    Log.d("asdf", data.isPublic + "a");
+                    if(data.isPublic()){
+                        Log.d("asdf", data.isPublic + "b");
+                        publicArrayList.add(data);
+                    }
                 }
 
-                if(mArrayList.size() >= 3){
-                    String[] lastWriters = {mArrayList.get(0).getUsername(), mArrayList.get(1).getUsername(), mArrayList.get(2).getUsername()};
-                    String lastDate = mArrayList.get(2).getTime();
+                if(publicArrayList.size() >= 3){
+                    String[] lastWriters = {publicArrayList.get(0).getUsername(), publicArrayList.get(1).getUsername(), publicArrayList.get(2).getUsername()};
+                    String lastDate = publicArrayList.get(2).getTime();
 
                     isWritable = checkWritable(lastWriters, lastDate);
                 }
@@ -119,8 +128,15 @@ public class CommunityActivity extends AppCompatActivity {
 
             }
         };
+        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(tz);
+        String time = df.format(date);
+
         mPostReference = FirebaseDatabase.getInstance().getReference();
-        mPostReference.child("post_list").limitToLast(3).addValueEventListener(postListener);
+        //mPostReference.child("post_list").limitToLast(3).addValueEventListener(postListener);
+        mPostReference.child("post_list").orderByKey().startAt(time).addValueEventListener(postListener);
 
 
 

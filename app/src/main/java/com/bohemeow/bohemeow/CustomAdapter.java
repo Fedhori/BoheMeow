@@ -2,6 +2,7 @@ package com.bohemeow.bohemeow;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
@@ -109,26 +111,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
                 R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
 
-        /*
-        // set post's icon image
-        mStorageRef = FirebaseStorage.getInstance().getReference("User_icons");
-        StorageReference islandRef = mStorageRef.child(username + ".jpg");
-        final long ONE_MEGABYTE = 2048 * 2048;
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                viewholder.iconIV.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-         */
 
         // set post's content image
+
         StorageReference islandRef;
         final long ONE_MEGABYTE = 2048 * 2048;
 
@@ -140,8 +125,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-
                     viewholder.contentIV.setImageBitmap(bitmap);
 
                 }
@@ -166,9 +149,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         //System.out.println("\ncatType: " + catType);
     }
-
-
-
 
     @Override
     public int getItemCount() {
