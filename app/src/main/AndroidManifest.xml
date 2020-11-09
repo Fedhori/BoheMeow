@@ -106,6 +106,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
+            android:name=".CommunityImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
             android:name=".WalkLoadingActivity"
             android:screenOrientation="portrait" />
         <activity
