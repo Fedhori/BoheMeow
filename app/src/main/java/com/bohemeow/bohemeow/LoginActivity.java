@@ -53,11 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                     Manifest.permission.READ_PHONE_STATE);
             int readLocationStatePermission = ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION);
+            int writeExternalStoragePermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED) {
+            if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED || writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
                 // If don't have permission so prompt the user.
                 this.requestPermissions(
-                        new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSION_REQUEST_CODE_PHONE_STATE
                 );
                 return;

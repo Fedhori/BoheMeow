@@ -89,6 +89,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private TMapPolyLine [] routePolyLines = new TMapPolyLine[32];
     private int polyLineCnt = 0;
     private int markerCnt = 0;
+    private int treasureCnt = 0;
     private boolean isRouteRemoved = false;
 
     private boolean isFirstLocation = false;
@@ -111,6 +112,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     long walkEndTime = 0;
     long realWalkTime = 0;
     long totalPoint = 0;
+
+    long notePoint = 0;
+    long walkPoint = 0;
+    long spotPoint = 0;
+    long treasurePoint = 0;
 
     long user_totalPoint = 0;
     DatabaseReference ref;
@@ -439,6 +445,23 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
+    public void drawTreasureMarker(TMapPoint position){
+        int marker = R.drawable.treasurebox;
+        // get bitmap
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
+        // resize bitmap
+        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+        markerItem.setIcon(bitmap); // 마커 아이콘 지정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setTMapPoint(position); // 마커의 좌표 지정
+        // markerItem.setName("성대");
+        markerlist.add(markerItem);
+        tMapView.addMarkerItem("treasure" + treasureCnt++, markerItem);
+    }
+
     public void drawSpotMarker(TMapPoint position, int marker){
 
         // get bitmap
@@ -534,6 +557,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     checkNearSpot(latitude, longtitude);
                     // 10m당 1점이니까, 30m(maxMoveLength)당 3점
                     totalPoint+=3;
+                    walkPoint+=3;
 
                     // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
@@ -541,7 +565,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 }
                 // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
                 if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
-                    findLots();
+                    findLots(latitude, longtitude);
                 }
                 totalMoveLength += moveLength;
                 distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
@@ -730,6 +754,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 if(todayCount <= 3){
                     Toast.makeText(WalkActivity.this, "쪽지 작성! +50포인트", Toast.LENGTH_LONG).show();
                     totalPoint += 50;
+                    notePoint += 50;
                 }
 
                 // 로컬 데이터에 다시 업데이트
@@ -753,6 +778,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
                 intent.putExtra("totalPoint", totalPoint);
+                intent.putExtra("notePoint", notePoint);
+                intent.putExtra("walkPoint", walkPoint);
+                intent.putExtra("spotPoint", spotPoint);
+                intent.putExtra("treasurePoint", treasurePoint);
                 intent.putExtra("spotCount", spotCount);
                 intent.putExtra("tMapView", gson.toJson(userRoute));
                 intent.putExtra("centerLat",lats[0]);
@@ -877,6 +906,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 300;
+                spotPoint += 300;
                 spotCount++;
 
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.point_selected);
@@ -931,21 +961,13 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         }
     }
 
-    void findLots(){
+    void findLots(double latitude, double longitude){
 
-        /*
-        // 파이어베이스에 유저가 뽑기를 찾았음을 기록한다.
-        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-        lotsData data = new lotsData(phoneNumber);
-        postValues = data.toMap();
-        childUpdates.put("/lots_list/" + time + "/", postValues);
-        mPostReference.updateChildren(childUpdates);
-         */
+        drawTreasureMarker(new TMapPoint(latitude, longitude));
 
         Toast.makeText(WalkActivity.this, "보물 발견! +100포인트!", Toast.LENGTH_LONG).show();
         totalPoint += 100;
+        treasurePoint += 100;
 
         // 실제 오늘 날짜를 구한다.
         Date currentTime = Calendar.getInstance().getTime();

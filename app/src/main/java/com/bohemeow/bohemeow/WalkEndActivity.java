@@ -51,6 +51,10 @@ public class WalkEndActivity extends AppCompatActivity {
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
     long realWalkTime = 0; // 얼마나 오래 실제로 걸었는가? 단위: ms
     long totalPoint = 0;
+    long notePoint = 0;
+    long walkPoint = 0;
+    long spotPoint = 0;
+    long treasurePoint = 0;
     long spotCount = 0;
 
     long user_realWalkTime;
@@ -108,6 +112,11 @@ public class WalkEndActivity extends AppCompatActivity {
         realWalkTime = intent.getLongExtra("realWalkTime", -1);
         totalPoint = intent.getLongExtra("totalPoint", -1);
         spotCount = intent.getLongExtra("spotCount", 0);
+
+        notePoint = intent.getLongExtra("notePoint", -1);
+        walkPoint = intent.getLongExtra("walkPoint", -1);
+        spotPoint = intent.getLongExtra("spotPoint", -1);
+        treasurePoint = intent.getLongExtra("treasurePoint", -1);
 
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.tmapLinearLayout);
 
