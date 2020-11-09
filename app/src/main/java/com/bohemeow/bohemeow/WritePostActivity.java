@@ -3,6 +3,12 @@ package com.bohemeow.bohemeow;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,6 +35,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,10 +56,12 @@ public class WritePostActivity extends AppCompatActivity{
     private DatabaseReference mPostReference;
     Uri currentImageUri;
     Uri currentPostImage = null;
+    InputStream imageStream;
+    Bitmap bitmap;
 
     ImageView user_icon;
 
-    ImageButton imageButton;
+    ImageView imageButton;
     EditText contentET;
     EditText tagET;
     CheckBox checkBox;
@@ -126,6 +137,7 @@ public class WritePostActivity extends AppCompatActivity{
 
     }
 
+    int ori;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -134,8 +146,20 @@ public class WritePostActivity extends AppCompatActivity{
         if(requestCode == SELECT_IMAGE){
             if(data != null) {
                 currentPostImage = data.getData();
-                boolean imageUriChecker = true;
-                imageButton.setImageURI(currentPostImage);
+                 ori = getOrientation(currentPostImage);
+                //boolean imageUriChecker = true;
+                //imageButton.setImageURI(currentPostImage);
+                try {
+                    imageStream = getContentResolver().openInputStream(currentPostImage);
+                    Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    bitmap = getResizedBitmap(selectedImage, 1000, 1500);
+
+                    imageButton.setImageBitmap(bitmap);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         else if(requestCode==1){
@@ -145,6 +169,20 @@ public class WritePostActivity extends AppCompatActivity{
                 finish();
             }
         }
+    }
+
+    public int getOrientation(Uri selectedImage) {
+        int orientation = 0;
+        final String[] projection = new String[]{MediaStore.Images.Media.ORIENTATION};
+        final Cursor cursor = this.getContentResolver().query(selectedImage, projection, null, null, null);
+        if(cursor != null) {
+            final int orientationColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.ORIENTATION);
+            if(cursor.moveToFirst()) {
+                orientation = cursor.isNull(orientationColumnIndex) ? 0 : cursor.getInt(orientationColumnIndex);
+            }
+            cursor.close();
+        }
+        return orientation;
     }
 
     public void postFirebaseDatabase(boolean add){
@@ -162,7 +200,12 @@ public class WritePostActivity extends AppCompatActivity{
         }
 
         if(currentPostImage!=null){
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "Title", null);
+            currentPostImage = Uri.parse(path);
             uri = currentPostImage.toString();
+
         }
 
         content = contentET.getText().toString();
@@ -179,21 +222,34 @@ public class WritePostActivity extends AppCompatActivity{
         date = time.substring(0,10);
 
 
+
+
+        //byte[] reviewImage = stream.toByteArray();
+        //String simage = byteArrayToBinaryString(reviewImage);
+
+        //System.out.println(simage);
+
+
         childUpdates = new HashMap<>();
         postValues = null;
         if(add){
             postData data = new postData(username, uri, content, tags, time, level, catType, isPublic);
+
+            //postData data = new postData(username, simage, content, tags, time, level, catType, isPublic);
             postValues = data.toMap();
+
         }
         childUpdates.put("/post_list/" + time, postValues);
 
+        //mPostReference.updateChildren(childUpdates);
 
         // image exist
+
         if(uri != ""){
 
             Log.w(this.getClass().getName(), "WHAT?");
 
-            StorageReference mPostRef = FirebaseStorage.getInstance().getReference("Post_images");;
+            StorageReference mPostRef = FirebaseStorage.getInstance().getReference("Post_images");
 
             StorageReference riversRef = mPostRef.child(time+".jpg");
             UploadTask uploadTask = riversRef.putFile(currentPostImage);
@@ -260,6 +316,31 @@ public class WritePostActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int WmaxSize, int HmaxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio >= 1) {
+            width = WmaxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = HmaxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+
+        image = rotateBitmap(image, ori);
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     int calculateLevel(int score){

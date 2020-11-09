@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_0006_background"
+    android:clickable="true"
     tools:context=".SelectActivity">
 
 
@@ -47,10 +48,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imageBtn"
-        android:layout_width="254dp"
-        android:layout_height="197dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/imageView19"
         app:layout_constraintEnd_toEndOf="@+id/imageView19"

@@ -12,18 +12,26 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayInputStream;
+
 public class CommunityImageActivity extends Activity {
 
-    ImageButton image;
+    ImageView image;
     Bitmap bitmap;
 
     @Override
@@ -33,12 +41,9 @@ public class CommunityImageActivity extends Activity {
         setContentView(R.layout.activity_communityl_image);
 
         Intent intent = getIntent();
-        //bitmap = intent.getParcelableExtra("bitmap");
-        String uri = intent.getStringExtra("uri");
         String time = intent.getStringExtra("time");
 
         image = findViewById(R.id.imageButton2);
-        //image.setImageBitmap(bitmap);
 
         StorageReference mStorageRef;
         StorageReference islandRef;
@@ -52,7 +57,8 @@ public class CommunityImageActivity extends Activity {
             public void onSuccess(byte[] bytes) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 Drawable drawable = new BitmapDrawable(bitmap);
-                image.setBackground(drawable);
+                //image.setBackground(drawable);
+                image.setImageBitmap(bitmap);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -61,8 +67,6 @@ public class CommunityImageActivity extends Activity {
             }
         });
 
-        //Drawable drawable = new BitmapDrawable(bitmap);
-        //image.setBackground(drawable);
 
         image.setOnClickListener(new View.OnClickListener(){
 

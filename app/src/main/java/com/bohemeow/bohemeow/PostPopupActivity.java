@@ -20,9 +20,15 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 public class PostPopupActivity extends Activity {
@@ -32,7 +38,7 @@ public class PostPopupActivity extends Activity {
 
     post pst;
     ImageView iconIV;
-    ImageButton contentIV;
+    ImageView contentIV;
     ImageView privateIV;
 
     TextView usernameTV;
@@ -81,6 +87,7 @@ public class PostPopupActivity extends Activity {
         int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
                 R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
 
+
         StorageReference mStorageRef;
         StorageReference islandRef;
         final long ONE_MEGABYTE = 2048 * 2048;
@@ -93,8 +100,7 @@ public class PostPopupActivity extends Activity {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    Drawable drawable = new BitmapDrawable(bitmap);
-                    contentIV.setBackground(drawable);
+                    contentIV.setImageBitmap(bitmap);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -104,7 +110,7 @@ public class PostPopupActivity extends Activity {
             });
         }
         else {
-            contentIV.setEnabled(false);
+            //contentIV.setEnabled(false);
             contentIV.setImageResource(R.drawable.photoempty);
         }
 
@@ -123,16 +129,14 @@ public class PostPopupActivity extends Activity {
             privateIV.setImageResource(R.drawable.private_mark);
 
 
-
         contentIV.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(!pst.getUri().equals("")){
                     Intent intent1 = new Intent(PostPopupActivity.this, CommunityImageActivity.class);
                     //intent1.putExtra("bitmap", bitmap);
-                    intent1.putExtra("uri", pst.getUri());
+                    //intent1.putExtra("uri", pst.getUri());
                     intent1.putExtra("time", pst.getTime());
-
                     startActivity(intent1);
                 }
             }
@@ -184,6 +188,8 @@ public class PostPopupActivity extends Activity {
             }
         }
     }
+
+
 
     String Date(String time){
         String t = time.substring(0,4) + "년";
