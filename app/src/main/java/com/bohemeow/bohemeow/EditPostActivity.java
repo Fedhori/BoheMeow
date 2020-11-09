@@ -89,7 +89,7 @@ public class EditPostActivity extends Activity {
                 else {
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_list/" + pst.getTime());
                     myRef.child("content").setValue(contentET.getText().toString());
-                    myRef.child("tags").setValue(tagET.getText().toString());
+                    myRef.child("tags").setValue(splitTag(tagET.getText().toString()));
                     if(checkBox.isChecked()){
                         myRef.child("isPublic").setValue(true);
                     }
@@ -198,6 +198,20 @@ public class EditPostActivity extends Activity {
         return level;
     }
 
+    String splitTag(String tags){
+        String tag = "";
+
+        tags= tags.replace("#", " ");
+        tags = tags.replaceAll("\\s+", " ");
+        String[] ta = tags.split(" ");
+        for(String t : ta){
+            System.out.println(t + "+");
+            tag = tag + "#" + t + " ";
+        }
+        tag = tag.replace("# ", "");
+
+        return tag;
+    }
 
     @Override
     public void onBackPressed() {

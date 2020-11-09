@@ -482,6 +482,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     Intent intent = new Intent(WalkLoadingActivity.this, SelectSpotActivity.class);
                     // 일단은 이 부분을 넣지 않으면 WalkActivity에서 초기화되지 않은 preference를 참조하면서 crash가 발생함. 이를 방지하고자 이 코드를 넣었음.
                     //intent.putExtra("preference", preference);
+                    intent.putExtra("sub_region", sub_region);
                     intent.putExtra("region", region);
                     intent.putExtra("lat", userlat);
                     intent.putExtra("lng", userlng);
