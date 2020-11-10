@@ -1,6 +1,5 @@
 package com.bohemeow.bohemeow;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,30 +14,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainConfigActivity extends AppCompatActivity  {
+public class MainConfigActivity extends Activity {
 
     ImageButton cat_imgbtn;
 
-    TextView user_id;
     TextView user_name;
     TextView user_level;
     TextView total_count;
     TextView total_dis;
     TextView total_time;
+    TextView total_spot;
+    TextView user_introduction;
 
     Button back_btn;
     Button edit_btn;
@@ -48,12 +41,8 @@ public class MainConfigActivity extends AppCompatActivity  {
     Button bugreport_btn;
     Button FAQ_btn;
 
-    ProgressBar progressBar;
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
 
-    UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,33 +51,19 @@ public class MainConfigActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_config_popup);
 
         Intent intent = getIntent();
-        userData = (UserData) intent.getSerializableExtra("userdata");
-
-
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tabs);
-        viewPager.setAdapter(createCardAdapter());
-        new TabLayoutMediator(tabLayout, viewPager,
-                new TabLayoutMediator.TabConfigurationStrategy() {
-                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                        if(position == 0){
-                            tab.setText("기록");
-                        }
-                        else if(position == 1){
-                            tab.setText("캐릭터");
-                        }
-                    }
-                }).attach();
-
-
+        final UserData userData = (UserData) intent.getSerializableExtra("userdata");
 
         cat_imgbtn = findViewById(R.id.cat_img);
-        user_id = findViewById(R.id.user_id);
         user_name = findViewById(R.id.user_name);
         user_level = findViewById(R.id.user_level);
         total_count = findViewById(R.id.total_count);
         total_dis = findViewById(R.id.total_dis);
         total_time = findViewById(R.id.total_time);
+        total_spot = findViewById(R.id.total_spot);
+        user_introduction = findViewById(R.id.tv_introduction);
+
+        total_spot.setText(userData.totalSpotCount + "번");
+        user_introduction.setText(userData.introduction);
 
         //set cat image
         int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
@@ -104,9 +79,8 @@ public class MainConfigActivity extends AppCompatActivity  {
         });
 
         //set detail data
-        user_id.setText(userData.id);
-        user_name.setText(userData.nickname);
-        user_level.setText(Integer.toString(calculateLevel(userData.level)));
+        user_name.setText(userData.nickname + "의 정보");
+        user_level.setText("LV" + Integer.toString(calculateLevel(userData.level)));
         total_count.setText(Integer.toString(userData.totalWalkCount) + "번");
 
         int distance = (int) userData.totalWalkLength;
@@ -146,32 +120,12 @@ public class MainConfigActivity extends AppCompatActivity  {
         }
         total_time.setText(timeText);
 
-
-
-
-        back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         edit_btn = findViewById(R.id.edit_btn);
         edit_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigEditActivity.class);
                 intent.putExtra("userdata", userData);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        man_btn = findViewById(R.id.man_btn);
-        man_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainConfigActivity.this, ConfigBackgroundActivity.class);
                 startActivityForResult(intent, 1);
             }
         });
@@ -216,16 +170,6 @@ public class MainConfigActivity extends AppCompatActivity  {
             }
         });
 
-        Button notice_btn = findViewById(R.id.notice_btn);
-        notice_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                getNoticeDataAndStartActivity();
-            }
-        });
-
-        progressBar = findViewById(R.id.progressbar);
-
         double currentLevel = 0;
 
         if(userData.level >= 10000){
@@ -234,58 +178,6 @@ public class MainConfigActivity extends AppCompatActivity  {
         else{
             currentLevel = ((double) userData.level % 1000) / 10d;
         }
-
-        progressBar.setProgress((int)currentLevel);
-
-    }
-
-    private ViewPagerAdapter createCardAdapter() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
-        return adapter;
-    }
-
-    public class ViewPagerAdapter extends FragmentStateAdapter {
-        private static final int CARD_ITEM_SIZE = 2;
-        public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
-        @NonNull @Override
-        public Fragment createFragment(int position) {
-            if(position == 0){
-                return fragmentWalkdetail.newInstance(position);
-            }
-            else return fragmentCatdetail.newInstance(position);
-        }
-        @Override
-        public int getItemCount() {
-            return CARD_ITEM_SIZE;
-        }
-    }
-
-    void getNoticeDataAndStartActivity(){
-
-        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
-        mPostReference.child("notice_list").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                int cnt = 0;
-                NoticeData[] noticeData = new NoticeData[(int)dataSnapshot.getChildrenCount()];
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    noticeData[cnt++] = postSnapshot.getValue(NoticeData.class);
-                }
-
-                Intent intent = new Intent(MainConfigActivity.this, NoticeActivity.class);
-                intent.putExtra("noticeData", noticeData);
-                startActivityForResult(intent, 1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     FAQDAta[] getFaqData(){

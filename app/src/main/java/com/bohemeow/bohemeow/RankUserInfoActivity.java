@@ -32,9 +32,6 @@ public class RankUserInfoActivity extends Activity {
         TextView introduction_tv = findViewById(R.id.introduction_tv);
         introduction_tv.setText(introduction);
 
-        ImageView catImage = findViewById(R.id.catImage);
-        catImage.setBackgroundResource(icons[catType]);
-
         Button back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener(){
             @Override

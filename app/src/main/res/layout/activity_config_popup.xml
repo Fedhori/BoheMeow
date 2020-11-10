@@ -4,76 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="500dp"
-    android:background="@drawable/config_popup">
+    android:background="@drawable/popup_box_big">
 
 
     <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        android:id="@+id/imageView4"
+        android:layout_width="213dp"
+        android:layout_height="90dp"
+        android:background="@drawable/main_config_textbox"
+        app:layout_constraintBottom_toBottomOf="@+id/user_level"
+        app:layout_constraintEnd_toStartOf="@+id/cat_img"
+        app:layout_constraintTop_toTopOf="@+id/cat_img" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/main_config_tap_on"
+        android:text="산책 정보"
+        android:textColor="#F5FAFD"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <ImageView
-        android:id="@+id/imageView29"
-        android:layout_width="300dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/box_userinfo"
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/main_config_tap_off"
+        android:text="유형 설명"
+        android:textColor="#F5FAFD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.32"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <TextView
-        android:id="@+id/textView52"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_introduction"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:shadowColor="#A60A0A0A"
-        android:text="산책정보"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toBottomOf="@+id/imageView29" />
-
-    <TextView
-        android:id="@+id/textView49"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:shadowColor="#73707070"
-        android:text="아이디"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView29"
-        app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:layout_constraintVertical_bias="0.361" />
-
-    <TextView
-        android:id="@+id/textView50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:shadowColor="#73707070"
-        android:text="Lv."
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@+id/textView51"
-        app:layout_constraintTop_toBottomOf="@+id/textView51" />
-
-    <TextView
-        android:id="@+id/textView51"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:shadowColor="#73707070"
-        android:text="닉네임"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@+id/textView49"
-        app:layout_constraintTop_toBottomOf="@+id/textView49" />
+        android:textColor="#110F0F"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
     <TextView
         android:id="@+id/total_dis"
@@ -82,7 +57,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="000km"
-        android:textColor="#2699FB"
+        android:textColor="#2C87CC"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/total_time"
@@ -95,7 +70,7 @@
         android:layout_marginEnd="56dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="00:00:00"
-        android:textColor="#2699FB"
+        android:textColor="#2C87CC"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +83,20 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="00번"
-        android:textColor="#2699FB"
+        android:textColor="#2C87CC"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/total_dis"
+        app:layout_constraintTop_toBottomOf="@+id/total_dis" />
+
+    <TextView
+        android:id="@+id/total_spot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="00번"
+        android:textColor="#2C87CC"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/total_dis"
@@ -121,7 +109,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="누적 산책 거리"
-        android:textColor="#73313131"
+        android:textColor="#95A7A7"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv1"
@@ -134,98 +122,102 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="총 산책 횟수"
-        android:textColor="#73313131"
+        android:textColor="#95A7A7"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@id/tv5" />
 
     <TextView
-        android:id="@+id/user_id"
+        android:id="@+id/tv9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="아이디"
-        android:textColor="#055B37"
+        android:text="총 스팟 방문 횟수"
+        android:textColor="#95A7A7"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView49"
-        app:layout_constraintTop_toTopOf="@+id/textView49" />
+        app:layout_constraintStart_toStartOf="@+id/tv1"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="닉네임"
-        android:textColor="#055B37"
+        android:textColor="#017BD0"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/user_id"
-        app:layout_constraintTop_toBottomOf="@+id/user_id" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/user_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="LV. 00"
-        android:textColor="#055B37"
+        android:textColor="#95A7A7"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/user_name"
-        app:layout_constraintTop_toBottomOf="@+id/user_name" />
+        app:layout_constraintEnd_toEndOf="@+id/cat_img"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="@+id/cat_img"
+        app:layout_constraintTop_toTopOf="@+id/cat_img" />
 
     <TextView
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="누적 산책 시간"
-        android:textColor="#73313131"
+        android:textColor="#95A7A7"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toBottomOf="@+id/textView52" />
-
-    <Button
-        android:id="@+id/notice_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:text="Notice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     <Button
         android:id="@+id/FAQ_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:text="FAQ"
+        android:layout_width="18dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/faq_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/delacc_btn"
-        android:layout_width="64dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/button_delete"
-        app:layout_constraintStart_toEndOf="@+id/man_btn"
-        app:layout_constraintTop_toTopOf="@+id/man_btn" />
+        android:layout_width="63dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/delete_btn"
+        app:layout_constraintStart_toEndOf="@+id/logout_btn"
+        app:layout_constraintTop_toTopOf="@+id/logout_btn" />
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="64dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/button_logout"
+        android:layout_width="63dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/logout_btn"
+        app:layout_constraintStart_toEndOf="@+id/tutorial_btn"
+        app:layout_constraintTop_toTopOf="@+id/tutorial_btn" />
+
+    <Button
+        android:id="@+id/tutorial_btn"
+        android:layout_width="63dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/tutorial_btn"
         app:layout_constraintStart_toEndOf="@+id/edit_btn"
         app:layout_constraintTop_toTopOf="@+id/edit_btn" />
 
@@ -234,93 +226,31 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/bugreport"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/main_config_bugreport"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/man_btn"
-        android:layout_width="64dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toEndOf="@+id/logout_btn"
-        app:layout_constraintTop_toTopOf="@+id/logout_btn" />
-
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/config_0004_quit"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/cat_img"
         android:layout_width="90dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
         android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView29"
-        app:layout_constraintEnd_toEndOf="@+id/imageView29"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:layout_constraintVertical_bias="0.385"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/heads_0001" />
 
     <Button
         android:id="@+id/edit_btn"
-        android:layout_width="64dp"
-        android:layout_height="81dp"
+        android:layout_width="63dp"
+        android:layout_height="84dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_edit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv" />
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="250dp"
-        android:layout_height="15dp"
-        android:layout_marginTop="140dp"
-        android:progress="100"
-        android:progressDrawable="@drawable/custom_progressbar_1"
-        app:layout_constraintEnd_toEndOf="@+id/imageView29"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="@+id/imageView29"
-        app:layout_constraintTop_toTopOf="@+id/imageView29" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="300dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabBackground="@drawable/comm_tab"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#00000000"
-        app:tabIndicatorFullWidth="false"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed"
-        app:tabTextColor="#707070" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="@+id/tabs"
-        app:layout_constraintStart_toStartOf="@+id/tabs"
-        app:layout_constraintTop_toBottomOf="@+id/tabs">
-
-    </androidx.viewpager2.widget.ViewPager2>
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edit_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

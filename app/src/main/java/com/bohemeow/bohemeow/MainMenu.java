@@ -8,11 +8,15 @@ import androidx.core.content.ContextCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -44,16 +48,28 @@ public class MainMenu extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     private Toast toast;
     ImageView windowIV;
+    ImageView iv_laptop;
+    ImageView iv_onoff;
+    ImageView iv_texton;
     String username;
     int catType;
+    int totalSpotCount;
     String phoneNumber;
     Random rnd;
+
+    Handler handler = new Handler();
+    Runnable runnable;
 
     int exp;
 
     double lastLat, lastLng;
 
     int maxRankUser = 100;
+
+    long imageChangeSpan = 4000;
+
+    boolean isLaptopVisible = false;
+    boolean isOn =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +94,7 @@ public class MainMenu extends AppCompatActivity {
         //Toast.makeText(this, exp + "", Toast.LENGTH_SHORT).show();
         lastLat = (double) registerInfo.getFloat("lastLat", 0);
         lastLng = (double) registerInfo.getFloat("lastLng", 0);
+        totalSpotCount = registerInfo.getInt("totalSpotCount", 0);
 
         boolean isGrowth = registerInfo.getBoolean("isGrowth", false);
         if(isGrowth){
@@ -90,6 +107,32 @@ public class MainMenu extends AppCompatActivity {
 
         //phoneNumber = registerInfo.getString("phoneNumber", "NULL");
 
+        ImageView iv_figure1 = findViewById(R.id.iv_figure1);
+        ImageView iv_figure2 = findViewById(R.id.iv_figure2);
+        ImageView iv_figure3 = findViewById(R.id.iv_figure3);
+        ImageView iv_figure4 = findViewById(R.id.iv_figure4);
+        ImageView iv_figure5 = findViewById(R.id.iv_figure5);
+
+        if(totalSpotCount < 25){
+            iv_figure5.setVisibility(View.INVISIBLE);
+        }
+        if(totalSpotCount < 20){
+            iv_figure4.setVisibility(View.INVISIBLE);
+        }
+        if(totalSpotCount < 15){
+            iv_figure3.setVisibility(View.INVISIBLE);
+        }
+        if(totalSpotCount < 10){
+            iv_figure2.setVisibility(View.INVISIBLE);
+        }
+        if(totalSpotCount < 5){
+            iv_figure1.setVisibility(View.INVISIBLE);
+        }
+
+
+
+        iv_laptop = findViewById(R.id.iv_laptop);
+
         windowIV = findViewById(R.id.iv_window);
         int w = 0;
 
@@ -98,6 +141,8 @@ public class MainMenu extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("HH");
         df.setTimeZone(tz);
         int time = Integer.parseInt(df.format(date));
+
+        /*
 
         if(time <= 5 || time >= 19){
             windowIV.setImageResource(R.drawable.main__0002_nightclear);
@@ -129,8 +174,28 @@ public class MainMenu extends AppCompatActivity {
             else windowIV.setImageResource(R.drawable.main__0003_nightcloudy);
         }
 
+         */
 
-        Button communityBtn = (Button) findViewById(R.id.btn_community);
+        iv_texton = findViewById(R.id.iv_texton);
+        iv_texton.setVisibility(View.INVISIBLE);
+        iv_onoff = findViewById(R.id.iv_onoff);
+        iv_onoff.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                isOn = !isOn;
+                if(isOn){
+                    iv_onoff.setBackgroundResource(R.drawable.infooff);
+                    iv_texton.setVisibility(View.VISIBLE);
+                }
+                else{
+                    iv_onoff.setBackgroundResource(R.drawable.infoon);
+                    iv_texton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        Button communityBtn = findViewById(R.id.btn_community);
         communityBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -140,9 +205,15 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        ImageButton notice_btn = findViewById(R.id.notice_btn);
+        notice_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getNoticeDataAndStartActivity();
+            }
+        });
 
-
-        final Button selectBtn = (Button) findViewById(R.id.btn_to_select);
+        final Button selectBtn = findViewById(R.id.btn_to_select);
         selectBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -163,7 +234,7 @@ public class MainMenu extends AppCompatActivity {
 
         int level = calculateLevel(exp);
 
-        final Button configBtn = (Button) findViewById(R.id.btn_config);
+        final ImageButton configBtn = findViewById(R.id.btn_config);
         configBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -187,19 +258,27 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button catBtn = findViewById(R.id.btn_itemboard);
-        if(level < 3){
-            catBtn.setBackgroundResource(icons_stage1[catType]);
-        }
-        else if(level < 10){
-            catBtn.setBackgroundResource(icons_stage2[catType]);
+        int kittenSize = 3;
+        int bigSize = 5;
+        int[][] kittenImages = new int[8][3];
+        kittenImages[6] = new int[]{R.drawable.taetaekitten1, R.drawable.taetaekitten2, R.drawable.taetaekitten3};
+
+        int[][] bigImages = new int[8][5];
+        bigImages[6] = new int[]{R.drawable.taetaebig, R.drawable.taetaebig2, R.drawable.taetaebig3, R.drawable.taetaebig4, R.drawable.taetaebig5 };
+        catType = 6; // 임시!
+
+        ImageView iv_cat = findViewById(R.id.iv_cat);
+        if(level < 7){
+            int random = new Random().nextInt(kittenSize);
+            iv_cat.setBackgroundResource(kittenImages[catType][random]);
         }
         else{
-            catBtn.setBackgroundResource(icons_stage3[catType]);
+            int random = new Random().nextInt(bigSize);
+            iv_cat.setBackgroundResource(bigImages[catType][random]);
         }
 
 
-        final Button rankBtn = findViewById(R.id.btn_rank);
+        final ImageButton rankBtn = findViewById(R.id.btn_rank);
         rankBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -209,7 +288,7 @@ public class MainMenu extends AppCompatActivity {
         });
 
 
-        Button payBtn = findViewById(R.id.btn_pay);
+        ImageButton payBtn = findViewById(R.id.btn_pay);
         payBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -219,7 +298,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        Button infoBtn = findViewById(R.id.btn_info);
+        ImageButton infoBtn = findViewById(R.id.btn_info);
         infoBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -231,6 +310,56 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        //start handler as activity become visible
+        handler.postDelayed( runnable = new Runnable() {
+            public void run() {
+                isLaptopVisible = !isLaptopVisible;
+                if(isLaptopVisible){
+                    iv_laptop.setVisibility(View.VISIBLE);
+                }
+                else{
+                    iv_laptop.setVisibility(View.INVISIBLE);
+                }
+                handler.postDelayed(runnable, imageChangeSpan);
+            }
+        }, imageChangeSpan);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable); //stop handler when activity not visible
+        super.onPause();
+    }
+
+    void getNoticeDataAndStartActivity(){
+
+        DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+        mPostReference.child("notice_list").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                int cnt = 0;
+                NoticeData[] noticeData = new NoticeData[(int)dataSnapshot.getChildrenCount()];
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    noticeData[cnt++] = postSnapshot.getValue(NoticeData.class);
+                }
+
+                Intent intent = new Intent(MainMenu.this, NoticeActivity.class);
+                intent.putExtra("noticeData", noticeData);
+                startActivityForResult(intent, 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {

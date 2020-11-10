@@ -70,6 +70,7 @@ public class fragmentWalkdetail extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /*
         Context context = getActivity();
         //user_name = ((MainConfigActivity)context).user_name;
         final UserData userData = ((MainConfigActivity)context).userData;
@@ -116,6 +117,8 @@ public class fragmentWalkdetail extends Fragment {
             timeText += "0" + second;
         }
         total_time.setText(timeText);
+
+         */
 
     }
 

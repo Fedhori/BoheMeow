@@ -376,7 +376,7 @@ public class WalkEndActivity extends AppCompatActivity {
                         Random random = new Random();
                         comment.setText(levelUpTexts[random.nextInt(levelUpTexts.length)]);
 
-                        if(cur_level == 10){
+                        if(cur_level == 7){
                             editor.putBoolean("isGrowth", true);
                             editor.commit();
                         }

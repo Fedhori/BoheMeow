@@ -41,7 +41,7 @@ public class ConfigEditIntroductionActivity extends Activity {
                 ref.child("introduction").setValue(editIntro.getText().toString());
 
                 Toast.makeText(ConfigEditIntroductionActivity.this, "자기소개 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
+                setResult(0);
                 finish();
             }
         });
