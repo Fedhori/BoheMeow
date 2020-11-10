@@ -61,7 +61,7 @@
         android:id="@+id/textView29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="잔여"
         android:textColor="#B5110f0f"

@@ -237,7 +237,7 @@ public class PayActivity extends Activity {
                                 payment(storeNum, point_use, dataSnapshot.child("totalPoint").getValue(Integer.class));
 
                                 Intent intent = new Intent(PayActivity.this, PayReceiptActivity.class);
-                                intent.putExtra("storeNum", num);
+                                intent.putExtra("storeNum", storeNum);
                                 intent.putExtra("time", time);
                                 intent.putExtra("point_use", Integer.toString(point_use));
                                 intent.putExtra("point_remain", Integer.toString(point_remain));
