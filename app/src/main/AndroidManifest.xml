@@ -175,7 +175,7 @@
         <activity
             android:name=".MainConfigActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.noBackgroundDialog" />
+            android:theme="@style/Theme.noBackAppcompatDialog" />
         <activity
             android:name=".ConfigDelActivity"
             android:screenOrientation="portrait"
