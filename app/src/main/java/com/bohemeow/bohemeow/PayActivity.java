@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,19 +53,32 @@ public class PayActivity extends Activity {
 
     private DatabaseReference mPostReference;
     String username;
-    String storeName;
     int point_remain;
     int point_use;
     int code;
 
+    int num = 0;
+    int storeNum;
     String time;
 
     TextView point_remainTV;
+    TextView storename1;
+    TextView storename2;
+    TextView storename3;
+    TextView storename4;
     CheckBox store1;
     CheckBox store2;
     CheckBox store3;
+    CheckBox store4;
     EditText point_useET;
     EditText codeET;
+    ImageView imageView;
+
+    boolean isYul = true;
+    String[] MYnames = {"[중앙학술정보관]\n카페테리아", "[경영관]\n사랑방", "[600주년기념관]\n지하 1층 카페", "[경영관]\nttt"};
+    String[] YJnames = {"[산학협력센터]\n팬도로시", "[공학관]\nCafe:NU", "[의관]\n카페나무", "[공학관]\n매점"};
+
+    String[] stores = {"카페테리아", "사랑방", "600주년 카페", "ttt", "팬도로시", "NU", "카페나무", "공대매점"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +89,31 @@ public class PayActivity extends Activity {
         Intent intent = getIntent();
 
         point_remainTV = findViewById(R.id.point_remain);
+        storename1 = findViewById(R.id.storename1);
+        storename2 = findViewById(R.id.storename2);
+        storename3 = findViewById(R.id.storename3);
+        storename4 = findViewById(R.id.storename4);
         store1 = findViewById(R.id.store1);
         store2 = findViewById(R.id.store2);
         store3 = findViewById(R.id.store3);
+        store4 = findViewById(R.id.store4);
         point_useET = findViewById(R.id.point_use);
         codeET = findViewById(R.id.code);
+        imageView = findViewById(R.id.imageView10);
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         // get user preference values
         username = registerInfo.getString("registerUserName", "NULL");
+        isYul = registerInfo.getBoolean("isYul", true);
         getUserData(username);
+
+        if(!isYul){
+            imageView.setVisibility(View.INVISIBLE);
+            storename1.setText(MYnames[0]);
+            storename2.setText(MYnames[1]);
+            storename3.setText(MYnames[2]);
+            storename4.setText(MYnames[3]);
+        }
 
         store1.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
@@ -93,6 +122,8 @@ public class PayActivity extends Activity {
                     store1.setChecked(true);
                     store2.setChecked(false);
                     store3.setChecked(false);
+                    store4.setChecked(false);
+                    num = 0;
                 }
             }
         }) ;
@@ -104,6 +135,8 @@ public class PayActivity extends Activity {
                     store1.setChecked(false);
                     store2.setChecked(true);
                     store3.setChecked(false);
+                    store4.setChecked(false);
+                    num = 1;
                 }
             }
         }) ;
@@ -115,29 +148,65 @@ public class PayActivity extends Activity {
                     store1.setChecked(false);
                     store2.setChecked(false);
                     store3.setChecked(true);
+                    store4.setChecked(false);
+                    num = 2;
+                }
+            }
+        }) ;
+
+        store4.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    store1.setChecked(false);
+                    store2.setChecked(false);
+                    store3.setChecked(false);
+                    store4.setChecked(true);
+                    num = 3;
                 }
             }
         }) ;
 
 
-        ImageButton imageButton = findViewById(R.id.imageButton);
-        imageButton.setOnClickListener(new View.OnClickListener(){
+        Button btn = findViewById(R.id.button6);
+        btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(PayActivity.this, MainMenu.class);
-                //startActivity(intent);
-                finish();
+                if(isYul) {
+                    imageView.setVisibility(View.INVISIBLE);
+                    storename1.setText(MYnames[0]);
+                    storename2.setText(MYnames[1]);
+                    storename3.setText(MYnames[2]);
+                    storename4.setText(MYnames[3]);
+                    isYul = false;
+                }
             }
         });
 
-        Button pay_btn =findViewById(R.id.pay_btn);
+        Button btn2 = findViewById(R.id.button7);
+        btn2.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                if(!isYul) {
+                    imageView.setVisibility(View.VISIBLE);
+                    storename1.setText(YJnames[0]);
+                    storename2.setText(YJnames[1]);
+                    storename3.setText(YJnames[2]);
+                    storename4.setText(YJnames[3]);
+                    isYul = true;
+                }
+            }
+        });
+
+        ImageButton pay_btn =findViewById(R.id.pay_btn);
         pay_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
 
-                if((store1.isChecked()==false)&&(store2.isChecked()==false)&&(store3.isChecked()==false)){
+                if((store1.isChecked()==false)&&(store2.isChecked()==false)&&(store3.isChecked()==false)&&(store4.isChecked()==false)){
                     Toast.makeText(PayActivity.this, "가게를 선택해주세요.", Toast.LENGTH_LONG).show();
                 }
                 else if(point_useET.length() * codeET.length() == 0){
@@ -151,26 +220,24 @@ public class PayActivity extends Activity {
                     point_use = Integer.parseInt(point_useET.getText().toString());
                     code = Integer.parseInt(codeET.getText().toString());
 
-                    if(store1.isChecked()){
-                        storeName = "NU";
-                    }
-                    else if(store2.isChecked()){
-                        storeName = "Pandorothy";
-                    }
-                    else if(store3.isChecked()){
-                        storeName = "NU";
-                    }
+                    if(isYul)
+                        storeNum = num + 4;
+                    else
+                        storeNum = num;
 
-
-                    mPostReference.child("store_list").child(storeName).addListenerForSingleValueEvent(new ValueEventListener() {
+                    mPostReference.child("store_list").child(stores[storeNum]).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                             if(code == dataSnapshot.child("code").getValue(Integer.class)){
-                                payment(storeName, point_use, dataSnapshot.child("totalPoint").getValue(Integer.class));
+                                SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = registerInfo.edit();
+                                editor.putBoolean("isYul", isYul);
+                                editor.commit();
+
+                                payment(storeNum, point_use, dataSnapshot.child("totalPoint").getValue(Integer.class));
 
                                 Intent intent = new Intent(PayActivity.this, PayReceiptActivity.class);
-                                intent.putExtra("storeName", storeName);
+                                intent.putExtra("storeNum", num);
                                 intent.putExtra("time", time);
                                 intent.putExtra("point_use", Integer.toString(point_use));
                                 intent.putExtra("point_remain", Integer.toString(point_remain));
@@ -194,14 +261,14 @@ public class PayActivity extends Activity {
 
     }
 
-    public void payment(String storename, int point, int total_point){
+    public void payment(int num, int point, int total_point){
         point_remain -= point;
         total_point += point;
 
         mPostReference = FirebaseDatabase.getInstance().getReference("user_list/" + username);
         mPostReference.child("point").setValue(point_remain);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference("store_list/" + storename);
+        mPostReference = FirebaseDatabase.getInstance().getReference("store_list/" + stores[num]);
         mPostReference.child("totalPoint").setValue(total_point);
 
         SimpleDateFormat t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

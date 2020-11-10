@@ -4,8 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
-    android:foreground="#00FFFFFF">
+    android:background="@drawable/npay_background">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/npay_pointquantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/npay_myeonryun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/npay_yuljeon"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <ImageView
+        android:id="@+id/imageView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/npay_entercode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView22" />
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/npay_howmuch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="보유 포인트"
+        android:textColor="#FF000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/point_remain"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="99999"
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="냥"
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="@+id/point_remain"
+        app:layout_constraintStart_toEndOf="@+id/point_remain"
+        app:layout_constraintTop_toTopOf="@+id/point_remain" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="금액"
+        android:textColor="#FF000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView22"
+        app:layout_constraintTop_toTopOf="@+id/imageView22" />
 
     <TextView
         android:id="@+id/textView33"
@@ -13,209 +112,227 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/mapopeacefull"
         android:text="냥"
-        android:textColor="#508811"
+        android:textColor="#FF000000"
         android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView27"
-        app:layout_constraintEnd_toEndOf="@+id/textView32" />
+        app:layout_constraintBottom_toBottomOf="@+id/point_use"
+        app:layout_constraintStart_toEndOf="@+id/point_use"
+        app:layout_constraintTop_toTopOf="@+id/point_use" />
 
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="보유 포인트"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView44" />
-
-
-    <TextView
-        android:id="@+id/point_remain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="99999"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView32"
-        app:layout_constraintStart_toEndOf="@+id/textView24"
-        app:layout_constraintTop_toTopOf="@+id/textView24" />
-
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="매장명"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-    <CheckBox
-        android:id="@+id/store1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:button="@drawable/paycheck"
-        android:checked="true"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="  Cafe NU:"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView26" />
-
-    <CheckBox
-        android:id="@+id/store2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:button="@drawable/paycheck"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="  팬도로시"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/store1"
-        app:layout_constraintTop_toBottomOf="@+id/store1" />
-
-    <CheckBox
-        android:id="@+id/store3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:button="@drawable/paycheck"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="  Cafe NAMU"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/store2"
-        app:layout_constraintTop_toBottomOf="@+id/store2" />
-
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="금액"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/textView26"
-        app:layout_constraintTop_toBottomOf="@+id/store3" />
-
-    <ImageView
-        android:id="@+id/imageView45"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/textbox"
-        app:layout_constraintBottom_toBottomOf="@+id/textView27"
-        app:layout_constraintEnd_toStartOf="@+id/textView33"
-        app:layout_constraintStart_toEndOf="@+id/textView27"
-        app:layout_constraintTop_toTopOf="@+id/textView27" />
-
-    <ImageView
-        android:id="@+id/imageView46"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:background="@drawable/textbox"
-        app:layout_constraintBottom_toBottomOf="@+id/textView28"
-        app:layout_constraintEnd_toEndOf="@+id/imageView45"
-        app:layout_constraintTop_toTopOf="@+id/textView28" />
 
     <EditText
         android:id="@+id/point_use"
-        android:layout_width="130dp"
+        android:layout_width="200dp"
         android:layout_height="40dp"
+        android:layout_marginStart="60dp"
         android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="right|center_vertical"
+        android:gravity="left|center_vertical"
+        android:hint="0000"
         android:inputType="number"
-        android:textColor="#508811"
+        android:textColor="#FF000000"
         android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView45"
-        app:layout_constraintEnd_toEndOf="@+id/imageView45"
-        app:layout_constraintStart_toStartOf="@+id/imageView45"
-        app:layout_constraintTop_toTopOf="@+id/imageView45" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView22"
+        app:layout_constraintStart_toStartOf="@+id/imageView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
     <TextView
         android:id="@+id/textView28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="코드"
-        android:textColor="#508811"
-        android:textSize="21sp"
-        app:layout_constraintStart_toStartOf="@+id/textView27"
-        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+        android:text="코드 입력"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView27"
+        app:layout_constraintTop_toTopOf="@+id/imageView27" />
 
     <EditText
         android:id="@+id/code"
-        android:layout_width="130dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
+        android:layout_marginStart="60dp"
         android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="right|center_vertical"
+        android:gravity="left|center_vertical"
+        android:hint="*****"
         android:inputType="numberPassword"
-        android:textColor="#508811"
+        android:textColor="#FF000000"
         android:textSize="21sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView46"
-        app:layout_constraintEnd_toEndOf="@+id/point_use"
-        app:layout_constraintTop_toTopOf="@+id/imageView46" />
-
-    <Button
-        android:id="@+id/pay_btn"
-        android:layout_width="80dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button"
-        android:text="결제"
-        android:textColor="#FFFFFF"
-        android:textSize="21sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/code" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView27"
+        app:layout_constraintStart_toStartOf="@+id/imageView27"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView44"
-        android:layout_width="95dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/pay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView32"
+        android:id="@+id/pay_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="냥"
-        android:textColor="#508811"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/npay_paybutton"
+        android:textColor="#FFFFFF"
         android:textSize="21sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView24" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:text="명륜"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="#00FFFFFF"
+        android:text="율전"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+
+    <CheckBox
+        android:id="@+id/store1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="26dp"
+        android:button="@drawable/npay_check"
+        android:checked="true"
+        android:fontFamily="@font/mapopeacefull"
+        android:text=""
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+    <TextView
+        android:id="@+id/storename1"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="[산학협력센터]\n팬도로시"
+        android:textColor="#FF000000"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/store1"
+        app:layout_constraintStart_toEndOf="@+id/store1"
+        app:layout_constraintTop_toTopOf="@+id/store1" />
+
+    <CheckBox
+        android:id="@+id/store2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="26dp"
+        android:button="@drawable/npay_check"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text=""
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/button7"
+        app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+    <TextView
+        android:id="@+id/storename2"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="[공학관]\nCafe:NU"
+        android:textColor="#FF000000"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/store2"
+        app:layout_constraintStart_toEndOf="@+id/store2"
+        app:layout_constraintTop_toTopOf="@+id/store2" />
+
+    <CheckBox
+        android:id="@+id/store3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:button="@drawable/npay_check"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text=""
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/store1"
+        app:layout_constraintTop_toBottomOf="@+id/store1" />
+
+    <TextView
+        android:id="@+id/storename3"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="[의관]\n카페나무"
+        android:textColor="#FF000000"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/store3"
+        app:layout_constraintStart_toEndOf="@+id/store3"
+        app:layout_constraintTop_toTopOf="@+id/store3" />
+
+    <CheckBox
+        android:id="@+id/store4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:button="@drawable/npay_check"
+        android:checked="false"
+        android:fontFamily="@font/mapopeacefull"
+        android:text=""
+        android:textColor="#FF000000"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="@+id/store2"
+        app:layout_constraintTop_toBottomOf="@+id/store2" />
+
+    <TextView
+        android:id="@+id/storename4"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="[공학관]\n매점"
+        android:textColor="#FF000000"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/store4"
+        app:layout_constraintStart_toEndOf="@+id/store4"
+        app:layout_constraintTop_toTopOf="@+id/store4" />
+
+    <ImageView
+        android:id="@+id/imageView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/npay_s1"
+        app:layout_constraintBottom_toTopOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8" />
+
+    <ImageView
+        android:id="@+id/imageView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/npay_s2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView22"
+        app:layout_constraintTop_toTopOf="@+id/imageView22" />
+
+    <ImageView
+        android:id="@+id/imageView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/npay_s3"
+        app:layout_constraintStart_toStartOf="@+id/imageView27"
+        app:layout_constraintTop_toTopOf="@+id/imageView27" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
