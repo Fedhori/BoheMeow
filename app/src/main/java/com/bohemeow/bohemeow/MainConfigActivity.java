@@ -1,5 +1,6 @@
 package com.bohemeow.bohemeow;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +15,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainConfigActivity extends Activity {
+public class MainConfigActivity extends AppCompatActivity  {
 
     ImageButton cat_imgbtn;
 
@@ -42,8 +50,10 @@ public class MainConfigActivity extends Activity {
 
     ProgressBar progressBar;
 
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
 
-
+    UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +62,25 @@ public class MainConfigActivity extends Activity {
         setContentView(R.layout.activity_config_popup);
 
         Intent intent = getIntent();
-        final UserData userData = (UserData) intent.getSerializableExtra("userdata");
+        userData = (UserData) intent.getSerializableExtra("userdata");
+
+
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tabs);
+        viewPager.setAdapter(createCardAdapter());
+        new TabLayoutMediator(tabLayout, viewPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        if(position == 0){
+                            tab.setText("기록");
+                        }
+                        else if(position == 1){
+                            tab.setText("캐릭터");
+                        }
+                    }
+                }).attach();
+
+
 
         cat_imgbtn = findViewById(R.id.cat_img);
         user_id = findViewById(R.id.user_id);
@@ -209,6 +237,29 @@ public class MainConfigActivity extends Activity {
 
         progressBar.setProgress((int)currentLevel);
 
+    }
+
+    private ViewPagerAdapter createCardAdapter() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        return adapter;
+    }
+
+    public class ViewPagerAdapter extends FragmentStateAdapter {
+        private static final int CARD_ITEM_SIZE = 2;
+        public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+        }
+        @NonNull @Override
+        public Fragment createFragment(int position) {
+            if(position == 0){
+                return fragmentWalkdetail.newInstance(position);
+            }
+            else return fragmentCatdetail.newInstance(position);
+        }
+        @Override
+        public int getItemCount() {
+            return CARD_ITEM_SIZE;
+        }
     }
 
     void getNoticeDataAndStartActivity(){

@@ -82,8 +82,6 @@ public class CommunityActivity extends AppCompatActivity {
                     @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                         if(position == 0){
                             tab.setText("전체");
-
-
                         }
                         else if(position == 1){
                             tab.setText("내 게시글");
@@ -108,9 +106,7 @@ public class CommunityActivity extends AppCompatActivity {
                     postData get = postSnapshot.getValue(postData.class);
                     post data = new post(get.username, get.content, get.tags, get.time, get.uri, get.level, get.catType, get.isPublic);
                     mArrayList.add(data);
-                    Log.d("asdf", data.isPublic + "a");
                     if(data.isPublic()){
-                        Log.d("asdf", data.isPublic + "b");
                         publicArrayList.add(data);
                     }
                 }
@@ -163,11 +159,7 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
-
 
 
     private ViewPagerAdapter createCardAdapter() {
