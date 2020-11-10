@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="180dp"
-    android:background="@drawable/popup_small">
+    android:background="@drawable/popup_box_small">
 
     <Button
         android:id="@+id/back_btn"
@@ -20,13 +20,13 @@
         android:id="@+id/bugreport_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="체중을 입력해주세요."
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,10 +34,10 @@
         android:id="@+id/newWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="number"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +48,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="28dp"
-        android:background="#FFFFFF"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/popup_button_yellow"
         android:fontFamily="@font/mapo"
         android:text="수정"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

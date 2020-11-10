@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="300dp"
-    android:background="@drawable/popup_small">
+    android:background="@drawable/popup_box_mid">
 
 
     <Button
         android:id="@+id/yes_btn"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="56dp"
-        android:background="#FFFFFF"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/popup_button_blue"
         android:text="예"
-        android:textColor="#707070"
+        android:textColor="#EEECD3"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -23,10 +24,11 @@
         android:id="@+id/no_btn"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:background="#FFFFFF"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/popup_button_navy"
         android:text="아니오"
-        android:textColor="#707070"
+        android:textColor="#EEECD3"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/yes_btn" />
 
@@ -38,7 +40,7 @@
         android:fontFamily="@font/mapopeacefull"
         android:text="정말 계정을 삭제하시겠습니까?"
         android:textColor="#F44336"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordCheck" />
@@ -50,7 +52,7 @@
         android:layout_marginTop="36dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="본인확인을 위해 비밀번호를 입력해주세요."
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -61,11 +63,11 @@
         android:id="@+id/passwordCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/self_check_TV" />
 
