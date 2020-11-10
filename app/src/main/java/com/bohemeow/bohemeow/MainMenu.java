@@ -79,7 +79,7 @@ public class MainMenu extends AppCompatActivity {
         /*
         rnd = new Random();
         int num = rnd.nextInt(2);
-        if(num == 1){
+        if(num == 1){.
             select_btn.setBackgroundResource(R.drawable.main_cat_scaratch);
         }
 
@@ -177,7 +177,7 @@ public class MainMenu extends AppCompatActivity {
          */
 
         iv_texton = findViewById(R.id.iv_texton);
-        iv_texton.setVisibility(View.INVISIBLE);
+        //iv_texton.setVisibility(View.INVISIBLE);
         iv_onoff = findViewById(R.id.iv_onoff);
         iv_onoff.setOnClickListener(new View.OnClickListener(){
 
@@ -185,11 +185,11 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(View v) {
                 isOn = !isOn;
                 if(isOn){
-                    iv_onoff.setBackgroundResource(R.drawable.infooff);
+                    iv_onoff.setBackgroundResource(R.drawable.infoon);
                     iv_texton.setVisibility(View.VISIBLE);
                 }
                 else{
-                    iv_onoff.setBackgroundResource(R.drawable.infoon);
+                    iv_onoff.setBackgroundResource(R.drawable.infooff);
                     iv_texton.setVisibility(View.INVISIBLE);
                 }
             }
