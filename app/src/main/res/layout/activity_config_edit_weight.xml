@@ -6,16 +6,6 @@
     android:layout_height="180dp"
     android:background="@drawable/popup_box_small">
 
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/config_0004_quit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/bugreport_tv"
         android:layout_width="wrap_content"

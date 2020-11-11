@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="200dp"
-    android:background="@drawable/popup_small">
+    android:background="@drawable/popup_box_small">
 
 
     <Button
@@ -12,12 +12,13 @@
         android:layout_width="105dp"
         android:layout_height="35dp"
         android:layout_marginEnd="30dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/popup_button_red"
         android:fontFamily="@font/mapo"
         android:text="체중 변경"
-        android:textColor="#707070"
+        android:textColor="#EEECD3"
         app:layout_constraintBottom_toBottomOf="@+id/editPW_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editPW_btn" />
 
     <Button
         android:id="@+id/editPW_btn"
@@ -25,10 +26,10 @@
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="60dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/popup_button_yellow"
         android:fontFamily="@font/mapo"
         android:text="비밀번호 변경"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,24 +37,14 @@
         android:id="@+id/editIntro_btn"
         android:layout_width="105dp"
         android:layout_height="35dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="124dp"
-        android:background="#FFFFFF"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/popup_button_blue"
         android:fontFamily="@font/mapo"
         android:text="자기소개 변경"
-        android:textColor="#707070"
+        android:textColor="#EEECD3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/config_0004_quit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editPW_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -30,14 +30,6 @@ public class ConfigEditWeightActivity extends Activity {
         Intent intent = getIntent();
         final UserData userData = (UserData) intent.getSerializableExtra("userdata");
 
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         getUserData(userData.nickname);
 
         newWeight = findViewById(R.id.newWeight);

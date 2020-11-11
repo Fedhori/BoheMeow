@@ -48,27 +48,6 @@ public class ConfigEditActivity extends Activity {
                 startActivityForResult(intent, 1);
             }
         });
-
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-
-
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
-        }
-        return true;
     }
 
     @Override

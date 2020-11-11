@@ -13,13 +13,5 @@ public class RankingExplanationActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_ranking_explanation);
-
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 }

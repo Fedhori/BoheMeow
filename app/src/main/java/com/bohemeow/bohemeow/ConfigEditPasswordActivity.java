@@ -31,14 +31,6 @@ public class ConfigEditPasswordActivity extends Activity {
         new_password = findViewById(R.id.new_password);
         new_password_check = findViewById(R.id.new_password_check);
 
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         Button change_btn = findViewById(R.id.yes_btn);
         change_btn.setOnClickListener(new View.OnClickListener(){
             @Override

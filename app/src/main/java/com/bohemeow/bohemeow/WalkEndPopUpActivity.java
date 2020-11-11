@@ -15,14 +15,6 @@ public class WalkEndPopUpActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_walk_end_pop_up);
 
-        Button back_btn = findViewById(R.id.back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         Button yes_btn = findViewById(R.id.yes_btn);
         yes_btn.setOnClickListener(new View.OnClickListener(){
             @Override

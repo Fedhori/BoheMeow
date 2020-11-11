@@ -4,17 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="500dp"
-    android:background="@drawable/intro_background"
+    android:background="@drawable/popup_box_big"
     tools:context=".RankPopUpActivity">
+
+    <ImageView
+        android:id="@+id/imageView56"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/popup_box_mid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="의 한마디"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/level"
         app:layout_constraintStart_toStartOf="@+id/level" />
@@ -25,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkCount"
         app:layout_constraintStart_toStartOf="@+id/walkCount" />
@@ -34,10 +44,10 @@
         android:id="@+id/walkTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="100dp"
         android:text="TextView"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -48,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkTime"
         app:layout_constraintStart_toStartOf="@+id/walkTime" />
@@ -59,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/walkLength"
         app:layout_constraintStart_toStartOf="@+id/walkLength" />
@@ -68,21 +78,20 @@
         android:id="@+id/introduction"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/imageView56"
+        app:layout_constraintTop_toTopOf="@+id/imageView56" />
 
     <Button
         android:id="@+id/back_btn"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/allright"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -91,10 +100,10 @@
         android:id="@+id/catFace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/heads_0008"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView56"
+        app:layout_constraintEnd_toEndOf="@+id/imageView56" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

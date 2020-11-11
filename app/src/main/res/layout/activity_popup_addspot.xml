@@ -4,31 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="200dp"
-    android:background="@drawable/popup_small">
+    android:background="@drawable/popup_box_small">
 
 
     <Button
         android:id="@+id/no_btn"
         android:layout_width="90dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="55dp"
-        android:background="#00FFFFFF"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/popup_button_red"
         android:text="아니오"
-        android:textColor="#707070"
-        android:textSize="20sp"
+        android:textColor="#EEECD3"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/yes_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/yes_btn" />
 
     <Button
         android:id="@+id/yes_btn"
         android:layout_width="90dp"
         android:layout_height="35dp"
-        android:layout_marginStart="55dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
-        android:background="#00FFFFFF"
+        android:background="@drawable/popup_button_yellow"
         android:text="예"
-        android:textColor="#707070"
-        android:textSize="20sp"
+        android:textColor="#110F0F"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location" />
 
@@ -36,11 +38,11 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="스팟을 추가하시겠습니까?"
-        android:textColor="#707070"
-        android:textSize="22sp"
+        android:textColor="#110F0F"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,12 +51,13 @@
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="(00.0000, 00.0000)"
-        android:textColor="#707070"
+        android:textColor="#110F0F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 

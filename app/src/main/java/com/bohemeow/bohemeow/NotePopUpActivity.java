@@ -27,22 +27,5 @@ public class NotePopUpActivity extends Activity {
 
         TextView contentTV = findViewById(R.id.contentTV);
         contentTV.setText(noteContent);
-
-        Button back_btn = findViewById(R.id.back_btn2);
-        back_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
-        }
-        return true;
     }
 }
