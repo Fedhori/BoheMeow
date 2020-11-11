@@ -153,7 +153,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".WritePostActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".TutorialActivity"
             android:screenOrientation="portrait" />
