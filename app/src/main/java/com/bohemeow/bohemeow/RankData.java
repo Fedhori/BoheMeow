@@ -9,6 +9,7 @@ public class RankData implements Serializable {
     public double totalWalkLength;
     public long realWalkTime;
     public int totalWalkCount;
+    public int totalSpotCount;
     public int level;
     public int catType;
     public int rank;
@@ -19,13 +20,14 @@ public class RankData implements Serializable {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public RankData(String nickname, int catType, double totalWalkLength, long realWalkTime, int totalWalkCount, int level, int rank, String introduction) {
+    public RankData(String nickname, int catType, double totalWalkLength, long realWalkTime, int totalWalkCount, int totalSpotCount, int level, int rank, String introduction) {
         // set by constructor
         this.nickname = nickname;
         this.catType = catType;
         this.totalWalkLength = totalWalkLength;
         this.realWalkTime = realWalkTime;
         this.totalWalkCount = totalWalkCount;
+        this.totalSpotCount = totalSpotCount;
         this.level = level;
         this.rank =rank;
         this.introduction = introduction;
@@ -40,6 +42,7 @@ public class RankData implements Serializable {
         result.put("totalWalkLength", totalWalkLength);
         result.put("realWalkTime", realWalkTime);
         result.put("totalWalkCount", totalWalkCount);
+        result.put("totalSpotCount", totalSpotCount);
         result.put("level", level);
         result.put("catType", catType);
         result.put("rank", rank);

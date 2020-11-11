@@ -7,82 +7,162 @@
     android:background="@drawable/popup_box_big"
     tools:context=".RankPopUpActivity">
 
+    <TextView
+        android:id="@+id/tv6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="누적 산책 시간"
+        android:textColor="#95A7A7"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button8" />
+
+    <TextView
+        android:id="@+id/tv7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="누적 산책 거리"
+        android:textColor="#95A7A7"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tv6"
+        app:layout_constraintTop_toBottomOf="@+id/tv6" />
+
+    <TextView
+        android:id="@+id/tv8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="총 산책 횟수"
+        android:textColor="#95A7A7"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tv7"
+        app:layout_constraintTop_toBottomOf="@+id/tv7" />
+
+    <TextView
+        android:id="@+id/tv10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="총 스팟 방문 횟수"
+        android:textColor="#95A7A7"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tv8"
+        app:layout_constraintTop_toBottomOf="@+id/tv8" />
+
     <ImageView
         android:id="@+id/imageView56"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/popup_box_mid"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/main_config_textbox"
+        app:layout_constraintEnd_toStartOf="@+id/catFace"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/catFace" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="의 한마디"
         android:textColor="#110F0F"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/level"
-        app:layout_constraintStart_toStartOf="@+id/level" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/walkLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textColor="#110F0F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/walkCount"
-        app:layout_constraintStart_toStartOf="@+id/walkCount" />
+        android:text="000km"
+        android:textColor="#2C87CC"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/walkTime"
+        app:layout_constraintTop_toTopOf="@+id/tv7" />
 
     <TextView
         android:id="@+id/walkTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="100dp"
-        android:text="TextView"
-        android:textColor="#110F0F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginEnd="44dp"
+        android:text="00:00:00"
+        android:textColor="#2C87CC"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv6" />
 
     <TextView
         android:id="@+id/walkCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textColor="#110F0F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/walkTime"
-        app:layout_constraintStart_toStartOf="@+id/walkTime" />
+        android:text="00번"
+        android:textColor="#2C87CC"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/walkLength"
+        app:layout_constraintTop_toTopOf="@+id/tv8" />
 
     <TextView
-        android:id="@+id/level"
+        android:id="@+id/totalSpotCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textColor="#110F0F"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/walkLength"
-        app:layout_constraintStart_toStartOf="@+id/walkLength" />
+        android:text="00번"
+        android:textColor="#2C87CC"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/walkCount"
+        app:layout_constraintTop_toTopOf="@+id/tv10" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/main_config_tap_on"
+        android:text="산책 정보"
+        android:textColor="#F5FAFD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView56" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/main_config_tap_off"
+        android:text="유형 설명"
+        android:textColor="#F5FAFD"
+        app:layout_constraintBottom_toBottomOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView56" />
 
     <TextView
         android:id="@+id/introduction"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="#110F0F"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/imageView56"
         app:layout_constraintTop_toTopOf="@+id/imageView56" />
 
@@ -91,8 +171,10 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/allright"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/popup_button_blue"
+        android:text="그렇구만"
+        android:textColor="#F5FAFD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -100,10 +182,10 @@
         android:id="@+id/catFace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/heads_0008"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView56"
-        app:layout_constraintEnd_toEndOf="@+id/imageView56" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

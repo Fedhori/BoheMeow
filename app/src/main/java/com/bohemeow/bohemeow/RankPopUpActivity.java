@@ -37,22 +37,21 @@ public class RankPopUpActivity extends Activity {
         catFace.setBackgroundResource(icons[rankData.catType]);
 
         TextView usernameTV = findViewById(R.id.username);
-        usernameTV.setText(rankData.nickname + "의 산책정보");
+        usernameTV.setText(rankData.nickname + "의 정보");
 
         TextView introductionTV = findViewById(R.id.introduction);
         introductionTV.setText(rankData.introduction);
 
-        int level = calculateLevel(rankData.level);
-        TextView levelTV = findViewById(R.id.level);
-        levelTV.setText("레벨: " + level);
+        TextView levelTV = findViewById(R.id.totalSpotCount);
+        levelTV.setText(rankData.totalSpotCount + "회");
 
         double distance = rankData.totalWalkLength / 1000f;
         String strNumber = String.format("%.2f", distance);
         TextView walkLengthTV = findViewById(R.id.walkLength);
-        walkLengthTV.setText("누적거리: " + strNumber + "km");
+        walkLengthTV.setText(strNumber + "km");
 
         TextView walkCountTV = findViewById(R.id.walkCount);
-        walkCountTV.setText("산책횟수: " + rankData.totalWalkCount + "회");
+        walkCountTV.setText(rankData.totalWalkCount + "회");
 
         long totalTime = rankData.realWalkTime; // ms
         long hour;
@@ -85,7 +84,7 @@ public class RankPopUpActivity extends Activity {
             timeText += "0" + second;
         }
         TextView walkTimeTV = findViewById(R.id.walkTime);
-        walkTimeTV.setText("산책시간: " + timeText);
+        walkTimeTV.setText(timeText);
     }
 
     int calculateLevel(int score){

@@ -83,8 +83,9 @@ public class MainConfigActivity extends Activity {
         user_level.setText("LV" + Integer.toString(calculateLevel(userData.level)));
         total_count.setText(Integer.toString(userData.totalWalkCount) + "번");
 
-        int distance = (int) userData.totalWalkLength;
-        total_dis.setText(Integer.toString(distance) + "m");
+        float distance = (float) userData.totalWalkLength / 1000f;
+        String strNumber = String.format("%.2f", distance);
+        total_dis.setText(strNumber + "km");
 
         long totalTime = userData.realWalkTime; // ms
         long hour;

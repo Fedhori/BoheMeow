@@ -21,6 +21,7 @@ public class LoadingActivity extends AppCompatActivity {
     long waitingTime = 3000; // millisecond
     int readPhoneStatePermission;
     int readLocationStatePermission;
+    int writeExternalStoragePermission;
 
     private String[] loadingTexts = {
             "예의바르게 야옹하는 중",
@@ -50,6 +51,8 @@ public class LoadingActivity extends AppCompatActivity {
                 Manifest.permission.READ_PHONE_STATE);
         readLocationStatePermission = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
+        writeExternalStoragePermission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
 
         loadingText = findViewById(R.id.loading_text);
@@ -67,7 +70,7 @@ public class LoadingActivity extends AppCompatActivity {
             if(registerInfo.getString("registerUserName", "NULL").equals("NULL")){
 
                 // permission not granted yey
-                if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED) {
+                if ( readPhoneStatePermission != PackageManager.PERMISSION_GRANTED || readLocationStatePermission != PackageManager.PERMISSION_GRANTED || writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(LoadingActivity.this, CheckPermissionActivity.class);
                     startActivity(intent);
                 }
