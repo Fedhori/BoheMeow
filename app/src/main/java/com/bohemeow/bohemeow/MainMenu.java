@@ -44,6 +44,8 @@ import java.util.TimeZone;
 
 public class MainMenu extends AppCompatActivity {
 
+    //test
+
     //뒤로가기 두번 시 종료되도록 구현 예정
     private long backKeyPressedTime = 0;
     private Toast toast;
