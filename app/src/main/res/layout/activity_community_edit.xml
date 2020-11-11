@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="550dp"
-    android:background="@drawable/comm_popup_box">
+    android:layout_width="336dp"
+    android:layout_height="600dp"
+    android:background="@drawable/commu_write_box">
 
     <ImageView
         android:id="@+id/imageView55"
@@ -50,45 +50,42 @@
     <EditText
         android:id="@+id/content"
         android:layout_width="280dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="17dp"
         android:background="#00FFFFFF"
+        android:ems="10"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="start"
-        android:hint="텍스트를 입력해 주세요..."
+        android:gravity="top"
+        android:hint="텍스트를 입력해 주세요 ..."
         android:inputType="textMultiLine"
-        android:lines="5"
-        android:minLines="1"
+        android:maxLines="7"
         android:scrollbars="vertical"
-        android:text="This is a sample sentence."
-        android:textColor="#707070"
-        android:textColorHint="#707070"
-        android:textSize="18sp"
+        android:scrollHorizontally="false"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_image" />
+        app:layout_constraintTop_toBottomOf="@+id/imageBtn" />
 
     <EditText
         android:id="@+id/tags"
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
         android:background="#00FFFFFF"
+        android:ems="10"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="start"
+        android:gravity="top"
+        android:hint="#Hash #Tags"
         android:inputType="textMultiLine"
-        android:scrollbars="vertical"
-        android:lines="2"
-        android:minLines="1"
-        android:text="#태그 #태그"
-        android:textColor="#70707075"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/content"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:maxLines="3"
+        android:textColor="#90EA91"
+        android:textColorHint="#90EA91"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/content"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        android:textColorHint="#70707075"
-        android:hint="#tag" />
+        app:layout_constraintTop_toBottomOf="@+id/content" />
 
 
     <TextView
@@ -141,15 +138,15 @@
         app:layout_constraintEnd_toStartOf="@+id/user_icon" />
 
     <CheckBox
-        android:id="@+id/postType2"
+        android:id="@+id/postType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:button="@drawable/setposttype"
+        android:layout_marginBottom="115dp"
+        android:button="@drawable/commu_check"
         android:checked="false"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_btn"
-        app:layout_constraintStart_toEndOf="@+id/edit_btn"
-        app:srcCompat="@drawable/public_mark" />
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

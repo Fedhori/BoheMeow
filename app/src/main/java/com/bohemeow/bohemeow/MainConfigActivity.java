@@ -33,7 +33,6 @@ public class MainConfigActivity extends Activity {
     TextView total_spot;
     TextView user_introduction;
 
-    Button back_btn;
     Button edit_btn;
     Button man_btn;
     Button logout_btn;
