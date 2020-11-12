@@ -63,7 +63,7 @@ public class EditPostActivity extends Activity {
         contentET.setText(pst.getContent());
         tagET.setText(pst.getTags());
 
-        checkBox = findViewById(R.id.postType2);
+        checkBox = findViewById(R.id.postType);
         if(pst.isPublic){
             checkBox.setChecked(true);
         }

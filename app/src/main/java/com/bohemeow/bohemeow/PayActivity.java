@@ -55,7 +55,7 @@ public class PayActivity extends Activity {
     String username;
     int point_remain;
     int point_use;
-    int code;
+    String code;
 
     int num = 0;
     int storeNum;
@@ -218,7 +218,7 @@ public class PayActivity extends Activity {
                 else {
 
                     point_use = Integer.parseInt(point_useET.getText().toString());
-                    code = Integer.parseInt(codeET.getText().toString());
+                    code = codeET.getText().toString();
 
                     if(isYul)
                         storeNum = num + 4;
@@ -228,7 +228,8 @@ public class PayActivity extends Activity {
                     mPostReference.child("store_list").child(stores[storeNum]).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(code == dataSnapshot.child("code").getValue(Integer.class)){
+
+                            if(code.equals(dataSnapshot.child("code").getValue(String.class))){
                                 SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = registerInfo.edit();
                                 editor.putBoolean("isYul", isYul);
@@ -250,6 +251,7 @@ public class PayActivity extends Activity {
                         }
 
                         @Override
+
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
