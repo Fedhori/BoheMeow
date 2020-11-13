@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     private TMapView tMapView = null;
     private Context context;
 
-    Button walkStart_btn;
+    ImageButton walkStart_btn;
     Button popupBtn;
 
     private int polyLineCnt = 0;
@@ -113,7 +114,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
             }
         });
 
-        walkStart_btn = (Button) findViewById(R.id.walkStart_btn);
+        walkStart_btn = findViewById(R.id.walkStart_btn);
         walkStart_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -200,10 +201,14 @@ public class SelectSpotActivity extends AppCompatActivity  {
         // set screen to start position
         tMapView.setLocationPoint(startLng, startLat);
         tMapView.setCenterPoint(startLng, startLat);
+        tMapView.setZoomLevel(14);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.walking_marker_usericon);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+        tMapView.setIcon(bitmap);
 
         TMapPoint startPoint = new TMapPoint(startLat, startLng);
 
-        drawSpotMarker(startPoint,  R.drawable.point_start);
+        drawSpotMarker(startPoint,  R.drawable.walking_marker_startpoint);
         drawCircle(startPoint);
 
 
@@ -408,7 +413,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     newnum += 1;
                     num += 1;
                     locs.add(new location(curLat, curLng));
-                    drawSpotMarker(new TMapPoint(curLat, curLng), R.drawable.walk_point);
+                    drawSpotMarker(new TMapPoint(curLat, curLng), R.drawable.walking_marker_spot);
                     break;
                 case 2:
                     num -= 1;

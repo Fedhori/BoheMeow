@@ -4,117 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9FFFB"
+    android:background="@drawable/startwalk_background"
     tools:context=".SelectActivity">
 
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="130dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/box1" />
 
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="110dp"
-        android:layout_height="27dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-        app:layout_constraintEnd_toEndOf="@+id/imageView14"
-        app:layout_constraintTop_toTopOf="@+id/imageView14"
-        app:srcCompat="@drawable/t1" />
-
-    <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="130dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/box2" />
-
-    <ImageView
-        android:id="@+id/imageView47"
+    <TextView
+        android:id="@+id/textView56"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView14"
-        app:srcCompat="@drawable/_0010_dot" />
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="방문할 산책 스팟을 직접 선택합니다."
+        android:textColor="#707070"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox3"
+        app:layout_constraintStart_toEndOf="@+id/checkBox3" />
 
-    <ImageView
-        android:id="@+id/imageView48"
-        android:layout_width="90dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView47"
-        app:layout_constraintStart_toEndOf="@+id/imageView47"
-        app:layout_constraintTop_toTopOf="@+id/imageView47"
-        app:srcCompat="@drawable/t3" />
-
-    <ImageView
-        android:id="@+id/imageView49"
-        android:layout_width="340dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView48"
-        app:srcCompat="@drawable/bigbox1" />
-
-    <ImageView
-        android:id="@+id/imageView50"
+    <TextView
+        android:id="@+id/textView55"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="시간에 맞는 경로를 추천받습니다."
+        android:textColor="#707070"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
+        app:layout_constraintStart_toEndOf="@+id/checkBox2" />
+
+    <TextView
+        android:id="@+id/textView54"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="또는 새로운 산책을 시작합니다."
+        android:textColor="#707070"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView53"
+        app:layout_constraintEnd_toStartOf="@+id/textView53" />
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="82dp"
+        android:layout_marginTop="95dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="이전경로"
+        android:textColor="#262421"
+        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView49"
-        app:srcCompat="@drawable/_0010_dot" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView51"
-        android:layout_width="110dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView50"
-        app:layout_constraintStart_toEndOf="@+id/imageView50"
-        app:layout_constraintTop_toTopOf="@+id/imageView50"
-        app:srcCompat="@drawable/t4" />
-
-    <ImageView
-        android:id="@+id/imageView52"
-        android:layout_width="340dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="15dp"
+    <TextView
+        android:id="@+id/textView53"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="새로운 산책"
+        android:textColor="#262421"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView51"
-        app:srcCompat="@drawable/bigbox2" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="산책 옵션"
+        android:textColor="#262421"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/sub_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="110dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/time_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/time_view"
-        app:srcCompat="@drawable/_0006_minus" />
+        app:srcCompat="@drawable/startwalk_down" />
 
     <ImageButton
         android:id="@+id/add_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="110dp"
         android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sub_btn"
-        app:srcCompat="@drawable/_0003_plus" />
+        app:srcCompat="@drawable/startwalk_up" />
 
     <EditText
         android:id="@+id/time_view"
@@ -130,7 +118,7 @@
         android:maxLength="3"
         android:selectAllOnFocus="true"
         android:text="30"
-        android:textColor="#707070"
+        android:textColor="#262421"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,47 +130,45 @@
         android:layout_height="35dp"
         android:layout_marginStart="5dp"
         android:background="#00FFFFFF"
-        android:fontFamily="@font/mapo"
+        android:fontFamily="@font/mapopeacefull"
         android:text="분"
-        android:textColor="#707070"
+        android:textColor="#262421"
         android:textSize="26sp"
         app:layout_constraintStart_toEndOf="@+id/time_view"
         app:layout_constraintTop_toTopOf="@+id/time_view" />
 
     <Button
         android:id="@+id/start_btn"
-        android:layout_width="85dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/t2"
+        android:layout_width="165dp"
+        android:layout_height="140dp"
+        android:background="@drawable/startwalk_gobutton"
         android:fontFamily="@font/mapopeacefull"
-        android:textColor="#707070"
+        android:textColor="#F84B10"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
-        app:layout_constraintStart_toStartOf="@+id/imageView16"
-        app:layout_constraintTop_toTopOf="@+id/imageView16" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
         android:id="@+id/record_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:button="@drawable/paycheck"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="25dp"
+        android:button="@drawable/npay_check"
         android:checked="true"
         android:fontFamily="@font/mapopeacefull"
-        android:text="  천천동 · 3 개 스팟 · 10월 21일"
+        android:text="  천천동 · 3개 스팟 · 10월 21일"
         android:textColor="#707070"
         android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView49"
-        app:layout_constraintTop_toTopOf="@+id/imageView49" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
     <CheckBox
         android:id="@+id/record_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:button="@drawable/paycheck"
+        android:button="@drawable/npay_check"
         android:checked="false"
         android:fontFamily="@font/mapopeacefull"
         android:text="  이전 경로 2"
@@ -196,7 +182,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:button="@drawable/paycheck"
+        android:button="@drawable/npay_check"
         android:checked="false"
         android:fontFamily="@font/mapopeacefull"
         android:text="  이전 경로 3"
@@ -209,28 +195,28 @@
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:button="@drawable/paycheck"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:button="@drawable/npay_check"
         android:checked="false"
         android:fontFamily="@font/mapopeacefull"
         android:text="  추천 경로"
-        android:textColor="#707070"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView52"
-        app:layout_constraintTop_toTopOf="@+id/imageView52" />
+        android:textColor="#262421"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView54" />
 
     <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:button="@drawable/paycheck"
+        android:button="@drawable/npay_check"
         android:checked="false"
         android:fontFamily="@font/mapopeacefull"
         android:text="  직접 선택"
-        android:textColor="#707070"
-        android:textSize="17sp"
+        android:textColor="#262421"
+        android:textSize="22sp"
         app:layout_constraintStart_toStartOf="@+id/checkBox2"
         app:layout_constraintTop_toBottomOf="@+id/time_view" />
 
@@ -238,12 +224,26 @@
         android:id="@+id/imageView53"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/coverbox"
         android:clickable="true"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/checkBox3"
-        app:layout_constraintEnd_toEndOf="@+id/imageView52"
-        app:layout_constraintStart_toStartOf="@+id/imageView52"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox2"
-        app:srcCompat="@drawable/whitebox" />
+        app:srcCompat="@drawable/coverbox" />
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="최근 탐색한 경로대로 바로 산책합니다."
+        android:textColor="#707070"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView50"
+        app:layout_constraintStart_toEndOf="@+id/textView50" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

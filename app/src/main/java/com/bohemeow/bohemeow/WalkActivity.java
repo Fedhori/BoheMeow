@@ -332,7 +332,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.here);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.walking_marker_usericon);
                 bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
                 tMapView.setIcon(bitmap);
             }
