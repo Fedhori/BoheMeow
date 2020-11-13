@@ -72,6 +72,7 @@ public class CommuEditActivity extends Activity {
         pos = intent.getIntExtra("num", pos);
 
 
+        imageButton = findViewById(R.id.imageBtn);
 
         contentET = findViewById(R.id.content);
         tagET = findViewById(R.id.tags);
@@ -152,7 +153,6 @@ public class CommuEditActivity extends Activity {
         });
 
 
-        imageButton = findViewById(R.id.imageBtn);
         imageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

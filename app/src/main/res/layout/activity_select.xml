@@ -15,7 +15,7 @@
         android:layout_marginStart="10dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="방문할 산책 스팟을 직접 선택합니다."
-        android:textColor="#E9E5B3"
+        android:textColor="#707070"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox3"
         app:layout_constraintStart_toEndOf="@+id/checkBox3" />
@@ -27,7 +27,7 @@
         android:layout_marginStart="10dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="시간에 맞는 경로를 추천받습니다."
-        android:textColor="#E9E5B3"
+        android:textColor="#707070"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
         app:layout_constraintStart_toEndOf="@+id/checkBox2" />
@@ -36,10 +36,10 @@
         android:id="@+id/textView54"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="10dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="또는 새로운 산책을 시작합니다."
-        android:textColor="#FDFAD6"
+        android:textColor="#707070"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView53"
         app:layout_constraintEnd_toStartOf="@+id/textView53" />
@@ -61,14 +61,14 @@
         android:id="@+id/textView53"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="335dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="새로운 산책"
         android:textColor="#262421"
         android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="@+id/start_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView34"
