@@ -11,7 +11,7 @@
         android:id="@+id/FAQlistView"
         android:layout_width="250dp"
         android:layout_height="350dp"
-        android:background="@drawable/popup_box_mid"
+        android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
