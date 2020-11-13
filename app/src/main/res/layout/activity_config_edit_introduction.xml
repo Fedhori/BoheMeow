@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="320dp"
+    android:layout_height="400dp"
     android:background="@drawable/popup_box_mid"
     tools:context=".ConfigEditIntroductionActivity">
 
