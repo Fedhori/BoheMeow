@@ -152,7 +152,7 @@
             android:name=".CommunityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".WritePostActivity"
+            android:name=".CommuWriteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
@@ -170,7 +170,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
-            android:name=".EditPostActivity"
+            android:name=".CommuEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity

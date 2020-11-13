@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="336dp"
+    android:layout_width="350dp"
     android:layout_height="600dp"
     android:background="@drawable/commu_write_box">
 
@@ -11,28 +11,27 @@
         android:id="@+id/create_post_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/write"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/writebutton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageBtn"
         android:layout_width="280dp"
         android:layout_height="145dp"
         android:layout_marginTop="12dp"
-        android:background="#00FFFFFF"
+        android:background="@drawable/commu_write_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/commu_write_photo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/content"
         android:layout_width="280dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="17dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="15dp"
         android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
@@ -51,9 +50,8 @@
 
     <EditText
         android:id="@+id/tags"
-        android:layout_width="260dp"
+        android:layout_width="280dp"
         android:layout_height="80dp"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:background="#00FFFFFF"
         android:ems="10"
@@ -78,16 +76,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/content" />
-
-    <ImageView
-        android:id="@+id/imageView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/main_config_nullhead" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

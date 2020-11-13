@@ -8,12 +8,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,7 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class WritePostActivity extends Activity {
+public class CommuWriteActivity extends Activity {
 
     Map<String, Object> childUpdates;
     Map<String, Object> postValues;
@@ -123,13 +121,13 @@ public class WritePostActivity extends Activity {
             public void onClick(View view) {
 
                 if(contentET.length() == 0){
-                    Toast.makeText(WritePostActivity.this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommuWriteActivity.this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     postFirebaseDatabase(true);
                     updatePoint(username, 100);
 
-                    Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
+                    Intent intent = new Intent(CommuWriteActivity.this, CommunityActivity.class);
                     startActivity(intent);
                 }
             }
@@ -167,8 +165,6 @@ public class WritePostActivity extends Activity {
         }
         else if(requestCode==1){
             if(resultCode == 1){
-                Intent intent = new Intent(WritePostActivity.this, CommunityActivity.class);
-                startActivity(intent);
                 finish();
             }
         }
@@ -294,7 +290,7 @@ public class WritePostActivity extends Activity {
 
                             ref.child("level").setValue(user_totalPoint + totalPoint);
                             ref.child("point").setValue(point + totalPoint);
-                            Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
                         }
                         ref.child("lastPost").child("num").setValue(num + 1);
@@ -307,7 +303,7 @@ public class WritePostActivity extends Activity {
                         ref.child("point").setValue(point + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
-                        Toast.makeText(WritePostActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
                     }
                     isUpdated = true;
@@ -375,7 +371,16 @@ public class WritePostActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(WritePostActivity.this, WriteCheckActivity.class);
+        Intent intent = new Intent(CommuWriteActivity.this, WriteCheckActivity.class);
         startActivityForResult(intent, 1);
     }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //바깥레이어 클릭시 안닫히게
+        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+            return false;
+        }
+        return true;
+    }
+
 }
