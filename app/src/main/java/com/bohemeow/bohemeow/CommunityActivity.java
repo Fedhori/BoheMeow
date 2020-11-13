@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -146,7 +145,7 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isWritable) {
-                    Intent intent = new Intent(CommunityActivity.this, WritePostActivity.class);
+                    Intent intent = new Intent(CommunityActivity.this, CommuWriteActivity.class);
                     intent.putExtra("username", username);
                     intent.putExtra("level", level);
                     intent.putExtra("catType", catType);

@@ -2,7 +2,7 @@
 <selector xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/activated" android:state_selected="true"></item>
+    <item android:drawable="@drawable/commu_tap" android:state_selected="true"></item>
     <item android:drawable="@drawable/deactivated"></item>
 </selector>
 

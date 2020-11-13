@@ -11,28 +11,29 @@ android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageView40"
-            android:layout_width="370dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
+            android:layout_width="360dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="7dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/commu_searchbox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/searchbox" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/searchContent"
             android:layout_width="290dp"
             android:layout_height="35dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="1dp"
             android:background="#00FFFFFF"
             android:ems="10"
             android:fontFamily="@font/mapopeacefull"
             android:hint="검색어를 입력해 주세요.."
             android:inputType="text"
-            android:textColor="#2699FB"
-            android:textColorHint="#2699FB"
+            android:textColor="#9E707070"
+            android:textColorHint="#9E707070"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView40"
             app:layout_constraintStart_toStartOf="@+id/imageView40"
@@ -40,22 +41,19 @@ android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/search_btn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:background="#00FFFFFF"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/commu_searchmark"
             app:layout_constraintBottom_toBottomOf="@id/imageView40"
             app:layout_constraintEnd_toEndOf="@+id/imageView40"
-            app:layout_constraintStart_toEndOf="@+id/searchContent"
-            app:layout_constraintTop_toTopOf="@+id/imageView40"
-            app:srcCompat="@drawable/searchmark" />
+            app:layout_constraintTop_toTopOf="@+id/imageView40" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_main_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="8dp"
             android:scrollbarFadeDuration="0"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
@@ -74,11 +72,11 @@ android:layout_height="match_parent">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|center_horizontal"
-        android:drawableTop="@drawable/search_0001_notfound"
-        android:fontFamily="@font/mapobackpacking"
+        android:drawableTop="@drawable/commu_search_empty"
+        android:fontFamily="@font/mapopeacefull"
         android:gravity="center_horizontal"
         android:text="아무 것도 없네요 ..."
-        android:textColor="#FB8C3D"
-        android:textSize="24sp" />
+        android:textColor="#707070"
+        android:textSize="22sp" />
 
 </FrameLayout>

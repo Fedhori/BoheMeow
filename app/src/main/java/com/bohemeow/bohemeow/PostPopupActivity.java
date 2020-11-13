@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,16 +17,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 
 public class PostPopupActivity extends Activity {
 
@@ -110,8 +99,7 @@ public class PostPopupActivity extends Activity {
             });
         }
         else {
-            //contentIV.setEnabled(false);
-            contentIV.setImageResource(R.drawable.photoempty);
+            //contentIV.setEnabled(false);\
         }
 
         level = calculateLevel(level);
@@ -123,10 +111,8 @@ public class PostPopupActivity extends Activity {
         levelTV.setText("Lv. " + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);
 
-        if(isPublic)
-            privateIV.setImageResource(R.drawable.public_mark);
-        else
-            privateIV.setImageResource(R.drawable.private_mark);
+        if(!isPublic)
+            privateIV.setImageResource(R.drawable.commu_show_private);
 
 
         contentIV.setOnClickListener(new View.OnClickListener(){
@@ -148,9 +134,10 @@ public class PostPopupActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(pst.getUsername().equals(username)){
-                    Intent intent1 = new Intent(PostPopupActivity.this, EditPostActivity.class);
+                    Intent intent1 = new Intent(PostPopupActivity.this, CommuEditActivity.class);
                     intent1.putExtra("post", pst);
                     intent1.putExtra("num", pos);
+                    intent1.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent1);
                     finish();
                 }

@@ -42,6 +42,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         ImageView iconIV;
         ImageView contentIV;
+        ImageView pribate_mark;
 
         TextView usernameTV;
         TextView contentTV;
@@ -58,7 +59,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.tagTV = (TextView) view.findViewById(R.id.tags);
             this.timeTV = (TextView) view.findViewById(R.id.time);
             this.levelTV = (TextView) view.findViewById(R.id.user_level);
-
+            this.pribate_mark = view.findViewById(R.id.private_mark2);
 
             itemView.setOnClickListener(new View.OnClickListener()
             {
@@ -107,6 +108,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String uri = mList.get(position).getUri();
         int level = mList.get(position).getLevel();
         int catType = mList.get(position).getCatType();
+        boolean isPublic = mList.get(position).isPublic();
 
         int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
                 R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
@@ -146,6 +148,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         viewholder.levelTV.setText("Lv. " + Integer.toString(level));
         viewholder.iconIV.setImageResource(icons[catType]);
 
+        if(!isPublic){
+            viewholder.pribate_mark.setImageResource(R.drawable.commu_show_private);
+        }
 
         //System.out.println("\ncatType: " + catType);
     }
