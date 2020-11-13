@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     LocationManager locationManager;
 
     TextView loadingText;
+    ImageView iv_loadingImage;
+    boolean isFirstImage = true;
 
     long textChangeSpan = 2000; // ms
     Handler handler = new Handler();
@@ -88,11 +91,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
 
     private String[] loadingTexts = {
-            "신발끈 동여매는 중",
-            "구름의 동향을 살피는 중",
-            "물 한 모금 마시는 중",
-            "수염 닦아내는 중",
-            "동서남북을 확인하는 중"
+            "이용 팁 - \n특정 레벨을 달성하면 고양이가 성장합니다!"
     };
 
     @Override
@@ -118,6 +117,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
         if(num > 5) num = 5;
         setNum();
 
+        iv_loadingImage = findViewById(R.id.iv_loadingImage);
+        iv_loadingImage.setBackgroundResource(R.drawable.loading_1_icon_1);
         // choose loading text randomly
         loadingText = findViewById(R.id.loadingText);
         Random random = new Random();
@@ -214,6 +215,14 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 Random random = new Random();
                 loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
 
+                isFirstImage = !isFirstImage;
+                if(isFirstImage){
+                    iv_loadingImage.setBackgroundResource(R.drawable.loading_1_icon_1);
+                }
+                else{
+                    iv_loadingImage.setBackgroundResource(R.drawable.loading_1_icon_2);
+                }
+
                 if(locationManager != null){
                     if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                         Toast.makeText(WalkLoadingActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
@@ -222,7 +231,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     }
                 }
                 else{
-                    Log.w("qwr", "YEAH!");
+
                 }
                 handler.postDelayed(runnable, textChangeSpan);
             }

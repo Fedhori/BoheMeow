@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -229,18 +230,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
-        final Button hideAndShowBtn = (Button) findViewById(R.id.hideAndShowBtn);
+        final ImageButton hideAndShowBtn = findViewById(R.id.hideAndShowBtn);
         hideAndShowBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 if(isRouteRemoved){
                     recoverAllRoutePolyLines();
-                    hideAndShowBtn.setBackgroundResource(R.drawable._0001_checked);
+                    hideAndShowBtn.setBackgroundResource(R.drawable.infoon);
                 }
                 else{
                     removeAllRoutePolyLines();
-                    hideAndShowBtn.setBackgroundResource(R.drawable._0000_unchecked);
+                    hideAndShowBtn.setBackgroundResource(R.drawable.infooff);
                 }
             }
         });
@@ -304,10 +305,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             if(i == 6) break;
         }
 
-        drawSpotMarker(spots.get(0), R.drawable.point_start);
+        drawSpotMarker(spots.get(0), R.drawable.walking_marker_startpoint);
         drawPedestrianPath(spots.get(0), spots.get(1));
         for(int i = 1; i < spots.size() - 1; i++){
-            drawSpotMarker(spots.get(i), R.drawable.walk_point);
+            drawSpotMarker(spots.get(i), R.drawable.walking_marker_spot);
             drawPedestrianPath(spots.get(i), spots.get(i+1));
         }
 
@@ -446,11 +447,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     }
 
     public void drawTreasureMarker(TMapPoint position){
-        int marker = R.drawable.treasurebox;
+        int marker = R.drawable.walking_marker_treasure;
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 60, 60, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -467,7 +468,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -482,9 +483,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     public void drawNoteMarker(NoteData noteData){
 
         // get bitmap
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.memo);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walking_marker_memo);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 160, 160, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -909,8 +910,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 spotPoint += 300;
                 spotCount++;
 
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.point_selected);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walking_marker_visited);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
                 markerlist.get(i).setIcon(bitmap);
 
                 Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();

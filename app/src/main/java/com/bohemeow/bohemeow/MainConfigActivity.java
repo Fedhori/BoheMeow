@@ -71,9 +71,11 @@ public class MainConfigActivity extends Activity {
         cat_imgbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                /*
                 Intent intent = new Intent(MainConfigActivity.this, ConfigCharacterActivity.class);
                 intent.putExtra("catType", userData.catType);
                 startActivity(intent);
+                 */
             }
         });
 

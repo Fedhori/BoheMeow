@@ -3,11 +3,14 @@ package com.bohemeow.bohemeow;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -36,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     int reservation_reward = 1000;
 
+    boolean isAgree = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,35 @@ public class RegisterActivity extends AppCompatActivity {
         passwordET2 = (EditText) findViewById(R.id.passwordET2);
         weightET = (EditText) findViewById(R.id.weightET);
         nicknameET = (EditText) findViewById(R.id.nicknameET);
+
+        final Button btn_showAgree = findViewById(R.id.btn_showAgree);
+        btn_showAgree.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Dialog settingsDialog = new Dialog(RegisterActivity.this);
+                settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                settingsDialog.setContentView(getLayoutInflater().inflate(R.layout.agreement
+                        , null));
+                settingsDialog.show();
+            }
+        });
+
+        final ImageButton btn_isAgree = findViewById(R.id.btn_isAgree);
+        btn_isAgree.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                isAgree = !isAgree;
+
+                if(isAgree){
+                    btn_isAgree.setBackgroundResource(R.drawable.npay_checkbox_checked);
+                }
+                else{
+                    btn_isAgree.setBackgroundResource(R.drawable.npay_checkbox_none);
+                }
+            }
+        });
 
         registerBtn = (ImageButton) findViewById(R.id.registerBtn);
 
@@ -69,6 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if(passwordET.length() < 4){
                     Toast.makeText(RegisterActivity.this, "비밀번호가 너무 짧습니다.", Toast.LENGTH_LONG).show();
+                }
+                else if(!isAgree){
+                    Toast.makeText(RegisterActivity.this, "개인정보 수집 및 이용 약관에 동의해주셔야 합니다.", Toast.LENGTH_LONG).show();
                 }
                 else{
 

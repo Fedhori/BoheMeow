@@ -145,9 +145,11 @@ public class WalkEndActivity extends AppCompatActivity {
         TextView time = findViewById(R.id.time_view);
         TextView distance = findViewById(R.id.dis_view);
         TextView pace = findViewById(R.id.pace_view);
-        TextView comment = findViewById(R.id.comment);
         callory = findViewById(R.id.cal_view);
         TextView score = findViewById(R.id.score_view);
+        TextView spot = findViewById(R.id.count_view);
+
+        spot.setText(spotCount + "회");
 
         long totalTime = realWalkTime; // ms
         long hour;
@@ -262,7 +264,7 @@ public class WalkEndActivity extends AppCompatActivity {
             updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
         }
         else{
-            comment = findViewById(R.id.comment);
+            TextView comment = findViewById(R.id.comment);
             if(isCheating){
                 Toast.makeText(WalkEndActivity.this, "산책이 정상적으로 진행이 되지 않았음이 감지되어 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
                 comment.setText("뭔가 이상하다옹..");
@@ -361,7 +363,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalTime_tv.setText(timeText);
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
                     user_totalWalkCount += 1;
-                    totalCount_tv.setText(user_totalWalkCount + "");
+                    totalCount_tv.setText(user_totalWalkCount + "회");
 
                     TextView comment = findViewById(R.id.comment);
 

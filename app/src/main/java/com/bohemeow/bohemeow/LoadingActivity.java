@@ -18,20 +18,13 @@ import java.util.Random;
 public class LoadingActivity extends AppCompatActivity {
 
     TextView loadingText;
-    long waitingTime = 3000; // millisecond
+    long waitingTime = 2000; // millisecond
     int readPhoneStatePermission;
     int readLocationStatePermission;
     int writeExternalStoragePermission;
 
     private String[] loadingTexts = {
-            "예의바르게 야옹하는 중",
-            "수염 닦는 중",
-            "발톱 넣어두고 악수하는 중",
-            "콧수염에 감탄하는 중",
-            "발바닥을 혀로 핥는 중",
-            "괜히 꼬리를 부풀려보는 중",
-            "저녀석 그루밍 좀 하는데?",
-            "왜웅 한 다음 왱 하는 중"
+            "이용 팁-\n추천 스팟을 많이 방문해 인형을 수집할 수 있습니다!"
     };
 
     @Override
@@ -60,7 +53,7 @@ public class LoadingActivity extends AppCompatActivity {
         loadingText.setText(loadingTexts[random.nextInt(loadingTexts.length)]);
 
         Handler hd = new Handler();
-        hd.postDelayed(new splashHandler(), waitingTime); // 1초 후에 hd handler 실행  3000ms = 3초
+        hd.postDelayed(new splashHandler(), waitingTime); // 3초 후에 hd handler 실행  3000ms = 3초
     }
 
     private class splashHandler implements Runnable{
