@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="180dp"
+    android:layout_width="280dp"
+    android:layout_height="150dp"
     android:background="@drawable/popup_box_small">
 
 
@@ -11,13 +11,13 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="35dp"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="center"
         android:text="게시글을 삭제하시겠습니까?"
         android:textColor="#110F0F"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         android:layout_width="90dp"
         android:layout_height="35dp"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:layout_weight="1"
         android:background="@drawable/popup_button_yellow"
         android:fontFamily="@font/mapopeacefull"
@@ -35,7 +35,7 @@
         android:onClick="mOnClose"
         android:text="취소"
         android:textColor="#110F0F"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,7 +51,7 @@
         android:onClick="mOnClose"
         android:text="삭제"
         android:textColor="#EEECD3"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/can_btn" />
 
