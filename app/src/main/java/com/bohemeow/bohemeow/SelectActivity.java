@@ -268,7 +268,7 @@ public class SelectActivity extends AppCompatActivity {
         if (json != null) {
             try {
                 JSONArray a = new JSONArray(json);
-                data += a.optString(0) + " · " + a.optString(2) + " 개 스팟 · " + Date(a.optString(1));
+                data += a.optString(0) + " · " + a.optString(2) + "개 스팟 · " + Date(a.optString(1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

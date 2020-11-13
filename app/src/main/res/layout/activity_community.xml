@@ -73,7 +73,7 @@
             android:layout_height="28dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/commu_questionmark"
+            android:background="@drawable/faq"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
