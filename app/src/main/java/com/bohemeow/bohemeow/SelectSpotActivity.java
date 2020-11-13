@@ -201,6 +201,10 @@ public class SelectSpotActivity extends AppCompatActivity  {
         // set screen to start position
         tMapView.setLocationPoint(startLng, startLat);
         tMapView.setCenterPoint(startLng, startLat);
+        tMapView.setZoomLevel(14);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.walking_marker_usericon);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+        tMapView.setIcon(bitmap);
 
         TMapPoint startPoint = new TMapPoint(startLat, startLng);
 
