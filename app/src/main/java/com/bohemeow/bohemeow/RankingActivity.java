@@ -69,7 +69,7 @@ public class RankingActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserData get = dataSnapshot.child(myUserAdapter.getItem(position).nickname).getValue(UserData.class);
                         System.out.println(get);
-                        Intent intent = new Intent(RankingActivity.this, MainConfigActivity.class);
+                        Intent intent = new Intent(RankingActivity.this, UserInfoActivity.class);
                         intent.putExtra("userdata", get);
                         startActivityForResult(intent, 1);
                     }
@@ -96,7 +96,7 @@ public class RankingActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserData get = dataSnapshot.child(myAdapter.getItem(position).nickname).getValue(UserData.class);
                         System.out.println(get);
-                        Intent intent = new Intent(RankingActivity.this, MainConfigActivity.class);
+                        Intent intent = new Intent(RankingActivity.this, UserInfoActivity.class);
                         intent.putExtra("userdata", get);
                         startActivityForResult(intent, 1);
                     }

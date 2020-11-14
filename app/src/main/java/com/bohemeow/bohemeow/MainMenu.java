@@ -68,7 +68,7 @@ public class MainMenu extends AppCompatActivity {
 
     int maxRankUser = 100;
 
-    long imageChangeSpan = 4000;
+    long imageChangeSpan = 3000;
 
     boolean isLaptopVisible = false;
     boolean isOn =false;
@@ -305,7 +305,7 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+/*
         ImageButton infoBtn = findViewById(R.id.btn_info);
         infoBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -315,6 +315,8 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+ */
 
     }
 
@@ -394,6 +396,7 @@ public class MainMenu extends AppCompatActivity {
         SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
         switch(backgroundImageCode){
+            /*
             case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0000_red));
                 break;
             case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0001_white));
@@ -410,6 +413,8 @@ public class MainMenu extends AppCompatActivity {
                 break;
             case 8: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0007_green));
                 break;
+
+             */
             default:
                 break;
         }

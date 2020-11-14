@@ -138,7 +138,7 @@ public class WalkEndActivity extends AppCompatActivity {
         double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
 
         for(int i = 0;i<visitedSize;i++){
-            drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.point_start);
+            drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.walking_marker_startpoint);
         }
 
         TextView time = findViewById(R.id.time_view);

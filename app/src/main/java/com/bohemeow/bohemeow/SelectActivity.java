@@ -296,4 +296,12 @@ public class SelectActivity extends AppCompatActivity {
         return t;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SelectActivity.this, MainMenu.class);
+        startActivity(intent);
+        finish();
+    }
+
+
 }

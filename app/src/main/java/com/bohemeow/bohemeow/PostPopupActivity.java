@@ -125,7 +125,7 @@ public class PostPopupActivity extends Activity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         UserData get = dataSnapshot.child(writername).getValue(UserData.class);
                         System.out.println(get);
-                        Intent intent = new Intent(PostPopupActivity.this, MainConfigActivity.class);
+                        Intent intent = new Intent(PostPopupActivity.this, UserInfoActivity.class);
                         intent.putExtra("userdata", get);
                         startActivityForResult(intent, 1);
                     }

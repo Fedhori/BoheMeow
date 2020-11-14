@@ -3,7 +3,9 @@ package com.bohemeow.bohemeow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,9 +21,19 @@ public class UserInfoActivity extends Activity {
     TextView total_spot;
     TextView user_introduction;
 
-    //set cat image
-    int[] icons = {R.drawable.cathead_null, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
-            R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
+    Button walkdataBtn;
+    Button typedataBtn;
+
+    TextView type_name;
+    TextView type_detail;
+    ImageView type_parameter;
+    ImageView prtext;
+    ImageView box;
+
+    TypeData[] TypeDatas = new TypeData[9];
+
+    boolean isWalk = true;
+    int typeNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +43,7 @@ public class UserInfoActivity extends Activity {
 
         Intent intent = getIntent();
         final UserData userData = (UserData) intent.getSerializableExtra("userdata");
+        typeNum = userData.catType;
 
         catFace = findViewById(R.id.catFace);
         user_name = findViewById(R.id.username);
@@ -40,14 +53,18 @@ public class UserInfoActivity extends Activity {
         total_time = findViewById(R.id.walkTime);
         total_spot = findViewById(R.id.totalSpotCount);
         user_introduction = findViewById(R.id.introduction);
+        type_name = findViewById(R.id.typename);
+        type_detail = findViewById(R.id.typedetail);
+        type_parameter = findViewById(R.id.imageView31);
+        prtext = findViewById(R.id.imageView32);
+        box = findViewById(R.id.imageView28);
 
         total_spot.setText(userData.totalSpotCount + "번");
         user_introduction.setText(userData.introduction);
 
         //set cat image
-        int[] icons = {R.drawable.beth_0000, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
-                R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
-        catFace.setImageResource(icons[userData.catType]);
+        TypeDatas = TypeData.makeTypeData();
+        catFace.setImageResource(TypeDatas[typeNum].getImage());
 
         //set detail data
         user_name.setText(userData.nickname + "의 정보");
@@ -91,6 +108,45 @@ public class UserInfoActivity extends Activity {
             timeText += "0" + second;
         }
         total_time.setText(timeText);
+
+        walkdataBtn = findViewById(R.id.button8);
+        walkdataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isWalk) {
+                    walkdataBtn.setBackgroundResource(R.drawable.main_config_tap_on);
+                    typedataBtn.setBackgroundResource(R.drawable.main_config_tap_off);
+                    type_name.setText("");
+                    type_detail.setText("");
+                    box.setVisibility(View.INVISIBLE);
+                    type_parameter.setVisibility(View.INVISIBLE);
+                    prtext.setVisibility(View.INVISIBLE);
+                    isWalk = true;
+                }
+            }
+        });
+
+        typedataBtn = findViewById(R.id.button9);
+        typedataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isWalk) {
+                    walkdataBtn.setBackgroundResource(R.drawable.main_config_tap_off);
+                    typedataBtn.setBackgroundResource(R.drawable.main_config_tap_on);
+                    String text = TypeDatas[typeNum].getName();
+                    if(typeNum == 1 || typeNum == 5) text += "은?";
+                    else text += "는?";
+                    type_name.setText(text);
+                    type_detail.setText(TypeDatas[typeNum].getDetail());
+                    box.setVisibility(View.VISIBLE);
+                    type_parameter.setVisibility(View.VISIBLE);
+                    type_parameter.setImageResource(TypeDatas[typeNum].getPrimage());
+                    prtext.setVisibility(View.VISIBLE);
+                    isWalk = false;
+                }
+            }
+        });
+
 
     }
 

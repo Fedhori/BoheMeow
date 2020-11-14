@@ -191,6 +191,7 @@ public class CommunityActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(CommunityActivity.this, MainMenu.class);
         startActivity(intent);
+        finish();
     }
 
     public void getUserData(final String user_nickname){

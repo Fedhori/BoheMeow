@@ -66,16 +66,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button11"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/faq"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/add_post_btn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="70dp"

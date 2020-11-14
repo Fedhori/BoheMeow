@@ -28,15 +28,7 @@ public class TutorialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
-        iv1 = findViewById(R.id.iv1);
-        tv1 = findViewById(R.id.tv1);
-        iv2 = findViewById(R.id.iv2);
-        tv2 = findViewById(R.id.tv2);
-        iv3 = findViewById(R.id.iv3);
-        tv3 = findViewById(R.id.tv3);
-        iv4 = findViewById(R.id.iv4);
-        tv4 = findViewById(R.id.tv4);
-
+        /*
         Button skip_btn = (Button) findViewById(R.id.skip_btn);
         skip_btn.setOnClickListener(new View.OnClickListener(){
 
@@ -47,6 +39,8 @@ public class TutorialActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+         */
 
 
     }
