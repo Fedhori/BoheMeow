@@ -7,7 +7,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -54,12 +61,24 @@ public class RankingActivity extends AppCompatActivity {
         userListView.setAdapter(myUserAdapter);
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id){
+            public void onItemClick(AdapterView parent, View v, final int position, long id){
 
-                RankData rankData = myUserAdapter.getItem(position);
-                Intent intent = new Intent(RankingActivity.this, RankPopUpActivity.class);
-                intent.putExtra("rankData", rankData);
-                startActivity(intent);
+                DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+                mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserData get = dataSnapshot.child(myUserAdapter.getItem(position).nickname).getValue(UserData.class);
+                        System.out.println(get);
+                        Intent intent = new Intent(RankingActivity.this, MainConfigActivity.class);
+                        intent.putExtra("userdata", get);
+                        startActivityForResult(intent, 1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -69,12 +88,25 @@ public class RankingActivity extends AppCompatActivity {
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id){
+            public void onItemClick(AdapterView parent, View v, final int position, long id){
 
-                RankData rankData = myAdapter.getItem(position);
-                Intent intent = new Intent(RankingActivity.this, RankPopUpActivity.class);
-                intent.putExtra("rankData", rankData);
-                startActivity(intent);
+                DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+                mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserData get = dataSnapshot.child(myAdapter.getItem(position).nickname).getValue(UserData.class);
+                        System.out.println(get);
+                        Intent intent = new Intent(RankingActivity.this, MainConfigActivity.class);
+                        intent.putExtra("userdata", get);
+                        startActivityForResult(intent, 1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
     }
