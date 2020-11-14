@@ -119,10 +119,11 @@ public class SurveyActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
+
                 answers[cur_survey] = false;
                 preference[surveys[cur_survey].type] -= surveys[cur_survey].score;
 
-                cur_survey++;
+                if(cur_survey < num_survey) cur_survey++;
                 if(cur_survey == num_survey){
 
                     // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
@@ -136,6 +137,7 @@ public class SurveyActivity extends AppCompatActivity{
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     tv_num.setText(Integer.toString(cur_survey+1));
@@ -153,7 +155,7 @@ public class SurveyActivity extends AppCompatActivity{
                 answers[cur_survey] = true;
                 preference[surveys[cur_survey].type] += surveys[cur_survey].score;
 
-                cur_survey++;
+                if(cur_survey < num_survey) cur_survey++;
                 if(cur_survey == num_survey){
 
                     // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
@@ -167,6 +169,7 @@ public class SurveyActivity extends AppCompatActivity{
                     Intent intent = new Intent(SurveyActivity.this, SurveyResultActivity.class);
                     intent.putExtra("catType", catType);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     tv_num.setText(Integer.toString(cur_survey+1));
