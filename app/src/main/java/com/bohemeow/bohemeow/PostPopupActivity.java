@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -26,7 +32,7 @@ public class PostPopupActivity extends Activity {
     int pos;
 
     post pst;
-    ImageView iconIV;
+    ImageButton iconIV;
     ImageView contentIV;
     ImageView privateIV;
 
@@ -52,7 +58,7 @@ public class PostPopupActivity extends Activity {
         username = intent.getStringExtra("username");
         pos = intent.getIntExtra("num", 0);
 
-        iconIV = (ImageView)findViewById(R.id.user_icon);
+        iconIV = findViewById(R.id.user_icon);
         contentIV = findViewById(R.id.content_image);
         privateIV = findViewById(R.id.private_mark);
         usernameTV = (TextView)findViewById(R.id.user_name);
@@ -64,7 +70,7 @@ public class PostPopupActivity extends Activity {
         contentTV.setMovementMethod(new ScrollingMovementMethod());
         tagTV.setMovementMethod(new ScrollingMovementMethod());
 
-        String writername =pst.getUsername();
+        final String writername =pst.getUsername();
         String content =pst.getContent();
         String tag =pst.getTags();
         String time =pst.getTime();
@@ -110,6 +116,27 @@ public class PostPopupActivity extends Activity {
         timeTV.setText(Date(time));
         levelTV.setText("Lv. " + Integer.toString(level));
         iconIV.setImageResource(icons[catType]);
+        iconIV.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+                mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserData get = dataSnapshot.child(writername).getValue(UserData.class);
+                        System.out.println(get);
+                        Intent intent = new Intent(PostPopupActivity.this, MainConfigActivity.class);
+                        intent.putExtra("userdata", get);
+                        startActivityForResult(intent, 1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
 
         if(!isPublic)
             privateIV.setImageResource(R.drawable.commu_show_private);
