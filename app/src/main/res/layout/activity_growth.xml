@@ -37,7 +37,7 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/heads_0002" />
+        app:srcCompat="@drawable/bameeic" />
 
     <Button
         android:id="@+id/confirmBtn"
