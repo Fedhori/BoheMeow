@@ -188,4 +188,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/userLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="LV.00"
+        android:textColor="#110F0F"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/catFace"
+        app:layout_constraintStart_toStartOf="@+id/catFace"
+        app:layout_constraintTop_toBottomOf="@+id/catFace" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

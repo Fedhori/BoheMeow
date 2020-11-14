@@ -84,7 +84,7 @@ public class RankActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(RankActivity.this, RankUserInfoActivity.class);
+                    Intent intent = new Intent(RankActivity.this, UserInfoActivity.class);
                     intent.putExtra("username", usernames[finalI]);
                     intent.putExtra("introduction", introductions[finalI]);
                     intent.putExtra("catType", catTypes[finalI]);
