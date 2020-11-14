@@ -110,17 +110,17 @@
         android:id="@+id/iv_laptop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/laptop2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="@+id/iv_window"
-        app:srcCompat="@drawable/laptop2" />
+        app:layout_constraintTop_toTopOf="@+id/iv_window" />
 
     <ImageView
         android:id="@+id/iv_cat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/taetaebig"
+        android:layout_height="match_parent"
+        android:background="@drawable/bameekitten2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
@@ -129,52 +129,52 @@
     <ImageView
         android:id="@+id/iv_figure1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_figure2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_figure3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_figure4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_figure5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_texton"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -224,15 +225,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        final int[] icons_stage1 = {R.drawable.beth_0000, R.drawable.maincatnew_0000_hangang1, R.drawable.maincatnew_0002_bamee1, R.drawable.maincatnew_0004_chacha1,
-                R.drawable.maincatnew_0006_ryoni1, R.drawable.maincatnew_0008_moonmoon1, R.drawable.maincatnew_0014_popo1,R.drawable.maincatnew_0010_taetae1, R.drawable.maincatnew_0012_sessak1};
-
-        final int[] icons_stage2 = {R.drawable.beth_0000, R.drawable.maincatnew_0001_hangang2, R.drawable.maincatnew_0003_bamee2, R.drawable.maincatnew_0005_chacha2,
-                R.drawable.maincatnew_0007_ryoni2, R.drawable.maincatnew_0009_moonmoon2, R.drawable.maincatnew_0015_popo2,R.drawable.maincatnew_0011_taetae2, R.drawable.maincatnew_0013_sessak2};
-
-        final int[] icons_stage3 = {R.drawable.beth_0000, R.drawable.maincatnew_0001_hangang2, R.drawable.maincatnew_0003_bamee2, R.drawable.maincatnew_0005_chacha2,
-                R.drawable.maincatnew_0007_ryoni2, R.drawable.maincatnew_0009_moonmoon2, R.drawable.maincatnew_0015_popo2,R.drawable.maincatnew_0011_taetae2, R.drawable.maincatnew_0013_sessak2};
-
         int level = calculateLevel(exp);
 
         final ImageButton configBtn = findViewById(R.id.btn_config);
@@ -261,12 +253,27 @@ public class MainMenu extends AppCompatActivity {
 
         int kittenSize = 3;
         int bigSize = 5;
-        int[][] kittenImages = new int[8][3];
-        kittenImages[6] = new int[]{R.drawable.taetaekitten1, R.drawable.taetaekitten2, R.drawable.taetaekitten3};
+        int[][] kittenImages = new int[9][3];
+        kittenImages[1] = new int[]{R.drawable.hangangkitten1, R.drawable.hangangkitten2, R.drawable.hangangkitten3};
+        kittenImages[2] = new int[]{R.drawable.bameekitten1, R.drawable.bameekitten2, R.drawable.bameekitten3};
+        kittenImages[3] = new int[]{R.drawable.popokitten1, R.drawable.popokitten2, R.drawable.popokitten3};
+        kittenImages[4] = new int[]{R.drawable.moonmoonkitten1, R.drawable.moonmoonkitten2, R.drawable.moonmoonkitten3};
+        kittenImages[5] = new int[]{R.drawable.ryonikitten1, R.drawable.ryonikitten2, R.drawable.ryonikitten3};
+        kittenImages[6] = new int[]{R.drawable.chachakitten1, R.drawable.chachakitten2, R.drawable.chachakitten3};
+        kittenImages[7] = new int[]{R.drawable.taetaekitten1, R.drawable.taetaekitten2, R.drawable.taetaekitten3};
+        kittenImages[8] = new int[]{R.drawable.sessakkitten1, R.drawable.sessakkitten2, R.drawable.sessakkitten3};
 
-        int[][] bigImages = new int[8][5];
-        bigImages[6] = new int[]{R.drawable.taetaebig, R.drawable.taetaebig2, R.drawable.taetaebig3, R.drawable.taetaebig4, R.drawable.taetaebig5 };
-        catType = 6; // 임시!
+        int[][] bigImages = new int[9][5];
+        bigImages[1] = new int[]{R.drawable.hangangbig1, R.drawable.hangangbig2, R.drawable.hangangbig3, R.drawable.hangangbig4, R.drawable.hangangbig5 };
+        bigImages[2] = new int[]{R.drawable.bameebig1, R.drawable.bameebig2, R.drawable.bameebig3, R.drawable.bameebig4, R.drawable.bameebig5 };
+        bigImages[3] = new int[]{R.drawable.popobig1, R.drawable.popobig2, R.drawable.popbig3, R.drawable.popobig4, R.drawable.popobig5 };
+        bigImages[4] = new int[]{R.drawable.moonmoonbig1, R.drawable.moonmoonbig2, R.drawable.moonmoonbig3, R.drawable.moonmoonbig4, R.drawable.moonmoonbig5 };
+        bigImages[5] = new int[]{R.drawable.ryonibig1, R.drawable.ryonibig2, R.drawable.ryonibig3, R.drawable.ryonibig4, R.drawable.ryonibig5 };
+        bigImages[6] = new int[]{R.drawable.chachabig1, R.drawable.chachabig2, R.drawable.chachabig3, R.drawable.chachabig4, R.drawable.chachabig5 };
+        bigImages[7] = new int[]{R.drawable.taetaebig, R.drawable.taetaebig2, R.drawable.taetaebig3, R.drawable.taetaebig4, R.drawable.taetaebig5 };
+        bigImages[8] = new int[]{R.drawable.sessakbig1, R.drawable.sessakbig2, R.drawable.sessakbig3, R.drawable.sessakbig4, R.drawable.sessakbig5 };
+
+        //catType = 6; // 임시!
 
         ImageView iv_cat = findViewById(R.id.iv_cat);
         if(level < 7){
