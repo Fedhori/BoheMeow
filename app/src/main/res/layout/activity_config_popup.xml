@@ -20,9 +20,9 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="160dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/main_config_tap_on"
         android:text="산책 정보"
@@ -32,9 +32,9 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="160dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/main_config_tap_off"
         android:text="유형 설명"
         android:textColor="#F5FAFD"

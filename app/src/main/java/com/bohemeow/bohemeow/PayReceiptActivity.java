@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 public class PayReceiptActivity extends Activity {
 
-    String[] MYnames = {"[중앙학술정보관]\n카페테리아", "[경영관]\n사랑방", "[600주년기념관]\n지하 1층 카페", "[경영관]\nttt"};
-    String[] YJnames = {"[산학협력센터]\n팬도로시", "[공학관]\nCafe:NU", "[의관]\n카페나무", "[공학관]\n매점"};
+    String[] names = {"[중앙학술정보관]\n카페테리아", "[경영관]\n사랑방", "[산학협력센터]\n팬도로시", "[공학관]\nCafe:NU", "[의관]\n카페나무"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +31,8 @@ public class PayReceiptActivity extends Activity {
         int num = intent.getIntExtra("storeNum", 0);
         String time = intent.getStringExtra("time");
 
-        if(num < 4)
-            storeNameTV.setText(MYnames[num]);
-        else
-            storeNameTV.setText(YJnames[num-4]);
+
+        storeNameTV.setText(names[num]);
 
 
         timeTV.setText(time.substring(0, 10) + " " + time.substring(11,19));

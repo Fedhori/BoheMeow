@@ -12,16 +12,17 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/typetestresult_textbox_1" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView25"
+        app:srcCompat="@drawable/typetestresult_textbox_2" />
 
     <ImageView
         android:id="@+id/imageView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/typetestresult_textbox_2"
+        android:background="@drawable/typetestresult_textbox_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -30,22 +31,22 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="밤이"
         android:textColor="#110F0F"
         android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView25" />
 
     <ImageView
         android:id="@+id/cat_Img"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="55dp"
         app:layout_constraintEnd_toEndOf="@+id/imageView33"
         app:layout_constraintStart_toEndOf="@+id/detail"
         app:layout_constraintTop_toTopOf="@+id/imageView33"
@@ -53,14 +54,14 @@
 
     <TextView
         android:id="@+id/detail"
-        android:layout_width="240dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="다정하고 사람을 좋아하는 밤이는 나뭇잎 사각이는 소리를 사랑합니다. 때로 대담하게 떠나는 것을 즐기는 밤이는 여수바닷가 이순신광장의 스타입니다. 언젠가 케이블카를 타보고 싶습니다."
         android:textColor="#110F0F"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView33"
         app:layout_constraintTop_toTopOf="@+id/imageView33" />
 
@@ -68,7 +69,6 @@
         android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:background="@drawable/typetestresult_button_ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,13 +76,31 @@
 
     <ImageView
         android:id="@+id/parameter"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@+id/cat_Img"
         app:layout_constraintStart_toStartOf="@+id/cat_Img"
         app:layout_constraintTop_toBottomOf="@+id/cat_Img"
         app:srcCompat="@drawable/parametercircle_null" />
+
+    <ImageView
+        android:id="@+id/imageView25"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/typetestresult_textbox_1" />
+
+    <ImageView
+        android:id="@+id/imageView26"
+        android:layout_width="150dp"
+        android:layout_height="85dp"
+        app:layout_constraintBottom_toBottomOf="@+id/parameter"
+        app:layout_constraintEnd_toEndOf="@+id/parameter"
+        app:layout_constraintStart_toStartOf="@+id/parameter"
+        app:srcCompat="@drawable/parameter_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

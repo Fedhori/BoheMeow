@@ -61,7 +61,7 @@
         android:id="@+id/textView53"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
+        android:layout_marginTop="355dp"
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="새로운 산책"
@@ -139,8 +139,8 @@
 
     <Button
         android:id="@+id/start_btn"
-        android:layout_width="165dp"
-        android:layout_height="140dp"
+        android:layout_width="149dp"
+        android:layout_height="115dp"
         android:background="@drawable/startwalk_gobutton"
         android:fontFamily="@font/mapopeacefull"
         android:textColor="#F84B10"

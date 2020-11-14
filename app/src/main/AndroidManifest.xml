@@ -70,10 +70,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
-            android:name=".RankActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.noBackgroundDialog" />
-        <activity
             android:name=".ConfigEditWeightActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
@@ -99,10 +95,6 @@
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".DelSpotPopupActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.noBackgroundDialog" />
-        <activity
-            android:name=".TutorialPopupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
@@ -187,14 +179,6 @@
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigLogoutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.noBackgroundDialog" />
-        <activity
-            android:name=".ConfigBackgroundActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.noBackgroundDialog" />
-        <activity
-            android:name=".ConfigCharacterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity

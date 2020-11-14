@@ -4,45 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_proto">
+    android:background="#FFFFFF">
 
-    <ImageView
-        android:id="@+id/iv1"
-        android:layout_width="165dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tuto_main_tuto_1" />
 
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:gravity="center"
-        android:text="창문은 시간을\n보여줍니다."
-        android:textColor="#228cea"
-        android:textSize="16sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/iv1"
-        app:layout_constraintEnd_toEndOf="@+id/iv1"
-        app:layout_constraintStart_toStartOf="@+id/iv1"
-        app:layout_constraintTop_toTopOf="@+id/iv1" />
 
-    <ImageView
-        android:id="@+id/iv2"
-        android:layout_width="200dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="90dp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tuto_main_tuto_2" />
 
     <TextView
         android:id="@+id/tv2"
@@ -55,75 +20,8 @@
         android:textColor="#228cea"
         android:textSize="16sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/iv2"
-        app:layout_constraintEnd_toEndOf="@+id/iv2"
-        app:layout_constraintStart_toStartOf="@+id/iv2"
-        app:layout_constraintTop_toTopOf="@+id/iv2" />
-
-    <ImageView
-        android:id="@+id/iv3"
-        android:layout_width="203dp"
-        android:layout_height="135dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="350dp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tuto_main_tuto_3" />
-
-    <TextView
-        android:id="@+id/tv3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:gravity="center"
-        android:text="캣타워를 터치하면\n설정화면이 뜹니다."
-        android:textColor="#228cea"
-        android:textSize="16sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/iv3"
-        app:layout_constraintEnd_toEndOf="@+id/iv3"
-        app:layout_constraintStart_toStartOf="@+id/iv3"
-        app:layout_constraintTop_toTopOf="@+id/iv3" />
-
-    <ImageView
-        android:id="@+id/iv4"
-        android:layout_width="171dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="190dp"
-        android:layout_marginBottom="120dp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/tuto_main_tuto_4" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/tv4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mapopeacefull"
-        android:gravity="center"
-        android:text="문을 터치하면\n고양이가 깨어나\n산책을 시작합니다. "
-        android:textColor="#228cea"
-        android:textSize="16sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/iv4"
-        app:layout_constraintEnd_toEndOf="@+id/iv4"
-        app:layout_constraintStart_toStartOf="@id/iv4"
-        app:layout_constraintTop_toTopOf="@id/iv4" />
-
-    <Button
-        android:id="@+id/skip_btn"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="#00FFFFFF"
-        android:foreground="@drawable/tuto_main_0005_skip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

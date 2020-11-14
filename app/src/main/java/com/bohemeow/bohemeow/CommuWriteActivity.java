@@ -286,25 +286,41 @@ public class CommuWriteActivity extends Activity {
                         long num = (long) dataSnapshot.child("lastPost").child("num").getValue();
                         if (num < 3) {
                             user_totalPoint = (long) dataSnapshot.child("level").getValue();
-                            long point = (long) dataSnapshot.child("point").getValue();
 
                             ref.child("level").setValue(user_totalPoint + totalPoint);
-                            ref.child("point").setValue(point + totalPoint);
                             Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
+                            TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                            Date date = new Date();
+                            DateFormat df = new SimpleDateFormat("MMdd");
+                            df.setTimeZone(tz);
+                            int time = Integer.parseInt(df.format(date));
+                            if(time < 1123){
+                                Log.d("time", time + "");
+                                long point = (long) dataSnapshot.child("point").getValue();
+                                ref.child("point").setValue(point + totalPoint);
+                            }
                         }
                         ref.child("lastPost").child("num").setValue(num + 1);
                     }
                     else {
                         user_totalPoint = (long) dataSnapshot.child("level").getValue();
-                        long point = (long) dataSnapshot.child("point").getValue();
 
                         ref.child("level").setValue(user_totalPoint + totalPoint);
-                        ref.child("point").setValue(point + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
                         Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
 
+                        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                        Date date = new Date();
+                        DateFormat df = new SimpleDateFormat("MMdd");
+                        df.setTimeZone(tz);
+                        int time = Integer.parseInt(df.format(date));
+                        if(time < 1123){
+                            Log.d("time", time + "");
+                            long point = (long) dataSnapshot.child("point").getValue();
+                            ref.child("point").setValue(point + totalPoint);
+                        }
                     }
                     isUpdated = true;
                 }

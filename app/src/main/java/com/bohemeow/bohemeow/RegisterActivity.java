@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -64,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Dialog settingsDialog = new Dialog(RegisterActivity.this);
                 settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                settingsDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 settingsDialog.setContentView(getLayoutInflater().inflate(R.layout.agreement
                         , null));
                 settingsDialog.show();
