@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="115dp"
         android:button="@drawable/commu_check"
-        android:checked="false"
+        android:checked="true"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/content" />

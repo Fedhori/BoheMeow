@@ -3,18 +3,9 @@ package com.bohemeow.bohemeow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class UserInfoActivity extends Activity {
 
@@ -29,8 +20,8 @@ public class UserInfoActivity extends Activity {
     TextView user_introduction;
 
     //set cat image
-    int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
-            R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
+    int[] icons = {R.drawable.cathead_null, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
+            R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +45,8 @@ public class UserInfoActivity extends Activity {
         user_introduction.setText(userData.introduction);
 
         //set cat image
-        int[] icons = {R.drawable.beth_0000, R.drawable.heads_0001, R.drawable.heads_0002, R.drawable.heads_0003,
-                R.drawable.heads_0004, R.drawable.heads_0005, R.drawable.heads_0006,R.drawable.heads_0007, R.drawable.heads_0008};
+        int[] icons = {R.drawable.beth_0000, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
+                R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
         catFace.setImageResource(icons[userData.catType]);
 
         //set detail data

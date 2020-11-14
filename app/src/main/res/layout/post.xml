@@ -64,7 +64,7 @@
         android:id="@+id/user_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/user_name"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/main_config_nullhead" />
@@ -73,7 +73,7 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="15dp"
         android:fontFamily="@font/mapopeacefull"
         android:gravity="right"
         android:text="닉네임"
