@@ -267,7 +267,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     Toast.makeText(SelectSpotActivity.this, "스팟을 4개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
                 //else if (distFrom(curLat, curLng, startLat, startLng) < 800 && !isJumped) {
-                else if (distFrom(curLat, curLng, startLat, startLng) < 700) {
+                else if (distFrom(curLat, curLng, startLat, startLng) < 650) {
                     Toast.makeText(SelectSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(isNear(curLat, curLng)){
@@ -366,7 +366,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
         TMapCircle tMapCircle = new TMapCircle();
         tMapCircle.setCenterPoint(position);
-        tMapCircle.setRadius(800);
+        tMapCircle.setRadius(650);
         tMapCircle.setCircleWidth(2);
         tMapCircle.setLineColor(Color.BLUE);
         tMapCircle.setAreaColor(Color.GRAY);
@@ -446,7 +446,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     boolean isNear(double lat, double lng){
 
         for(location l : locs){
-            if(distFrom(lat, lng, l.lat, l.lng) < 800){
+            if(distFrom(lat, lng, l.lat, l.lng) < 650){
                 return true;
             }
         }

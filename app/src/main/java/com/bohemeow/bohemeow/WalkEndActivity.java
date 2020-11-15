@@ -145,6 +145,7 @@ public class WalkEndActivity extends AppCompatActivity {
         double centerLng = intent.getDoubleExtra("centerLng", 0);
 
         tMapView.setCenterPoint(centerLng, centerLat);
+        tMapView.setZoomLevel(14);
 
         int visitedSize = intent.getIntExtra("visitedSize", 0);
         double[] visitedLats = intent.getDoubleArrayExtra("visitedLats");

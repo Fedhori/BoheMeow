@@ -117,7 +117,7 @@
         android:inputType="number"
         android:maxLength="3"
         android:selectAllOnFocus="true"
-        android:text="30"
+        android:text="60"
         android:textColor="#262421"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -31,7 +31,7 @@ public class SelectActivity extends AppCompatActivity {
 
     UserData userData;
 
-    int time = 30;
+    int time = 60;
     TextView text;
     CheckBox record1;
     CheckBox record2;
@@ -56,7 +56,7 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-        time = registerInfo.getInt("walkTime", 30);
+        time = registerInfo.getInt("walkTime", 60);
         text.setText(Integer.toString(time));
 
         record1 = findViewById(R.id.record_1);
