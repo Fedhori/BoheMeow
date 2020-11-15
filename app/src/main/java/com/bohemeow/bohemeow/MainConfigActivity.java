@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainConfigActivity extends Activity {
 
-    ImageButton cat_imgbtn;
+    ImageView catFace;
 
     TextView user_name;
     TextView user_level;
@@ -28,7 +29,19 @@ public class MainConfigActivity extends Activity {
     Button bugreport_btn;
     Button FAQ_btn;
 
+    Button walkdataBtn;
+    Button typedataBtn;
 
+    TextView type_name;
+    TextView type_detail;
+    ImageView type_parameter;
+    ImageView prtext;
+    ImageView box;
+
+    TypeData[] TypeDatas = new TypeData[9];
+
+    boolean isWalk = true;
+    int typeNum = 0;
 
 
     @Override
@@ -39,8 +52,9 @@ public class MainConfigActivity extends Activity {
 
         Intent intent = getIntent();
         final UserData userData = (UserData) intent.getSerializableExtra("userdata");
+        typeNum = userData.catType;
 
-        cat_imgbtn = findViewById(R.id.cat_img);
+        catFace = findViewById(R.id.cat_img);
         user_name = findViewById(R.id.user_name);
         user_level = findViewById(R.id.user_level);
         total_count = findViewById(R.id.total_count);
@@ -48,24 +62,19 @@ public class MainConfigActivity extends Activity {
         total_time = findViewById(R.id.total_time);
         total_spot = findViewById(R.id.total_spot);
         user_introduction = findViewById(R.id.tv_introduction);
+        type_name = findViewById(R.id.typename2);
+        type_detail = findViewById(R.id.typedetail2);
+        type_parameter = findViewById(R.id.imageView38);
+        prtext = findViewById(R.id.imageView41);
+        box = findViewById(R.id.imageView35);
+
 
         total_spot.setText(userData.totalSpotCount + "번");
         user_introduction.setText(userData.introduction);
 
         //set cat image
-        int[] icons = {R.drawable.cathead_null, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
-                R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
-        cat_imgbtn.setImageResource(icons[userData.catType]);
-        cat_imgbtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                /*
-                Intent intent = new Intent(MainConfigActivity.this, ConfigCharacterActivity.class);
-                intent.putExtra("catType", userData.catType);
-                startActivity(intent);
-                 */
-            }
-        });
+        TypeDatas = TypeData.makeTypeData();
+        catFace.setImageResource(TypeDatas[typeNum].getImage());
 
         //set detail data
         user_name.setText(userData.nickname + "의 정보");
@@ -109,6 +118,44 @@ public class MainConfigActivity extends Activity {
             timeText += "0" + second;
         }
         total_time.setText(timeText);
+
+        walkdataBtn = findViewById(R.id.button4);
+        walkdataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isWalk) {
+                    walkdataBtn.setBackgroundResource(R.drawable.main_config_tap_on);
+                    typedataBtn.setBackgroundResource(R.drawable.main_config_tap_off);
+                    type_name.setText("");
+                    type_detail.setText("");
+                    box.setVisibility(View.INVISIBLE);
+                    type_parameter.setVisibility(View.INVISIBLE);
+                    prtext.setVisibility(View.INVISIBLE);
+                    isWalk = true;
+                }
+            }
+        });
+
+        typedataBtn = findViewById(R.id.button5);
+        typedataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isWalk) {
+                    walkdataBtn.setBackgroundResource(R.drawable.main_config_tap_off);
+                    typedataBtn.setBackgroundResource(R.drawable.main_config_tap_on);
+                    String text = TypeDatas[typeNum].getName();
+                    if(typeNum == 1 || typeNum == 5) text += "은?";
+                    else text += "는?";
+                    type_name.setText(text);
+                    type_detail.setText(TypeDatas[typeNum].getDetail());
+                    box.setVisibility(View.VISIBLE);
+                    type_parameter.setVisibility(View.VISIBLE);
+                    type_parameter.setImageResource(TypeDatas[typeNum].getPrimage());
+                    prtext.setVisibility(View.VISIBLE);
+                    isWalk = false;
+                }
+            }
+        });
 
         edit_btn = findViewById(R.id.edit_btn);
         edit_btn.setOnClickListener(new View.OnClickListener(){
