@@ -3,20 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="360dp"
-    android:layout_height="200dp"
+    android:layout_height="450dp"
     android:background="@drawable/popup_box_small"
     tools:context=".RankingExplanationActivity">
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/mapo"
-        android:text="점수 획득방법\n\n산책거리 1km당 200점.\n산책 스팟 도달 시 500점.\n쪽지 작성시 100점. (하루 3회 제한)\n게시물 작성시 100점. (하루 3회 제한)\n랜덤하게 등장하는 보물 발견 시 300점. (하루 3회 제한)"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="~보헤미양 산책대회~"
+        android:textColor="#110F0F"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="산책을 즐기고 점수를 쌓아 랭킹에 도전해보세요!\n쌓은 포인트를 교내의 카페에서 사용할 수도 있습니다.\n\n대회 기간 : 11월 16일 8시 ~ 11월 22일 24시
+\n상품 : 1등 아이패드 Pro(1명), 2등 버즈라이브(3명)
+\n\n점수 획득방법\n\n산책거리 1km당 200점.\n산책 스팟 도달 시 500점.\n쪽지 작성시 100점. (하루 3회 제한)\n게시물 작성시 100점. (하루 3회 제한)\n랜덤하게 등장하는 보물 발견 300점. (하루 3회 제한)
+\n\n더 많은 정보는 인스타그램과 카카오톡 채널 @bohemeow_skku에서 확인할 수 있습니다."
         android:textColor="#110F0F"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
