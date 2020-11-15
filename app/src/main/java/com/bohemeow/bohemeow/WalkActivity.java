@@ -74,7 +74,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TextView timeText_tv;
     TextView distText_tv;
 
+    boolean isBackground = false;
+    int locationDelay = 1000;
     Handler handler = new Handler();
+    Runnable locationRunnable;
+    Handler locationHandler = new Handler();
     Runnable runnable;
     int delay = 60000; //Delay for 60 seconds.  One second = 1000 milliseconds.
     int cur_time = 0; // minute
@@ -323,7 +327,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 turnGPSOn();
 
                 gps = new TMapGpsManager(WalkActivity.this);
-                // check every 1000ms
+                // check every 100ms
                 gps.setMinTime(100);
                 // if user moves at least 10m, call onLocationChange
                 gps.setMinDistance(0.1f);
@@ -345,6 +349,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WalkActivity.this, MainMenu.class);
 
+                locationHandler.removeCallbacks(locationRunnable);
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -424,6 +429,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawPedestrianPath(startPoint, endPoint);
          */
 
+        locationHandler.postDelayed(locationRunnable = new Runnable() {
+            public void run() {
+                if(isBackground && gps != null){
+                    TMapPoint tPoint = tMapView.getLocationPoint();
+                    locationChange(tPoint.getLatitude(), tPoint.getLongitude());
+                    // Log.d("qwer", tPoint.getLatitude() + " " + tPoint.getLongitude());
+                }
+                locationHandler.postDelayed(this, locationDelay);
+            }
+        }, locationDelay);
     }
 
     public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
@@ -505,11 +520,9 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.addMarkerItem(Integer.toString(noteCnt++), markerItem); // 지도에 마커 추가
     }
 
-    @Override
-    public void onLocationChange(Location location) {
-
-        lastLatitudes[curPos] = location.getLatitude();
-        lastLongtitudes[curPos] = location.getLongitude();
+    public void locationChange(double lat, double lng){
+        lastLatitudes[curPos] = lat;
+        lastLongtitudes[curPos] = lng;
         curPos++;
 
         if(curPos >= 10){
@@ -578,6 +591,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             prevLong = longtitude;
             prevTime = System.currentTimeMillis();
         }
+    }
+
+    @Override
+    public void onLocationChange(Location location) {
+        locationChange(location.getLatitude(), location.getLongitude());
     }
 
     public double distFrom(double lat1, double lng1, double lat2, double lng2) {
@@ -808,6 +826,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("visitedLats", visitedLats);
                 intent.putExtra("visitedLngs", visitedLngs);
 
+                handler.removeCallbacks(locationRunnable); //stop handler when activity not visible
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -1021,14 +1040,20 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         };
     }
 
-    public void startService() {
-        Intent serviceIntent = new Intent(this, MyService.class);
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
-        ContextCompat.startForegroundService(this, serviceIntent);
+    @Override
+    protected void onResume() {
+
+        isBackground = false;
+
+        super.onResume();
     }
-    public void stopService() {
-        Intent serviceIntent = new Intent(this, MyService.class);
-        stopService(serviceIntent);
+
+    @Override
+    protected void onPause() {
+
+        isBackground = true;
+
+        super.onPause();
     }
 /*
     void sortSpot(ArrayList<Spot> selected){
