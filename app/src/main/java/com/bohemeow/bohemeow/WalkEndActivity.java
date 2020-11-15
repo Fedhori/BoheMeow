@@ -151,7 +151,7 @@ public class WalkEndActivity extends AppCompatActivity {
         double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
 
         for(int i = 0;i<visitedSize;i++){
-            drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.walking_marker_startpoint);
+            drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.walking_marker_visited);
         }
 
         TextView time = findViewById(R.id.time_view);
@@ -161,7 +161,7 @@ public class WalkEndActivity extends AppCompatActivity {
         TextView score = findViewById(R.id.score_view);
         TextView spot = findViewById(R.id.count_view);
 
-        spot.setText(spotCount + "회");
+        spot.setText(spotCount + "번");
 
         long totalTime = realWalkTime; // ms
         long hour;
@@ -365,7 +365,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
-                    totalCount_tv.setText(user_totalSpotCount + "회");
+                    totalCount_tv.setText(user_totalSpotCount + "번");
 
                     TextView comment = findViewById(R.id.comment);
 
