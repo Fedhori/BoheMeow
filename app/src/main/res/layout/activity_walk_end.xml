@@ -209,7 +209,7 @@
         android:fontFamily="@font/mapo"
         android:text="14:14:14"
         android:textColor="#060606"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView17"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
@@ -222,7 +222,7 @@
         android:fontFamily="@font/mapo"
         android:text="14:14:14"
         android:textColor="#707070"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
