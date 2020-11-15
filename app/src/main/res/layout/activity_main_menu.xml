@@ -97,20 +97,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_laptop"
+        android:id="@+id/iv_laptop2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/laptop1"
+        android:background="@drawable/laptop2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
         app:layout_constraintTop_toTopOf="@+id/iv_window" />
 
     <ImageView
-        android:id="@+id/iv_laptop2"
+        android:id="@+id/iv_laptop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/laptop2"
+        android:background="@drawable/laptop1"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
