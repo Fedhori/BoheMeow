@@ -44,7 +44,7 @@
 
     <ImageView
         android:id="@+id/imageView21"
-        android:layout_width="263dp"
+        android:layout_width="240dp"
         android:layout_height="100dp"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="16dp"
@@ -283,7 +283,7 @@
         android:fontFamily="@font/mapopeacefull"
         android:text="오늘의 산책은 어땠어?"
         android:textColor="#060606"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/imageView21"
         app:layout_constraintTop_toTopOf="@+id/imageView21" />
 
@@ -309,4 +309,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17"></LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView34"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/finishwalk_backcover"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

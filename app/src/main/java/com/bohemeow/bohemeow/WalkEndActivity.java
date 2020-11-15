@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -78,6 +79,18 @@ public class WalkEndActivity extends AppCompatActivity {
             R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
 
     TextView callory;
+
+    private String[] shortWalkTexts = {
+      "모험이라기엔 너무 조금 움직였구만!",
+      "준비운동은 끝난거냐옹?",
+      "음…. 내일은 집밖으로 나가보자."
+    };
+
+    private String[] cheatingTexts = {
+      "평범한 고양이의 움직임이 아닌데. 기록하기는 어렵겠어..",
+      "모험자라면 정정당당하게 승부한다옹. 이번엔 잘 걸어보자.",
+      "보헤미양은 걷기운동만을 위한 앱인데, 알고있지?"
+    };
 
     private String[] normalTexts = {
             "이 구역 탐험가는 나야! 오늘도 좋은 모험이었어.",
@@ -258,19 +271,20 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
-        if(!isCheating && !isTooShort){
-            // update value to firebase
-            updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
-        }
-        else{
+        // update value to firebase
+        updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
+
+        if(isCheating || isTooShort){
             TextView comment = findViewById(R.id.comment);
+            Random random = new Random();
+
             if(isCheating){
                 Toast.makeText(WalkEndActivity.this, "산책이 정상적으로 진행이 되지 않았음이 감지되어 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
-                comment.setText("뭔가 이상하다옹..");
+                comment.setText(shortWalkTexts[random.nextInt(shortWalkTexts.length)]);
             }
             else {
                 Toast.makeText(WalkEndActivity.this, "산책을 너무 짧게 진행하여 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
-                comment.setText("너무 조금 걸었다옹..");
+                comment.setText(cheatingTexts[random.nextInt(cheatingTexts.length)]);
             }
 
             if(isBackToSelect){
@@ -295,6 +309,7 @@ public class WalkEndActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(!isWritten) {
+
                     user_realWalkTime = (long) dataSnapshot.child("realWalkTime").getValue();
                     user_totalWalkTime = (long) dataSnapshot.child("totalWalkTime").getValue();
                     user_totalWalkCount = (long) dataSnapshot.child("totalWalkCount").getValue();
@@ -305,18 +320,30 @@ public class WalkEndActivity extends AppCompatActivity {
                     user_totalRealPoint = (long) dataSnapshot.child("point").getValue();
                     user_catType = (long) dataSnapshot.child("catType").getValue();
 
-                    ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
-                    ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
-                    ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
-                    ref.child("totalSpotCount").setValue(user_totalSpotCount + spotCount);
-                    ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
-                    ref.child("level").setValue(user_totalPoint + totalPoint);
-                    ref.child("point").setValue(user_totalRealPoint + totalPoint);
-
                     SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = registerInfo.edit();
-                    editor.putInt("exp", (int)(user_totalPoint + totalPoint));
-                    editor.putInt("totalSpotCount", (int)(user_totalSpotCount + spotCount));
+
+                    // 치팅이 아닐때만 데이터가 수정됨
+                    if(!isCheating && !isTooShort){
+                        ref.child("realWalkTime").setValue(user_realWalkTime + realWalkTime);
+                        ref.child("totalWalkTime").setValue(user_totalWalkTime + totalWalkTime);
+                        ref.child("totalWalkCount").setValue(user_totalWalkCount + 1);
+                        ref.child("totalSpotCount").setValue(user_totalSpotCount + spotCount);
+                        ref.child("totalWalkLength").setValue(user_totalMoveLength + totalMoveLength);
+                        ref.child("level").setValue(user_totalPoint + totalPoint);
+
+                        TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
+                        Date date = new Date();
+                        DateFormat df = new SimpleDateFormat("MMdd");
+                        df.setTimeZone(tz);
+                        int time = Integer.parseInt(df.format(date));
+                        if(time < 1123){
+                            ref.child("point").setValue(user_totalRealPoint + totalPoint);
+                        }
+
+                        editor.putInt("exp", (int)(user_totalPoint + totalPoint));
+                        editor.putInt("totalSpotCount", (int)(user_totalSpotCount + spotCount));
+                    }
 
                     TextView totalTime_tv = findViewById(R.id.total_time_view);
                     TextView totalDist_tv = findViewById(R.id.total_dis_view);
@@ -333,31 +360,6 @@ public class WalkEndActivity extends AppCompatActivity {
                     totalTime %= 60000;
                     second = totalTime / 1000;
 
-                    /*
-                    String timeText = "";
-                    if(hour >= 10){
-                        timeText += String.valueOf(hour);
-                    }
-                    else{
-                        timeText += "0" + hour;
-                    }
-                    timeText += ":";
-                    if(minute >= 10){
-                        timeText += String.valueOf(minute);
-                    }
-                    else{
-                        timeText += "0" + minute;
-                    }
-                    timeText += ":";
-                    if(second >= 10){
-                        timeText += String.valueOf(second);
-                    }
-                    else{
-                        timeText += "0" + second;
-                    }
-                    totalTime_tv.setText(timeText);
-
-                     */
                     String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
@@ -366,11 +368,13 @@ public class WalkEndActivity extends AppCompatActivity {
 
                     TextView comment = findViewById(R.id.comment);
 
-                    checkAndUpdateLevelReward((int)user_totalPoint, (int)(user_totalPoint + totalPoint));
-                    updateDailyPoint(totalPoint);
+                    int prev_level = 0;
+                    int cur_level = 0;
 
-                    int prev_level = calculateLevel((int)user_totalPoint);
-                    int cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
+                    if(!isCheating && !isTooShort){
+                        prev_level = calculateLevel((int)user_totalPoint);
+                        cur_level = calculateLevel((int) (user_totalPoint + totalPoint));
+                    }
 
                     // level up!
                     if(prev_level < cur_level){

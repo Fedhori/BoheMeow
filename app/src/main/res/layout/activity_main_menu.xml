@@ -100,6 +100,16 @@
         android:id="@+id/iv_laptop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/laptop1"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_window"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/iv_window"
+        app:layout_constraintTop_toTopOf="@+id/iv_window" />
+
+    <ImageView
+        android:id="@+id/iv_laptop2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/laptop2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
@@ -173,7 +183,9 @@
         android:background="@drawable/main_texton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iv_window"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

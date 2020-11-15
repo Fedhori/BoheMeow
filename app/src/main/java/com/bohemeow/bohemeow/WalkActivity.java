@@ -237,11 +237,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             public void onClick(View view) {
                 if(isRouteRemoved){
                     recoverAllRoutePolyLines();
-                    hideAndShowBtn.setBackgroundResource(R.drawable.infoon);
+                    hideAndShowBtn.setBackgroundResource(R.drawable.route_on);
                 }
                 else{
                     removeAllRoutePolyLines();
-                    hideAndShowBtn.setBackgroundResource(R.drawable.infooff);
+                    hideAndShowBtn.setBackgroundResource(R.drawable.route_off);
                 }
             }
         });

@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/infoon"
+            android:background="@drawable/route_on"
             android:gravity="center_vertical|center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
