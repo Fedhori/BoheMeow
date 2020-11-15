@@ -132,7 +132,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     String phoneNumber;
 
     // how many notes one user allow to write?
-    int maxNoteNumber = 3;
+    int maxNoteNumber = 6;
 
     // how many notes will user find in walk screen
     int maxFindNote = 10;
