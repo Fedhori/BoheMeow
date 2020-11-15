@@ -148,7 +148,7 @@ public class MainMenu extends AppCompatActivity {
         } else if (time >= 17) {
             windowIV.setBackgroundResource(R.drawable.sunsetclear);
             mainWall.setBackgroundResource(R.drawable.sunsetmain);
-        } else if (time <= 8) {
+        } else if (time <= 7) {
             windowIV.setBackgroundResource(R.drawable.morningclear);
             mainWall.setBackgroundResource(R.drawable.morningmain);
         }
