@@ -6,22 +6,24 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-
-
-
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:gravity="center"
-        android:text="포스터를 터치하면\n모험자 광장으로\n이동합니다!"
-        android:textColor="#228cea"
-        android:textSize="16sp"
-        android:visibility="invisible"
+    <ImageView
+        android:id="@+id/imageView39"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/tutorial_main1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/skip_btn"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/tutorial_skip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
