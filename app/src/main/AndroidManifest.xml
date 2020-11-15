@@ -154,6 +154,10 @@
             android:name=".PayActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".TutorialSkipActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
             android:name=".WriteCheckActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />

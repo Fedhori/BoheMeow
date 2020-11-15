@@ -23,7 +23,7 @@ public class MainConfigActivity extends Activity {
     TextView user_introduction;
 
     Button edit_btn;
-    Button man_btn;
+    Button tutorial_btn;
     Button logout_btn;
     Button delacc_btn;
     Button bugreport_btn;
@@ -164,6 +164,17 @@ public class MainConfigActivity extends Activity {
                 Intent intent = new Intent(MainConfigActivity.this, ConfigEditActivity.class);
                 intent.putExtra("userdata", userData);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        tutorial_btn = findViewById(R.id.tutorial_btn);
+        tutorial_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainConfigActivity.this, TutorialActivity.class);
+                intent.putExtra("userdata", userData);
+                startActivity(intent);
+                finish();
             }
         });
 
