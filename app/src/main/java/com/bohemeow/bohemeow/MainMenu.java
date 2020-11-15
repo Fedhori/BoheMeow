@@ -148,7 +148,7 @@ public class MainMenu extends AppCompatActivity {
         } else if (time >= 17) {
             windowIV.setBackgroundResource(R.drawable.sunsetclear);
             mainWall.setBackgroundResource(R.drawable.sunsetmain);
-        } else if (time <= 8) {
+        } else if (time <= 7) {
             windowIV.setBackgroundResource(R.drawable.morningclear);
             mainWall.setBackgroundResource(R.drawable.morningmain);
         }
@@ -286,18 +286,17 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        ImageButton infoBtn = findViewById(R.id.btn_info);
-        infoBtn.setOnClickListener(new View.OnClickListener(){
+
+        ImageButton teaminfo = findViewById(R.id.ilsang);
+        teaminfo.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, TutorialPopupActivity.class);
+                Intent intent = new Intent(MainMenu.this, TeamExplanationActivity.class);
                 startActivity(intent);
             }
         });
 
- */
 
     }
 

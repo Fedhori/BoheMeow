@@ -20,7 +20,10 @@ public class TutorialActivity extends AppCompatActivity {
             R.drawable.tutorial_main7, R.drawable.tutorial_main8, R.drawable.tutorial_main9, R.drawable.tutorial_main10,
             R.drawable.tutorial_startwalk1, R.drawable.tutorial_startwalk2, R.drawable.tutorial_startwalk3, R.drawable.tutorial_startwalk4, R.drawable.tutorial_startwalk5,
             R.drawable.tutorial_walking1, R.drawable.tutorial_walking2, R.drawable.tutorial_walking3, R.drawable.tutorial_walking4, R.drawable.tutorial_walking5, R.drawable.tutorial_walking6,
-            R.drawable.tutorial_walking7, R.drawable.tutorial_walking8, R.drawable.tutorial_walking9
+            R.drawable.tutorial_walking7, R.drawable.tutorial_walking8, R.drawable.tutorial_walking9,
+            R.drawable.tutorial_walkend1, R.drawable.tutorial_walkend2, R.drawable.tutorial_walkend3, R.drawable.tutorial_walkend4,
+            R.drawable.tutorial_commu1, R.drawable.tutorial_commu2, R.drawable.tutorial_commu3, R.drawable.tutorial_commu4, R.drawable.tutorial_commu5,
+            R.drawable.tutorial_config1, R.drawable.tutorial_config2, R.drawable.tutorial_config3, R.drawable.tutorial_config4, R.drawable.tutorial_config5
     };
 
     @Override
