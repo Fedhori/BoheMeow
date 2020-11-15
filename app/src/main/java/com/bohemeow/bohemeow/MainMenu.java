@@ -146,23 +146,10 @@ public class MainMenu extends AppCompatActivity {
         df.setTimeZone(tz);
         time = Integer.parseInt(df.format(date));
 
-
-
-        if(time <= 5 || time >= 19){
-            windowIV.setBackgroundResource(R.drawable.nightclear);
-            mainWall.setBackgroundResource(R.drawable.nightmain);
-        }
-        else if(time >= 17){
-            windowIV.setBackgroundResource(R.drawable.sunsetclear);
-            mainWall.setBackgroundResource(R.drawable.sunsetmain);
-        }
-        else if(time <= 8){
-            windowIV.setBackgroundResource(R.drawable.morningclear);
-            mainWall.setBackgroundResource(R.drawable.morningmain);
-        }
-
         if(lastLat != 0)
             w = getWeather(lastLat, lastLng);
+
+
 
 
         iv_texton = findViewById(R.id.iv_texton);
@@ -436,6 +423,18 @@ public class MainMenu extends AppCompatActivity {
                     System.out.println("날씨:" + weather);
 
                     if(weather.equals("Clear")){
+                        if(time <= 5 || time >= 19){
+                            windowIV.setBackgroundResource(R.drawable.nightclear);
+                            mainWall.setBackgroundResource(R.drawable.nightmain);
+                        }
+                        else if(time >= 17){
+                            windowIV.setBackgroundResource(R.drawable.sunsetclear);
+                            mainWall.setBackgroundResource(R.drawable.sunsetmain);
+                        }
+                        else if(time <= 8){
+                            windowIV.setBackgroundResource(R.drawable.morningclear);
+                            mainWall.setBackgroundResource(R.drawable.morningmain);
+                        }
                     }
                     else if(weather.equals("Rain") || weather.equals("Drizzle")){
                         if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.dayrain);
