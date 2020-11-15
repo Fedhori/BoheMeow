@@ -552,7 +552,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 curMoveLength += moveLength;
                 if(maxMoveLength <= curMoveLength){
-                    addCoordinationData(latitude, longtitude);
+                    //addCoordinationData(latitude, longtitude);
                     addCoordinationID(latitude, longtitude);
 
                     checkNearSpot(latitude, longtitude);
@@ -600,6 +600,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             startActivity(intent);
         }
     }
+    /*
 
     public void addCoordinationData(Double latitude, Double longtitude){
 
@@ -614,6 +615,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         moveCnt++;
     }
+
+     */
 
     public void addCoordinationID(final Double latitude, final Double longtitude){
 
