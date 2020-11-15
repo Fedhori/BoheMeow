@@ -217,20 +217,7 @@
         android:id="@+id/total_time_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/mapo"
-        android:text="미적용"
-        android:textColor="#707070"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView18"
-        app:layout_constraintTop_toBottomOf="@+id/total_dis_view" />
-
-    <TextView
-        android:id="@+id/total_dis_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/mapo"
         android:text="미적용"
@@ -238,6 +225,19 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/total_dis_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/mapo"
+        android:text="미적용"
+        android:textColor="#707070"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/total_time_view" />
 
     <TextView
         android:id="@+id/total_walk_count"
@@ -250,7 +250,7 @@
         android:textColor="#707070"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView18"
-        app:layout_constraintTop_toBottomOf="@+id/total_time_view" />
+        app:layout_constraintTop_toBottomOf="@+id/total_dis_view" />
 
     <Button
         android:id="@+id/button"
