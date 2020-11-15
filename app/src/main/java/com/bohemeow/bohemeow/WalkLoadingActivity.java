@@ -74,7 +74,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     ImageView iv_loadingImage;
     boolean isFirstImage = true;
 
-    long textChangeSpan = 4000; // ms
+    long textChangeSpan = 2500; // ms
     Handler handler = new Handler();
     Runnable runnable;
 
@@ -102,7 +102,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             "총 12가지의 풍경이 준비되어 있습니다. 보헤미양의 첫눈을 기다려보세요.",
             "현실 시각에 맞추어 바뀌는 고양이 방 풍경을 구경해보세요.",
             "성장한 고양이는 다섯가지 다른 모습을 보여줍니다.",
-            "특정 레벨에 도달하면 성묘로 성장합니다."
+            "특정 레벨에 도달하면 성묘로 성장합니다.",
+            "추천되는 스팟의 수와 거리는 입력한 시간에 비례합니다.",
+            "산책을 많이 할수록 새로운 스팟이 추가됩니다. 모험을 자주 떠나보세요."
     };
 
     @Override

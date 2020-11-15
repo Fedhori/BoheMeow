@@ -50,6 +50,7 @@ public class MainMenu extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     private Toast toast;
     ImageView windowIV;
+    ImageView mainWall;
     ImageView iv_laptop;
     ImageView iv_onoff;
     ImageView iv_texton;
@@ -58,6 +59,8 @@ public class MainMenu extends AppCompatActivity {
     int totalSpotCount;
     String phoneNumber;
     Random rnd;
+    int time;
+    int w;
 
     Handler handler = new Handler();
     Runnable runnable;
@@ -86,8 +89,6 @@ public class MainMenu extends AppCompatActivity {
         }
 
          */
-
-        UpdateBackground();
 
         SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
         username = registerInfo.getString("registerUserName", "NULL");
@@ -136,47 +137,33 @@ public class MainMenu extends AppCompatActivity {
         iv_laptop = findViewById(R.id.iv_laptop);
 
         windowIV = findViewById(R.id.iv_window);
-        int w = 0;
+        mainWall = findViewById(R.id.main_background);
+        w = 0;
 
         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("HH");
         df.setTimeZone(tz);
-        int time = Integer.parseInt(df.format(date));
+        time = Integer.parseInt(df.format(date));
 
-        /*
+
 
         if(time <= 5 || time >= 19){
-            windowIV.setImageResource(R.drawable.main__0002_nightclear);
+            windowIV.setBackgroundResource(R.drawable.nightclear);
+            mainWall.setBackgroundResource(R.drawable.nightmain);
         }
         else if(time >= 17){
-            windowIV.setImageResource(R.drawable.main__0012_sunsetclear);
+            windowIV.setBackgroundResource(R.drawable.sunsetclear);
+            mainWall.setBackgroundResource(R.drawable.sunsetmain);
         }
         else if(time <= 8){
-            windowIV.setImageResource(R.drawable.main__0011_morningclear);
+            windowIV.setBackgroundResource(R.drawable.morningclear);
+            mainWall.setBackgroundResource(R.drawable.morningmain);
         }
 
         if(lastLat != 0)
             w = getWeather(lastLat, lastLng);
 
-        if(w == 1){
-            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0008_dayrain);
-            else windowIV.setImageResource(R.drawable.main__0010_nightrain);
-        }
-        else if(w == 2){
-            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0005_daysnow);
-            else windowIV.setImageResource(R.drawable.main__0006_nightsnow);
-        }
-        else if(w == 3){
-            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0007_daythunder);
-            else windowIV.setImageResource(R.drawable.main__0009_nighthunder);
-        }
-        else if(w == 4){
-            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.main__0004_daycloudy);
-            else windowIV.setImageResource(R.drawable.main__0003_nightcloudy);
-        }
-
-         */
 
         iv_texton = findViewById(R.id.iv_texton);
         //iv_texton.setVisibility(View.INVISIBLE);
@@ -391,34 +378,6 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    public void UpdateBackground(){
-        ConstraintLayout background = findViewById(R.id.mainmenu_background);
-        SharedPreferences userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        int backgroundImageCode = userInfo.getInt("backgroundImageCode", 1);
-        switch(backgroundImageCode){
-            /*
-            case 1: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0000_red));
-                break;
-            case 2: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0001_white));
-                break;
-            case 3: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0002_blue));
-                break;
-            case 4: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0003_black));
-                break;
-            case 5: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0004_rainbow));
-                break;
-            case 6: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0005_andro));
-                break;
-            case 7: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0006_purple));
-                break;
-            case 8: background.setBackground(ContextCompat.getDrawable(this, R.drawable._0007_green));
-                break;
-
-             */
-            default:
-                break;
-        }
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -426,7 +385,7 @@ public class MainMenu extends AppCompatActivity {
         if(requestCode==1){
             switch(resultCode){
                 case 0: // background case
-                    UpdateBackground();
+
                     break;
                 case 1: // logout case
                     SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
@@ -444,7 +403,6 @@ public class MainMenu extends AppCompatActivity {
 
     String key = "55e6a5b4f589f421a74785f169c7abbb";
     String weather;
-    int w;
     int getWeather(final double latitude, final double longtitude){
         //final String[] region = {""};
         w = 0;
@@ -478,23 +436,35 @@ public class MainMenu extends AppCompatActivity {
                     System.out.println("날씨:" + weather);
 
                     if(weather.equals("Clear")){
-                        System.out.println("\nweather: clear");
                     }
                     else if(weather.equals("Rain") || weather.equals("Drizzle")){
-                        System.out.println("\nweather: rain or drizzle");
-                        w = 1;
+                        if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.dayrain);
+                        else {
+                            windowIV.setBackgroundResource(R.drawable.nightrain);
+                            mainWall.setBackgroundResource(R.drawable.nightmain);
+                        }
                     }
                     else if(weather.equals("Snow")){
-                        System.out.println("\nweather: snow");
-                        w = 2;
+                        if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.daysnow);
+                        else {
+                            windowIV.setBackgroundResource(R.drawable.nightsnow);
+                            mainWall.setBackgroundResource(R.drawable.nightmain);
+                        }
                     }
                     else if(weather.equals("Thunderstorm")){
-                        System.out.println("\nweather: thunderstorm");
-                        w = 3;
+                        if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.daythunder);
+                        else {
+                            windowIV.setBackgroundResource(R.drawable.nightthunder);
+                            mainWall.setBackgroundResource(R.drawable.nightmain);
+                        }
                     }
                     else {
-                        System.out.println("\nweather: cloud");
                         w = 4;
+                        if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.daycloudy);
+                        else {
+                            windowIV.setBackgroundResource(R.drawable.nightcloudy);
+                            mainWall.setBackgroundResource(R.drawable.nightmain);
+                        }
                     }
 
                 } catch (IOException | JSONException e) {
