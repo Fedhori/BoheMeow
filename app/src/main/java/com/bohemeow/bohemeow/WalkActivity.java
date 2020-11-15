@@ -433,6 +433,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawPedestrianPath(startPoint, endPoint);
          */
 
+
         locationHandler.postDelayed(locationRunnable = new Runnable() {
             public void run() {
                 if(isBackground && gps != null && !isFirstLocation){
