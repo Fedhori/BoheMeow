@@ -226,7 +226,7 @@ public class WalkEndActivity extends AppCompatActivity {
 
         distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 
-        if(totalMoveLength != 0){
+        if(totalMoveLength >= 1d){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
 
             // 100m도 안 움직였어?!!
@@ -368,6 +368,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
+                    user_totalSpotCount += spotCount;
                     totalCount_tv.setText(user_totalSpotCount + "번");
 
                     TextView comment = findViewById(R.id.comment);
