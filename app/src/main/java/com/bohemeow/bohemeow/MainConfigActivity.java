@@ -69,7 +69,7 @@ public class MainConfigActivity extends Activity {
         box = findViewById(R.id.imageView35);
 
 
-        total_spot.setText(userData.totalSpotCount + "번");
+        total_spot.setText(userData.totalSpotCount + " 번");
         user_introduction.setText(userData.introduction);
 
         //set cat image
@@ -78,12 +78,12 @@ public class MainConfigActivity extends Activity {
 
         //set detail data
         user_name.setText(userData.nickname + "의 정보");
-        user_level.setText("LV" + Integer.toString(calculateLevel(userData.level)));
-        total_count.setText(Integer.toString(userData.totalWalkCount) + "번");
+        user_level.setText("Lv. " + Integer.toString(calculateLevel(userData.level)));
+        total_count.setText(Integer.toString(userData.totalWalkCount) + " 번");
 
         float distance = (float) userData.totalWalkLength / 1000f;
         String strNumber = String.format("%.2f", distance);
-        total_dis.setText(strNumber + "km");
+        total_dis.setText(strNumber + " km");
 
         long totalTime = userData.realWalkTime; // ms
         long hour;
