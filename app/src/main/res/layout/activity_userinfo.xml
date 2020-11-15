@@ -174,20 +174,6 @@
         app:layout_constraintStart_toStartOf="@+id/imageView56"
         app:layout_constraintTop_toTopOf="@+id/imageView56" />
 
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/popup_button_blue"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="그렇구만"
-        android:textColor="#F5FAFD"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <ImageView
         android:id="@+id/catFace"
         android:layout_width="60dp"

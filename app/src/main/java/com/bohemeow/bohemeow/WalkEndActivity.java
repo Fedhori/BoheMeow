@@ -271,20 +271,22 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         });
 
+        TextView comment = findViewById(R.id.comment);
+        Random random = new Random();
+        comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
+
         // update value to firebase
         updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);
 
         if(isCheating || isTooShort){
-            TextView comment = findViewById(R.id.comment);
-            Random random = new Random();
 
             if(isCheating){
                 Toast.makeText(WalkEndActivity.this, "산책이 정상적으로 진행이 되지 않았음이 감지되어 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
-                comment.setText(shortWalkTexts[random.nextInt(shortWalkTexts.length)]);
+                comment.setText(cheatingTexts[random.nextInt(cheatingTexts.length)]);
             }
             else {
                 Toast.makeText(WalkEndActivity.this, "산책을 너무 짧게 진행하여 점수에 반영되지 않습니다.", Toast.LENGTH_LONG).show();
-                comment.setText(cheatingTexts[random.nextInt(cheatingTexts.length)]);
+                comment.setText(shortWalkTexts[random.nextInt(shortWalkTexts.length)]);
             }
 
             if(isBackToSelect){
@@ -385,10 +387,6 @@ public class WalkEndActivity extends AppCompatActivity {
                             editor.putBoolean("isGrowth", true);
                             editor.commit();
                         }
-                    }
-                   else{
-                        Random random = new Random();
-                        comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
                     }
 
                     isWritten = true;

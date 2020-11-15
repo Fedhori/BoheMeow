@@ -25,6 +25,7 @@ public class RankPopUpActivity extends Activity {
         Intent intent = getIntent();
         rankData = (RankData) intent.getSerializableExtra("rankData");
 
+        /*
         Button back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -32,6 +33,7 @@ public class RankPopUpActivity extends Activity {
                 finish();
             }
         });
+         */
 
         ImageView catFace = findViewById(R.id.catFace);
         catFace.setBackgroundResource(icons[rankData.catType]);

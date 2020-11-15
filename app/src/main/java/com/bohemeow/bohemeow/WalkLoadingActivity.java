@@ -74,7 +74,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     ImageView iv_loadingImage;
     boolean isFirstImage = true;
 
-    long textChangeSpan = 2000; // ms
+    long textChangeSpan = 4000; // ms
     Handler handler = new Handler();
     Runnable runnable;
 

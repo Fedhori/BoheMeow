@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        registerBtn = (ImageButton) findViewById(R.id.registerBtn);
+        registerBtn = findViewById(R.id.registerBtn);
 
         registerBtn.setOnClickListener(new View.OnClickListener(){
 
