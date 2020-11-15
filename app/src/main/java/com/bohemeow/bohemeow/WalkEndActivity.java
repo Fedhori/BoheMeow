@@ -499,7 +499,7 @@ public class WalkEndActivity extends AppCompatActivity {
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정

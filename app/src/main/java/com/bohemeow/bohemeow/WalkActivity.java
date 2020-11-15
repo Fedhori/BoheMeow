@@ -490,7 +490,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -942,7 +942,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 spotCount++;
 
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walking_marker_visited);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
                 markerlist.get(i).setIcon(bitmap);
 
                 Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
