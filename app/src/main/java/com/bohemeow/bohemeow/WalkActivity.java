@@ -2,6 +2,7 @@ package com.bohemeow.bohemeow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
@@ -156,7 +157,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     NoteData[] noteDatas = new NoteData[32];
     int noteCnt = 0;
 
-    int spotCount = 0;
+    long spotCount = 0;
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
@@ -190,6 +191,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
         context = this;
+        //startService();
 
         todayFindLotsCnt = checkTodayFindLots();
         curWalkLengthToFindLots = new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
@@ -1017,6 +1019,16 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 new FAQDAta("위치가 정확히 잡히지 않아요.", "산책을 시작한지 얼마 되지 않았을 경우 정확도를 높이기 위해 일시적으로 위치가 잡히지 않을 수 있습니다. 또한 자전거나 교통수단등을 이용하여 빠른 속도로 이동할 경우에도 위치가 잡히지 않을 수 있습니다."),
                 new FAQDAta("백그라운드에서 정상적으로 작동하지 않습니다.", "위치정보 허용 수준을 항상 허용으로 설정해두지 않았을 경우 백그라운드에서 정상적으로 작동하지 않을 수 있습니다. 애플리케이션을 삭제 후 재설치하시거나 로컬 데이터를 삭제하신 후 다시 실행시킨 뒤 위치정보 허용 수준을  항상 허용으로 설정해주세요.")
         };
+    }
+
+    public void startService() {
+        Intent serviceIntent = new Intent(this, MyService.class);
+        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+    public void stopService() {
+        Intent serviceIntent = new Intent(this, MyService.class);
+        stopService(serviceIntent);
     }
 /*
     void sortSpot(ArrayList<Spot> selected){
