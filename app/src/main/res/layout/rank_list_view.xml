@@ -5,16 +5,16 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rank1">
+    android:background="@drawable/rank_rankbox_first">
 
     <TextView
         android:id="@+id/point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="999999"
+        android:textColor="#110F0F"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,20 +23,21 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_marginEnd="144dp"
+        android:layout_marginStart="20dp"
         android:gravity="center"
-        android:text="TextView"
-        android:textColor="#0072FF"
-        android:textSize="16dp"
+        android:text="이름이좀길긴하죠"
+        android:textColor="#110F0F"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="84dp"
         android:layout_weight="1"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,9 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:text="1"
-        android:textColor="#0072FF"
-        android:textSize="30sp"
+        android:text="2321"
+        android:textColor="#110F0F"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

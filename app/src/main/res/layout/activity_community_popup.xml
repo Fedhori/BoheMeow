@@ -2,53 +2,55 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="550dp"
-    android:background="@drawable/comm_popup_box">
+    android:layout_width="350dp"
+    android:layout_height="600dp"
+    android:background="@drawable/commu_show_box">
 
     <ImageView
         android:id="@+id/content_image"
         android:layout_width="280dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="12dp"
+        android:background="#00FFFFFF"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/photoempty" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/edit_btn"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="54dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        android:background="@drawable/edit"
+        android:background="@drawable/commu_show_edit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/del_btn" />
 
     <Button
         android:id="@+id/del_btn"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/delete"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_btn"
-        app:layout_constraintStart_toEndOf="@+id/edit_btn" />
+        android:layout_width="54dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/commu_show_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/mapopeacefull"
-        android:lines="5"
+        android:lines="8"
         android:minLines="1"
         android:scrollbars="vertical"
         android:text="This is a sample sentence."
-        android:textColor="#707070"
-        android:textSize="18sp"
+        android:textColor="#100E0E"
+        android:textSize="19sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_image" />
@@ -57,14 +59,14 @@
         android:id="@+id/tags"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/mapopeacefull"
-        android:lines="2"
+        android:lines="3"
         android:minLines="1"
         android:scrollbars="vertical"
         android:text="#태그 #태그"
-        android:textColor="#70707075"
-        android:textSize="16sp"
+        android:textColor="#37A1EB"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/content"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/content"
@@ -74,60 +76,63 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="75dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="2020.00.00 00:00"
-        android:textColor="#70707075"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/tags"
-        app:layout_constraintTop_toBottomOf="@+id/tags" />
+        android:gravity="left"
+        android:text="11월 10일 06:59"
+        android:textColor="#707070"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/user_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="35dp"
-        app:layout_constraintBottom_toBottomOf="@+id/private_mark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/beth_0000" />
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/main_config_nullhead" />
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="right|center_vertical"
-        android:text="name"
-        android:textColor="#2699FB"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/user_level"
-        app:layout_constraintEnd_toEndOf="@+id/user_level" />
+        android:gravity="right"
+        android:text="닉네임"
+        android:textColor="#110F0F"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_icon"
+        app:layout_constraintStart_toEndOf="@+id/user_icon" />
 
     <TextView
         android:id="@+id/user_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/mapopeacefull"
-        android:gravity="right|center_vertical"
-        android:text="LV.00"
-        android:textColor="#8E8E8EC7"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/user_icon"
-        app:layout_constraintEnd_toStartOf="@+id/user_icon" />
+        android:gravity="right"
+        android:text="Lv.1"
+        android:textColor="#707070"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/user_name"
+        app:layout_constraintStart_toEndOf="@+id/user_icon" />
 
     <ImageView
         android:id="@+id/private_mark"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/del_btn"
-        app:layout_constraintStart_toEndOf="@+id/del_btn"
-        app:layout_constraintTop_toTopOf="@+id/del_btn"
-        app:srcCompat="@drawable/public_mark" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/time"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

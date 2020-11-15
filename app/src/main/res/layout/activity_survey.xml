@@ -5,98 +5,126 @@
     android:id="@+id/survey_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D6FEB9B"
+    android:background="@drawable/typetest_background"
     tools:context=".SurveyActivity">
 
 
     <ImageView
-        android:id="@+id/imageView31"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/survey_box2" />
-
-    <ImageView
-        android:id="@+id/imageView32"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:srcCompat="@drawable/survey_box1" />
-
-    <TextView
-        android:id="@+id/survey_text"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mapopeacefull"
-        android:gravity="center"
-        android:text="느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다"
-        android:textColor="#707070"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView32"
-        app:layout_constraintEnd_toEndOf="@+id/imageView32"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/imageView32"
-        app:layout_constraintTop_toTopOf="@+id/imageView32" />
-
-    <TextView
-        android:id="@+id/num"
+        android:id="@+id/imageView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:fontFamily="@font/maponaru"
-        android:gravity="center"
-        android:text="1"
-        android:textColor="#707070"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView31"
-        app:layout_constraintEnd_toEndOf="@+id/imageView31"
-        app:layout_constraintStart_toStartOf="@+id/imageView31"
-        app:layout_constraintTop_toTopOf="@+id/imageView31" />
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/typetest_numberbox" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView14"
+        app:srcCompat="@drawable/typetest_line_no" />
+
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_yes"
+        app:layout_constraintEnd_toEndOf="@+id/imageView14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/typetest_line_yes" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+        app:layout_constraintEnd_toEndOf="@+id/imageView15"
+        app:srcCompat="@drawable/typetest_num" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="322dp"
+        android:layout_height="273dp"
+        android:layout_marginBottom="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/typetest_textbox" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/maponaru"
-        android:gravity="end"
-        android:text="/9"
-        android:textColor="#707070"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView31"
-        app:layout_constraintEnd_toEndOf="@+id/imageView31" />
-
-    <Button
-        android:id="@+id/btn_no"
-        android:layout_width="180dp"
-        android:layout_height="234dp"
-        android:background="@drawable/no_"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_yes"
-        android:layout_width="180dp"
-        android:layout_height="234dp"
-        android:background="@drawable/yes_"
+        android:text="자신과 더 가까운 쪽의 고양이를 터치하면 응답처리됩니다."
+        android:textColor="#FDFAD6"
+        android:textSize="9sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/survey_text"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:gravity="center"
+        android:text="느긋하게 걷는 것 보단\n조금 숨차게 운동하듯 걷는 게 좋다"
+        android:textColor="#080606"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+        app:layout_constraintEnd_toEndOf="@+id/imageView14"
+        app:layout_constraintStart_toStartOf="@id/imageView14"
+        app:layout_constraintTop_toTopOf="@+id/imageView14" />
+
+    <TextView
+        android:id="@+id/num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="나는..."
-        android:textColor="#707070"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView32"
-        app:layout_constraintTop_toBottomOf="@+id/imageView31" />
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#FCD100"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView15"
+        app:layout_constraintEnd_toEndOf="@+id/imageView15"
+        app:layout_constraintStart_toStartOf="@+id/imageView15"
+        app:layout_constraintTop_toTopOf="@+id/imageView15" />
+
+    <Button
+        android:id="@+id/btn_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/typetest_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView19" />
+
+    <Button
+        android:id="@+id/btn_yes"
+        android:layout_width="180dp"
+        android:layout_height="280dp"
+        android:background="@drawable/typetest_yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sbti" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

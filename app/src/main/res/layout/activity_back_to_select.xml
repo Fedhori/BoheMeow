@@ -2,19 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="180dp"
-    android:background="@drawable/popup_small">
+    android:layout_width="280dp"
+    android:layout_height="150dp"
+    android:background="@drawable/popup_box_small">
 
 
     <Button
         android:id="@+id/no_btn"
         android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="50dp"
-        android:background="#FFFFFF"
+        android:layout_height="35dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/popup_button_red"
         android:text="아니오"
-        android:textColor="#707070"
+        android:textSize="18sp"
+        android:textColor="#EEECD3"
         app:layout_constraintBottom_toBottomOf="@+id/yes_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/yes_btn" />
@@ -22,14 +23,15 @@
     <Button
         android:id="@+id/yes_btn"
         android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="28dp"
-        android:background="#FFFFFF"
+        android:layout_height="35dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/popup_button_yellow"
         android:text="예"
-        android:textColor="#707070"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/authorTV" />
+        android:textSize="18sp"
+        android:textColor="#110F0F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/authorTV"
@@ -37,9 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/mapopeacefull"
-        android:text="산책 선택화면으로\n돌아가시겠습니까?"
-        android:textColor="#707070"
-        android:textSize="24sp"
+        android:gravity="center"
+        android:text="산책 옵션 선택화면으로\n돌아가시겠습니까?"
+        android:textColor="#110F0F"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"

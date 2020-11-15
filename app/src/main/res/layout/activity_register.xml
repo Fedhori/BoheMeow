@@ -1,94 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/register_background"
     tools:context=".RegisterActivity">
+
+    <ImageButton
+        android:id="@+id/btn_isAgree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/npay_checkbox_none"
+        app:layout_constraintBottom_toBottomOf="@+id/textView55"
+        app:layout_constraintStart_toEndOf="@+id/textView55"
+        app:layout_constraintTop_toTopOf="@+id/textView55"
+        app:layout_constraintVertical_bias="0.833" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:srcCompat="@drawable/join_point" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/idET"
+        app:layout_constraintTop_toBottomOf="@+id/idET"
+        app:srcCompat="@drawable/join_point" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/passwordET2"
+        app:layout_constraintTop_toBottomOf="@+id/passwordET2"
+        app:srcCompat="@drawable/join_point" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/nicknameET"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameET"
+        app:srcCompat="@drawable/join_point" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/weightET"
+        app:layout_constraintTop_toBottomOf="@+id/weightET"
+        app:srcCompat="@drawable/join_point" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="아이디 (4글자 이상)"
+        android:textColor="#252114"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="비밀번호 (4글자 이상)"
+        android:textColor="#252114"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="닉네임 (8글자 이하)"
+        android:textColor="#252114"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintStart_toEndOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+
+    <TextView
+        android:id="@+id/textView53"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="체중 (kg)"
+        android:textColor="#252114"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
+        app:layout_constraintTop_toTopOf="@+id/imageView9" />
+
+    <TextView
+        android:id="@+id/textView54"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="개인정보 수집 및 이용 동의"
+        android:textColor="#252114"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintStart_toEndOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="@+id/imageView11" />
+
+    <TextView
+        android:id="@+id/textView55"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="개인정보 수집 및 이용, 제 3자 제공에 동의합니다."
+        android:textColor="#252114"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toBottomOf="@+id/imageView11" />
+
+    <TextView
+        android:id="@+id/textView51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="비밀번호 확인"
+        android:textColor="#707070"
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/passwordET" />
 
     <EditText
         android:id="@+id/idET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/join_textbox"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="아이디 (4글자 이상)"
         android:inputType="textPersonName"
-        android:textColor="#99707070"
+        android:textColor="#252114"
+        android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
         android:id="@+id/passwordET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/join_textbox"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="비밀번호 (4글자 이상)"
         android:inputType="textPassword"
-        android:textColor="#99707070"
+        android:textColor="#252114"
+        android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/idET"
-        app:layout_constraintTop_toBottomOf="@+id/idET" />
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <EditText
         android:id="@+id/nicknameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/join_textbox"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="닉네임"
         android:inputType="textPersonName"
         android:maxLength="8"
-        android:textColor="#99707070"
+        android:textColor="#252114"
+        android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/passwordET2"
-        app:layout_constraintTop_toBottomOf="@+id/passwordET2" />
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <EditText
         android:id="@+id/weightET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/join_textbox"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="체중(kg)"
         android:inputType="number|textPassword"
-        android:textColor="#99707070"
+        android:textColor="#252114"
+        android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/nicknameET"
-        app:layout_constraintTop_toBottomOf="@+id/nicknameET" />
+        app:layout_constraintStart_toStartOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <EditText
         android:id="@+id/passwordET2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:background="@drawable/join_textbox"
         android:ems="10"
         android:gravity="center_vertical"
-        android:hint="비밀번호 확인"
         android:inputType="textPassword"
-        android:textColor="#99707070"
+        android:textColor="#252114"
+        android:textColorHint="#99707070"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/passwordET"
-        app:layout_constraintTop_toBottomOf="@+id/passwordET" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="칼로리 계산의 정확도가 향상됩니다"
-        android:textColor="#99707070"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/weightET"
-        app:layout_constraintTop_toBottomOf="@+id/weightET" />
+        app:layout_constraintTop_toBottomOf="@+id/textView51" />
 
     <TextView
         android:id="@+id/textView7"
@@ -97,9 +225,10 @@
         android:layout_marginTop="36dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="회원가입"
-        android:textColor="#707070"
-        android:textSize="30sp"
+        android:textColor="#252114"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.739"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -107,10 +236,21 @@
         android:id="@+id/registerBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="88dp"
-        android:background="@drawable/register_btn"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/join_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_showAgree"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/rank_questionmark"
+        app:layout_constraintBottom_toBottomOf="@+id/textView54"
+        app:layout_constraintStart_toEndOf="@+id/textView54"
+        app:layout_constraintTop_toTopOf="@+id/textView54" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bohemeow">
+    package="com.bohemeow.bohemeow">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -20,151 +21,177 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".FAQPopupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".NoticeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".FAQActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".CheckPermissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".GrowthActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RankingExplanationActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".NotePopUpActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".BackToSelectActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".RankPopUpActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".WalkEndPopUpActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".BugReportActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditIntroductionActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
-            android:name=".RankUserInfoActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".RankActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:name=".UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditWeightActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditPasswordActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".PopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".PostPopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".DelPopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".SelectSpotPopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".DelSpotPopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
-            android:name=".TutorialPopupActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WalkLoadingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SelectSpotActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RankingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WalkEndActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SurveyActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SurveyResultActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WalkActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SelectActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainMenu"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SpotSearcher"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CommunityActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WritePostActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TutorialActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PayActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".CommunityImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".WalkLoadingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SelectSpotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RankingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WalkEndActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SurveyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SurveyResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WalkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SpotSearcher"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CommunityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CommuWriteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
+            android:name=".TutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TutorialSkipActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".WriteCheckActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".PayReceiptActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
-            android:name=".EditPostActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:name=".CommuEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".MainConfigActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigDelActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigEditActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".ConfigLogoutActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ConfigBackgroundActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ConfigCharacterActivity"
-            android:theme="@style/Theme.noBackgroundDialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -2,67 +2,36 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_0006_background"
-    tools:context=".SelectActivity">
+    android:layout_width="350dp"
+    android:layout_height="600dp"
+    android:background="@drawable/commu_write_box">
 
-
-    <ImageView
-        android:id="@+id/imageView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/photobox" />
-
-    <ImageView
-        android:id="@+id/imageView24"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageBtn"
-        app:srcCompat="@drawable/textline" />
-
-    <ImageView
-        android:id="@+id/imageView25"
-        android:layout_width="365dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView24"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        app:srcCompat="@drawable/tagbox" />
 
     <ImageButton
         android:id="@+id/create_post_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/write"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/writebutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imageBtn"
-        android:layout_width="254dp"
-        android:layout_height="197dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView19"
-        app:layout_constraintEnd_toEndOf="@+id/imageView19"
-        app:layout_constraintStart_toStartOf="@+id/imageView19"
-        app:layout_constraintTop_toTopOf="@+id/imageView19"
-        app:srcCompat="@drawable/catphoto" />
+        android:layout_width="280dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/commu_write_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/content"
-        android:layout_width="350dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="280dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="15dp"
         android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
@@ -72,65 +41,41 @@
         android:maxLines="7"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
-        android:textColor="#2699FB"
-        android:textColorHint="#2699FB"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView24"
-        app:layout_constraintTop_toTopOf="@+id/imageView24" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageBtn" />
 
     <EditText
         android:id="@+id/tags"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
         android:background="#00FFFFFF"
         android:ems="10"
         android:fontFamily="@font/mapopeacefull"
-        android:hint="#태그 #태그"
+        android:gravity="top"
+        android:hint="#Hash #Tags"
         android:inputType="textMultiLine"
         android:maxLines="3"
-        android:textColor="#9b9494"
-        android:textColorHint="#9b9494"
+        android:textColor="#90EA91"
+        android:textColorHint="#90EA91"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView25"
-        app:layout_constraintStart_toStartOf="@+id/imageView25"
-        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+        app:layout_constraintStart_toStartOf="@+id/content"
+        app:layout_constraintTop_toBottomOf="@+id/content" />
 
     <CheckBox
         android:id="@+id/postType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="15dp"
-        android:button="@drawable/setposttype"
+        android:layout_marginBottom="115dp"
+        android:button="@drawable/commu_check"
         android:checked="true"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView25"
-        app:layout_constraintEnd_toEndOf="@+id/imageView25" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:text="포스트 작성"
-        android:textColor="#2699FB"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="# Tags"
-        android:textColor="#2699FB"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView25"
-        app:layout_constraintTop_toTopOf="@+id/imageView25" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/content" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
