@@ -150,6 +150,8 @@ public class WalkEndActivity extends AppCompatActivity {
         double[] visitedLats = intent.getDoubleArrayExtra("visitedLats");
         double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
 
+        TMapPoint startPoint = new TMapPoint(centerLat, centerLng);
+        drawSpotMarker(startPoint, R.drawable.walking_marker_startpoint);
         for(int i = 0;i<visitedSize;i++){
             drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.walking_marker_visited);
         }
