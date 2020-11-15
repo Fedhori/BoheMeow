@@ -286,18 +286,17 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        ImageButton infoBtn = findViewById(R.id.btn_info);
-        infoBtn.setOnClickListener(new View.OnClickListener(){
+
+        ImageButton teaminfo = findViewById(R.id.ilsang);
+        teaminfo.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, TutorialPopupActivity.class);
+                Intent intent = new Intent(MainMenu.this, TeamExplanationActivity.class);
                 startActivity(intent);
             }
         });
 
- */
 
     }
 

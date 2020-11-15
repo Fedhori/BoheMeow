@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="380dp"
+    android:layout_height="500dp"
+    android:background="@drawable/teamilsangpopup">
+
+    <TextView
+        android:id="@+id/coment6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="한마디"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@id/imageView44"
+        app:layout_constraintTop_toTopOf="@id/imageView44" />
+
+    <TextView
+        android:id="@+id/coment5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="한마디"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@id/imageView43"
+        app:layout_constraintTop_toTopOf="@id/imageView43" />
+
+    <TextView
+        android:id="@+id/coment4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="한마디"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/imageView42"
+        app:layout_constraintTop_toTopOf="@+id/imageView42" />
+
+    <ImageView
+        android:id="@+id/imageView42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/taetaeic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="기획, 개발  이지우"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView42"
+        app:layout_constraintStart_toStartOf="@+id/imageView42"
+        app:layout_constraintTop_toBottomOf="@+id/imageView42" />
+
+    <TextView
+        android:id="@+id/coment1"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="Master has given Dobby a sock."
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/coment4"
+        app:layout_constraintTop_toBottomOf="@+id/coment4" />
+
+    <TextView
+        android:id="@+id/coment7"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="Dobby is free!"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/coment1"
+        app:layout_constraintTop_toBottomOf="@+id/coment1" />
+
+    <ImageView
+        android:id="@+id/imageView43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bameeic"
+        app:layout_constraintStart_toStartOf="@+id/imageView42"
+        app:layout_constraintTop_toBottomOf="@+id/name1" />
+
+    <TextView
+        android:id="@+id/name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="개발  김병무"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView43"
+        app:layout_constraintStart_toStartOf="@+id/imageView43"
+        app:layout_constraintTop_toBottomOf="@+id/imageView43" />
+
+    <TextView
+        android:id="@+id/coment3"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="01010000 01110010 01100001 01101001 01110011 01100101 00100000 01110100 01101000 01100101 00100000 01010011 01110101 01101110"
+        android:textColor="#000000"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/coment5"
+        app:layout_constraintTop_toBottomOf="@+id/coment5" />
+
+    <ImageView
+        android:id="@+id/imageView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/popoic"
+        app:layout_constraintStart_toStartOf="@+id/imageView42"
+        app:layout_constraintTop_toBottomOf="@+id/name2" />
+
+    <TextView
+        android:id="@+id/coment2"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="Ca fait des siecles que je revais de finir ca ... Prof vous m'aviez promis de m'emmener en Californie ㅠㅠ mais ca va. Merci mon equipe, vive le team la-vie-quotidienne!"
+        android:textColor="#000000"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/coment6"
+        app:layout_constraintTop_toBottomOf="@+id/coment6" />
+
+    <TextView
+        android:id="@+id/name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mapopeacefull"
+        android:text="디자인  김재리"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView44"
+        app:layout_constraintStart_toStartOf="@+id/imageView44"
+        app:layout_constraintTop_toBottomOf="@+id/imageView44" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

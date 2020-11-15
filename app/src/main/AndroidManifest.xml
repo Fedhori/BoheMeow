@@ -173,6 +173,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
         <activity
+            android:name="com.bohemeow.bohemeow.TeamExplanationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.noBackgroundDialog" />
+        <activity
             android:name="com.bohemeow.bohemeow.CommuEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.noBackgroundDialog" />
