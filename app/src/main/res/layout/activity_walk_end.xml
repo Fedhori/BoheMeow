@@ -142,7 +142,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/mapo"
-        android:text="미적용"
+        android:text="데이터 부족"
         android:textColor="#060606"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView17"
