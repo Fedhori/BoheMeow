@@ -63,29 +63,17 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView42" />
 
     <TextView
-        android:id="@+id/coment1"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/mapopeacefull"
-        android:text="Master has given Dobby a sock."
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/coment4"
-        app:layout_constraintTop_toBottomOf="@+id/coment4" />
-
-    <TextView
         android:id="@+id/coment7"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/mapopeacefull"
         android:text="Dobby is free!"
         android:textColor="#000000"
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/coment1"
-        app:layout_constraintTop_toBottomOf="@+id/coment1" />
+        app:layout_constraintStart_toStartOf="@+id/coment4"
+        app:layout_constraintTop_toBottomOf="@+id/coment4" />
 
     <ImageView
         android:id="@+id/imageView43"
