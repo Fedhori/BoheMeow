@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class SelectActivity extends AppCompatActivity {
     UserData userData;
 
     int time = 60;
-    TextView text;
+    EditText text;
     CheckBox record1;
     CheckBox record2;
     CheckBox record3;
