@@ -73,11 +73,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TextView timeText_tv;
     TextView distText_tv;
 
-    boolean isMinMovement = false;
-    double minMovement = 0.1d;
-    TMapPoint getLocationMapPoint;
+    double minMovement = 1d;
+    TMapPoint prevPoint;
     boolean isBackground = false;
-    int locationDelay = 1000;
+    int locationDelay = 2000;
     Handler handler = new Handler();
     Runnable locationRunnable;
     Handler locationHandler = new Handler();
@@ -213,7 +212,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         walkStartTime = System.currentTimeMillis();
 
-        getLocationMapPoint = new TMapPoint(0, 0);
+        prevPoint = new TMapPoint(0, 0);
 
         // get intent
         Intent intent = getIntent();
@@ -437,9 +436,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         locationHandler.postDelayed(locationRunnable = new Runnable() {
             public void run() {
                 if(isBackground && gps != null && !isFirstLocation){
-                    TMapPoint tPoint = gps.getLocation();
-                    //Log.d("qwer", gps.getLocation().getLatitude() + " " + gps.getLocation().getLongitude());
-                    locationChange(tPoint.getLatitude(), tPoint.getLongitude());
+                    if(distFrom(prevPoint.getLatitude(), prevPoint.getLongitude(), gps.getLocation().getLatitude(), gps.getLocation().getLongitude()) >= minMovement){
+                        prevPoint = gps.getLocation();
+                        locationChange(prevPoint.getLatitude(), prevPoint.getLongitude());
+                    }
                 }
                 locationHandler.postDelayed(this, locationDelay);
             }
@@ -530,6 +530,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         if(isFirstLocation){
             prevLat = lat;
             prevLong = lng;
+            prevPoint = new TMapPoint(prevLat, prevLong);
             isFirstLocation = false;
         }
 
