@@ -574,11 +574,11 @@ public class SelectSpotActivity extends AppCompatActivity  {
                             System.out.println("ID check line");
                             num = (long)dataSnapshot.child("spot_data/ID_list/").child(Place_id).child("visit").getValue();
 
-                            myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+7);
-                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+7);
+                            myRef.child("spot_data/ID_list/").child(Place_id).child("visit").setValue(num+5);
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor").setValue(num+5);
 
                             num = (long)dataSnapshot.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").getValue();
-                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+7);
+                            myRef.child("spot_data/" + region + "/spots/" + Place_id).child("visitor_week").setValue(num+5);
 
                         }
                         else if(dataSnapshot.child("spot_data/temp_list/").child(Place_id).getValue() != null){//등록되어있지 않고, 임시 리스트에 있는 경우
@@ -587,12 +587,12 @@ public class SelectSpotActivity extends AppCompatActivity  {
                             System.out.println();
 
                             num = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("visit").getValue();
-                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+7);
+                            myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+5);
 
                         }
                         else{
                             temp_list.put("count", num);
-                            temp_list.put("visit", num + 7);
+                            temp_list.put("visit", num + 5);
                             childUpdates.put("spot_data/temp_list/" + Place_id, temp_list);
                             myRef.updateChildren(childUpdates);
                         }
