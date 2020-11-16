@@ -408,7 +408,7 @@ public class SpotFilter {
 
                             Map<String, Object> childUpdates= new HashMap<>();
                             HashMap<String, Long> temp_list = new HashMap<>();
-                            temp_list.put("count", (long)spot.popularity/25);
+                            temp_list.put("count", (long)spot.popularity/40);
                             temp_list.put("visit", (long)0);
                             childUpdates.put("/spot_data/temp_list/" + spot.place_id, temp_list);
 

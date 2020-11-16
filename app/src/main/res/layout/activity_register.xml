@@ -11,10 +11,11 @@
         android:id="@+id/btn_isAgree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/npay_checkbox_none"
-        app:layout_constraintStart_toStartOf="@+id/textView55"
-        app:layout_constraintTop_toBottomOf="@+id/textView55" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView55"
+        app:layout_constraintEnd_toEndOf="@+id/weightET"
+        app:layout_constraintStart_toEndOf="@+id/textView55" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -153,7 +154,8 @@
         android:textColor="#252114"
         android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
@@ -168,7 +170,8 @@
         android:textColor="#252114"
         android:textColorHint="#99707070"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <EditText
