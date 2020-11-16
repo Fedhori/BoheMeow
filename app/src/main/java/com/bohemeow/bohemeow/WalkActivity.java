@@ -309,6 +309,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setLineColor(Color.RED);
         userRoute.setOutLineColor(Color.RED);
         userRoute.setLineWidth(1);
+        tMapView.addTMapPolyLine("Line1", userRoute);
 
         ArrayList<TMapPoint> spots = new ArrayList<>();
         for (int i = 0; lats[i] != -1; i++) {
@@ -565,7 +566,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             userRoute.setLineColor(Color.RED);
             userRoute.setOutLineColor(Color.RED);
              */
-            tMapView.addTMapPolyLine("Line1", userRoute);
+            //tMapView.addTMapPolyLine("Line1", userRoute);
 
             // get move length
             double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
