@@ -93,6 +93,28 @@ public class fragmentGeneral extends Fragment {
             mAdapter = new CustomAdapter(mArrayList);
             mRecyclerView.setAdapter(mAdapter);
 
+            /*
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                    int totalCount = recyclerView.getAdapter().getItemCount();
+
+                    if(lastPosition == totalCount){
+                        //아이템 추가 ! 입맛에 맞게 설정하시면됩니다.
+                    }
+                }
+            });
+
+
+             */
             mAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener()
             {
                 @Override
