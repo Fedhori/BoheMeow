@@ -32,6 +32,8 @@ public class fragmentGeneral extends Fragment {
 
     String user_name;
     boolean isWritable;
+    int n;
+    int m;
 
     private ArrayList<post> mArrayList;
     private CustomAdapter mAdapter;
@@ -69,6 +71,7 @@ public class fragmentGeneral extends Fragment {
         return inflater.inflate(R.layout.fragment_general, container, false);
     }
 
+    //RecyclerView mRecyclerView;
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -123,6 +126,7 @@ public class fragmentGeneral extends Fragment {
                             //imageViewCounter.setVisibility(View.INVISIBLE);
                             textViewCounter.setVisibility(View.INVISIBLE);
                         }
+
                     }
                     if(mArrayList.size() == 0)
                         textViewCounter.setVisibility(View.VISIBLE);
@@ -135,7 +139,29 @@ public class fragmentGeneral extends Fragment {
                 }
             };
             mPostReference = FirebaseDatabase.getInstance().getReference();
-            mPostReference.child("post_list").addValueEventListener(postListener);
+            mPostReference.child("post_list").limitToLast(20).addValueEventListener(postListener);
+
+            n = 1;
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                    if(lastPosition == 0){
+                        n++;
+                        mPostReference = FirebaseDatabase.getInstance().getReference();
+                        mPostReference.child("post_list").limitToLast(20*n).addValueEventListener(postListener);
+                        recyclerView.scrollToPosition(20);
+
+                    }
+                }
+            });
 
 
         }
@@ -195,8 +221,29 @@ public class fragmentGeneral extends Fragment {
             };
 
             mPostReference = FirebaseDatabase.getInstance().getReference();
-            mPostReference.child("post_list").addValueEventListener(postListener);
+            mPostReference.child("post_list").limitToLast(20).addValueEventListener(postListener);
 
+            m = 1;
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                    if(lastPosition == 0){
+                        n++;
+                        mPostReference = FirebaseDatabase.getInstance().getReference();
+                        mPostReference.child("post_list").limitToLast(20*m).addValueEventListener(postListener);
+                        recyclerView.scrollToPosition(20);
+
+                    }
+                }
+            });
         }
     }
 
