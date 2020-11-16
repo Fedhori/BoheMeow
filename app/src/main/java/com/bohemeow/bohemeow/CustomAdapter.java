@@ -135,6 +135,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 }
             });
         }
+        else viewholder.contentIV.setImageResource(R.drawable.commu_nullimage);
 
 
         level = calculateLevel(level);
