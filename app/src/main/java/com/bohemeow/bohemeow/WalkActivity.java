@@ -73,6 +73,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TextView timeText_tv;
     TextView distText_tv;
 
+    boolean isFindTreasure = false;
+    double[] treasureLats = new double[10];
+    double[] treasureLngs = new double[10];
+    int numOfTreasure = 0;
+
     int curCoordCnt = 0;
     int maxCoordCnt = 6;
     double start_lng;
@@ -156,8 +161,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     // how long can user can find notes?
     double maxNoteDist = 100d; // meter
 
-    double minWalkLengthToFindLots = 300; // meter 300
-    double maxWalkLengthToFindLots = 500; // meter 500
+    double minWalkLengthToFindLots = 300d; // meter 300
+    double maxWalkLengthToFindLots = 500d; // meter 500
     double curWalkLengthToFindLots = 0;
     int todayFindLotsCnt = 0;
 
@@ -486,7 +491,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 60, 60, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 90, 90, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -610,6 +615,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
             // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
             if(curWalkLengthToFindLots <= totalMoveLength && todayFindLotsCnt < 3){
+                todayFindLotsCnt++;
                 findLots(latitude, longtitude);
             }
             totalMoveLength += moveLength * distanceFactor;
@@ -839,6 +845,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("tMapView", gson.toJson(resultRoute));
                 intent.putExtra("centerLat",lats[0]);
                 intent.putExtra("centerLng",lngs[0]);
+                intent.putExtra("isFindTreasure", isFindTreasure);
+                intent.putExtra("numOfTreasure", numOfTreasure);
+                intent.putExtra("treasureLats", treasureLats);
+                intent.putExtra("treasureLngs", treasureLngs);
 
                 int cnt = 0;
                 double[] visitedLats = new double[arr_length];
@@ -1017,6 +1027,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     void findLots(double latitude, double longitude){
 
+        isFindTreasure = true;
+        treasureLats[numOfTreasure] = latitude;
+        treasureLngs[numOfTreasure] = longitude;
+        numOfTreasure++;
+
         drawTreasureMarker(new TMapPoint(latitude, longitude));
 
         Toast.makeText(WalkActivity.this, "보물 발견! +100포인트!", Toast.LENGTH_LONG).show();
@@ -1033,8 +1048,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         editor.putInt("lastLotsFoundDate", todayDate);
         editor.commit();
 
-        // 이제 유저는 뽑기를 찾았다.
-        todayFindLotsCnt++;
         editor.putInt("lotsCnt", todayFindLotsCnt);
         editor.commit();
 
@@ -1066,7 +1079,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 new FAQDAta("내가 남긴 쪽지가 사라졌어요.", "작성한 쪽지는 최대 6개까지 기록되며, 더 많은 쪽지를 작성할 경우 오래된 쪽지부터 삭제됩니다."),
                 new FAQDAta("위치가 정확히 잡히지 않아요.", "산책을 시작한지 얼마 되지 않았을 경우 정확도를 높이기 위해 일시적으로 위치가 잡히지 않을 수 있습니다. 또한 자전거나 교통수단등을 이용하여 빠른 속도로 이동할 경우에도 위치가 잡히지 않을 수 있습니다."),
                 new FAQDAta("경로가 정확히 기록되지 않아요.", "앱이 백그라운드인 상태에서 산책을 진행할 경우 일부 기종에서는 경로가 정확하게 기록되지 않을 수 있습니다."),
-                new FAQDAta("스팟을 방문해도 점수가 오르지 않아요.", "앱이 백그라운드인 상태에서 산책을 진행할 경우 일부 기종에서는 스팟을 방문하여도 점수가 오르지 않는 현상이 나타날 수 있습니다. 이 경우에는 스팟 근처에 도달할 경우 앱을 잠시 다시 키시는 걸 추천드립니다.")
+                new FAQDAta("스팟을 방문해도 점수가 오르지 않아요.", "앱이 백그라운드인 상태에서 산책을 진행할 경우 일부 기종에서는 스팟을 방문하여도 점수가 오르지 않는 현상이 나타날 수 있습니다. 이 경우에는 스팟 근처에 도달할 경우 앱을 잠시 다시 키시는 걸 추천드립니다. " +
+                        "또한 스팟과 시작지점이 너무 가까울 경우 점수가 오르지 않을 수 있습니다.")
         };
     }
 
