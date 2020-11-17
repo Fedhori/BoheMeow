@@ -155,11 +155,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int maxNoteNumber = 6;
 
     // how many notes will user find in walk screen
-    int maxFindNote = 10;
+    int maxFindNote = 20;
     int maxNoteCapacity = 100;
 
     // how long can user can find notes?
-    double maxNoteDist = 100d; // meter
+    double maxNoteDist = 2000d; // meter
 
     double minWalkLengthToFindLots = 300d; // meter 300
     double maxWalkLengthToFindLots = 500d; // meter 500
@@ -420,7 +420,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                     TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
                     markerID = markerItem.getID();
 
-                    if (!markerID.contains("Spot")) {
+                    if (markerID.contains("Note")) {
+                        markerID = markerID.replace("Note", "");
                         TMapPoint point = markerItem.getTMapPoint();
                         curLat = point.getLatitude();
                         curLng = point.getLongitude();
@@ -540,7 +541,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         //markerItem.setCalloutRightButtonImage(bitmap);
 
         noteDatas[noteCnt] = noteData;
-        tMapView.addMarkerItem(Integer.toString(noteCnt++), markerItem); // 지도에 마커 추가
+        tMapView.addMarkerItem("Note" + noteCnt++, markerItem); // 지도에 마커 추가
     }
 
     public void locationChange(double lat, double lng){
@@ -616,6 +617,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
             if(curWalkLengthToFindLots <= totalMoveLength && todayFindLotsCnt < 3){
                 todayFindLotsCnt++;
+                // 뽑기를 찾기까지 추가로 더 걸어야 할 거리 추가!
+                curWalkLengthToFindLots += new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
                 findLots(latitude, longtitude);
             }
             totalMoveLength += moveLength * distanceFactor;
@@ -1034,7 +1037,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         drawTreasureMarker(new TMapPoint(latitude, longitude));
 
-        Toast.makeText(WalkActivity.this, "보물 발견! +100포인트!", Toast.LENGTH_LONG).show();
+        Toast.makeText(WalkActivity.this, "보물 발견!", Toast.LENGTH_LONG).show();
         totalPoint += 100;
         treasurePoint += 100;
 
@@ -1050,9 +1053,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         editor.putInt("lotsCnt", todayFindLotsCnt);
         editor.commit();
-
-        // 뽑기를 찾기까지 추가로 더 걸어야 할 거리 추가!
-        curWalkLengthToFindLots += new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
     }
 
     void removeAllRoutePolyLines(){
