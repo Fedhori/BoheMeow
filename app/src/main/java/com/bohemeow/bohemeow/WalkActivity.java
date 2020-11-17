@@ -1038,7 +1038,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         drawTreasureMarker(new TMapPoint(latitude, longitude));
 
-        Toast.makeText(WalkActivity.this, "보물 발견!", Toast.LENGTH_LONG).show();
+        Toast.makeText(WalkActivity.this, "근처에 보물 냄새가 난다!", Toast.LENGTH_LONG).show();
         totalPoint += 100;
         treasurePoint += 100;
 
