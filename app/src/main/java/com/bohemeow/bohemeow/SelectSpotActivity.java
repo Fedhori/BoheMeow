@@ -81,7 +81,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     ArrayList<TMapPoint> spots = new ArrayList<>();
     ArrayList<location> locs = new ArrayList<>();
 
-    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
+    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -351,7 +351,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정

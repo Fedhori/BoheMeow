@@ -24,7 +24,7 @@ public class SpotSearcher {
     String type = "park";
 
     public String page_token = "";
-    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo";
+    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU";
 
     private Context mContext = null;
 

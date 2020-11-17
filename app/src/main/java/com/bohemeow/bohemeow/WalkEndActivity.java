@@ -44,7 +44,13 @@ public class WalkEndActivity extends AppCompatActivity {
 
     TMapView tMapView;
 
+    int treasureCnt = 0;
     int markerCnt = 0;
+
+    boolean isFindTreasure = false;
+    double[] treasureLats = new double[10];
+    double[] treasureLngs = new double[10];
+    int numOfTreasure = 0;
 
     double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가? 단위: m
     long totalWalkTime = 0; // 얼마나 오래 산책했는가? 단위: ms
@@ -128,6 +134,17 @@ public class WalkEndActivity extends AppCompatActivity {
         walkPoint = intent.getLongExtra("walkPoint", -1);
         spotPoint = intent.getLongExtra("spotPoint", -1);
         treasurePoint = intent.getLongExtra("treasurePoint", -1);
+
+        isFindTreasure = intent.getBooleanExtra("isFindTreasure", false);
+        if(isFindTreasure){
+            numOfTreasure = intent.getIntExtra("numOfTreasure", 0);
+            treasureLats = intent.getDoubleArrayExtra("treasureLats");
+            treasureLngs = intent.getDoubleArrayExtra("treasureLngs");
+
+            for(int i = 0;i<numOfTreasure;i++){
+                drawTreasureMarker(new TMapPoint( treasureLats[i], treasureLngs[i]));
+            }
+        }
 
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.tmapLinearLayout);
 
@@ -507,5 +524,20 @@ public class WalkEndActivity extends AppCompatActivity {
         // 마커의 중심점을 중앙, 하단으로 설정
         markerItem.setTMapPoint(position); // 마커의 좌표 지정
         tMapView.addMarkerItem("Spot" + markerCnt++, markerItem); // 지도에 마커 추가
+    }
+
+    public void drawTreasureMarker(TMapPoint position){
+        int marker = R.drawable.walking_marker_treasure;
+        // get bitmap
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), marker);
+        // resize bitmap
+        bitmap = Bitmap.createScaledBitmap(bitmap, 90, 90, false);
+
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+        markerItem.setIcon(bitmap); // 마커 아이콘 지정
+        markerItem.setPosition(0.5f, 1.0f);
+        // 마커의 중심점을 중앙, 하단으로 설정
+        markerItem.setTMapPoint(position); // 마커의 좌표 지정
+        tMapView.addMarkerItem("treasure" + treasureCnt++, markerItem);
     }
 }
