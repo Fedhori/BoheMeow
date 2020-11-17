@@ -484,7 +484,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                     SpotDetail spotDetail = postSnapshot.getValue(SpotDetail.class);
                     //보행자 거리를 사용하는 경우
                     //if (getPedestrianDistance(spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
-                    if (distFrom(userlat, userlng, spotDetail.getLat(), spotDetail.getLng()) < limitDis) {
+                    double curDis = distFrom(userlat, userlng, spotDetail.getLat(), spotDetail.getLng());
+                    if (curDis < limitDis && curDis > 350) {
                         System.out.println("spot: " + spotDetail.getName());
                         spots.add(simplifySpot(spotDetail));
                         //System.out.println("\nspots length = " + spots.size());
