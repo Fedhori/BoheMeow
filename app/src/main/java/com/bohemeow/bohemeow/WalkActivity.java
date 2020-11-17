@@ -73,6 +73,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TextView timeText_tv;
     TextView distText_tv;
 
+    int curCoordCnt = 0;
+    int maxCoordCnt = 6;
+    double start_lng;
+    double start_lat;
+    double minSpotDistance = 300d;
     double minMovement = 1d;
     TMapPoint prevPoint;
     boolean isBackground = false;
@@ -90,6 +95,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     Button popupBtn;
 
     private TMapPolyLine userRoute = null;
+    private TMapPolyLine resultRoute = null;
     private double[] lastLatitudes = new double[10];
     private double[] lastLongtitudes = new double[10];
     private int curPos = 0;
@@ -108,6 +114,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
     private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
+    private double distanceFactor = 0.6d;
     private double prevLat = -1f;
     private double prevLong = -1f;
     private long prevTime = -1;
@@ -149,8 +156,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     // how long can user can find notes?
     double maxNoteDist = 100d; // meter
 
-    double minWalkLengthToFindLots = 300; // meter
-    double maxWalkLengthToFindLots = 500; // meter
+    double minWalkLengthToFindLots = 300; // meter 300
+    double maxWalkLengthToFindLots = 500; // meter 500
     double curWalkLengthToFindLots = 0;
     int todayFindLotsCnt = 0;
 
@@ -310,6 +317,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setOutLineColor(Color.RED);
         userRoute.setLineWidth(1);
         tMapView.addTMapPolyLine("Line1", userRoute);
+
+        resultRoute = new TMapPolyLine();
+        resultRoute.setLineColor(Color.RED);
+        resultRoute.setOutLineColor(Color.RED);
+        resultRoute.setLineWidth(1);
 
         ArrayList<TMapPoint> spots = new ArrayList<>();
         for (int i = 0; lats[i] != -1; i++) {
@@ -531,7 +543,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         if(isFirstLocation){
             prevLat = lat;
             prevLong = lng;
-            prevPoint = new TMapPoint(prevLat, prevLong);
+            start_lat = lat;
+            start_lng = lng;
+            prevPoint = new TMapPoint(start_lat, start_lng);
+
             isFirstLocation = false;
         }
 
@@ -574,25 +589,30 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // check the speed
             long intervalTime = System.currentTimeMillis() - prevTime;
             realWalkTime += intervalTime;
-            curMoveLength += moveLength;
+            curMoveLength += moveLength * distanceFactor;
             if(maxMoveLength <= curMoveLength){
+                resultRoute.addLinePoint(new TMapPoint(latitude, longtitude));
                 //addCoordinationData(latitude, longtitude);
-                addCoordinationID(latitude, longtitude);
+
+                curCoordCnt++;
+                if(curCoordCnt >= maxCoordCnt){
+                    addCoordinationID(latitude, longtitude);
+                    curCoordCnt = 0;
+                }
 
                 checkNearSpot(latitude, longtitude);
-                // 10m당 1점이니까, 30m(maxMoveLength)당 3점
-                totalPoint+=3;
-                walkPoint+=3;
+                totalPoint+=2;
+                walkPoint+=2;
 
                 // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
                 curMoveLength = 0f;
             }
             // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
-            if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
+            if(curWalkLengthToFindLots <= totalMoveLength && todayFindLotsCnt < 3){
                 findLots(latitude, longtitude);
             }
-            totalMoveLength += moveLength;
+            totalMoveLength += moveLength * distanceFactor;
             distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
 
             prevLat = latitude;
@@ -816,7 +836,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("spotPoint", spotPoint);
                 intent.putExtra("treasurePoint", treasurePoint);
                 intent.putExtra("spotCount", spotCount);
-                intent.putExtra("tMapView", gson.toJson(userRoute));
+                intent.putExtra("tMapView", gson.toJson(resultRoute));
                 intent.putExtra("centerLat",lats[0]);
                 intent.putExtra("centerLng",lngs[0]);
 
@@ -936,7 +956,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // except first spot (which is start point)
         for(int i = 1;i<arr_length;i++){
             // if user is nearer than 50m at the point & not visited yet
-            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 100d && !isVisited[i]){
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 100d && !isVisited[i] && distFrom(start_lat, start_lng, lats[i], lngs[i]) > minSpotDistance){
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 300;
@@ -976,7 +996,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     int checkTodayFindLots(){
         SharedPreferences countInfo = getSharedPreferences("countInfo", Context.MODE_PRIVATE);
-        // 로컬 데이터에 저장된 가장 마지막으로 쪽지를 찾은 날짜를 가져온다.
         int lastDate = countInfo.getInt("lastLotsFoundDate", -1);
         int count = countInfo.getInt("lotsCnt", 0);
 
@@ -985,11 +1004,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
         int todayDate = Integer.parseInt(dayFormat.format(currentTime));
 
-        // 새로운 날에 쪽지 작성시, 오늘은 아직 쪽지를 찾지 못했으므로 0을 반환
         if(todayDate != lastDate){
+            SharedPreferences.Editor editor = countInfo.edit();
+            editor.putInt("lotsCnt", 0);
+            editor.commit();
             return 0;
         }
-        // 이미 오늘 작성한 기록이 로컬 데이터에 남아 있으므로 cnt를 반환 반환
         else{
             return count;
         }
