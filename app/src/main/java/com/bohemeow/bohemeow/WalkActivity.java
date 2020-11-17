@@ -487,6 +487,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
     }
 
+
     public void drawTreasureMarker(TMapPoint position){
         int marker = R.drawable.walking_marker_treasure;
         // get bitmap
