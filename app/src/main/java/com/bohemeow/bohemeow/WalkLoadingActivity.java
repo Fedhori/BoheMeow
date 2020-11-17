@@ -456,7 +456,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
     private void makeList(){
         System.out.println("\nprint: makeList start");
 
-        limitDis = (min * speed) / 3 + 100;
+        limitDis = (min * speed) / 3 + 200;
         if (limitDis > 5000) limitDis = 5000;
 
 
@@ -677,7 +677,9 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
                 i -= 1;
             }
             else selected.add(spot);
-            if(temp.size() == 0) break;
+            if(temp.size() == 0) {
+                break;
+            }
 
         }
 
@@ -748,9 +750,17 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
         ArrayList<Double> lastLats = new ArrayList<>();
         ArrayList<Double> lastLngs = new ArrayList<>();
-        for(int j = 0; lats[j] != -1 && j <7; j++){
-            lastLats.add(lats[j]);
-            lastLngs.add(lngs[j]);
+        if(lats[6] == -1){
+            for(int j = 0; lats[j] != -1; j++){
+                lastLats.add(lats[j]);
+                lastLngs.add(lngs[j]);
+            }
+        }
+        else {
+            for (int j = 0; j < 7; j++) {
+                lastLats.add(lats[j]);
+                lastLngs.add(lngs[j]);
+            }
         }
 
         String key = checkRecord();

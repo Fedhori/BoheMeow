@@ -15,7 +15,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +49,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -61,7 +61,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback{
+public class WalkActivity extends AppCompatActivity implements onLocationChangedCallback {
 
     private DatabaseReference mPostReference;
 
@@ -73,7 +73,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     TextView timeText_tv;
     TextView distText_tv;
 
+    double minMovement = 1d;
+    TMapPoint prevPoint;
+    boolean isBackground = false;
+    int locationDelay = 2000;
     Handler handler = new Handler();
+    Runnable locationRunnable;
+    Handler locationHandler = new Handler();
+    private FusedLocationProviderClient fusedLocationClient;
+
     Runnable runnable;
     int delay = 60000; //Delay for 60 seconds.  One second = 1000 milliseconds.
     int cur_time = 0; // minute
@@ -87,13 +95,13 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private int curPos = 0;
     private int lapNum = 0;
 
-    private TMapPolyLine [] routePolyLines = new TMapPolyLine[32];
+    private TMapPolyLine[] routePolyLines = new TMapPolyLine[32];
     private int polyLineCnt = 0;
     private int markerCnt = 0;
     private int treasureCnt = 0;
     private boolean isRouteRemoved = false;
 
-    private boolean isFirstLocation = false;
+    private boolean isFirstLocation = true;
 
     String region = "";
 
@@ -156,7 +164,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     NoteData[] noteDatas = new NoteData[32];
     int noteCnt = 0;
 
-    int spotCount = 0;
+    long spotCount = 0;
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
@@ -169,7 +177,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
 
@@ -190,6 +198,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
         context = this;
+        //startService();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         todayFindLotsCnt = checkTodayFindLots();
         curWalkLengthToFindLots = new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
@@ -202,13 +212,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         walkStartTime = System.currentTimeMillis();
 
+        prevPoint = new TMapPoint(0, 0);
+
         // get intent
         Intent intent = getIntent();
         //preference = intent.getIntArrayExtra("preference");
         region = intent.getStringExtra("region");
 
         walkEndBtn = (Button) findViewById(R.id.walkEndBtn);
-        walkEndBtn.setOnClickListener(new View.OnClickListener(){
+        walkEndBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -219,7 +231,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
 
         popupBtn = (Button) findViewById(R.id.popupBtn);
-        popupBtn.setOnClickListener(new View.OnClickListener(){
+        popupBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -231,15 +243,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
 
         final ImageButton hideAndShowBtn = findViewById(R.id.hideAndShowBtn);
-        hideAndShowBtn.setOnClickListener(new View.OnClickListener(){
+        hideAndShowBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if(isRouteRemoved){
+                if (isRouteRemoved) {
                     recoverAllRoutePolyLines();
                     hideAndShowBtn.setBackgroundResource(R.drawable.route_on);
-                }
-                else{
+                } else {
                     removeAllRoutePolyLines();
                     hideAndShowBtn.setBackgroundResource(R.drawable.route_off);
                 }
@@ -248,7 +259,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         final FAQDAta[] faqData = getFaqData();
         Button FAQ_btn = findViewById(R.id.walk_FAQbrtn);
-        FAQ_btn.setOnClickListener(new View.OnClickListener(){
+        FAQ_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WalkActivity.this, FAQActivity.class);
@@ -258,10 +269,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         });
 
         // set t map view
-        LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
+        LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
-        linearLayoutTmap.addView( tMapView );
+        linearLayoutTmap.addView(tMapView);
 
         timeText_tv = findViewById(R.id.timeText);
         distText_tv = findViewById(R.id.distText);
@@ -271,14 +282,14 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         int temp_length = lats.length;
 
-        for(int i = 1;i<temp_length;i++){
-            if(lats[0] == lats[i] && lngs[0] == lngs[i]){
+        for (int i = 1; i < temp_length; i++) {
+            if (lats[0] == lats[i] && lngs[0] == lngs[i]) {
                 // 마지막 스팟은 사용자 시작 위치임. 그렇기에 이를 통해 실제 배열의 길이를 구할 수 있다.
                 arr_length = i;
                 break;
             }
         }
-        for(int i = 0;i<arr_length;i++){
+        for (int i = 0; i < arr_length; i++) {
             Log.w("asd", lats[i] + " " + lats[i]);
         }
 
@@ -298,18 +309,19 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         userRoute.setLineColor(Color.RED);
         userRoute.setOutLineColor(Color.RED);
         userRoute.setLineWidth(1);
+        tMapView.addTMapPolyLine("Line1", userRoute);
 
         ArrayList<TMapPoint> spots = new ArrayList<>();
         for (int i = 0; lats[i] != -1; i++) {
             spots.add(new TMapPoint(lats[i], lngs[i]));
-            if(i == 6) break;
+            if (i == 6) break;
         }
 
         drawSpotMarker(spots.get(0), R.drawable.walking_marker_startpoint);
         drawPedestrianPath(spots.get(0), spots.get(1));
-        for(int i = 1; i < spots.size() - 1; i++){
+        for (int i = 1; i < spots.size() - 1; i++) {
             drawSpotMarker(spots.get(i), R.drawable.walking_marker_spot);
-            drawPedestrianPath(spots.get(i), spots.get(i+1));
+            drawPedestrianPath(spots.get(i), spots.get(i + 1));
         }
 
 
@@ -321,7 +333,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 turnGPSOn();
 
                 gps = new TMapGpsManager(WalkActivity.this);
-                // check every 1000ms
+                // check every 100ms
                 gps.setMinTime(100);
                 // if user moves at least 10m, call onLocationChange
                 gps.setMinDistance(0.1f);
@@ -332,7 +344,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 tMapView.setIconVisibility(true);
                 tMapView.setTrackingMode(true);
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.walking_marker_usericon);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walking_marker_usericon);
                 bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
                 tMapView.setIcon(bitmap);
             }
@@ -343,6 +355,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 Toast.makeText(WalkActivity.this, "허가 없이는 진행이 불가능합니다.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(WalkActivity.this, MainMenu.class);
 
+                locationHandler.removeCallbacks(locationRunnable);
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -350,7 +363,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
         });
 
-        handler.postDelayed( runnable = new Runnable() {
+        handler.postDelayed(runnable = new Runnable() {
             public void run() {
 
                 cur_time++;
@@ -359,17 +372,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 int minute = cur_time % 60;
 
                 String timeText = "";
-                if(hour >= 10){
+                if (hour >= 10) {
                     timeText += String.valueOf(hour);
-                }
-                else{
+                } else {
                     timeText += "0" + hour;
                 }
                 timeText += ":";
-                if(minute >= 10){
+                if (minute >= 10) {
                     timeText += String.valueOf(minute);
-                }
-                else{
+                } else {
                     timeText += "0" + minute;
                 }
 
@@ -381,18 +392,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
-            public boolean onPressUpEvent(ArrayList markerlist,ArrayList poilist, TMapPoint point, PointF pointf) {
+            public boolean onPressUpEvent(ArrayList markerlist, ArrayList poilist, TMapPoint point, PointF pointf) {
                 return false;
             }
 
             @Override
             public boolean onPressEvent(ArrayList markerlist, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                if(!markerlist.isEmpty()){
+                if (!markerlist.isEmpty()) {
                     //Log.e("MARKER ID : ", ""+ markerlist.get(0));
                     TMapMarkerItem markerItem = (TMapMarkerItem) markerlist.get(0);
                     markerID = markerItem.getID();
 
-                    if(!markerID.contains("Spot")){
+                    if (!markerID.contains("Spot")) {
                         TMapPoint point = markerItem.getTMapPoint();
                         curLat = point.getLatitude();
                         curLng = point.getLongitude();
@@ -422,6 +433,18 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawPedestrianPath(startPoint, endPoint);
          */
 
+
+        locationHandler.postDelayed(locationRunnable = new Runnable() {
+            public void run() {
+                if(isBackground && gps != null && !isFirstLocation){
+                    if(distFrom(prevPoint.getLatitude(), prevPoint.getLongitude(), gps.getLocation().getLatitude(), gps.getLocation().getLongitude()) >= minMovement){
+                        prevPoint = gps.getLocation();
+                        locationChange(prevPoint.getLatitude(), prevPoint.getLongitude());
+                    }
+                }
+                locationHandler.postDelayed(this, locationDelay);
+            }
+        }, locationDelay);
     }
 
     public void drawPedestrianPath(TMapPoint startPoint, TMapPoint endPoint) {
@@ -468,7 +491,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정
@@ -503,11 +526,17 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         tMapView.addMarkerItem(Integer.toString(noteCnt++), markerItem); // 지도에 마커 추가
     }
 
-    @Override
-    public void onLocationChange(Location location) {
+    public void locationChange(double lat, double lng){
 
-        lastLatitudes[curPos] = location.getLatitude();
-        lastLongtitudes[curPos] = location.getLongitude();
+        if(isFirstLocation){
+            prevLat = lat;
+            prevLong = lng;
+            prevPoint = new TMapPoint(prevLat, prevLong);
+            isFirstLocation = false;
+        }
+
+        lastLatitudes[curPos] = lat;
+        lastLongtitudes[curPos] = lng;
         curPos++;
 
         if(curPos >= 10){
@@ -537,45 +566,45 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             userRoute.setLineColor(Color.RED);
             userRoute.setOutLineColor(Color.RED);
              */
-            tMapView.addTMapPolyLine("Line1", userRoute);
+            //tMapView.addTMapPolyLine("Line1", userRoute);
 
             // get move length
             double moveLength = distFrom(latitude, longtitude, prevLat, prevLong);
 
             // check the speed
             long intervalTime = System.currentTimeMillis() - prevTime;
-            // 만일 사용자가 최소 이동속도 (minMovementSpeed, 현재는 0.1m/s -> 0.36km/s)보다 빠른 속도로 이동했을 경우에는 실제 걸은 시간으로 책정!
-            // 만일 사용자가 최대 이동속도 36km/h보다 빠르게 이동해도 제외.
-            if(moveLength * 1000d > minMovementSpeed * (double)intervalTime && moveLength * 1000d < maxMovementSpeed * (double)intervalTime){
+            realWalkTime += intervalTime;
+            curMoveLength += moveLength;
+            if(maxMoveLength <= curMoveLength){
+                //addCoordinationData(latitude, longtitude);
+                addCoordinationID(latitude, longtitude);
 
-                realWalkTime += intervalTime;
+                checkNearSpot(latitude, longtitude);
+                // 10m당 1점이니까, 30m(maxMoveLength)당 3점
+                totalPoint+=3;
+                walkPoint+=3;
 
-                curMoveLength += moveLength;
-                if(maxMoveLength <= curMoveLength){
-                    //addCoordinationData(latitude, longtitude);
-                    addCoordinationID(latitude, longtitude);
+                // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
-                    checkNearSpot(latitude, longtitude);
-                    // 10m당 1점이니까, 30m(maxMoveLength)당 3점
-                    totalPoint+=3;
-                    walkPoint+=3;
-
-                    // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
-
-                    curMoveLength = 0f;
-                }
-                // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
-                if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
-                    findLots(latitude, longtitude);
-                }
-                totalMoveLength += moveLength;
-                distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
+                curMoveLength = 0f;
             }
+            // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
+            if(curWalkLengthToFindLots <= curMoveLength && todayFindLotsCnt < 3){
+                findLots(latitude, longtitude);
+            }
+            totalMoveLength += moveLength;
+            distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
 
             prevLat = latitude;
             prevLong = longtitude;
-            prevTime = System.currentTimeMillis();
         }
+
+        prevTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onLocationChange(Location location) {
+        locationChange(location.getLatitude(), location.getLongitude());
     }
 
     public double distFrom(double lat1, double lng1, double lat2, double lng2) {
@@ -806,6 +835,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("visitedLats", visitedLats);
                 intent.putExtra("visitedLngs", visitedLngs);
 
+                handler.removeCallbacks(locationRunnable); //stop handler when activity not visible
                 handler.removeCallbacks(runnable); //stop handler when activity not visible
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -906,7 +936,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // except first spot (which is start point)
         for(int i = 1;i<arr_length;i++){
             // if user is nearer than 50m at the point & not visited yet
-            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 50d && !isVisited[i]){
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 100d && !isVisited[i]){
                 isVisited[i] = true;
                 // add 500 point!
                 totalPoint += 300;
@@ -914,7 +944,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 spotCount++;
 
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.walking_marker_visited);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 80, 80, false);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
                 markerlist.get(i).setIcon(bitmap);
 
                 Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
@@ -1008,10 +1038,32 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     FAQDAta[] getFaqData(){
         return new FAQDAta[]{
-                new FAQDAta("나는 강을 지키고 있는 진기다. 누군지 이름을 밝혀라!", "관우"),
-                new FAQDAta("어디로 가는 길이오?", "하북"),
-                new FAQDAta("통행증은 갖고 있겠지?", "그런 건 없다")
+                new FAQDAta("각 마커는 무슨 의미인가요?", "연두색 마커는 시작점, 주황색 마커는 현재위치, 고양이 발은 방문할 스팟이며 꼬리 모양의 마커는 이미 방문한 스팟입니다. 또한 발자국 모양 마커는 쪽지이고 별은 보물을 발견한 장소를 나타냅니다."),
+                new FAQDAta("경로 On/Off 기능은 어떤 건가요?", "파란색 선은 추천된 스팟 간을 도보로 이동할 수 있도록 표현한 추천경로입니다. 경로를 신경쓰고 싶지 않으신 경우 OFF 설정하시면 지도상에 표시되지 않습니다. 이와 별개로 사용자가 직접 지나간 경로는 붉은 선으로 표시됩니다."),
+                new FAQDAta("쪽지는 어떤 기능인가요?", "작성한 쪽지는 다른 사람들도 볼 수 있으며, 반대로 다른 사람이 작성한 쪽지를 볼 수도 있습니다."),
+                new FAQDAta("쪽지를 작성해도 점수가 오르지 않아요.", "쪽지로 점수를 얻는 것은 하루 3회로 제한되며, 그 이후부터는 점수를 얻을 수 없습니다."),
+                new FAQDAta("쪽지가 보이지 않아요.", "사용자 주변에 다른 사용자들이 남긴 쪽지가 없을 경우 쪽지가 나타나지 않을 수 있습니다."),
+                new FAQDAta("내가 남긴 쪽지가 사라졌어요.", "작성한 쪽지는 최대 6개까지 기록되며, 더 많은 쪽지를 작성할 경우 오래된 쪽지부터 삭제됩니다."),
+                new FAQDAta("위치가 정확히 잡히지 않아요.", "산책을 시작한지 얼마 되지 않았을 경우 정확도를 높이기 위해 일시적으로 위치가 잡히지 않을 수 있습니다. 또한 자전거나 교통수단등을 이용하여 빠른 속도로 이동할 경우에도 위치가 잡히지 않을 수 있습니다."),
+                new FAQDAta("경로가 정확히 기록되지 않아요.", "앱이 백그라운드인 상태에서 산책을 진행할 경우 일부 기종에서는 경로가 정확하게 기록되지 않을 수 있습니다."),
+                new FAQDAta("스팟을 방문해도 점수가 오르지 않아요.", "앱이 백그라운드인 상태에서 산책을 진행할 경우 일부 기종에서는 스팟을 방문하여도 점수가 오르지 않는 현상이 나타날 수 있습니다. 이 경우에는 스팟 근처에 도달할 경우 앱을 잠시 다시 키시는 걸 추천드립니다.")
         };
+    }
+
+    @Override
+    protected void onResume() {
+
+        isBackground = false;
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+
+        isBackground = true;
+
+        super.onPause();
     }
 /*
     void sortSpot(ArrayList<Spot> selected){

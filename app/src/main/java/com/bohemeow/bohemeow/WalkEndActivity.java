@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -145,11 +144,14 @@ public class WalkEndActivity extends AppCompatActivity {
         double centerLng = intent.getDoubleExtra("centerLng", 0);
 
         tMapView.setCenterPoint(centerLng, centerLat);
+        tMapView.setZoomLevel(14);
 
         int visitedSize = intent.getIntExtra("visitedSize", 0);
         double[] visitedLats = intent.getDoubleArrayExtra("visitedLats");
         double[] visitedLngs = intent.getDoubleArrayExtra("visitedLngs");
 
+        TMapPoint startPoint = new TMapPoint(centerLat, centerLng);
+        drawSpotMarker(startPoint, R.drawable.walking_marker_startpoint);
         for(int i = 0;i<visitedSize;i++){
             drawSpotMarker(new TMapPoint(visitedLats[i], visitedLngs[i]), R.drawable.walking_marker_visited);
         }
@@ -223,7 +225,7 @@ public class WalkEndActivity extends AppCompatActivity {
 
         distance.setText(String.format("%.2f", totalMoveLength / 1000d) + "km");
 
-        if(totalMoveLength != 0){
+        if(totalMoveLength >= 1d){
             long paceTime = realWalkTime / (long)totalMoveLength; // second
 
             // 100m도 안 움직였어?!!
@@ -365,6 +367,7 @@ public class WalkEndActivity extends AppCompatActivity {
                     String timeText = hour + "시간 " + minute + "분 " + second + "초";
                     totalTime_tv.setText(timeText);
                     totalDist_tv.setText(String.format("%.2f", (user_totalMoveLength + totalMoveLength) / 1000d) + "km");
+                    user_totalSpotCount += spotCount;
                     totalCount_tv.setText(user_totalSpotCount + "번");
 
                     TextView comment = findViewById(R.id.comment);
@@ -496,7 +499,7 @@ public class WalkEndActivity extends AppCompatActivity {
         // get bitmap
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), marker);
         // resize bitmap
-        bitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
 
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setIcon(bitmap); // 마커 아이콘 지정

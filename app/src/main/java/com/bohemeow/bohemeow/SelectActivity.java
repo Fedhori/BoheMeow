@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,8 +33,8 @@ public class SelectActivity extends AppCompatActivity {
 
     UserData userData;
 
-    int time = 30;
-    TextView text;
+    int time = 60;
+    EditText text;
     CheckBox record1;
     CheckBox record2;
     CheckBox record3;
@@ -56,7 +58,7 @@ public class SelectActivity extends AppCompatActivity {
         getUserPreferences(user_nickname);
 
         text = findViewById(R.id.time_view);
-        time = registerInfo.getInt("walkTime", 30);
+        time = registerInfo.getInt("walkTime", 60);
         text.setText(Integer.toString(time));
 
         record1 = findViewById(R.id.record_1);

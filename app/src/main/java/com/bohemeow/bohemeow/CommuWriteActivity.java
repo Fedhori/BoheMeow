@@ -125,7 +125,7 @@ public class CommuWriteActivity extends Activity {
                 }
                 else{
                     postFirebaseDatabase(true);
-                    updatePoint(username, 100);
+                    updatePoint(username, 50);
 
                     Intent intent = new Intent(CommuWriteActivity.this, CommunityActivity.class);
                     startActivity(intent);
@@ -288,7 +288,7 @@ public class CommuWriteActivity extends Activity {
                             user_totalPoint = (long) dataSnapshot.child("level").getValue();
 
                             ref.child("level").setValue(user_totalPoint + totalPoint);
-                            Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +50경험치", Toast.LENGTH_LONG).show();
 
                             TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
                             Date date = new Date();
@@ -309,7 +309,7 @@ public class CommuWriteActivity extends Activity {
                         ref.child("level").setValue(user_totalPoint + totalPoint);
                         ref.child("lastPost").child("date").setValue(date);
                         ref.child("lastPost").child("num").setValue(0);
-                        Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +100경험치", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CommuWriteActivity.this, "포스트 작성 완료 +50경험치", Toast.LENGTH_LONG).show();
 
                         TimeZone tz = TimeZone.getTimeZone("Asia/Seoul");
                         Date date = new Date();

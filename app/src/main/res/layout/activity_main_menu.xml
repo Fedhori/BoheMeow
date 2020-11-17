@@ -97,20 +97,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_laptop"
+        android:id="@+id/iv_laptop2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/laptop1"
+        android:background="@drawable/laptop2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
         app:layout_constraintTop_toTopOf="@+id/iv_window" />
 
     <ImageView
-        android:id="@+id/iv_laptop2"
+        android:id="@+id/iv_laptop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/laptop2"
+        android:background="@drawable/laptop1"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/iv_window"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/iv_window"
@@ -187,5 +188,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/ilsang"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/ilsang"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

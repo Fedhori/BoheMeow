@@ -267,7 +267,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                     Toast.makeText(SelectSpotActivity.this, "스팟을 4개 이상 추가할 수 없습니다.", Toast.LENGTH_LONG).show();
                 }
                 //else if (distFrom(curLat, curLng, startLat, startLng) < 800 && !isJumped) {
-                else if (distFrom(curLat, curLng, startLat, startLng) < 700) {
+                else if (distFrom(curLat, curLng, startLat, startLng) < 650) {
                     Toast.makeText(SelectSpotActivity.this, "시작 지점에서 너무 가까운 지점입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(isNear(curLat, curLng)){
@@ -341,7 +341,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
                 new FAQDAta("어떻게 스팟을 추가하나요?", "다른 스팟들과 적당히 떨어진 위치에서 원하는 위치를 길게 터치하면 스팟을 추가할 수 있습니다."),
                 new FAQDAta("어떻게 스팟을 삭제하나요?", "기존에 존재하는 시작위치를 제외한 스팟을 터치하면 스팟을 삭제할 수 있습니다."),
                 new FAQDAta("왜 스팟 추가가 안되나요?", "시작 지점과 너무 가깝거나, 다른 스팟과 너무 가까운 곳에 추가하려고 시도할 경우 스팟이 추가가 되지 않습니다. 또한 추가할 수 있는 스팟의 최대 갯수는 4개입니다."),
-                new FAQDAta("각 마커는 무슨 의미인가요?", "기존에 존재하는 시작위치를 제외한 스팟을 터치하면 스팟을 삭제할 수 있습니다.")
+                new FAQDAta("각 마커는 무슨 의미인가요?", "연두색 마커는 시작점, 주황색 마커는 현재위치, 고양이 발은 선택된 스팟을 의미합니다.")
         };
     }
 
@@ -366,7 +366,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
 
         TMapCircle tMapCircle = new TMapCircle();
         tMapCircle.setCenterPoint(position);
-        tMapCircle.setRadius(800);
+        tMapCircle.setRadius(650);
         tMapCircle.setCircleWidth(2);
         tMapCircle.setLineColor(Color.BLUE);
         tMapCircle.setAreaColor(Color.GRAY);
@@ -446,7 +446,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     boolean isNear(double lat, double lng){
 
         for(location l : locs){
-            if(distFrom(lat, lng, l.lat, l.lng) < 800){
+            if(distFrom(lat, lng, l.lat, l.lng) < 650){
                 return true;
             }
         }

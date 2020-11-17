@@ -2,15 +2,10 @@ package com.bohemeow.bohemeow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.LocationManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -146,59 +141,20 @@ public class MainMenu extends AppCompatActivity {
         df.setTimeZone(tz);
         time = Integer.parseInt(df.format(date));
 
-        if(time <= 5 || time >= 19){
+
+        if (time <= 5 || time >= 19) {
             windowIV.setBackgroundResource(R.drawable.nightclear);
             mainWall.setBackgroundResource(R.drawable.nightmain);
-        }
-        else if(time >= 17){
+        } else if (time >= 17) {
             windowIV.setBackgroundResource(R.drawable.sunsetclear);
             mainWall.setBackgroundResource(R.drawable.sunsetmain);
-        }
-        else if(time <= 8){
+        } else if (time <= 7) {
             windowIV.setBackgroundResource(R.drawable.morningclear);
             mainWall.setBackgroundResource(R.drawable.morningmain);
         }
 
         if(lastLat != 0)
             w = getWeather(lastLat, lastLng);
-
-
-
-
-        /*
-        if(w==0){
-
-        }
-        else if(w == 1){
-            if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.dayrain);
-            else {
-                windowIV.setBackgroundResource(R.drawable.nightrain);
-                mainWall.setBackgroundResource(R.drawable.nightmain);
-            }
-        }
-        else if(w==2){
-            if(time >= 6 && time <= 18) windowIV.setImageResource(R.drawable.daysnow);
-            else {
-                windowIV.setBackgroundResource(R.drawable.nightsnow);
-                mainWall.setBackgroundResource(R.drawable.nightmain);
-            }
-        }
-        else if(w==3){
-            if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.daythunder);
-            else {
-                windowIV.setBackgroundResource(R.drawable.nightthunder);
-                mainWall.setBackgroundResource(R.drawable.nightmain);
-            }
-        }
-        else{
-            if(time >= 6 && time <= 18) windowIV.setBackgroundResource(R.drawable.daycloudy);
-            else {
-                windowIV.setBackgroundResource(R.drawable.nightcloudy);
-                mainWall.setBackgroundResource(R.drawable.nightmain);
-            }
-        }
-
-         */
 
 
 
@@ -330,18 +286,17 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        ImageButton infoBtn = findViewById(R.id.btn_info);
-        infoBtn.setOnClickListener(new View.OnClickListener(){
+
+        ImageButton teaminfo = findViewById(R.id.ilsang);
+        teaminfo.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenu.this, TutorialPopupActivity.class);
+                Intent intent = new Intent(MainMenu.this, TeamExplanationActivity.class);
                 startActivity(intent);
             }
         });
 
- */
 
     }
 
@@ -445,8 +400,10 @@ public class MainMenu extends AppCompatActivity {
         //final String[] region = {""};
         w = 0;
 
+
         new Thread() {
             public void run() {
+
                 String uri = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude +"&lon=" + longtitude +
                         "&appid=" + key;
 
@@ -470,14 +427,10 @@ public class MainMenu extends AppCompatActivity {
                     weather = jsonArray.getJSONObject(0).getString("main");
                     //Toast.makeText(MainMenu.this, "날씨:" + weather[0], Toast.LENGTH_LONG).show();
                     System.out.println("날씨:" + weather);
-
                     runOnUiThread(new Runnable() { public void run() {
-                        if(weather.equals("Clear")){
-                            w = 0;
-                        }
-                        else if(weather.equals("Rain") || weather.equals("Drizzle")){
-                            w = 1;
-                            if(time >= 6 && time <= 18) {
+                        if (weather.equals("Clear")) {
+                        } else if (weather.equals("Rain") || weather.equals("Drizzle")) {
+                            if (time >= 6 && time <= 18) {
                                 windowIV.setBackgroundResource(R.drawable.dayrain);
                                 mainWall.setBackgroundResource(R.drawable.daymain);
                             }
@@ -485,21 +438,17 @@ public class MainMenu extends AppCompatActivity {
                                 windowIV.setBackgroundResource(R.drawable.nightrain);
                                 mainWall.setBackgroundResource(R.drawable.nightmain);
                             }
-                        }
-                        else if(weather.equals("Snow")){
-                            w = 2;
-                            if(time >= 6 && time <= 18){
-                                windowIV.setBackgroundResource(R.drawable.daysnow);
+                        } else if (weather.equals("Snow")) {
+                            if (time >= 6 && time <= 18){
+                                windowIV.setImageResource(R.drawable.daysnow);
                                 mainWall.setBackgroundResource(R.drawable.daymain);
                             }
                             else {
                                 windowIV.setBackgroundResource(R.drawable.nightsnow);
                                 mainWall.setBackgroundResource(R.drawable.nightmain);
                             }
-                        }
-                        else if(weather.equals("Thunderstorm")){
-                            w = 3;
-                            if(time >= 6 && time <= 18) {
+                        } else if (weather.equals("Thunderstorm")) {
+                            if (time >= 6 && time <= 18) {
                                 windowIV.setBackgroundResource(R.drawable.daythunder);
                                 mainWall.setBackgroundResource(R.drawable.daymain);
                             }
@@ -507,10 +456,9 @@ public class MainMenu extends AppCompatActivity {
                                 windowIV.setBackgroundResource(R.drawable.nightthunder);
                                 mainWall.setBackgroundResource(R.drawable.nightmain);
                             }
-                        }
-                        else {
+                        } else {
                             w = 4;
-                            if(time >= 6 && time <= 18) {
+                            if (time >= 6 && time <= 18) {
                                 windowIV.setBackgroundResource(R.drawable.daycloudy);
                                 mainWall.setBackgroundResource(R.drawable.daymain);
                             }
@@ -518,9 +466,9 @@ public class MainMenu extends AppCompatActivity {
                                 windowIV.setBackgroundResource(R.drawable.nightcloudy);
                                 mainWall.setBackgroundResource(R.drawable.nightmain);
                             }
-                        }}
+                        }
+                    }
                     });
-
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
