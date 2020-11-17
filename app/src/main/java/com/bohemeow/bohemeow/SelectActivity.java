@@ -34,7 +34,7 @@ public class SelectActivity extends AppCompatActivity {
     UserData userData;
 
     int time = 60;
-    EditText text;
+    TextView text;
     CheckBox record1;
     CheckBox record2;
     CheckBox record3;
@@ -148,8 +148,8 @@ public class SelectActivity extends AppCompatActivity {
         sub_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                time = Integer.parseInt(text.getText().toString());
-                if(time > 10 && checkBox2.isChecked()) {
+                //time = Integer.parseInt(text.getText().toString());
+                if(time > 20 && checkBox2.isChecked()) {
                     time -= 10;
                     text.setText(Integer.toString(time));
                 }
@@ -160,7 +160,7 @@ public class SelectActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                time = Integer.parseInt(text.getText().toString());
+                //time = Integer.parseInt(text.getText().toString());
                 if(time < 180 && checkBox2.isChecked()) {
                     time += 10;
                     text.setText(Integer.toString(time));
@@ -173,7 +173,7 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                time = Integer.parseInt(text.getText().toString());
+                //time = Integer.parseInt(text.getText().toString());
 
                 SharedPreferences registerInfo = getSharedPreferences("registerUserName", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = registerInfo.edit();
