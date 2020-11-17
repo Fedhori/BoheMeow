@@ -87,7 +87,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
-    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
+    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
 
 
     private String[] loadingTexts = {

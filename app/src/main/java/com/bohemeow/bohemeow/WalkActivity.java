@@ -175,7 +175,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
-    String key = "AIzaSyBHSgVqZUvi8EmRbrZsH9z6whHSO-R3LXo"; // google key
+    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
