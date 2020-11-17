@@ -79,7 +79,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int numOfTreasure = 0;
 
     int curCoordCnt = 0;
-    int maxCoordCnt = 6;
+    int maxCoordCnt = 8;
     double start_lng;
     double start_lat;
     double minSpotDistance = 300d;
@@ -753,11 +753,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                             myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
 
-                            if(num >= 40){ // 등록
+                            if(num >= 100){ // 등록
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
                                 long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
-                                count = count * 40 + num;
+                                count = count * 100 + num;
 
                                 System.out.println("calculated");
                                 ArrayList<String> spot = new ArrayList<>();
@@ -1038,7 +1038,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
         drawTreasureMarker(new TMapPoint(latitude, longitude));
 
-        Toast.makeText(WalkActivity.this, "보물 발견!", Toast.LENGTH_LONG).show();
+        Toast.makeText(WalkActivity.this, "근처에 보물 냄새가 난다!", Toast.LENGTH_LONG).show();
         totalPoint += 100;
         treasurePoint += 100;
 
