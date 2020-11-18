@@ -151,6 +151,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             viewholder.pribate_mark.setImageResource(R.drawable.commu_show_private);
         }
 
+        if (uri.equals("")) {
+            viewholder.contentIV.setImageResource(R.drawable.commu_nullimage);
+        }
+
         //System.out.println("\ncatType: " + catType);
     }
 

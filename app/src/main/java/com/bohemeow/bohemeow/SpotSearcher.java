@@ -48,12 +48,12 @@ public class SpotSearcher {
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
 
-                for(int i = 1; i < 3; i++) {
+                /*for(int i = 1; i < 2; i++) {
                     //System.out.println("\npage_token = " + page_token);
                     if(page_token.equals("")) break;
                     result = getSpots(region, type, true);
                     placeIDs.addAll(jsonparser(result));
-                }
+                }*/
                 SpotFilter sf = new SpotFilter(mContext);
                 sf.FeatureCalculator(placeIDs, region, 40);
             }

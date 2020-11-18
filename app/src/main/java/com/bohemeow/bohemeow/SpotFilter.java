@@ -237,9 +237,9 @@ public class SpotFilter {
     private int safe_calculator(double lat, double lng){
         double score = 0;
 
-        String[] safePlace = new String[] {"police", "primary_school",};
-        String[] positive = new String[] { "secondary_school", "university" , "church", "city_hall"};
-        String[] negative = new String[] { "liquor_store", "night_club" , "bar"};
+        String[] safePlace = new String[] {"police"};
+        String[] positive = new String[] { "primary_school", "church"};
+        String[] negative = new String[] { "night_club" , "bar"};
 
         int safe_num = 1;
         int pos_num = 1;
