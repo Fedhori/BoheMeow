@@ -79,7 +79,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     int numOfTreasure = 0;
 
     int curCoordCnt = 0;
-    int maxCoordCnt = 6;
+    int maxCoordCnt = 8;
     double start_lng;
     double start_lat;
     double minSpotDistance = 300d;
@@ -755,11 +755,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                             myRef.child("spot_data/temp_list/").child(Place_id).child("visit").setValue(num+1);
 
-                            if(num >= 40){ // 등록
+                            if(num >= 100){ // 등록
                                 System.out.println("delete");
                                 myRef.child("spot_data/temp_list").child(Place_id).removeValue();
                                 long count = (long)dataSnapshot.child("spot_data/temp_list/").child(Place_id).child("count").getValue();
-                                count = count * 40 + num;
+                                count = count * 100 + num;
 
                                 System.out.println("calculated");
                                 ArrayList<String> spot = new ArrayList<>();
