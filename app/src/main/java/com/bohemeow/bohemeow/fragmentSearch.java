@@ -40,7 +40,7 @@ public class fragmentSearch extends Fragment {
 
     private DatabaseReference mPostReference;
 
-    int n;
+
     private static final String ARG_COUNT = "param1";
     private static int counter;
 
@@ -150,32 +150,12 @@ public class fragmentSearch extends Fragment {
             public void onClick(View view) {
                 keyword = keywordET.getText().toString();
                 mPostReference = FirebaseDatabase.getInstance().getReference();
-                mPostReference.child("post_list").limitToLast(20).addValueEventListener(postListener);
+                mPostReference.child("post_list").addValueEventListener(postListener);
             }
         });
         // get da
 
-        n = 1;
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                if(lastPosition == 0){
-                    n++;
-                    mPostReference = FirebaseDatabase.getInstance().getReference();
-                    mPostReference.child("post_list").limitToLast(20*n).addValueEventListener(postListener);
-                    recyclerView.scrollToPosition(20);
-
-                }
-            }
-        });
 
     }
 
