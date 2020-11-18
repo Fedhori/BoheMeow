@@ -243,9 +243,10 @@ public class fragmentGeneral extends Fragment {
             };
 
             mPostReference = FirebaseDatabase.getInstance().getReference();
-            mPostReference.child("post_list").limitToLast(20).addValueEventListener(postListener);
+            mPostReference.child("post_list").addValueEventListener(postListener);
 
             m = 1;
+            /*
             mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -266,6 +267,8 @@ public class fragmentGeneral extends Fragment {
                     }
                 }
             });
+
+             */
         }
     }
 
