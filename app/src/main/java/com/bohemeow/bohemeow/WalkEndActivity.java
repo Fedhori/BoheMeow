@@ -133,6 +133,7 @@ public class WalkEndActivity extends AppCompatActivity {
         notePoint = intent.getLongExtra("notePoint", -1);
         walkPoint = intent.getLongExtra("walkPoint", -1);
         spotPoint = intent.getLongExtra("spotPoint", -1);
+        /*
         treasurePoint = intent.getLongExtra("treasurePoint", -1);
 
         isFindTreasure = intent.getBooleanExtra("isFindTreasure", false);
@@ -145,6 +146,7 @@ public class WalkEndActivity extends AppCompatActivity {
                 drawTreasureMarker(new TMapPoint( treasureLats[i], treasureLngs[i]));
             }
         }
+         */
 
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.tmapLinearLayout);
 

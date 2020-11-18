@@ -615,6 +615,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
                 curMoveLength = 0f;
             }
+            /*
             // 충분히 걸었고, 만일 오늘 아직 뽑기를 3개 이상 발견하지 않았다면 뽑기 발견 함수를 호출한다.
             if(curWalkLengthToFindLots <= totalMoveLength && todayFindLotsCnt < 3){
                 todayFindLotsCnt++;
@@ -622,6 +623,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 curWalkLengthToFindLots += new Random().nextDouble() * (maxWalkLengthToFindLots - minWalkLengthToFindLots) + minWalkLengthToFindLots;
                 findLots(latitude, longtitude);
             }
+             */
             totalMoveLength += moveLength * distanceFactor;
             distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
 
@@ -849,10 +851,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("tMapView", gson.toJson(resultRoute));
                 intent.putExtra("centerLat",lats[0]);
                 intent.putExtra("centerLng",lngs[0]);
+                /*
                 intent.putExtra("isFindTreasure", isFindTreasure);
                 intent.putExtra("numOfTreasure", numOfTreasure);
                 intent.putExtra("treasureLats", treasureLats);
                 intent.putExtra("treasureLngs", treasureLngs);
+                 */
 
                 int cnt = 0;
                 double[] visitedLats = new double[arr_length];
