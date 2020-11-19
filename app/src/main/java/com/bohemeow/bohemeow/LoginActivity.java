@@ -201,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                     // go to survey screen
                                     else{
+                                        editor.putInt("exp", exp);
                                         Intent intent = new Intent(LoginActivity.this, SurveyActivity.class);
                                         intent.putExtra("username", username);
                                         startActivity(intent);

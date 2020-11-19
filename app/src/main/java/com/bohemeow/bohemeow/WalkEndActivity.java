@@ -133,10 +133,9 @@ public class WalkEndActivity extends AppCompatActivity {
         notePoint = intent.getLongExtra("notePoint", -1);
         walkPoint = intent.getLongExtra("walkPoint", -1);
         spotPoint = intent.getLongExtra("spotPoint", -1);
+        isFindTreasure = intent.getBooleanExtra("isFindTreasure", false);
         /*
         treasurePoint = intent.getLongExtra("treasurePoint", -1);
-
-        isFindTreasure = intent.getBooleanExtra("isFindTreasure", false);
         if(isFindTreasure){
             numOfTreasure = intent.getIntExtra("numOfTreasure", 0);
             treasureLats = intent.getDoubleArrayExtra("treasureLats");
@@ -295,6 +294,10 @@ public class WalkEndActivity extends AppCompatActivity {
         TextView comment = findViewById(R.id.comment);
         Random random = new Random();
         comment.setText(normalTexts[random.nextInt(normalTexts.length)]);
+
+        if(isFindTreasure){
+            comment.setText("이번 산책에서 보물을 발견해서 추가 포인트를 받았어!");
+        }
 
         // update value to firebase
         updateUserData(username, realWalkTime, totalWalkTime, totalMoveLength, totalPoint);

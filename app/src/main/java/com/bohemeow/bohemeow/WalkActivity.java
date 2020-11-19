@@ -78,6 +78,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     double[] treasureLngs = new double[10];
     int numOfTreasure = 0;
 
+    int treasureSpot = -1;
     int curCoordCnt = 0;
     int maxCoordCnt = 8;
     double start_lng;
@@ -116,6 +117,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     String region = "";
 
+    private double distanceToPoint = 0.1d;
     private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
     private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
@@ -332,6 +334,11 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         for (int i = 0; lats[i] != -1; i++) {
             spots.add(new TMapPoint(lats[i], lngs[i]));
             if (i == 6) break;
+        }
+
+        if(spots.size() >= 3){
+            Random rand = new Random();
+            treasureSpot = rand.nextInt(spots.size() - 1) + 1;
         }
 
         drawSpotMarker(spots.get(0), R.drawable.walking_marker_startpoint);
@@ -608,8 +615,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 }
 
                 checkNearSpot(latitude, longtitude);
+                /*
                 totalPoint+=2;
                 walkPoint+=2;
+                 */
 
                 // 나중에 여기다가 산책 경로 데이터 저장하는 코드 넣어야겠다.
 
@@ -625,6 +634,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
              */
             totalMoveLength += moveLength * distanceFactor;
+            totalPoint += moveLength * distanceFactor * distanceToPoint;
+            walkPoint += moveLength * distanceFactor * distanceToPoint;
             distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
 
             prevLat = latitude;
@@ -851,8 +862,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("tMapView", gson.toJson(resultRoute));
                 intent.putExtra("centerLat",lats[0]);
                 intent.putExtra("centerLng",lngs[0]);
-                /*
                 intent.putExtra("isFindTreasure", isFindTreasure);
+                /*
                 intent.putExtra("numOfTreasure", numOfTreasure);
                 intent.putExtra("treasureLats", treasureLats);
                 intent.putExtra("treasureLngs", treasureLngs);
@@ -976,7 +987,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             // if user is nearer than 50m at the point & not visited yet
             if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 100d && !isVisited[i] && distFrom(start_lat, start_lng, lats[i], lngs[i]) > minSpotDistance){
                 isVisited[i] = true;
-                // add 500 point!
+                // add 300 point!
                 totalPoint += 300;
                 spotPoint += 300;
                 spotCount++;
@@ -985,7 +996,15 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 bitmap = Bitmap.createScaledBitmap(bitmap, 75, 135, false);
                 markerlist.get(i).setIcon(bitmap);
 
-                Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
+                if(i == treasureSpot){
+                    totalPoint += 100;
+                    spotPoint += 100;
+                    isFindTreasure = true;
+                    Toast.makeText(WalkActivity.this, "보물이 있는 스팟 도달! +400경험치", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
