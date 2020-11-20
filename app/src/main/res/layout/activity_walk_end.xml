@@ -35,7 +35,7 @@
     <ImageView
         android:id="@+id/imageView18"
         android:layout_width="350dp"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@drawable/finishwalk_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -55,7 +55,7 @@
     <ImageView
         android:id="@+id/imageView17"
         android:layout_width="135dp"
-        android:layout_height="180dp"
+        android:layout_height="230dp"
         android:layout_marginStart="4dp"
         android:background="@drawable/finishwalk_box_inside"
         app:layout_constraintBottom_toBottomOf="@+id/imageView18"
@@ -129,11 +129,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:text="경험치"
+        android:text="보물 점수"
         android:textColor="#707070"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView18"
         app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="경험치"
+        android:textColor="#707070"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
     <TextView
         android:id="@+id/pace_view"
@@ -189,6 +201,19 @@
 
     <TextView
         android:id="@+id/score_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/mapo"
+        android:text="미적용"
+        android:textColor="#060606"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView17"
+        app:layout_constraintTop_toBottomOf="@+id/treasure_view" />
+
+    <TextView
+        android:id="@+id/treasure_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

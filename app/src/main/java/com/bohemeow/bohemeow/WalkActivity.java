@@ -140,6 +140,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     long walkPoint = 0;
     long spotPoint = 0;
     long treasurePoint = 0;
+    long treasureValue = 0;
 
     long user_totalPoint = 0;
     DatabaseReference ref;
@@ -863,6 +864,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("centerLat",lats[0]);
                 intent.putExtra("centerLng",lngs[0]);
                 intent.putExtra("isFindTreasure", isFindTreasure);
+                intent.putExtra("treasureValue", treasureValue);
                 /*
                 intent.putExtra("numOfTreasure", numOfTreasure);
                 intent.putExtra("treasureLats", treasureLats);
@@ -997,10 +999,12 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 markerlist.get(i).setIcon(bitmap);
 
                 if(i == treasureSpot){
-                    totalPoint += 100;
-                    spotPoint += 100;
+                    Random rand = new Random();
+                    treasureValue = (rand.nextInt(5) + 1) * 100;
+                    totalPoint += treasureValue;
+                    spotPoint += treasureValue;
                     isFindTreasure = true;
-                    Toast.makeText(WalkActivity.this, "보물이 있는 스팟 도달! +400경험치", Toast.LENGTH_LONG).show();
+                    Toast.makeText(WalkActivity.this, "보물이 있는 스팟 도달! +" + treasureValue + "경험치", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();

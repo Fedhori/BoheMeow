@@ -59,8 +59,8 @@ public class WalkEndActivity extends AppCompatActivity {
     long notePoint = 0;
     long walkPoint = 0;
     long spotPoint = 0;
-    long treasurePoint = 0;
     long spotCount = 0;
+    long treasureValue = 0;
 
     long user_realWalkTime;
     long user_totalWalkTime;
@@ -134,6 +134,7 @@ public class WalkEndActivity extends AppCompatActivity {
         walkPoint = intent.getLongExtra("walkPoint", -1);
         spotPoint = intent.getLongExtra("spotPoint", -1);
         isFindTreasure = intent.getBooleanExtra("isFindTreasure", false);
+        treasureValue = intent.getLongExtra("treasureValue", treasureValue);
         /*
         treasurePoint = intent.getLongExtra("treasurePoint", -1);
         if(isFindTreasure){
@@ -180,8 +181,10 @@ public class WalkEndActivity extends AppCompatActivity {
         callory = findViewById(R.id.cal_view);
         TextView score = findViewById(R.id.score_view);
         TextView spot = findViewById(R.id.count_view);
+        TextView treasure = findViewById(R.id.treasure_view);
 
         spot.setText(spotCount + "번");
+        treasure.setText(treasureValue + "");
 
         long totalTime = realWalkTime; // ms
         long hour;
@@ -515,6 +518,7 @@ public class WalkEndActivity extends AppCompatActivity {
             }
         }
     }
+
 
     public void drawSpotMarker(TMapPoint position, int marker){
 
