@@ -121,7 +121,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     private double maxMoveLength = 30f; // 최소 30m는 이동해야 데이터가 저장됨
     private double curMoveLength = 0f; // 파이어베이스에 데이터가 저장되기까지, 현재 얼마나 걸었는가?
     private double totalMoveLength = 0f; // 산책하는 동안 총 얼마나 걸었는가?
-    private double distanceFactor = 0.6d;
+    private double distanceFactor = 0.8d;
     private double prevLat = -1f;
     private double prevLong = -1f;
     private long prevTime = -1;
@@ -985,7 +985,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // except first spot (which is start point)
         for(int i = 1;i<arr_length;i++){
             // if user is nearer than 50m at the point & not visited yet
-            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 100d && !isVisited[i] && distFrom(start_lat, start_lng, lats[i], lngs[i]) > minSpotDistance){
+            if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 80d && !isVisited[i] && distFrom(start_lat, start_lng, lats[i], lngs[i]) > minSpotDistance){
                 isVisited[i] = true;
                 // add 300 point!
                 totalPoint += 300;
