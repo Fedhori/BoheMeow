@@ -336,7 +336,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             if (i == 6) break;
         }
 
-        if(spots.size() >= 3){
+        if(spots.size() >= 5){
             Random rand = new Random();
             treasureSpot = rand.nextInt(spots.size() - 1) + 1;
         }
