@@ -134,7 +134,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     long walkStartTime = 0;
     long walkEndTime = 0;
     long realWalkTime = 0;
-    long totalPoint = 0;
+    double totalPoint = 0;
 
     long notePoint = 0;
     long walkPoint = 0;
@@ -606,6 +606,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             realWalkTime += intervalTime;
             curMoveLength += moveLength * distanceFactor;
             if(maxMoveLength <= curMoveLength){
+
+                totalPoint += curMoveLength * distanceToPoint;
+                walkPoint += curMoveLength * distanceToPoint;
+
                 resultRoute.addLinePoint(new TMapPoint(latitude, longtitude));
                 //addCoordinationData(latitude, longtitude);
 
@@ -635,8 +639,6 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             }
              */
             totalMoveLength += moveLength * distanceFactor;
-            totalPoint += moveLength * distanceFactor * distanceToPoint;
-            walkPoint += moveLength * distanceFactor * distanceToPoint;
             distText_tv.setText(String.format("%.2f", totalMoveLength / 1000f));
 
             prevLat = latitude;
@@ -830,7 +832,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 // 하루에는 최대 3번만 쪽지로 점수를 벌 수 있다.
                 if(todayCount <= 3){
                     Toast.makeText(WalkActivity.this, "쪽지 작성! +50포인트", Toast.LENGTH_LONG).show();
-                    totalPoint += 50;
+                    totalPoint += 50d;
                     notePoint += 50;
                 }
 
@@ -854,7 +856,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 intent.putExtra("totalWalkTime", totalWalkTime);
                 intent.putExtra("realWalkTime", realWalkTime);
                 intent.putExtra("totalMoveLength", totalMoveLength);
-                intent.putExtra("totalPoint", totalPoint);
+                intent.putExtra("totalPoint", (long)totalPoint);
                 intent.putExtra("notePoint", notePoint);
                 intent.putExtra("walkPoint", walkPoint);
                 intent.putExtra("spotPoint", spotPoint);
@@ -990,7 +992,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
             if(distFrom(user_lat, user_lng, lats[i], lngs[i]) < 80d && !isVisited[i] && distFrom(start_lat, start_lng, lats[i], lngs[i]) > minSpotDistance){
                 isVisited[i] = true;
                 // add 300 point!
-                totalPoint += 300;
+                totalPoint += 300d;
                 spotPoint += 300;
                 spotCount++;
 
@@ -1001,10 +1003,10 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
                 if(i == treasureSpot){
                     Random rand = new Random();
                     treasureValue = (rand.nextInt(5) + 1) * 100;
-                    totalPoint += treasureValue;
+                    totalPoint += (double) treasureValue;
                     spotPoint += treasureValue;
                     isFindTreasure = true;
-                    Toast.makeText(WalkActivity.this, "보물이 있는 스팟 도달! +" + treasureValue + "경험치", Toast.LENGTH_LONG).show();
+                    Toast.makeText(WalkActivity.this, "보물이 있는 스팟 도달! +" + (300 + treasureValue) + "경험치", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(WalkActivity.this, "스팟 도달! +300경험치", Toast.LENGTH_LONG).show();
@@ -1066,7 +1068,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         drawTreasureMarker(new TMapPoint(latitude, longitude));
 
         Toast.makeText(WalkActivity.this, "근처에 보물 냄새가 난다!", Toast.LENGTH_LONG).show();
-        totalPoint += 100;
+        totalPoint += 100d;
         treasurePoint += 100;
 
         // 실제 오늘 날짜를 구한다.

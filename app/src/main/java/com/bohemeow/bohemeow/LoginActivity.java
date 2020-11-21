@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String username = "";
                                 int catType = 1;
                                 int exp = 0;
+                                int totalSpotCount = 0;
                                 String phoneNumber = "";
 
                                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -176,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                                         catType = get.catType;
                                         exp = get.level;
                                         phoneNumber = get.phoneNumber;
+                                        totalSpotCount = get.totalSpotCount;
                                     }
                                 }
 
@@ -193,6 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                                         // 자동로그인이 가능하게 하기 위해 이제 로컬 데이터에 사용자의 닉네임 저장
                                         editor.putString("registerUserName", username);
                                         editor.putInt("userCatType", catType);
+                                        editor.putInt("totalSpotCount", totalSpotCount);
                                         editor.putInt("exp", exp);
                                         editor.commit();
 
