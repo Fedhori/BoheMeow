@@ -80,7 +80,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     int treasureSpot = -1;
     int curCoordCnt = 0;
-    int maxCoordCnt = 8;
+    int maxCoordCnt = 6;
     double start_lng;
     double start_lat;
     double minSpotDistance = 300d;
