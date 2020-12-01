@@ -55,7 +55,7 @@ public class SpotSearcher {
                     placeIDs.addAll(jsonparser(result));
                 }
                 SpotFilter sf = new SpotFilter(mContext);
-                sf.FeatureCalculator(placeIDs, region, 40);
+                sf.FeatureCalculator(placeIDs, region, 50);
             }
         }.start();
 
