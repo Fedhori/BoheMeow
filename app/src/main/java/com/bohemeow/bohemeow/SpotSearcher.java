@@ -24,7 +24,7 @@ public class SpotSearcher {
     String type = "park";
 
     public String page_token = "";
-    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU";
+    String key = "AIzaSyAmpwbsSqfD51IznC5uqa15XqXuAnoyHtk";
 
     private Context mContext = null;
 
@@ -48,14 +48,17 @@ public class SpotSearcher {
                 String result = getSpots(region, type, false);
                 placeIDs.addAll(jsonparser(result));
 
+                /*
                 for(int i = 1; i < 2; i++) {
                     //System.out.println("\npage_token = " + page_token);
                     if(page_token.equals("")) break;
                     result = getSpots(region, type, true);
                     placeIDs.addAll(jsonparser(result));
                 }
+
+                 */
                 SpotFilter sf = new SpotFilter(mContext);
-                sf.FeatureCalculator(placeIDs, region, 40);
+                sf.FeatureCalculator(placeIDs, region, 50);
             }
         }.start();
 

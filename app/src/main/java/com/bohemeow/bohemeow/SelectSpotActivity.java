@@ -81,7 +81,7 @@ public class SelectSpotActivity extends AppCompatActivity  {
     ArrayList<TMapPoint> spots = new ArrayList<>();
     ArrayList<location> locs = new ArrayList<>();
 
-    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
+    String key = "AIzaSyAmpwbsSqfD51IznC5uqa15XqXuAnoyHtk"; // google key
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

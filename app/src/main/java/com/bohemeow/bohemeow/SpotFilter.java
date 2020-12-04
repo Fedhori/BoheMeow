@@ -150,7 +150,7 @@ class SpotDetail {
 
 public class SpotFilter {
 
-    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU";
+    String key = "AIzaSyAmpwbsSqfD51IznC5uqa15XqXuAnoyHtk";
     private Context mContext = null;
 
 

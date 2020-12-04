@@ -298,8 +298,6 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        // 이걸 시행시키면 모든 유저 점수가 1500점 오른다.
-        //updateUsersLevel(1500);
     }
 
     @Override
@@ -588,7 +586,7 @@ public class MainMenu extends AppCompatActivity {
                     // get ranked users data
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserData get = snapshot.getValue(UserData.class);
-                        mPostReference.child(get.nickname).child("level").setValue(get.level + value);
+                        //mPostReference.child(get.nickname).child("level").setValue(get.level + value);
                         mPostReference.child(get.nickname).child("point").setValue(get.point + value);
                     }
                     isWritten = true;
