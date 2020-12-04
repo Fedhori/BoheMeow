@@ -87,7 +87,8 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
 
     int[] preference = new int[3];//0:safe 1:envi 2:popularity
 
-    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
+    String key = "AIzaSyAmpwbsSqfD51IznC5uqa15XqXuAnoyHtk"; // google key
+    String skKey = "l7xxc4527e777ef245ef932b366ccefaa9b0";
 
 
     private String[] loadingTexts = {
@@ -544,7 +545,7 @@ public class WalkLoadingActivity extends AppCompatActivity implements TMapGpsMan
             Thread.sleep(500);
             String uri = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&startName="+ "startPlace" + "&startX=" + lng1 + "&startY=" + lat1 +
                     "&endName=" + "endPlace" + "&endX=" + lng2 + "&endY=" + lat2 +
-                    "&format=json&appkey=l7xxc4527e777ef245ef932b366ccefaa9b0";
+                    "&format=json&appkey=" + skKey;
 
             String page = "";
             URL url = new URL(uri);

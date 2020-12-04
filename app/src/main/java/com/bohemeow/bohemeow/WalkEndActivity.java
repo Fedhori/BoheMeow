@@ -79,6 +79,8 @@ public class WalkEndActivity extends AppCompatActivity {
     // 유저가 산책을 제대로 진행하지 않았을 경우 true가 됨
     boolean isTooShort = false;
 
+    String skKey = "l7xxc4527e777ef245ef932b366ccefaa9b0";
+
     //set cat image
     int[] icons = {R.drawable.cathead_null, R.drawable.hanggangic, R.drawable.bameeic, R.drawable.chachaic,
             R.drawable.ryoniic, R.drawable.moonmoonic, R.drawable.popoic,R.drawable.taetaeic, R.drawable.sessakic};
@@ -154,7 +156,7 @@ public class WalkEndActivity extends AppCompatActivity {
         Gson gson = new Gson();
         TMapPolyLine userRoute = gson.fromJson(strObj, TMapPolyLine.class);
         tMapView = new TMapView(this);
-        tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
+        tMapView.setSKTMapApiKey(skKey);
         linearLayoutTmap.addView( tMapView );
 
         tMapView.addTMapPolyLine("Line1", userRoute);

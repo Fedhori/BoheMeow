@@ -155,7 +155,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
     String phoneNumber;
 
     // how many notes one user allow to write?
-    int maxNoteNumber = 6;
+    int maxNoteNumber = 10;
 
     // how many notes will user find in walk screen
     int maxFindNote = 20;
@@ -183,7 +183,8 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
 
     ArrayList<TMapMarkerItem> markerlist = new ArrayList<>();
 
-    String key = "AIzaSyAWYOOv_AOdY11kDYgRldHLDmiojoKaqXU"; // google key
+    String key = "AIzaSyAmpwbsSqfD51IznC5uqa15XqXuAnoyHtk"; // google key
+    String skKey = "l7xxc4527e777ef245ef932b366ccefaa9b0";
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -286,7 +287,7 @@ public class WalkActivity extends AppCompatActivity implements onLocationChanged
         // set t map view
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
-        tMapView.setSKTMapApiKey("l7xx1aea43bad7e644bb82c06f2f5b554d5d");
+        tMapView.setSKTMapApiKey(skKey);
         linearLayoutTmap.addView(tMapView);
 
         timeText_tv = findViewById(R.id.timeText);
